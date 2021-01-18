@@ -1,7 +1,0 @@
-{
-  "name": "HomePlexApp",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}

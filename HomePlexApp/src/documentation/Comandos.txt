@@ -1,0 +1,20 @@
+Documentacion para la aplicacion de IONIC
+
+Creacion de proyecto
+    -Crear un proyecto en Ionic -> ionic start
+
+Iniciar proyecto
+    - Iniciar proyecto en servidor local como web -> ionic serve
+    - Iniciar proyecto en servidor local como dispositivo 
+      movil android, ios, windows -> ionic serve -l
+
+Generar distintas estancias como son paginas, guards, 
+componentes, etc..
+    - Generar cualquier componente resumido -> ionic g
+    - Generar cualquier componente -> ionic generate
+    - Generar pages -> ionic g pages
+    - Generar guards -> ionic g guards
+    - Generar servicios -> ionic g service  
+
+Servicio de firebase 
+    - instalacion de dependicas y librerias -> npm install firebase @angular/fire --save

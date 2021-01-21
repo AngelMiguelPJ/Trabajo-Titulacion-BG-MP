@@ -16,7 +16,7 @@ export class HomePage implements OnInit {
   uid;
   emailUser;
   name;
-
+  tipoUsuario;
   constructor(private authService: AuthService,
     private angularFirestore: AngularFirestore,
     private angularFireAuth: AngularFireAuth,
@@ -31,6 +31,8 @@ export class HomePage implements OnInit {
         if (childData.data()['Uid'] === this.uid) {
           this.name = childData.data()['Name']
           this.emailUser = childData.data()['Email']
+          this.tipoUsuario = childData.data()['TipoUsuario']
+          localStorage.setItem('tipoUsuarioLocal', this.tipoUsuario)
           localStorage.setItem('userCurrentName', this.name)
           console.log(this.name)
         }

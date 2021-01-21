@@ -47,7 +47,8 @@ export class ChatPage implements OnInit {
 
   logout() {
     this.authService.logoutService()
-    location.reload()
+    localStorage.clear()
+    sessionStorage.clear()
   }
 
   gotoChatRoom(uid,name){

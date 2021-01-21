@@ -47,7 +47,11 @@ export class AuthService {
             this.angularFirestore.collection('users').doc(res.user.uid).set({
               Uid: uid,
               Name: name,
-              Email: email
+              Email: email,
+              Img: '',
+              Casa: '',
+              Telefono: '',
+              TipoUsuario: ''
 
             })
             resolve(res)

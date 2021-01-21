@@ -1,5 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <div>
+      <ion-row>
+
+        <ion-col>
+          <!--Text: Name and email-->
+          <ion-title size="small" style="text-align: left;">
+            Mensajes
+          </ion-title>
+        </ion-col>
+        <ion-col size="small">
+          <!--IconLink to Notifications-->
+
+          <ion-buttons>
+            <ion-tab-button>
+              <ion-icon name="search"></ion-icon>
+            </ion-tab-button>
+            
+          </ion-buttons>
+
+        </ion-col>
+
+      </ion-row>
+
+    </div>
+
+  </ion-toolbar>
+
+</ion-header>
 <ion-content>
   <div id="container">
-    <strong>Chat component</strong>
+    <ion-item lines="none" *ngFor = "let user of users" (click)="gotoChatRoom(user.Uid,user.Name)" button>
+      <ion-avatar slot="start">
+        <ion-img src="https://picsum.photos/seed/picsum/200/300"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <h1>{{user.Name}}</h1>
+      </ion-label>
+  
+    </ion-item>
+    <ion-button (click)="logout()" >desconectarse</ion-button>
   </div>
 </ion-content>

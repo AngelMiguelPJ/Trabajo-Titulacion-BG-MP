@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    
+    <ion-grid>
+      <ion-row>
+        <ion-col size='col-2'>
+          <ion-tab-button (click)="chatTabPage()">
+            <ion-icon name="arrow-back-circle"></ion-icon>
+          </ion-tab-button>
+        </ion-col>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-avatar slot="end">
+              <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
+            </ion-avatar>
+            <ion-label style="text-align: center;">{{name}}</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+        
+  
+      
+      
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollDownOnLoad="true">
+  <ion-list class="chat-list" no-lines *ngFor="let chat of chats">
+
+    <ion-item lines="none"  *ngIf="chat.uid != uid" >
+      <ion-label class="ion-text-left">
+        <p>{{name}}</p>
+        <h2>
+          <b>
+            {{chat.msg}}
+          </b>
+        </h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none"  *ngIf="chat.uid == uid">
+      <ion-label class="ion-text-right">
+        <p>yo</p>
+        <h2>
+          <b>
+            {{chat.msg}}
+          </b>
+        </h2>
+      </ion-label>
+    </ion-item>
+
+
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input spellcheck="true" [(ngModel)]="textMsg" placeholder="Escribir..." (keyup.enter)="send()"></ion-input>
+
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { concatAll, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { runInThisContext } from 'vm';
+
 
 @Component({
   selector: 'app-chat',
@@ -47,8 +47,8 @@ export class ChatPage implements OnInit {
 
   logout() {
     this.authService.logoutService()
-    localStorage.clear()
-    sessionStorage.clear()
+    localStorage.removeItem('userId')
+    
   }
 
   gotoChatRoom(uid,name){

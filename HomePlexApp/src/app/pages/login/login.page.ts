@@ -17,7 +17,9 @@ export class LoginPage implements OnInit {
   password: string;
 
   constructor(private authService: AuthService,
-              private router: Router) { }
+              private router: Router) {
+                
+               }
 
   ngOnInit() {
   }
@@ -26,7 +28,7 @@ export class LoginPage implements OnInit {
   login(){
     this.authService.loginService(this.email, this.password).then( res =>{
       this.router.navigate(['/tabs/tabhome'])
-      
+      location.reload()
     }).catch(err => alert('datos incorrectos o  no existe el usuario'))
   }
 

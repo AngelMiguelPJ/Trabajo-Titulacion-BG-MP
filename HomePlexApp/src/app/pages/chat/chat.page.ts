@@ -48,7 +48,6 @@ export class ChatPage implements OnInit {
   logout() {
     this.authService.logoutService()
     localStorage.removeItem('userId')
-    
   }
 
   gotoChatRoom(uid,name){

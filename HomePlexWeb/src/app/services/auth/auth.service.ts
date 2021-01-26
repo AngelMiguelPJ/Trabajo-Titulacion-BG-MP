@@ -20,7 +20,11 @@ export class AuthService {
   loginService(email: string, password: string) {
     return new Promise((resolve, reject) => {
       this.angularFireAuth.signInWithEmailAndPassword(email, password).then(res => {
-        this.isAuthenticated = true
+        this.isAuthenticated = true;
+        const userId = res.user.uid;
+        //const userEmail = res.user.email;
+        localStorage.setItem('userId', userId);
+        //localStorage.setItem('userEmail', userEmail)
         resolve(res)
       }).catch(err => {
         reject(err)

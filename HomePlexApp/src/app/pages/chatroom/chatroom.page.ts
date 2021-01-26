@@ -17,10 +17,10 @@ export class ChatroomPage implements OnInit {
   nameCurrUser;
 
   constructor(private angularFirestore: AngularFirestore,
-              private router: Router) {
+    private router: Router) {
     this.name = sessionStorage.getItem("name");
     this.ouid = sessionStorage.getItem('uid');
-    
+
     this.uid = localStorage.getItem('userId');
     this.nameCurrUser = localStorage.getItem('userCurrentName')
 
@@ -32,14 +32,14 @@ export class ChatroomPage implements OnInit {
       });
 
     })
-   }
+  }
 
   ngOnInit() {
   }
 
   send() {
 
-    
+
     this.angularFirestore.collection("chats").doc(this.uid).collection(this.ouid).add({
       time: Date.now(),
       uid: this.uid,
@@ -52,14 +52,14 @@ export class ChatroomPage implements OnInit {
       uid: this.uid,
       msg: this.textMsg,
       Name: this.nameCurrUser
-    }).then(()=>{
-      this.textMsg="";
+    }).then(() => {
+      this.textMsg = "";
     })
 
-}
+  }
 
-chatTabPage() {
-  this.router.navigate(['/tabs/tabchat'])
-}
+  chatTabPage() {
+    this.router.navigate(['/tabs/tabchat'])
+  }
 
 }

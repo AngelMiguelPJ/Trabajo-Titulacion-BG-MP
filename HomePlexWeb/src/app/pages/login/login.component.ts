@@ -14,22 +14,23 @@ import { AuthService } from '../../services/auth/auth.service';
 export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService,
-              private router: Router) { }
+    private router: Router) { }
 
   ngOnInit(): void {
   }
 
   // funcion de login
-  login(email, password){
-    
-    this.authService.loginService(email, password).then(res =>{
+  login(email, password) {
+
+    this.authService.loginService(email, password).then(res => {
       console.log("Respuesta: ", res)
-      this.router.navigate(['/home'])
-    }).catch(err =>{
+      this.router.navigateByUrl('/home', { skipLocationChange: true }).then(() =>
+      this.router.navigate(["/home"]));
+    }).catch(err => {
       console.log("Error: ", err)
     })
   }
 
-  
+
 
 }

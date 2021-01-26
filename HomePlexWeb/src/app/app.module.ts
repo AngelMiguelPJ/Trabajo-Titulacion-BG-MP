@@ -13,13 +13,25 @@ import { firebaseConfig } from './services/database/firebase.service';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ChatComponent } from './pages/chat/chat.component';
+import { EventComponent } from './pages/event/event.component';
+import { AliquotComponent } from './pages/aliquot/aliquot.component';
+import { BookingComponent } from './pages/booking/booking.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { ChatroomComponent } from './pages/chatroom/chatroom.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    ChatComponent
+    ChatComponent,
+    EventComponent,
+    AliquotComponent,
+    BookingComponent,
+    ProfileComponent,
+    RegisterComponent,
+    ChatroomComponent
   ],
   imports: [
     BrowserModule,

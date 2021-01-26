@@ -5,7 +5,7 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <label style="color: azure;"> Bienvenido {{nameUser}}, {{mailUser}} </label>
   <ul class="navbar-nav px-3">
     <li class="nav-item">
       <a class="nav-link" href="#" (click)="logout()">
@@ -28,26 +28,22 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="shopping-cart"></span>
+            <a class="nav-link" routerLink="/eventos">
               Eventos
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/chat">
-              <span data-feather="file"></span>
+            <a class="nav-link" routerLink="/chat">  
               Chat
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="users"></span>
+            <a class="nav-link" routerLink="/alicuotas">         
               Alicuotas
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2"></span>
+            <a class="nav-link" routerLink="/reservas">              
               Reservas
             </a>
           </li>

@@ -5,10 +5,10 @@ import { LogoutGuard } from './guards/logout/logout.guard';
 import { AliquotComponent } from './pages/aliquot/aliquot.component';
 import { BookingComponent } from './pages/booking/booking.component';
 import { ChatComponent } from './pages/chat/chat.component';
-import { ChatroomComponent } from './pages/chatroom/chatroom.component';
 import { EventComponent } from './pages/event/event.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -33,11 +33,6 @@ const routes: Routes = [
     canActivate : [AuthGuard]
   },
   {
-    path: 'chatroom',
-    component: ChatroomComponent,
-    canActivate : [AuthGuard]
-  },
-  {
     path: 'eventos',
     component: EventComponent,
     canActivate : [AuthGuard]
@@ -52,6 +47,11 @@ const routes: Routes = [
     component: AliquotComponent,
     canActivate : [AuthGuard]
   },
+  {
+    path: 'perfil',
+    component: ProfileComponent,
+    canActivate : [AuthGuard]
+  }
 ];
 
 @NgModule({

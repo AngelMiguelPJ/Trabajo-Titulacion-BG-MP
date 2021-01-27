@@ -18,7 +18,8 @@ import { AliquotComponent } from './pages/aliquot/aliquot.component';
 import { BookingComponent } from './pages/booking/booking.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { ChatroomComponent } from './pages/chatroom/chatroom.component';
+import { NavbarComponent } from './pages/navbar/navbar.component';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { ChatroomComponent } from './pages/chatroom/chatroom.component';
     BookingComponent,
     ProfileComponent,
     RegisterComponent,
-    ChatroomComponent
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

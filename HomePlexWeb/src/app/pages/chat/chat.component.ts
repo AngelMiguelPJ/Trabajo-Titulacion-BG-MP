@@ -4,7 +4,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UsersService } from 'src/app/services/users/users.service';
-import { ChatroomComponent } from '../chatroom/chatroom.component';
 
 @Component({
   selector: 'app-chat',

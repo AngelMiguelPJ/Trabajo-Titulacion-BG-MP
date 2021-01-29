@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './guards/auth/auth.guard';
@@ -9,7 +10,8 @@ import { EventComponent } from './pages/event/event.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-
+import { RegisterComponent } from './pages/register/register.component';
+import { UsersService } from './services/users/users.service';
 const routes: Routes = [
   {
     path: '',
@@ -50,8 +52,15 @@ const routes: Routes = [
   {
     path: 'perfil',
     component: ProfileComponent,
-    canActivate : [AuthGuard]
-  }
+    canActivate : [AuthGuard],
+  },
+  {
+    path: 'registro',
+    component: RegisterComponent,
+    canActivate : [AuthGuard],
+
+  },
+  
 ];
 
 @NgModule({

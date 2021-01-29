@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild, } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ChatService } from 'src/app/services/chat/chat.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
@@ -22,26 +23,22 @@ export class ChatComponent implements OnInit {
   chats = [];
   nameCurrUser;
   constructor(private usersService: UsersService,
-    private angularFirestore: AngularFirestore, private route: Router) {
+    private angularFirestore: AngularFirestore, private route: Router,
+    private chatService: ChatService) {
     this.name = sessionStorage.getItem("nameContact");
     this.ouid = sessionStorage.getItem('uidContact');
     this.uid = localStorage.getItem('userId');
-
   }
 
   ngOnInit(): void {
     this.userUid = localStorage.getItem('userId')
-    this.usersService.getUsersService().subscribe(users => {
-      this.usersList = users;
-    })
-    this.angularFirestore.collection('chats').doc(this.uid).collection(this.ouid, ref => ref.orderBy('time')).snapshotChanges().subscribe(snap => {
-      this.chats = [];
-      snap.forEach(child => {
-        this.chats.push(child.payload.doc.data())
-        console.log(this.chats)
-      })
-    })
 
+    this.usersService.getUsersService().subscribe(users => {
+      this.usersList = users;   
+    })
+    this.chatService.getChatService().subscribe(chats =>{
+      this.chats = chats;
+    })
   }
 
   gotoChatRoom(uid, name) {
@@ -49,8 +46,10 @@ export class ChatComponent implements OnInit {
     console.log(name)
     sessionStorage.setItem('uidContact', uid)
     sessionStorage.setItem('nameContact', name)
-    this.route.navigateByUrl('/home', { skipLocationChange: true }).then(() =>
-      this.route.navigate(["/chat"]));
+    let currentUrl = this.route.url;
+    this.route.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.route.onSameUrlNavigation = 'reload';
+    this.route.navigate([currentUrl]);
   }
 
   send(textMsg: string) {
@@ -59,6 +58,8 @@ export class ChatComponent implements OnInit {
       time: Date.now(),
       uid: this.uid,
       msg: textMsg
+    }).then(() => {
+      textMsg = "";
     })
 
     this.angularFirestore.collection("chats").doc(this.ouid).collection(this.uid).add({

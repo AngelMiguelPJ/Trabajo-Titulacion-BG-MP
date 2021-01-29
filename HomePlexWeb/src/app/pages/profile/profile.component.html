@@ -1,45 +1,111 @@
+<div class="content" role="main">
 
+    <div class="twPc-div">
+        <a class="twPc-bg twPc-block"></a>
 
-        <div class="row">
-            <div class="col-xl-6 col-md-12">
-                <div class="card user-card-full">
-                    <div class="row m-l-0 m-r-0">
-                        <div class="col-sm-4 bg-c-lite-green user-profile">
-                            <div class="card-block text-center text-white">
-                                <div class="m-b-25"> <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image"> </div>
-                                <h6 class="f-w-600">{{nameUser}}</h6>
-                                <p>Web Designer</p> <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+        <div>
+            <a class="twPc-avatarLink">
+                <img alt="" src="{{imgUserInfor}}" class="twPc-avatarImg">
+            </a>
+
+            <div class="twPc-divUser">
+                <div class="twPc-divName">
+                    <a>{{nameUserInfor}}</a>
+                </div>
+            </div>
+
+            <div class="cardsInfo">
+                <div class="row">
+                    <div class="col">
+                        <div class="card" id="cards">
+
+                            <div class="card-body">
+                                <h6 class="card-title">Correo electronico</h6>
+                                <hr class="separacion">
+                                <p class="card-text"><small class="text-muted">{{emailUserInfor}}</small></p>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <div class="card-block">
-                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Email</p>
-                                        <h6 class="text-muted f-w-400">{{mailUser}}</h6>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Phone</p>
-                                        <h6 class="text-muted f-w-400">{{phoneUser}}</h6>
-                                    </div>
-                                </div>
-                                <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Datos condominio</h6>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Casa</p>
-                                        <h6 class="text-muted f-w-400">{{houseUser}}</h6>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Tipo de usuario</p>
-                                        <h6 class="text-muted f-w-400">{{TypeUser}}</h6>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="col">
+                        <div class="card" id="cards">
+                            <div class="card-body">
+                                <h6 class="card-title">Telefono</h6>
+                                <hr class="separacion">
+                                <p class="card-text"><small class="text-muted">{{phoneUserInfor}}</small></p>
 
                             </div>
                         </div>
                     </div>
+
+                </div>
+            </div>
+            <div class="cardsInfo">
+                <div class="row">
+                    <div class="col">
+                        <div class="card" id="cards">
+                            <div class="card-body">
+                                <h6 class="card-title">Casa</h6>
+                                <hr class="separacion">
+                                <p class="card-text"><small class="text-muted">{{houseUserInfor}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card" id="cards">
+                            <div class="card-body">
+                                <h6 class="card-title">Tipo usuario</h6>
+                                <hr class="separacion">
+                                <p class="card-text"><small class="text-muted">{{typeUserInfor}}</small></p>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card text-center" style="border:none">
+                <div class="card-body" style="padding-top: 0; padding-bottom: 10px;">
+                    <button type="button" class="btn btn-primary" (click)="openEditar(content,nameUserInfor, phoneUserInfor, houseUserInfor)">Editar
+                        contenido</button>
                 </div>
             </div>
         </div>
+    </div>
 
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Actualizar usuario</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <form [formGroup]="usersFormEdit">
+
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" formControlName="Name" class="form-control" #Name>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefono</label>
+                            <input type="text" formControlName="Telefono" class="form-control" #Telefono>
+                        </div>
+                        <div class="form-group">
+                            <label>Casa</label>
+                            <input type="text" formControlName="Casa" class="form-control" #Casa>
+                        </div>
+                        
+                        
+
+                    </form>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="actualizarEstudiante()">Actualizar</button>
+        </div>
+    </ng-template>
+
+</div>

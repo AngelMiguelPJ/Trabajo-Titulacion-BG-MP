@@ -2,7 +2,7 @@
 
 
     <!-- Toolbar -->
-    <div class="content" role="main"></div>
+    <div class="content" role="main">
     <div class="containerchat">
         
         <div class="messaging">
@@ -14,8 +14,7 @@
                         </div>
                     </div>
                     <div class="inbox_chat">
-                        <div class="channels" *ngFor="let user of usersList" (click)="gotoChatRoom(user.Uid,user.Name)"
-                            button>
+                        <div class="channels" *ngFor="let user of usersList" (click)="gotoChatRoom(user.Uid,user.Name)" button>
                             <div class="chat_list" *ngIf="user.id != userUid">
                                 
                                 <div class="chat_people">
@@ -60,13 +59,13 @@
                         
                       </div>
                     <div class="type_msg">
-                        <form class="input_msg_write">
+                       
                             <input type="text" class="write_msg" placeholder="Type a message" name="newMessage"
-                                #textMsg />
+                                #textMsg (keyup.enter)="send(textMsg.value)"/>
                             <button class="msg_send_btn" type="button" (click)="send(textMsg.value)">
                                 <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
                             </button>
-                        </form>
+                        
                     </div>
                 </div>
             </div>

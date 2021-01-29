@@ -41,31 +41,4 @@ export class AuthService {
     })
   }
 
-  // registrar usuarios
-  registerService(email: string, password: string, name: string) {
-    return new Promise((resolve, reject) => {
-      this.angularFireAuth.createUserWithEmailAndPassword(email, password)
-        .then(
-          res => {
-            console.log(res.user.uid)
-            const uid = res.user.uid;
-            this.angularFirestore.collection('users').doc(res.user.uid).set({
-              Uid: uid,
-              Name: name,
-              Email: email,
-              Img: '',
-              Casa: '',
-              Telefono: '',
-              TipoUsuario: ''
-
-            })
-            resolve(res)
-          }
-        ).catch(
-          err =>
-            reject(err)
-        )
-    })
-
-  }
 }

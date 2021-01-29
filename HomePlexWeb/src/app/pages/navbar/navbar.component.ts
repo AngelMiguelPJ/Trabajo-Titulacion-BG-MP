@@ -19,7 +19,8 @@ export class NavbarComponent implements OnInit {
   uid;
   nameUser;
   mailUser;
-  photoUser
+  photoUser;
+  typeUser;
   constructor(public authService: AuthService,
     public usersService: UsersService,
     private angularFirestore: AngularFirestore,) { }
@@ -33,7 +34,8 @@ export class NavbarComponent implements OnInit {
         if (uides.Uid === this.userUid) {
           this.nameUser = uides.Name,
             this.mailUser = uides.Email,
-            this.photoUser = uides.Img
+            this.photoUser = uides.Img,
+            this.typeUser = uides.TipoUsuario
         }
       }
     })

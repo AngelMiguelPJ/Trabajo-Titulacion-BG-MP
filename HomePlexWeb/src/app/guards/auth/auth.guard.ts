@@ -4,6 +4,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UsersService } from 'src/app/services/users/users.service';
 import { isNullOrUndefined } from 'util';
 
 @Injectable({
@@ -14,7 +15,8 @@ export class AuthGuard implements CanActivate {
   // contructor
   constructor(private angularFireAuth: AngularFireAuth,
     private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private usersService: UsersService) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,

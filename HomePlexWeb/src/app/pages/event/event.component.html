@@ -1,4 +1,37 @@
+<!-- Contenedor principal del login -->
+<div class="content" role="main">
 
-    <h1>eventos</h1>
+    <!---->
+    <table class="table">
 
+        <!---->
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Evento Aprobado</th>
+            <th>Descripcion</th>
+            <th>Duracion</th>
+            <th>Fecha</th>
+            <th>Lugar</th>
+            <th>Personas</th>
+          </tr>
+        </thead>
 
+        <!---->
+        <tbody>
+
+          <tr *ngFor="let item of collection.data">
+            <td>{{item.Nombre}}</td>
+            <td>{{item.EventoAN}}</td>
+            <td>{{item.Descripcion}}</td>
+            <td>{{item.Duracion}}</td>
+            <td>{{item.Fecha}}</td>
+            <td>{{item.Lugar}}</td>
+            <td>{{item.Personas}}</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+</div>

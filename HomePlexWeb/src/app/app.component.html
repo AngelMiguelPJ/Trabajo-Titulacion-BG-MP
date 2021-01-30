@@ -1,5 +1,7 @@
+
+<!--Llamado al componente de navarbar siempre y cuando el usuario este logueado-->
 <div *ngIf="authService.isAuthenticated">
     <app-navbar></app-navbar>
 </div>
-
+<!--Llamado al componente de login siempre y cuando el usuario este no logueado-->
 <router-outlet *ngIf="authService.isAuthenticated == false"></router-outlet>   

@@ -12,30 +12,35 @@ import { isNullOrUndefined } from 'util';
 })
 export class AuthGuard implements CanActivate {
 
-  // contructor
-  constructor(private angularFireAuth: AngularFireAuth,
-    private router: Router,
-    private authService: AuthService,
-    private usersService: UsersService) { }
+  // contructor que inicia los servicios
+  constructor(private angularFireAuth: AngularFireAuth, private router: Router,
+              private authService: AuthService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    // mapear datos
+    // mapear del estado del usuario
     return this.angularFireAuth.authState.pipe(map(auth => {
 
-      // condicional
+      // condicional que verifica si esta logeado o no
       if (isNullOrUndefined(auth)) {
+        
+        //si no esta logeado cambia el estado a false
         this.authService.isAuthenticated = false
+
+        // redirije al login
         this.router.navigate(['/login']);
+
         return false
       } else {
+
+        // en caso de que si lo este cambia el estado a true
         this.authService.isAuthenticated = true
+
         return true
       }
-      //console.log(auth);
-      //return false;
+
     }))
 
   }

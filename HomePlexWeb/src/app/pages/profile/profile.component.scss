@@ -17,6 +17,14 @@
     display: block !important;
 }
 
+.twPc-avatarLinkEdit{
+    border-radius: 6px;
+    margin-top: -10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .twPc-avatarLink {
 
     border-radius: 6px;
@@ -103,4 +111,14 @@ ul.twPc-Arrange {
 
 .separacion{
     margin: 10px 0 10px 0;
+}
+
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 0px 0px;
+    cursor: pointer;
 }

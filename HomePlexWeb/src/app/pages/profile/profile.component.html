@@ -1,19 +1,35 @@
+<!--Componente navbar html-->
 <div class="content" role="main">
 
-    <div class="twPc-div">
-        <a class="twPc-bg twPc-block"></a>
+    <!-- ============================================================================ -->
 
-        <div>
+        <!-- Formulario de vision de datos del usuario-->
+        <div class="twPc-div">
+
+            <!--Imagen de fondo-->
+            <a class="twPc-bg twPc-block"></a>
+
+            <!--Imagen de perfil por llamado de variable-->
             <a class="twPc-avatarLink">
                 <img alt="" src="{{imgUserInfor}}" class="twPc-avatarImg">
             </a>
 
+            <!--Boton para la edicion de la imagen de perfil-->
+            <div class="twPc-avatarLinkEdit">
+                <label class="custom-file-upload">
+                    <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
+                    <input type="file" (change)="uploadFile($event)" />
+                </label>
+            </div>
+
+            <!--Nombre del usuario por llamado de variable-->
             <div class="twPc-divUser">
                 <div class="twPc-divName">
                     <a>{{nameUserInfor}}</a>
                 </div>
             </div>
 
+            <!--Card 1 para reflejar la informacion del usuario por llamado de variables -->
             <div class="cardsInfo">
                 <div class="row">
                     <div class="col">
@@ -36,9 +52,10 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+
+            <!--Card 2 para reflejar la informacion del usuario por llamado de variables -->
             <div class="cardsInfo">
                 <div class="row">
                     <div class="col">
@@ -56,56 +73,83 @@
                                 <h6 class="card-title">Tipo usuario</h6>
                                 <hr class="separacion">
                                 <p class="card-text"><small class="text-muted">{{typeUserInfor}}</small></p>
-                                
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+
+            <!--boton de edicion de informacion por medio llamado de variables -->
             <div class="card text-center" style="border:none">
                 <div class="card-body" style="padding-top: 0; padding-bottom: 10px;">
-                    <button type="button" class="btn btn-primary" (click)="openEditar(content,nameUserInfor, phoneUserInfor, houseUserInfor)">Editar
+                    <button type="button" class="btn btn-primary"
+                        (click)="openEditar(content,nameUserInfor, phoneUserInfor, houseUserInfor)">Editar
                         contenido</button>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <ng-template #content let-modal>
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Actualizar usuario</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <form [formGroup]="usersFormEdit">
 
-                        <div class="form-group">
-                            <label>Nombre</label>
-                            <input type="text" formControlName="Name" class="form-control" #Name>
-                        </div>
-                        <div class="form-group">
-                            <label>Telefono</label>
-                            <input type="text" formControlName="Telefono" class="form-control" #Telefono>
-                        </div>
-                        <div class="form-group">
-                            <label>Casa</label>
-                            <input type="text" formControlName="Casa" class="form-control" #Casa>
-                        </div>
-                        
-                        
+    <!-- ============================================================================ -->
 
-                    </form>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-outline-dark" (click)="actualizarEstudiante()">Actualizar</button>
-        </div>
-    </ng-template>
+        <!-- Formulario ng template para la edicion de datos-->
+        <ng-template #content let-modal>
+
+            <!-- Header del modal -->
+            <div class="modal-header">
+
+                <!-- Titulo del card -->
+                <h4 class="modal-title" id="modal-basic-title">Actualizar usuario</h4>
+
+                <!-- Boton de cerrado -->
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <!-- Cuerpo del formulario -->
+            <div class="modal-body">
+
+                <!-- formulario con las variables a cambiar -->
+                <form>
+                    <div class="form-group">
+
+                        <!-- Grupo formulario que establece variables a partir del component.ts-->
+                        <form [formGroup]="usersFormEdit">
+
+                            <!-- Campo Nombre-->
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" formControlName="Name" class="form-control" #Name>
+                            </div>
+
+                            <!-- Campo Telefono-->
+                            <div class="form-group">
+                                <label>Telefono</label>
+                                <input type="text" formControlName="Telefono" class="form-control" #Telefono>
+                            </div>
+
+                            <!-- Campo Casa-->
+                            <div class="form-group">
+                                <label>Casa</label>
+                                <input type="text" formControlName="Casa" class="form-control" #Casa>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Boton de actualizacion aparatir de los datos del formulario-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="actualizarUsuario()">Actualizar</button>
+            </div>
+
+        </ng-template>
+
+    <!-- ============================================================================ -->
 
 </div>

@@ -14,8 +14,8 @@ import { tap } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'HomePlexWeb';
+
+  // llamado al servicio de autenticacion para mostrar o no el navbar en caso de que este autenticado o no
   constructor(public authService: AuthService) {}
   ngOnInit(): void {}
-
-
 }

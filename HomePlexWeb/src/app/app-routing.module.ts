@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { LogoutGuard } from './guards/logout/logout.guard';
+
+//Componentes
 import { AliquotComponent } from './pages/aliquot/aliquot.component';
 import { BookingComponent } from './pages/booking/booking.component';
 import { ChatComponent } from './pages/chat/chat.component';
@@ -11,7 +13,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { UsersService } from './services/users/users.service';
+
+// rutas
 const routes: Routes = [
   {
     path: '',

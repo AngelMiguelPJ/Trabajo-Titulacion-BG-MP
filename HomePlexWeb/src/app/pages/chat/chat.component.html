@@ -1,24 +1,42 @@
+<!-- Contenedor del contenido -->
+<div class="content" role="main">
 
-
-
-    <!-- Toolbar -->
-    <div class="content" role="main">
+    <!-- div del contenedor del chat-->
     <div class="containerchat">
-        
+
+        <!-- Mensajes de acuerdo al usuario-->
         <div class="messaging">
             <div class="inbox_msg">
+
+            <!--==========================================================================-->
+
+                <!-- Contenedor del lista de los usuarios para el chat-->
                 <div class="inbox_people">
+
+                    <!-- Titulo -->
                     <div class="headind_srch">
                         <div class="channel_heading">
                             <h4>Contactos</h4>
                         </div>
                     </div>
+
+                    <!-- Caja de listado de contactos -->
                     <div class="inbox_chat">
+
+                        <!-- listado de contactos convertidos en botones -->
                         <div class="channels" *ngFor="let user of usersList" (click)="gotoChatRoom(user.Uid,user.Name)" button>
+
+                            <!-- listado de usuario con condicionamiento que sea diferente al usuario actual -->
                             <div class="chat_list" *ngIf="user.id != userUid">
-                                
+
+                                <!-- caja que contiene informacion de cada usuario -->
                                 <div class="chat_people">
-                                    <img class="img-profile rounded-circle" src="https://picsum.photos/seed/picsum/200/300">
+
+                                    <!-- Imagen del usuario-->
+                                    <img class="img-profile rounded-circle"
+                                        src="https://picsum.photos/seed/picsum/200/300">
+                                    
+                                    <!-- Nombre y correo del usuario -->
                                     <div class="chat_ib">
                                         <h5>
                                             {{user.Name}}
@@ -27,47 +45,88 @@
                                             {{user.Email}}
                                         </p>
                                     </div>
+
                                 </div>
-                                
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+            <!--==========================================================================-->
+
+                <!-- Contenedor de los mensajes para cada usuario-->
                 <div class="mesgs">
+
+                    <!-- Historial de mensajes-->
                     <div class="msg_history">
+
+                        <!--Contendor del nombre del usuario con cual hablar-->
                         <div class="chat-main-header">
+
+                            <!--Nombre del otro usuario-->
                             <div class="p-20 b-b">
                                 <h3 class="box-title" style="text-align: center;"><small>{{name}}</small></h3>
                             </div>
-                        </div>
-                    
-                        <ul class="list-group"*ngFor="let chat of chats">
-                            <li class="list-group-item" *ngIf="chat.uid !== uid">
-                                <b><p>{{name}}</p></b>
-                                
-                                <p>{{chat.msg}}</p>
-                                
-                            </li>
-                            <li class="list-group-item" *ngIf="chat.uid === uid" style="text-align: end;">
-                                <b><p>yo</p></b>
-                                <p>{{chat.msg}}</p>
-                                
-                            </li>
-                            
-                          </ul>
 
-                        
-                      </div>
-                    <div class="type_msg">
-                       
-                            <input type="text" class="write_msg" placeholder="Type a message" name="newMessage"
-                                #textMsg (keyup.enter)="send(textMsg.value)"/>
-                            <button class="msg_send_btn" type="button" (click)="send(textMsg.value)">
-                                <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-                            </button>
-                        
+                        </div>
+
+                        <!-- Lista con los mensajes obtenidos mediante un for-->
+                        <ul class="list-group" *ngFor="let chat of chats">
+
+                            <!-- Contendor del mensaje del otro usuario-->
+                            <li class="list-group-item" *ngIf="chat.uid !== uid">
+
+                                <!--Nombre del otro usuarios-->
+                                <b>
+                                    <p>{{name}}</p>
+                                </b>
+
+                                <!-- Mensaje del otro usuario-->
+                                <p>{{chat.msg}}</p>
+
+                            </li>
+
+                            <!-- Contendor del mensaje del usuario actual-->
+                            <li class="list-group-item" *ngIf="chat.uid === uid" style="text-align: end;">
+
+                                <!--Nombre del usuario actual-->
+                                <b>
+                                    <p>yo</p>
+                                </b>
+
+                                <!--Mensaje del usuario actual-->
+                                <p>{{chat.msg}}</p>
+
+                            </li>
+
+                        </ul>
+
                     </div>
+
+                    <!-- Div para el envio de mensajes-->
+                    <div class="type_msg">
+
+                        <!-- input de introduccion de mensajes y envio mediante la tecla enter-->
+                        <input type="text" class="write_msg" placeholder="Type a message" name="newMessage" #textMsg
+                            (keyup.enter)="send(textMsg.value)"/>
+                        
+                        <!--Boton para el envio de mensajes mediante el evento click -->
+                        <button class="msg_send_btn" type="button" (click)="send(textMsg.value)">
+                            <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                        </button>
+
+                    </div>
+                    
                 </div>
+            <!--==========================================================================-->
+
             </div>
         </div>
+
     </div>
+
+</div>

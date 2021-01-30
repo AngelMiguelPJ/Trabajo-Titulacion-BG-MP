@@ -5,6 +5,7 @@ import { ChildActivationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+// modelo para exportacion
 export interface UsersExport {
   id: string,
   Name: string,
@@ -13,58 +14,74 @@ export interface UsersExport {
   Telefono: string,
   Casa: string
   Img: string
-
 }
-
-
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UsersService {
 
-  // contructor
+  // Varibel userUid del usuario actual
   userUid;
+
+  // variable bandera para establecer si es admin o no
   isAdmin = false;
+
+  // contructor para iniciar los servicios
   constructor(private angularFirestore: AngularFirestore,
               private angularFireAuth: AngularFireAuth,) { }
 
 
-  // obtener usuarios
+  // Servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
   getUsersService(){
+
+    //userUid del usuario actual obtenido en el inicio de sesion
     this.userUid = localStorage.getItem('userId')
-    return this.angularFirestore.collection('users').snapshotChanges().pipe(map(rooms =>{
-      return rooms.map(a =>{
-        //
-        if (a.payload.doc.data()['Uid'] === this.userUid) {
-          const b = a.payload.doc.data()['TipoUsuario']
-          if(b == 'Administrador'){
+
+    // respectivo servicio de firestore para la obtencion de los usuarios
+    return this.angularFirestore.collection('users').snapshotChanges().pipe(map(users =>{
+
+      // return del mapeo de los usuarios
+      return users.map(res =>{
+        
+        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (res.payload.doc.data()['Uid'] === this.userUid) {
+          const adminVar = res.payload.doc.data()['TipoUsuario']
+          if(adminVar == 'Administrador'){
             this.isAdmin = true
           }else{
             this.isAdmin = false
           }
         }
-        //
-        const data = a.payload.doc.data() as UsersExport
-          data.id = a.payload.doc.id;
-          return data; 
-          
-          
+        
+        // seteo de los datos en el modelo UsersExport para su exportacion
+        const data = res.payload.doc.data() as UsersExport
+        data.id = res.payload.doc.id;
+        return data;    
+
       })
-    })
-    )
+
+    }))
+
   }
 
-  // create users
-  // registrar usuarios
+
+  // registrar usuarios mediante correo y contraseña, ademas de los demas datos en firestore
   registerUsersService(email: string, password: string, name: string, tipoUsuario: string) {
     return new Promise((resolve, reject) => {
+
+      // respectivo servicio de creacion de usuarios de firestore
       this.angularFireAuth.createUserWithEmailAndPassword(email, password)
         .then(
           res => {
-            console.log(res.user.uid)
+            //console.log(res.user.uid)
+            // uid del usuario creado
             const uid = res.user.uid;
+
+            // creacion del usuario en firestore a partir de su uid de usuario creado por medio de correo y contraseña
             this.angularFirestore.collection('users').doc(res.user.uid).set({
+              // datos relevantes en firestore de los usuarios
               Uid: uid,
               Email: email,
               Name: name,
@@ -72,45 +89,39 @@ export class UsersService {
               Casa: '',
               Telefono: '',
               TipoUsuario: tipoUsuario
-
             })
             resolve(res)
           }
         ).catch(
           err =>
             reject(err)
-        )
+          )
+
     })
 
   }
 
-/**
-   * Metodo para listar los usuarios
-   */
+  // Motodo-funcion-servicio para la optencion de usuarios mediante snapshotchanges
+  // para luego por setear estos datos en un arreglo
   getUsersServices(){
     return this.angularFirestore.collection("users").snapshotChanges();
   }
-  /**
-   * actualiza un estudiante existente en firebase
-   * @param id id de la coleccion en firebase
-   * @param users a actualizar
-   */
+  
+  // Metodo-funcion-servicio de actualizacion de datos de un usuario por id y el campo a actualizar
   updateUsersServices(id:any, users:any){
     return this.angularFirestore.collection("users").doc(id).update(users);
 
   }
-  /**
-   * borrar un estudiante existente en firebase
-   * @param id id de la coleccion en firebase
-   */
+
+  // Metodo-funcion-servicio de actualizacion de foto de perfil de un usuario por id y el campo a actualizar
+  updateUsersServicesImg(id:any, users:any){
+    return this.angularFirestore.collection("users").doc(id).update(users);
+
+  }
+  
+  // Metodo-funcion-servicio de borrarado de datos de un usuario por id
   deleteUsersServices(id:any){
     return this.angularFirestore.collection("users").doc(id).delete();
-    
   }
-
-
-  
-
-
 
 }

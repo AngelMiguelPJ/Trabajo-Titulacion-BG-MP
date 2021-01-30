@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AliquotComponent implements OnInit {
 
-  constructor() { }
+  // iniciar servicios
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 }

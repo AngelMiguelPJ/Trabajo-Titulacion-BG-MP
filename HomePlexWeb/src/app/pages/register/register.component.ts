@@ -3,7 +3,6 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService, UsersExport } from 'src/app/services/users/users.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +14,6 @@ export class RegisterComponent implements OnInit {
 
   // lista de los tipos de usuarios que pueden existir
   typeUsers = [
-    '',
     'Contador',
     'Administrador',
     'Vecino',
@@ -171,7 +169,7 @@ export class RegisterComponent implements OnInit {
   actualizarEstudiante() {
 
     // llamado a la variable uid del usuario y verificacion de si es nula o no
-    if (!isNullOrUndefined(this.idFirabaseActualizar)) {
+    if (this.idFirabaseActualizar !== null || this.idFirabaseActualizar !== undefined) {
 
       // llamado al servicio de actualizacion de usuarios setenado el uid y los valores del usuario actual
       this.usersService.updateUsersServices(this.idFirabaseActualizar, this.usersFormEdit.value).then(resp => {

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UsersService } from 'src/app/services/users/users.service';
-import { isNullOrUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,7 @@ export class AuthGuard implements CanActivate {
     return this.angularFireAuth.authState.pipe(map(auth => {
 
       // condicional que verifica si esta logeado o no
-      if (isNullOrUndefined(auth)) {
+      if (auth == null || auth == undefined) {
         
         //si no esta logeado cambia el estado a false
         this.authService.isAuthenticated = false

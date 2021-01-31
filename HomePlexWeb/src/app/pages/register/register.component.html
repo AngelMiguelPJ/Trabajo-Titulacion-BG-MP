@@ -74,6 +74,7 @@
 
                   <!-- Select de tipo de usuario apartir del arreglo en el ts-->
                   <select type="'text" formControlName="TipoUsuario" class="form-control">
+                    
                     <option *ngFor="let listTypes of typeUsers" [ngValue]="listTypes">{{listTypes}}</option>
                   </select>
 

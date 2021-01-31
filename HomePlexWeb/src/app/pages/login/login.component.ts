@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     // llamado al servicio de authenticacion para logearse
     this.authService.loginService(email, password).then(res => {
       
-      console.log("Respuesta: ", res)
+      //console.log("Respuesta: ", res)
       // redireccion a la pagina home si se logea correctamente
       this.router.navigate(["/home"]);
 

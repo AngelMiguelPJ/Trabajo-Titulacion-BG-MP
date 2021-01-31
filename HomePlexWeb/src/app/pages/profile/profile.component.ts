@@ -6,7 +6,6 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { isTemplateExpression, isTemplateSpan } from 'typescript';
-import { isNullOrUndefined } from 'util';
 import { Router, UrlSegment } from '@angular/router';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { last, switchMap } from 'rxjs/operators';
@@ -149,7 +148,7 @@ export class ProfileComponent implements OnInit {
   actualizarUsuario() {
 
     // llamado a la variable uid del usuario y verificacion de si es nula o no
-    if (!isNullOrUndefined(this.idFirabaseActualizar)) {
+    if (this.idFirabaseActualizar !== null || this.idFirabaseActualizar !== undefined) {
 
       // llamado al servicio de actualizacion de usuarios setenado el uid y los valores del usuario actual
       this.usersService.updateUsersServices(this.idFirabaseActualizar, this.usersFormEdit.value).then(resp => {

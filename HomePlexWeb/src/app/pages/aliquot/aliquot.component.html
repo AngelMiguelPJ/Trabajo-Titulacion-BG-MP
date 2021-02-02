@@ -1,5 +1,67 @@
 <!-- Contenedor principal del login -->
 <div class="content" role="main">
-    <h1>Alicuotas</h1>
+    <h2>Alicuotas</h2>
+  <button type="button" class="btn btn-success" (click)="open(contentCreate)">Agregar cuota</button>
+  <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Valor cuota</th>
+                <th>Valor extra</th>
+                <th>Fecha</th>
+                <th>Fecha de vencimiento</th>
+                <th>Estado</th>
+                <th>Descripcion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of collectionAliquots.data">
+                <td>{{item.NombreVecino}}</td>
+                <td>{{item.ValorCuota}}</td>
+                <td>{{item.ValorExtra}}</td>
+                <td>{{item.Fecha}}</td>
+                <td>{{item.FechaVencimiento}}</td>
+                <td>{{item.Estado}}</td>
+                <td>{{item.Descripcion}}</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+  
+  
+
+
+  <ng-template #contentCreate let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Alicuota Crear-Actualizar</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <form [formGroup]="aliquotFormCreate">
+            <div class="form-group">
+              <label>Id</label>
+              <input type="number" formControlName="id" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" formControlName="nombre" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Apellido</label>
+              <input type="text" formControlName="apellido" class="form-control">
+            </div>
+          </form>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="createAliquot()" *ngIf="!actualizar">Guardar</button>
+    </div>
+  </ng-template>
 </div>
 

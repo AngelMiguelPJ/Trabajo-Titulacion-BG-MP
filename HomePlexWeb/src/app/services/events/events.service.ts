@@ -25,14 +25,14 @@ export class EventsService {
   createEventsServices(events: any) {
     return this.angularFirestore.collection("events").add(events)
   }
-  // Metodo-funcion-servicio de creacion de eventos
-  createBookingServices(events: any) {
-    return this.angularFirestore.collection("booking").add(events)
-  }
 
   // Metodo-funcion-servicio de eliminacion de eventos por id
   deleteEventsServices(idEvent: any) {
     return this.angularFirestore.collection("events").doc(idEvent).delete();
+  }
+
+  updateEventsServicesImg(id:any, users:any){
+    return this.angularFirestore.collection("events").doc(id).update(users);
   }
 
 }

@@ -3,41 +3,57 @@
 
   <!---->
 
-  <button type="button" class="btn btn-success" (click)="openFormCreate(contentCreate)">Crear nuevo estudiante</button>
+  <button type="button" class="btn btn-success" (click)="openFormCreate(contentCreate)"
+    *ngIf="usersService.isAdmin">Crear nuevo evento</button>
 
   <!---->
+  <div class="table-responsive">
+    <table class="table">
 
-  <table class="table">
+      <!---->
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Evento Aprobado</th>
+          <th>Descripcion</th>
+          <th>Duracion</th>
+          <th>Fecha</th>
+          <th>Lugar</th>
+          <th>Personas</th>
+          <th>Imagen</th>
+          <th *ngIf="usersService.isAdmin">opciones</th>
+        </tr>
+        <tr>
 
-    <!---->
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Evento Aprobado</th>
-        <th>Descripcion</th>
-        <th>Duracion</th>
-        <th>Fecha</th>
-        <th>Lugar</th>
-        <th>Personas</th>
-      </tr>
-    </thead>
+        </tr>
+      </thead>
 
-    <!---->
-    <tbody>
+      <!---->
+      <tbody>
 
-      <tr *ngFor="let item of collection.data">
-        <td>{{item.Nombre}}</td>
-        <td>{{item.EventoAN}}</td>
-        <td>{{item.Descripcion}}</td>
-        <td>{{item.Duracion}}</td>
-        <td>{{item.Fecha}}</td>
-        <td>{{item.Lugar}}</td>
-        <td>{{item.Personas}}</td>
-      </tr>
+        <tr *ngFor="let item of collection.data">
+          <td>{{item.Nombre}}</td>
+          <td>{{item.EventoAN}}</td>
+          <td>{{item.Descripcion}}</td>
+          <td>{{item.Duracion}}</td>
+          <td>{{item.Fecha}}</td>
+          <td>{{item.Lugar}}</td>
+          <td>{{item.Personas}}</td>
+          <td><img alt="" src="{{item.Img}}" class="twPc-avatarImgList"></td>
+          <td>
 
-    </tbody>
+            <!--Botones para eliminar y editar el respectivo usuario-->
+            <button type="button" class="btn btn-primary" (click)="openEditar(content,item)" *ngIf="usersService.isAdmin">Editar</button>
+            <button type="button" class="btn btn-danger" (click)="deleteEvent(item)" *ngIf="usersService.isAdmin">Borrar</button>
 
-  </table>
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+  </div>
+
 
   <!---->
 
@@ -45,7 +61,7 @@
     <!---->
 
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Estudiante create/update</h4>
+      <h4 class="modal-title" id="modal-basic-title">Crear Evento</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -60,6 +76,20 @@
 
           <!---->
           <form [formGroup]="eventsForm">
+
+            <!---->
+            <div class="form-group">
+              <a class="twPc-avatarLink">
+                <img alt="" [src]="imgEdit" class="twPc-avatarImg rounded-circle">
+              </a>
+              <div class="twPc-avatarLinkEdit">
+                <label class="custom-file-upload">
+                  <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
+                  <input type="file" (change)="uploadFile($event)" />
+                </label>
+              </div>
+            </div>
+            <!---->
             <div class="form-group">
               <label>Nombre</label>
               <input type="text" formControlName="Nombre" class="form-control">
@@ -79,7 +109,9 @@
               <!---->
               <div class="form-group">
                 <label>Duracion</label>
-                <input type="number" formControlName="Duracion" class="form-control">
+                <select type="'text" formControlName="Duracion" class="form-control" placeholder="Elija una duracion">
+                  <option *ngFor="let duration of durationEvent" [ngValue]="duration">{{duration}}</option>
+                </select>
               </div>
 
               <!---->
@@ -92,19 +124,23 @@
               <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
-                min="{{fechaActual|date:'yyyy-MM-dd'}}">
+                  min="{{fechaActual|date:'yyyy-MM-dd'}}">
               </div>
 
               <!---->
               <div class="form-group">
                 <label>Lugar</label>
-                <input type="text" formControlName="Lugar" class="form-control">
+                <select type="'text" formControlName="Lugar" class="form-control" placeholder="Elija una duracion">
+                  <option *ngFor="let place of placeEvent" [ngValue]="place">{{place}}</option>
+                </select>
               </div>
 
               <!---->
               <div class="form-group">
                 <label>Personas</label>
-                <input type="number" formControlName="Personas" class="form-control">
+                <select type="'text" formControlName="Personas" class="form-control" placeholder="Elija una duracion">
+                  <option *ngFor="let people of peopleEvent" [ngValue]="people">{{people}}</option>
+                </select>
               </div>
 
             </div>
@@ -119,6 +155,116 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="createEvent()">Guardar</button>
     </div>
+  </ng-template>
+
+  <!---->
+
+  <!-- Formulario ng template para la edicion de datos-->
+  <ng-template #content let-modal>
+
+    <!-- Header del modal -->
+    <div class="modal-header">
+
+      <!-- Titulo del card -->
+      <h4 class="modal-title" id="modal-basic-title">Actualizar usuario</h4>
+
+      <!-- Boton de cerrado -->
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <!-- Cuerpo del formulario -->
+    <div class="modal-body">
+
+      <!-- formulario con las variables a cambiar -->
+      <form>
+        <div class="form-group">
+
+          <!-- Grupo formulario que establece variables a partir del component.ts-->
+          <form [formGroup]="eventFormEdit">
+
+            <!---->
+            <div class="form-group">
+              <a class="twPc-avatarLink">
+                <img alt="" src="{{imgEdit}}" class="twPc-avatarImg rounded-circle">
+              </a>
+              <div class="twPc-avatarLinkEdit">
+                <label class="custom-file-upload">
+                  <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
+                  <input type="file" (change)="uploadFile($event)" />
+                </label>
+              </div>
+            </div>
+            <!---->
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" formControlName="Nombre" class="form-control">
+            </div>
+
+            <!---->
+            <div class="form-group">
+              <label>Evento Estado</label>
+              <select type="'text" formControlName="EventoAN" class="form-control" placeholder="Elija un estado">
+                <option *ngFor="let status of statusEvent" [ngValue]="status">{{status}}</option>
+              </select>
+            </div>
+
+            <!---->
+            <div formGroupName="Reserva">
+
+              <!---->
+              <div class="form-group">
+                <label>Duracion</label>
+                <select type="'text" formControlName="Duracion" class="form-control" placeholder="Elija una duracion">
+                  <option *ngFor="let duration of durationEvent" [ngValue]="duration">{{duration}}</option>
+                </select>
+              </div>
+
+              <!---->
+              <div class="form-group">
+                <label>Descripcion</label>
+                <input type="text" formControlName="Descripcion" class="form-control">
+              </div>
+
+              <!---->
+              <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
+                  min="{{fechaActual|date:'yyyy-MM-dd'}}">
+              </div>
+
+              <!---->
+              <div class="form-group">
+                <label>Lugar</label>
+                <select type="'text" formControlName="Lugar" class="form-control" placeholder="Elija una duracion">
+                  <option *ngFor="let place of placeEvent" [ngValue]="place">{{place}}</option>
+                </select>
+              </div>
+
+              <!---->
+              <div class="form-group">
+                <label>Personas</label>
+                <select type="'text" formControlName="Personas" class="form-control" placeholder="Elija una duracion">
+                  <option *ngFor="let people of peopleEvent" [ngValue]="people">{{people}}</option>
+                </select>
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+      </form>
+
+    </div>
+
+    <!-- Boton de actualizacion aparatir de los datos del formulario-->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="updateEvent()">Actualizar</button>
+    </div>
+
   </ng-template>
 
   <!---->

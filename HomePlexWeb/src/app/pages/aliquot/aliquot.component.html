@@ -1,7 +1,7 @@
 <!-- Contenedor principal del login -->
 <div class="content" role="main">
     <h2>Alicuotas</h2>
-  <button type="button" class="btn btn-success" (click)="open(contentCreate)">Agregar cuota</button>
+  <button type="button" class="btn btn-success" (click)="open(contentCreate)" *ngIf="usersService.isAdmin">Agregar cuota</button>
   <div class="table-responsive">
     <table class="table">
         <thead>
@@ -17,12 +17,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of collectionAliquots.data">
-                <td>{{item.NombreVecino}}</td>
+                <td>{{item.DatosVecino}}</td>
                 <td>{{item.ValorCuota}}</td>
                 <td>{{item.ValorExtra}}</td>
                 <td>{{item.Fecha}}</td>
                 <td>{{item.FechaVencimiento}}</td>
-                <td>{{item.Estado}}</td>
+                <td>{{item.EstadoCuota}}</td>
                 <td>{{item.Descripcion}}</td>
             </tr>
         </tbody>
@@ -43,18 +43,52 @@
       <form>
         <div class="form-group">
           <form [formGroup]="aliquotFormCreate">
-            <div class="form-group">
-              <label>Id</label>
-              <input type="number" formControlName="id" class="form-control">
-            </div>
+            
             <div class="form-group">
               <label>Nombre</label>
-              <input type="text" formControlName="nombre" class="form-control">
+              <select type="'text" formControlName="DatosVecino" class="form-control" placeholder="Elija un estado">
+                <option *ngFor="let users of collectionUsers.data" [ngValue]="users">{{users.Nombre}}</option>
+              </select>              
             </div>
+
             <div class="form-group">
-              <label>Apellido</label>
-              <input type="text" formControlName="apellido" class="form-control">
+              <label>Valor cuota</label>
+              <input type="number" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" formControlName="ValorCuota" class="form-control">
             </div>
+
+            <div class="form-group">
+              <label>Valor extra</label>
+              <input type="text" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" formControlName="ValorExtra" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label>Fecha</label>
+              <input type="date" formControlName="Fecha" class="form-control" 
+              (disabled)="!fechaActual"
+              min="{{fechaActual|date:'yyyy-MM-dd'}}"
+              #FechaForm
+              (input) = "cambio(FechaForm.value)"
+              >
+            </div>
+
+            <div class="form-group">
+              <label>Fecha vencimiento</label>
+              <input type="date" formControlName="FechaVencimiento" class="form-control" 
+              (disabled)="!fechaVencimiento"
+              min="{{fechaVencimiento|date:'yyyy-MM-dd'}}">            </div>
+
+            <div class="form-group">
+              <label>Estado</label>
+              <select type="'text" formControlName="EstadoCuota" class="form-control" placeholder="Elija un estado">
+                <option *ngFor="let estado of estadoCuotaList" [ngValue]="estado">{{estado}}</option>
+              </select>            
+            </div>
+
+            <div class="form-group">
+              <label>Descripcion</label>
+              <input type="text" formControlName="Descripcion" class="form-control">
+            </div>
+            
           </form>
         </div>
       </form>

@@ -27,6 +27,7 @@ export class UsersService {
 
   // variable bandera para establecer si es admin o no
   isAdmin = false;
+  isAccountant = false;
 
   // contructor para iniciar los servicios
   constructor(private angularFirestore: AngularFirestore,
@@ -52,6 +53,16 @@ export class UsersService {
             this.isAdmin = true
           }else{
             this.isAdmin = false
+          }
+        }
+
+        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (res.payload.doc.data()['Uid'] === this.userUid) {
+          const accountVar = res.payload.doc.data()['TipoUsuario']
+          if(accountVar == 'Contador'){
+            this.isAccountant = true
+          }else{
+            this.isAccountant = false
           }
         }
         

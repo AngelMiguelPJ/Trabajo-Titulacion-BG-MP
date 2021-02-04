@@ -1,272 +1,52 @@
 <!-- Contenedor principal del login -->
 <div class="content" role="main">
+  <h2 style="text-align: center;">Eventos</h2>
+
+  <!--====================================================================================-->
+
+    <a class="item" routerLink="/eventos/registrar" *ngIf="usersService.isAdmin">
+      <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
+      Registrar Eventos
+    </a>
 
   <!---->
 
-  <button type="button" class="btn btn-success" (click)="openFormCreate(contentCreate)"
-    *ngIf="usersService.isAdmin">Crear nuevo evento</button>
 
-  <!---->
-  <div class="table-responsive">
-    <table class="table">
 
-      <!---->
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Evento Aprobado</th>
-          <th>Descripcion</th>
-          <th>Duracion</th>
-          <th>Fecha</th>
-          <th>Lugar</th>
-          <th>Personas</th>
-          <th>Imagen</th>
-          <th *ngIf="usersService.isAdmin">opciones</th>
-        </tr>
-        <tr>
+  <div *ngFor="let item of collection.data | paginate: config">
+    <div class="grid-container responsive">
+      <div class="item1" style="background-image: url({{item.Img}});"></div>
+      <div class="item2">
+        <div>
+          <h5>{{item.Nombre}}</h5>
+        </div>
 
-        </tr>
-      </thead>
+        <div>
+          <p style="font-size: 12px;">{{item.Descripcion}} </p>
+        </div>
+      </div>
+      <div class="item3">
 
-      <!---->
-      <tbody>
+        <div style="font-size: 12px;">Estado: 
+          <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'" [class.redClass]="item.EventoAN =='Desaprovado'">
+            {{item.EventoAN}}
+          </b>
+        </div>
+        <div style="font-size: 12px;">Lugar: <b>{{item.Lugar}}</b>
+        </div>
+        <div style="font-size: 12px;">Personas: <b>{{item.Personas}}</b>
+        </div>
+        <div style="font-size: 12px;">Fecha: <b>{{item.Fecha}}</b>
+        </div>
+        <div style="font-size: 12px;">Hora. : <b>{{item.Duracion}}</b>
+        </div>
 
-        <tr *ngFor="let item of collection.data">
-          <td>{{item.Nombre}}</td>
-          <td>{{item.EventoAN}}</td>
-          <td>{{item.Descripcion}}</td>
-          <td>{{item.Duracion}}</td>
-          <td>{{item.Fecha}}</td>
-          <td>{{item.Lugar}}</td>
-          <td>{{item.Personas}}</td>
-          <td><img alt="" src="{{item.Img}}" class="twPc-avatarImgList"></td>
-          <td>
+      </div>
+    </div>
 
-            <!--Botones para eliminar y editar el respectivo usuario-->
-            <button type="button" class="btn btn-primary" (click)="openEditar(content,item)" *ngIf="usersService.isAdmin">Editar</button>
-            <button type="button" class="btn btn-danger" (click)="deleteEvent(item)" *ngIf="usersService.isAdmin">Borrar</button>
-
-          </td>
-        </tr>
-
-      </tbody>
-
-    </table>
   </div>
-
-
-  <!---->
-
-  <ng-template #contentCreate let-modal>
-    <!---->
-
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Crear Evento</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <!---->
-    <div class="modal-body">
-
-      <!---->
-      <form>
-        <div class="form-group">
-
-          <!---->
-          <form [formGroup]="eventsForm">
-
-            <!---->
-            <div class="form-group">
-              <a class="twPc-avatarLink">
-                <img alt="" [src]="imgEdit" class="twPc-avatarImg rounded-circle">
-              </a>
-              <div class="twPc-avatarLinkEdit">
-                <label class="custom-file-upload">
-                  <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
-                  <input type="file" (change)="uploadFile($event)" />
-                </label>
-              </div>
-            </div>
-            <!---->
-            <div class="form-group">
-              <label>Nombre</label>
-              <input type="text" formControlName="Nombre" class="form-control">
-            </div>
-
-            <!---->
-            <div class="form-group">
-              <label>Evento Estado</label>
-              <select type="'text" formControlName="EventoAN" class="form-control" placeholder="Elija un estado">
-                <option *ngFor="let status of statusEvent" [ngValue]="status">{{status}}</option>
-              </select>
-            </div>
-
-            <!---->
-            <div formGroupName="Reserva">
-
-              <!---->
-              <div class="form-group">
-                <label>Duracion</label>
-                <select type="'text" formControlName="Duracion" class="form-control" placeholder="Elija una duracion">
-                  <option *ngFor="let duration of durationEvent" [ngValue]="duration">{{duration}}</option>
-                </select>
-              </div>
-
-              <!---->
-              <div class="form-group">
-                <label>Descripcion</label>
-                <input type="text" formControlName="Descripcion" class="form-control">
-              </div>
-
-              <!---->
-              <div class="form-group">
-                <label>Fecha</label>
-                <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
-                  min="{{fechaActual|date:'yyyy-MM-dd'}}">
-              </div>
-
-              <!---->
-              <div class="form-group">
-                <label>Lugar</label>
-                <select type="'text" formControlName="Lugar" class="form-control" placeholder="Elija una duracion">
-                  <option *ngFor="let place of placeEvent" [ngValue]="place">{{place}}</option>
-                </select>
-              </div>
-
-              <!---->
-              <div class="form-group">
-                <label>Personas</label>
-                <select type="'text" formControlName="Personas" class="form-control" placeholder="Elija una duracion">
-                  <option *ngFor="let people of peopleEvent" [ngValue]="people">{{people}}</option>
-                </select>
-              </div>
-
-            </div>
-
-            <!---->
-
-
-          </form>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="createEvent()">Guardar</button>
-    </div>
-  </ng-template>
-
-  <!---->
-
-  <!-- Formulario ng template para la edicion de datos-->
-  <ng-template #content let-modal>
-
-    <!-- Header del modal -->
-    <div class="modal-header">
-
-      <!-- Titulo del card -->
-      <h4 class="modal-title" id="modal-basic-title">Actualizar usuario</h4>
-
-      <!-- Boton de cerrado -->
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-
-    </div>
-
-    <!-- Cuerpo del formulario -->
-    <div class="modal-body">
-
-      <!-- formulario con las variables a cambiar -->
-      <form>
-        <div class="form-group">
-
-          <!-- Grupo formulario que establece variables a partir del component.ts-->
-          <form [formGroup]="eventFormEdit">
-
-            <!---->
-            <div class="form-group">
-              <a class="twPc-avatarLink">
-                <img alt="" src="{{imgEdit}}" class="twPc-avatarImg rounded-circle">
-              </a>
-              <div class="twPc-avatarLinkEdit">
-                <label class="custom-file-upload">
-                  <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
-                  <input type="file" (change)="uploadFile($event)" />
-                </label>
-              </div>
-            </div>
-            <!---->
-            <div class="form-group">
-              <label>Nombre</label>
-              <input type="text" formControlName="Nombre" class="form-control">
-            </div>
-
-            <!---->
-            <div class="form-group">
-              <label>Evento Estado</label>
-              <select type="'text" formControlName="EventoAN" class="form-control" placeholder="Elija un estado">
-                <option *ngFor="let status of statusEvent" [ngValue]="status">{{status}}</option>
-              </select>
-            </div>
-
-            <!---->
-            <div formGroupName="Reserva">
-
-              <!---->
-              <div class="form-group">
-                <label>Duracion</label>
-                <select type="'text" formControlName="Duracion" class="form-control" placeholder="Elija una duracion">
-                  <option *ngFor="let duration of durationEvent" [ngValue]="duration">{{duration}}</option>
-                </select>
-              </div>
-
-              <!---->
-              <div class="form-group">
-                <label>Descripcion</label>
-                <input type="text" formControlName="Descripcion" class="form-control">
-              </div>
-
-              <!---->
-              <div class="form-group">
-                <label>Fecha</label>
-                <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
-                  min="{{fechaActual|date:'yyyy-MM-dd'}}">
-              </div>
-
-              <!---->
-              <div class="form-group">
-                <label>Lugar</label>
-                <select type="'text" formControlName="Lugar" class="form-control" placeholder="Elija una duracion">
-                  <option *ngFor="let place of placeEvent" [ngValue]="place">{{place}}</option>
-                </select>
-              </div>
-
-              <!---->
-              <div class="form-group">
-                <label>Personas</label>
-                <select type="'text" formControlName="Personas" class="form-control" placeholder="Elija una duracion">
-                  <option *ngFor="let people of peopleEvent" [ngValue]="people">{{people}}</option>
-                </select>
-              </div>
-
-            </div>
-
-          </form>
-
-        </div>
-      </form>
-
-    </div>
-
-    <!-- Boton de actualizacion aparatir de los datos del formulario-->
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="updateEvent()">Actualizar</button>
-    </div>
-
-  </ng-template>
-
-  <!---->
+  <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+  (pageChange)="pageChanged($event)"></pagination-controls>
+  
 
 </div>

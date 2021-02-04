@@ -24,6 +24,11 @@ export class AliquotService {
     return this.angularFirestore.collection("aliquot").add(aliquots)
   }
 
+  // Metodo-funcion-servicio de creacion de respaldo de alicuotas
+  createAliquotBackupServices(aliquots: any) {
+    return this.angularFirestore.collection("aliquotBackup").add(aliquots)
+  }
+
   // Metodo-funcion-servicio de eliminacion de eventos por id
   deleteAliquotServices(idAliquot: any) {
     return this.angularFirestore.collection("aliquot").doc(idAliquot).delete();

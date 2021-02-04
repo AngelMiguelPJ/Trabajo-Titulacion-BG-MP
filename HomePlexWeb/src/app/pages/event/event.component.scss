@@ -1,38 +1,100 @@
-.twPc-avatarLink {
-    vertical-align: bottom;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.grid-container {
+  display: grid;
+  grid-template-columns: 10rem 15rem auto ;
+  grid-gap: 1px;
+  background-color: none;
+  padding: 10px;
 }
 
-.twPc-avatarImg {
-    border-radius: 7px;
-    box-sizing: border-box;
-    color: #fff;
-    height: 7rem;
-    width: 7rem;
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-size: 30px;
 }
 
-.twPc-avatarImgList {
-    border-radius: 7px;
-    box-sizing: border-box;
-    color: #fff;
-    height: 5rem;
-    width: 5rem;
+.grid-container .item1 {
+
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-position: bottom center;
+  background-size: cover;
 }
 
-.twPc-avatarLinkEdit{
-    border-radius: 6px;
-    margin-top: -10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.grid-container .item3 {
+  text-align: center;
+  padding: 5px;
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto auto auto;
 }
-input[type="file"] {
-    display: none;
+
+.grid-container .item2 {
+  text-align: center;
+  display: grid;
+  grid-template-rows: auto auto;
+  vertical-align: center;
+  padding: 5px;
+ 
 }
-.custom-file-upload {
-    display: inline-block;
-    padding: 0px 0px;
-    cursor: pointer;
+
+@media (max-width: 1060px) {
+  .grid-container{
+    display: block;
+  }
+  .grid-container .item1 {
+    padding: 10%;
+    display: grid;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 0px;
+    background-position: bottom center;
+    background-size: cover;
+  }
 }
+
+@media (max-width: 480px) {
+  .grid-container .item1 {
+    padding: 10%;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  .grid-container .item3 {
+    
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto;
+    
+  }
+}
+
+.greenClass{
+  color: green;
+}
+
+.orangeClass{
+  color:orange
+}
+
+.redClass{
+  color: red;
+}
+
+
+
+.item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #3a3b45;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+  }

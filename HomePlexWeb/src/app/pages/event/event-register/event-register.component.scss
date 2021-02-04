@@ -1,0 +1,38 @@
+.twPc-avatarLink {
+    vertical-align: bottom;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.twPc-avatarImg {
+    border-radius: 7px;
+    box-sizing: border-box;
+    color: #fff;
+    height: 7rem;
+    width: 7rem;
+}
+
+.twPc-avatarImgList {
+    border-radius: 7px;
+    box-sizing: border-box;
+    color: #fff;
+    height: 5rem;
+    width: 5rem;
+}
+
+.twPc-avatarLinkEdit{
+    border-radius: 6px;
+    margin-top: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 0px 0px;
+    cursor: pointer;
+}

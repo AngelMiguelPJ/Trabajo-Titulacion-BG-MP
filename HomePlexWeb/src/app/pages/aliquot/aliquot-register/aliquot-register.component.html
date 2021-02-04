@@ -1,0 +1,188 @@
+<!-- Contenedor principal del login -->
+<div class="content" role="main">
+
+    <h2 style="text-align: center;">Alicuotas</h2>
+  
+    <!--====================================================================================-->
+  <div style="text-align: center; margin-bottom: 10px;">
+    <button type="button" class="btn btn-success" (click)="open(contentCreate)" *ngIf="usersService.isAdmin">Agregar
+      alicuota</button>
+  </div>
+    <!--====================================================================================-->
+  
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th>Nombre</th>
+            <th>Valor cuota</th>
+            <th>Valor extra</th>
+            <th>Fecha</th>
+            <th>Fecha de vencimiento</th>
+            <th>Estado</th>
+            <th>Descripcion</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of collectionAliquots.data | paginate: config">
+            <td>{{item.DatosVecinoNombre}}</td>
+            <td>{{item.ValorCuota}}</td>
+            <td>{{item.ValorExtra}}</td>
+            <td>{{item.Fecha}}</td>
+            <td>{{item.FechaVencimiento}}</td>
+            <td>{{item.EstadoCuota}}</td>
+            <td>{{item.Descripcion}}</td>
+            <td>
+              <button type="button" class="btn btn-primary" (click)="openEditar(contentEdit,item)" *ngIf="usersService.isAdmin">Editar</button>
+
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls previousLabel="Anterior" nextLabel="siguiente" (pageChange)="pageChanged($event)"></pagination-controls>
+
+    </div>
+  
+  
+    <!--====================================================================================-->
+  
+    <ng-template #contentCreate let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Alicuota Crear-Actualizar</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <form [formGroup]="aliquotFormCreate">
+  
+              <div class="form-group">
+                <label>Nombre</label>
+                <select type="'text" formControlName="DatosVecino" class="form-control" placeholder="Elija un estado">
+                  <option *ngFor="let users of collectionUsers.data" [ngValue]="users">{{users.Nombre}}</option>
+                </select>
+              </div>
+  
+              <div class="form-group">
+                <label>Valor cuota</label>
+                <input type="number" maxlength="2"
+                  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  formControlName="ValorCuota" class="form-control">
+              </div>
+  
+              <div class="form-group">
+                <label>Valor extra</label>
+                <input type="number" maxlength="4"
+                  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  formControlName="ValorExtra" class="form-control">
+              </div>
+  
+              <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
+                  min="{{fechaActual|date:'yyyy-MM-dd'}}" #FechaForm (input)="cambio(FechaForm.value)">
+              </div>
+  
+              <div class="form-group">
+                <label>Fecha vencimiento</label>
+                <input type="date" formControlName="FechaVencimiento" class="form-control" (disabled)="!fechaVencimiento"
+                  min="{{fechaVencimiento|date:'yyyy-MM-dd'}}">
+              </div>
+  
+              <div class="form-group">
+                <label>Estado</label>
+                <select type="'text" formControlName="EstadoCuota" class="form-control" placeholder="Elija un estado">
+                  <option *ngFor="let estado of estadoCuotaList" [ngValue]="estado">{{estado}}</option>
+                </select>
+              </div>
+  
+              <div class="form-group">
+                <label>Descripcion</label>
+                <input type="text" formControlName="Descripcion" class="form-control" maxlength='100'>
+              </div>
+  
+            </form>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="createAliquot()" *ngIf="!actualizar">Guardar</button>
+      </div>
+    </ng-template>
+  
+    <!--====================================================================================-->
+  
+    <ng-template #contentEdit let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Alicuota Actualizar</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <form [formGroup]="aliquotFormEdit">
+  
+              <!---->
+              <div formGroupName="DatosVecino">
+                <div class="form-group">
+                  <label>Nombre</label>
+                  
+                  <input type="text" formControlName="Nombre" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Valor cuota</label>
+                <input type="number" maxlength="2"
+                  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  formControlName="ValorCuota" class="form-control">
+              </div>
+  
+              <div class="form-group">
+                <label>Valor extra</label>
+                <input type="text" maxlength="4"
+                  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  formControlName="ValorExtra" class="form-control">
+              </div>
+  
+              <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
+                  min="{{fechaActual|date:'yyyy-MM-dd'}}" #FechaForm (input)="cambio(FechaForm.value)">
+              </div>
+  
+              <div class="form-group">
+                <label>Fecha vencimiento</label>
+                <input type="date" formControlName="FechaVencimiento" class="form-control" (disabled)="!fechaVencimiento"
+                  min="{{fechaVencimiento|date:'yyyy-MM-dd'}}">
+              </div>
+  
+              <div class="form-group">
+                <label>Estado</label>
+                <select type="'text" formControlName="EstadoCuota" class="form-control" placeholder="Elija un estado">
+                  <option *ngFor="let estado of estadoCuotaList" [ngValue]="estado">{{estado}}</option>
+                </select>
+              </div>
+  
+              <div class="form-group">
+                <label>Descripcion</label>
+                <input type="text" formControlName="Descripcion" class="form-control" maxlength="100">
+              </div>
+  
+            </form>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="updateAliquot()">Guardar</button>
+      </div>
+    </ng-template>
+  
+    <!--====================================================================================-->
+  
+  </div>

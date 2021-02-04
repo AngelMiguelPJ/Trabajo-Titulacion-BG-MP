@@ -24,6 +24,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 import 'firebase/storage';
+import { AliquotRegisterComponent } from './pages/aliquot/aliquot-register/aliquot-register.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { EventRegisterComponent } from './pages/event/event-register/event-register.component';
 
 
 @NgModule({
@@ -37,7 +40,10 @@ import 'firebase/storage';
     BookingComponent,
     ProfileComponent,
     RegisterComponent,
-    NavbarComponent
+    NavbarComponent,
+    AliquotRegisterComponent,
+    EventRegisterComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -47,6 +53,7 @@ import 'firebase/storage';
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxPaginationModule,
 
   ],
   providers: [FormBuilder, {provide: BUCKET, useValue: 'appchatfirebaseai.appspot.com'}],

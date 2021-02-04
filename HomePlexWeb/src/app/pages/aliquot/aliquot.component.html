@@ -1,101 +1,51 @@
 <!-- Contenedor principal del login -->
 <div class="content" role="main">
-    <h2>Alicuotas</h2>
-  <button type="button" class="btn btn-success" (click)="open(contentCreate)" *ngIf="usersService.isAdmin">Agregar cuota</button>
-  <div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Valor cuota</th>
-                <th>Valor extra</th>
-                <th>Fecha</th>
-                <th>Fecha de vencimiento</th>
-                <th>Estado</th>
-                <th>Descripcion</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of collectionAliquots.data">
-                <td>{{item.DatosVecino}}</td>
-                <td>{{item.ValorCuota}}</td>
-                <td>{{item.ValorExtra}}</td>
-                <td>{{item.Fecha}}</td>
-                <td>{{item.FechaVencimiento}}</td>
-                <td>{{item.EstadoCuota}}</td>
-                <td>{{item.Descripcion}}</td>
-            </tr>
-        </tbody>
-    </table>
-  </div>
-  
-  
+  <h2 style="text-align: center;">Mis alicuotas</h2>
 
+  <!--====================================================================================-->
 
-  <ng-template #contentCreate let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Alicuota Crear-Actualizar</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="form-group">
-          <form [formGroup]="aliquotFormCreate">
-            
-            <div class="form-group">
-              <label>Nombre</label>
-              <select type="'text" formControlName="DatosVecino" class="form-control" placeholder="Elija un estado">
-                <option *ngFor="let users of collectionUsers.data" [ngValue]="users">{{users.Nombre}}</option>
-              </select>              
-            </div>
+  <a class="item" routerLink="/alicuotas/registrar" *ngIf="usersService.isAdmin || usersService.isAccountant">
+    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
+    Registrar Alicuotas
+  </a>
 
-            <div class="form-group">
-              <label>Valor cuota</label>
-              <input type="number" maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" formControlName="ValorCuota" class="form-control">
-            </div>
+  <!--====================================================================================-->
 
-            <div class="form-group">
-              <label>Valor extra</label>
-              <input type="text" maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" formControlName="ValorExtra" class="form-control">
-            </div>
-
-            <div class="form-group">
-              <label>Fecha</label>
-              <input type="date" formControlName="Fecha" class="form-control" 
-              (disabled)="!fechaActual"
-              min="{{fechaActual|date:'yyyy-MM-dd'}}"
-              #FechaForm
-              (input) = "cambio(FechaForm.value)"
-              >
-            </div>
-
-            <div class="form-group">
-              <label>Fecha vencimiento</label>
-              <input type="date" formControlName="FechaVencimiento" class="form-control" 
-              (disabled)="!fechaVencimiento"
-              min="{{fechaVencimiento|date:'yyyy-MM-dd'}}">            </div>
-
-            <div class="form-group">
-              <label>Estado</label>
-              <select type="'text" formControlName="EstadoCuota" class="form-control" placeholder="Elija un estado">
-                <option *ngFor="let estado of estadoCuotaList" [ngValue]="estado">{{estado}}</option>
-              </select>            
-            </div>
-
-            <div class="form-group">
-              <label>Descripcion</label>
-              <input type="text" formControlName="Descripcion" class="form-control">
-            </div>
-            
-          </form>
+  <div *ngFor="let item of collectionAliquots.data | paginate: config">
+    <div class="grid-container responsive" *ngIf="item.IdUser === idUserCurrent">
+      <div class="item1"></div>
+      <div class="item2">
+        <div>
+          <h5>{{item.DatosVecinoNombre}}</h5>
         </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="createAliquot()" *ngIf="!actualizar">Guardar</button>
-    </div>
-  </ng-template>
-</div>
 
+        <div>
+          <p style="font-size: 12px;">{{item.Descripcion}} </p>
+        </div>
+      </div>
+      <div class="item3">
+
+        <div style="font-size: 12px;">Valor: <b>{{item.ValorCuota}}</b></div>
+        <div style="font-size: 12px;">Valor extra: <b>{{item.ValorExtra}}</b></div>
+
+
+
+        <div style="font-size: 12px;">Estado:
+          <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'" [class.redClass]="item.EstadoCuota =='No pagada'">
+            {{item.EstadoCuota}}
+          </b>
+        </div>
+        <div style="font-size: 12px;">Fecha: <b>{{item.Fecha}}</b></div>
+        <div style="font-size: 12px;">Fecha Venc. : <b>{{item.FechaVencimiento}}</b></div>
+
+
+
+
+      </div>
+    </div>
+
+  </div>
+  <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+    (pageChange)="pageChanged($event)"></pagination-controls>
+
+</div>

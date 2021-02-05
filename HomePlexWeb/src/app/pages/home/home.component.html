@@ -1,4 +1,49 @@
 <!-- Contenedor principal del login -->
 <div class="content" role="main">
-<h1>home</h1>
+
+  <!--=======================================================================-->
+
+  <ngb-carousel [showNavigationArrows]="showNavigationArrows" [showNavigationIndicators]="showNavigationIndicators">
+    <ng-template ngbSlide *ngFor="let item of collection.data ">
+      <a routerLink="/eventos">
+      <div class="grid-container2 responsive">
+        <div class="item12" style="background-image: url({{item.Img}});"></div>
+        <div class="item22">
+          <div>
+            <h5>{{item.Nombre}}</h5>
+          </div>
+
+          <div>
+            <p style="font-size: 12px;">{{item.Descripcion}} </p>
+          </div>
+          <div style="font-size: 12px;">Estado:
+            <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'"
+              [class.redClass]="item.EventoAN =='Desaprovado'">
+              {{item.EventoAN}}
+            </b>
+          </div>
+          <div style="font-size: 12px;">Lugar: <b>{{item.Lugar}}</b>
+          </div>
+          
+        </div>
+      </div>
+    </a>
+    </ng-template>
+  </ngb-carousel>
+
+
+  <!--=======================================================================-->
+
+
+
+  <!--=======================================================================-->
+
+
+
+  <!--=======================================================================-->
+
+
+
+  <!--=======================================================================-->
+
 </div>

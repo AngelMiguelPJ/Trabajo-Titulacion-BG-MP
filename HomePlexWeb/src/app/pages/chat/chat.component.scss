@@ -12,13 +12,14 @@ img {
 	float: left;
 	overflow: hidden;
 	width: 40%;
-	border-right: 1px solid #c4c4c4;
+	
 }
 
 .inbox_msg {
 	border: 1px solid #c4c4c4;
 	clear: both;
 	overflow: hidden;
+	border-radius: 20px;
 }
 
 .top_spac {
@@ -37,15 +38,18 @@ img {
 }
 
 .headind_srch {
-	padding: 10px 29px 10px 20px;
+	padding: 10px 20px 10px 20px;
 	overflow: hidden;
-	border-bottom: 1px solid #c4c4c4;
+	border-bottom: none;
+	background-color: #4e73df;
 }
 
 .channel_heading h4 {
-	color: #05728f;
+	color: white;
 	font-size: 21px;
 	margin: auto;
+	
+	
 }
 
 .srch_bar input {
@@ -91,7 +95,7 @@ img {
 }
 
 .chat_ib {
-	float: left;
+	float: right;
 	padding: 0 0 0 15px;
 	width: 88%;
 }
@@ -102,14 +106,15 @@ img {
 }
 
 .chat_list {
-	border-bottom: 1px solid #c4c4c4;
+	border-bottom: none;
 	margin: 0;
 	padding: 18px 16px 10px;
+	border: none;
 }
 
 .inbox_chat {
-	height: 550px;
-	overflow-y: scroll;
+	height: 564px;
+	overflow-y: auto;
 }
 
 .active_chat {
@@ -151,17 +156,15 @@ img {
 
 .mesgs {
 	float: left;
-	padding: 30px 15px 0 25px;
 	width: 60%;
 }
 
 .sent_msg p {
 	background: #05728f none repeat scroll 0 0;
-	border-radius: 3px;
 	font-size: 14px;
 	margin: 0;
 	color: #fff;
-	padding: 5px 10px 5px 12px;
+	padding: 5px 10px 5px 10px;
 	width: 100%;
 }
 
@@ -177,39 +180,44 @@ img {
 
 .input_msg_write input {
 	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-	border: medium none;
+	display: block;
 	color: #4c4c4c;
 	font-size: 15px;
-	min-height: 48px;
-	width: 100%;
+	min-height: 50px;
+	width: 20px;
+	
 }
 
 .type_msg {
-	border-top: 1px solid #c4c4c4;
+	
 	position: relative;
+	padding: 5px;
+	background-color: whitesmoke;
+	border: none;
 }
 
 .msg_send_btn {
-	background: #05728f none repeat scroll 0 0;
-	border: medium none;
-	border-radius: 50%;
-	color: #fff;
+	background: #4e73df none repeat scroll 0 0;
+	border:  none;
+	border-radius: 10px;
+	color: rgb(255, 255, 255);
 	cursor: pointer;
 	font-size: 17px;
-	height: 33px;
-	position: absolute;
-	right: 0;
-	top: 11px;
-	width: 33px;
+	height: 38px;
+	position: static;
+	right: 0px;
+	
+	width: 38px;
 }
 
 .messaging {
-	padding: 10px 0 10px 0;
+	padding: 0px 0 10px 0;
 }
 
 .msg_history {
 	height: 516px;
 	overflow-y: auto;
+	background-image: url(https://pbs.twimg.com/media/DN0Gf06W4AEe_Yv.jpg);
 }
 
 .message {
@@ -220,4 +228,29 @@ img {
 .img-profile {
   height: 2rem;
   width: 2rem;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: auto auto ;
+	background-color: none;
+	
+  }
+.form-control{
+	border:none;
+}
+
+.list-group-item:last-child {
+   
+    padding: 0px 10px;
+	border-radius: 10px;
+}
+
+#chatOtro{
+	border-top-left-radius: 0px;
+}
+
+#chatMio{
+	border-top-right-radius: 0px;
+	background-color: #dcf8c6;
 }

@@ -28,7 +28,6 @@ import { AliquotRegisterComponent } from './pages/aliquot/aliquot-register/aliqu
 import { NgxPaginationModule } from 'ngx-pagination';
 import { EventRegisterComponent } from './pages/event/event-register/event-register.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +53,7 @@ import { EventRegisterComponent } from './pages/event/event-register/event-regis
     ReactiveFormsModule,
     FormsModule,
     NgxPaginationModule,
+ 
 
   ],
   providers: [FormBuilder, {provide: BUCKET, useValue: 'appchatfirebaseai.appspot.com'}],

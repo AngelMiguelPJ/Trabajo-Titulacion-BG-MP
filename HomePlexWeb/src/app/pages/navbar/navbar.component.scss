@@ -4007,7 +4007,7 @@ input[type="button"].btn-block {
 
 .nav-link {
   display: block;
-  padding: 0.5rem 1rem;
+  padding: 0rem 0rem;
 }
 
 .nav-link:hover, .nav-link:focus {
@@ -9829,8 +9829,8 @@ a:focus {
 .animated--grow-in, .sidebar .nav-item .collapse {
   -webkit-animation-name: growIn;
   animation-name: growIn;
-  -webkit-animation-duration: 200ms;
-  animation-duration: 200ms;
+  -webkit-animation-duration: 10ms;
+  animation-duration: 10ms;
   -webkit-animation-timing-function: transform cubic-bezier(0.18, 1.25, 0.4, 1), opacity cubic-bezier(0, 1, 0.4, 1);
   animation-timing-function: transform cubic-bezier(0.18, 1.25, 0.4, 1), opacity cubic-bezier(0, 1, 0.4, 1);
 }
@@ -9856,8 +9856,8 @@ a:focus {
 .animated--fade-in {
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
-  -webkit-animation-duration: 200ms;
-  animation-duration: 200ms;
+  -webkit-animation-duration: 10ms;
+  animation-duration: 10ms;
   -webkit-animation-timing-function: opacity cubic-bezier(0, 1, 0.4, 1);
   animation-timing-function: opacity cubic-bezier(0, 1, 0.4, 1);
 }
@@ -10499,7 +10499,7 @@ a:focus {
     width: 100%;
     text-align: left;
     padding: 1rem;
-    width: 14rem;
+    width: 10rem;
   }
   .sidebar .nav-item .nav-link i {
     font-size: 0.85rem;
@@ -10542,8 +10542,8 @@ a:focus {
     top: 2px;
     -webkit-animation-name: growIn;
     animation-name: growIn;
-    -webkit-animation-duration: 200ms;
-    animation-duration: 200ms;
+    -webkit-animation-duration: 10ms;
+    animation-duration: 10ms;
     -webkit-animation-timing-function: transform cubic-bezier(0.18, 1.25, 0.4, 1), opacity cubic-bezier(0, 1, 0.4, 1);
     animation-timing-function: transform cubic-bezier(0.18, 1.25, 0.4, 1), opacity cubic-bezier(0, 1, 0.4, 1);
   }
@@ -11241,4 +11241,11 @@ footer.sticky-footer .copyright {
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
+}
+
+
+@media (max-width: 370px) {
+  #mail{
+    display: none;
+  }
 }

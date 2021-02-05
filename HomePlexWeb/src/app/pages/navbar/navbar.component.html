@@ -14,41 +14,43 @@
 
           <!-- Home -->
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" routerLink='/home'>
+            <a class="nav-link" aria-current="page" routerLink='/home' data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
               HomePlex
             </a>
           </li>
 
           <!-- Eventos -->
           <li class="nav-item">
-            <a class="nav-link" routerLink="/eventos">
+            <a class="nav-link" routerLink="/eventos" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
               Eventos
             </a>
           </li>
 
           <!-- Chat -->
           <li class="nav-item">
-            <a class="nav-link" routerLink="/chat">
+            <a class="nav-link" routerLink="/chat" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
               Chat
             </a>
           </li>
 
           <!-- Alicuotas -->
           <li class="nav-item">
-            <a class="nav-link" routerLink="/alicuotas">
+            <a class="nav-link" routerLink="/alicuotas"  data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+            >
               Alicuotas
             </a>
           </li>
 
           <!-- Reservas -->
           <li class="nav-item">
-            <a class="nav-link" routerLink="/reservas">
+            <a class="nav-link" routerLink="/reservas" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
               Reservas
             </a>
           </li>
         </ul>
 
       </div>
+      
 
     </nav>
     <!-- Fin de Sidebar lateral-->
@@ -111,62 +113,6 @@
               </div>
             </li>
             
-            <!-- Nav Item - Alerts 
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <span class="badge badge-danger badge-counter">1</span>
-              </a>
-
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                  Notificaciones
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
-
-                <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar todas</a>
-              </div>
-            </li>
-  -->
-            <!-- Nav Item - Messages 
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Mensajes
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                      told me that people say this to all dogs, even if they aren't good...</div>
-                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar todos</a>
-              </div>
-            </li>
-          -->
             
             <!-- Divisor de contenido-->
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -175,9 +121,9 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                <span class="mr-2  d-lg-inline text-gray-600 small"
                   style="text-transform: capitalize;">{{nameUserInfor}},</span>
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{emailUserInfor}}</span>
+                <span class="mr-2  d-lg-inline text-gray-600 small" id="mail">{{emailUserInfor}}</span>
                 <img class="img-profile rounded-circle" src="{{imgUserInfor}}">
               </a>
 

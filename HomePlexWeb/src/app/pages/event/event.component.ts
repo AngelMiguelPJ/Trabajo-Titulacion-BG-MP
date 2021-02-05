@@ -7,7 +7,7 @@ import { EventsService } from '../../services/events/events.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 
 //importaciones extras
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { isNullOrUndefined } from 'util';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -30,6 +30,8 @@ export class EventComponent implements OnInit {
 
   // arreglo de collecion de eventos
   collection = { count: 0, data: [] }
+
+
 
   // iniciar servicios
   constructor(private storage: AngularFireStorage, private ngbModal: NgbModal,

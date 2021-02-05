@@ -4,10 +4,10 @@
 
   <!--====================================================================================-->
 
-    <a class="item" routerLink="/eventos/registrar" *ngIf="usersService.isAdmin">
-      <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
-      Registrar Eventos
-    </a>
+  <a class="item" routerLink="/eventos/registrar" *ngIf="usersService.isAdmin">
+    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
+    Registrar Eventos
+  </a>
 
   <!---->
 
@@ -27,8 +27,9 @@
       </div>
       <div class="item3">
 
-        <div style="font-size: 12px;">Estado: 
-          <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'" [class.redClass]="item.EventoAN =='Desaprovado'">
+        <div style="font-size: 12px;">Estado:
+          <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'"
+            [class.redClass]="item.EventoAN =='Desaprovado'">
             {{item.EventoAN}}
           </b>
         </div>
@@ -46,7 +47,8 @@
 
   </div>
   <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
-  (pageChange)="pageChanged($event)"></pagination-controls>
+    (pageChange)="pageChanged($event)"></pagination-controls>
+
   
 
 </div>

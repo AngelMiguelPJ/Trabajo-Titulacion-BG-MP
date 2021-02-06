@@ -3,34 +3,56 @@
 
   <!--=======================================================================-->
 
+  <!--Carrousel ngb-->
   <ngb-carousel [showNavigationArrows]="showNavigationArrows" [showNavigationIndicators]="showNavigationIndicators">
+
+    <!--Template ng con mapeo de datos-->
     <ng-template ngbSlide *ngFor="let item of collection.data ">
+
+      <!--Todo el carousel enlazado a eventos-->
       <a routerLink="/eventos">
-      <div class="grid-container2 responsive">
-        <div class="item12" style="background-image: url({{item.Img}});"></div>
-        <div class="item22">
-          <div>
-            <h5>{{item.Nombre}}</h5>
+
+        <!--Grid de eventos-->
+        <div class="grid-container2 responsive">
+
+          <!--Imagen del evento primer div en el grid-->
+          <div class="item12" style="background-image: url({{item.Img}});"></div>
+
+          <!--segundo div del grid-->
+          <div class="item22">
+
+            <!--Nombre del evento-->
+            <div>
+              <h5>{{item.Nombre}}</h5>
+            </div>
+
+            <!--Descripcion del evento-->
+            <div>
+              <p style="font-size: 12px;">{{item.Descripcion}} </p>
+            </div>
+
+            <!--Estado del evento-->
+            <div style="font-size: 12px;">Estado:
+              <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'"
+                [class.redClass]="item.EventoAN =='Desaprovado'">
+                {{item.EventoAN}}
+              </b>
+            </div>
+
+            <!--Lugar del evento-->
+            <div style="font-size: 12px;">
+              Lugar: <b>{{item.Lugar}}</b>
+            </div>
+
           </div>
 
-          <div>
-            <p style="font-size: 12px;">{{item.Descripcion}} </p>
-          </div>
-          <div style="font-size: 12px;">Estado:
-            <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'"
-              [class.redClass]="item.EventoAN =='Desaprovado'">
-              {{item.EventoAN}}
-            </b>
-          </div>
-          <div style="font-size: 12px;">Lugar: <b>{{item.Lugar}}</b>
-          </div>
-          
         </div>
-      </div>
-    </a>
-    </ng-template>
-  </ngb-carousel>
 
+      </a>
+
+    </ng-template>
+
+  </ngb-carousel>
 
   <!--=======================================================================-->
 

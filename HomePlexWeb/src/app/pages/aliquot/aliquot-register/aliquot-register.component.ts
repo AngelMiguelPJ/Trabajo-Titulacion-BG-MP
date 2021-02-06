@@ -12,8 +12,10 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./aliquot-register.component.scss']
 })
 export class AliquotRegisterComponent implements OnInit {
-  //
+
+  // variable de configuracion para la paginacion
   config: any;
+
   // coleccion de usuarios
   collectionUsers = { count: 0, data: [] }
 
@@ -52,21 +54,16 @@ export class AliquotRegisterComponent implements OnInit {
     public formBuilder: FormBuilder,) { }
 
   ngOnInit(): void {
-    //-----------------------------------------------------------------
 
     // seteo de la fecha actual
-
     this.fechaActual = Date.now();
 
+    // seteo de las variables de configuracion de la paginacion
     this.config = {
       itemsPerPage: 4,
       currentPage: 1,
       totalItems: this.collectionAliquots.data.length,
-      
     };
-
-
-    //-----------------------------------------------------------------
 
     //cargando todos los usuarios de firebase-firestore
     this.usersService.getUsersServices().subscribe(resp => {
@@ -84,14 +81,11 @@ export class AliquotRegisterComponent implements OnInit {
         }
       })
       //console.log(this.collectionUsers.data)
-
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
     }
     );
-
-    //-----------------------------------------------------------------
 
     //cargando todos los usuarios de firebase-firestore
     this.aliquotService.getAliquotServices().subscribe(resp => {
@@ -113,17 +107,14 @@ export class AliquotRegisterComponent implements OnInit {
           Descripcion: e.payload.doc.data().Descripcion,
           IdAliquot: e.payload.doc.data().IdAliquot
         }
-
       })
       console.log(this.collectionAliquots.data)
-
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
     }
     );
 
-    //-----------------------------------------------------------------
     // aleatorio para la alicuota
     const idAliquotRandom = Math.random().toString(36).substring(2);
     //iniciar formulario para la creacion de alicuotas
@@ -138,8 +129,7 @@ export class AliquotRegisterComponent implements OnInit {
       Descripcion: ''
     })
 
-    //-----------------------------------------------------------------
-
+    // formulario para la edicion de alicuotas
     this.aliquotFormEdit = this.formBuilder.group({
       DatosVecino: this.formBuilder.group({
         Nombre: ''
@@ -154,22 +144,34 @@ export class AliquotRegisterComponent implements OnInit {
 
   }
 
-  //---------------------------------------------------
+  // metodo de paginacion
   pageChanged(event) {
+
+    // seteo de la configuracion del cambio de pagina
     this.config.currentPage = event;
+
   }
+
+  // funcion - metodo para la creacion de las alicuotas
   createAliquot() {
+
+    // llamado al servicio de creacion de alicuotas
     this.aliquotService.createAliquotServices(this.aliquotFormCreate.value).then(resp => {
+
+      // llaamado al servicio de creacion de copia de seguridad de alicuotas
       this.aliquotService.createAliquotBackupServices(this.aliquotFormCreate.value)
       this.ngbModal.dismissAll();
-    }).catch(error => {
 
+    }).catch(error => {
       console.error(error)
     })
+
   }
-  //------------------------------------------------
+  
+  // apertura del modal para la creacion de alicuotas
   open(content) {
 
+    // apertura del modal
     this.ngbModal.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       //this.aliquotFormCreate.reset();
@@ -177,17 +179,18 @@ export class AliquotRegisterComponent implements OnInit {
       //this.aliquotFormCreate.reset();
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+
   }
 
-  //---------------------------------------------------
+  // metodo de descartamiento de ngmodl y form
   private getDismissReason(reason: any): string {
+
+    // metodo de descarte por boton esc, dar click en otra parte o en la x del formulario
     if (reason === ModalDismissReasons.ESC) {
       this.aliquotFormCreate.reset();
-
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       this.aliquotFormCreate.reset();
-
       return 'by clicking on a backdrop';
     } else {
       this.aliquotFormCreate.reset();
@@ -195,14 +198,16 @@ export class AliquotRegisterComponent implements OnInit {
     }
   }
 
-  //---------------------------------------------------
-
+  // Funcion - metodo para setear la fecha de vencimiento 1 mes despues o mas 
+  // de acuerdo a la fecha designada primera
   cambio(fechaEnviada) {
+
     //console.log(fecha)
     this.fechaSelect = Date.parse(fechaEnviada)
     //console.log(this.FechaFecha)
     var mesDespues = 30 * 24 * 60 * 60 * 1000
     this.fechaVencimiento = this.fechaSelect + mesDespues;
+
   }
 
   //---------------------------------------------------
@@ -211,7 +216,6 @@ export class AliquotRegisterComponent implements OnInit {
   openEditar(content, item: any) {
 
     //llenar form para editar con los datos seteados a partir del formulario
-
     this.aliquotFormEdit.setValue({
       DatosVecino: ({
         Nombre: item.DatosVecinoNombre
@@ -224,11 +228,9 @@ export class AliquotRegisterComponent implements OnInit {
       Descripcion: item.Descripcion
     })
 
+    // seteo de que no sea editable la variable de nombre en la alicuota
     this.aliquotFormEdit.controls['DatosVecino'].disable()
 
-
-    //console.log(this.eventFormEdit.value)
-    //console.log(this.eventBookingFormEdit.value)
     // igualancion del uid del usuario actual a la variable id firebase
     this.IdAliquotUpdate = item.id;
 
@@ -246,11 +248,19 @@ export class AliquotRegisterComponent implements OnInit {
 
   }
 
+  // funcio - metodo para la actualizacion de un alicuota
   updateAliquot() {
+
+    // condicionamiento para que el id de la alicuota no se nulla ni indefinida
     if (this.IdAliquotUpdate !== null || this.IdAliquotUpdate !== undefined) {
+
+      // llamado al servicio de actualizacion de alicuotas
       this.aliquotService.updateAliquotServices(this.IdAliquotUpdate, this.aliquotFormEdit.value).then(resp => {
+        
+        // llamado a las funciones de reseteo y cerrado de ngforms
         this.aliquotFormEdit.reset();
         this.ngbModal.dismissAll();
+        
       }).catch(error => {
         console.error(error);
       });

@@ -1,8 +1,10 @@
-// librerias importadas o modulos para uso de respectivas funciones
+// librerias, servicios de uso
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { UsersService, UsersExport } from 'src/app/services/users/users.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+// servicio de usuarios
+import { UsersService} from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-register',
@@ -36,7 +38,7 @@ export class RegisterComponent implements OnInit {
 
   // constructor que inicia lso servicios o funciones
   constructor(private usersService: UsersService, private modalService: NgbModal,
-              public fb: FormBuilder) {}
+    public fb: FormBuilder) { }
 
 
   ngOnInit(): void {
@@ -50,7 +52,7 @@ export class RegisterComponent implements OnInit {
       Name: ['', Validators.required],
       Email: ['', Validators.required],
       Password: ['', Validators.required],
-      TipoUsuario:['', Validators.required]
+      TipoUsuario: ['', Validators.required]
     });
 
     //inicializando formulario para editar los datos los usuarios
@@ -61,7 +63,7 @@ export class RegisterComponent implements OnInit {
 
     //cargando todos los usuarios de firebase-firestore
     this.usersService.getUsersServices().subscribe(resp => {
-      
+
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collection.data = resp.map((e: any) => {
 
@@ -78,10 +80,10 @@ export class RegisterComponent implements OnInit {
 
       })
 
-    },error => {
+    }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
-      }
+    }
     );
 
   }
@@ -99,18 +101,18 @@ export class RegisterComponent implements OnInit {
 
     // llamado al servicio de registro de usuarios seteando dichas variables por medio del formulario
     this.usersService.registerUsersService(Email, Password, Name, TipoUsuario).then(resp => {
-      
+
       // funciones de reseteo del formulario y cerrar modal al igual que el formulario
       this.usersFormCreate.reset();
       this.modalService.dismissAll();
-    
+
     }).catch(error => {
 
       // comprobacion de errores  y reseteo del formulario create en caso de error
       console.error(error)
       this.usersFormCreate.reset();
 
-      })
+    })
   }
 
   // funcion para abri el ng model y cambiar los datos
@@ -118,23 +120,23 @@ export class RegisterComponent implements OnInit {
 
     //llenar form para editar con los datos seteados a partir del formulario
     this.usersFormEdit.setValue({
-     TipoUsuario: item.TipoUsuario,
+      TipoUsuario: item.TipoUsuario,
     });
 
     // igualancion del uid del usuario actual a la variable id firebase
     this.idFirabaseActualizar = item.idFirebase;
-    
+
     // cambiar el estado de la variable booleana a true
     this.actualizar = true;
 
     // Apertura del modal para el formulario
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
-    .result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;    
+      .result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       }
-    );
+      );
 
   }
 
@@ -173,7 +175,7 @@ export class RegisterComponent implements OnInit {
 
       // llamado al servicio de actualizacion de usuarios setenado el uid y los valores del usuario actual
       this.usersService.updateUsersServices(this.idFirabaseActualizar, this.usersFormEdit.value).then(resp => {
-        
+
         // funciones de reseteo del formulario y cerrar modal al igual que el formulario
         this.usersFormEdit.reset();
         this.modalService.dismissAll();
@@ -181,9 +183,9 @@ export class RegisterComponent implements OnInit {
       }).catch(error => {
         // comprobacion de errores 
         console.error(error);
-        });
+      });
     }
-    
+
   }
 
 }

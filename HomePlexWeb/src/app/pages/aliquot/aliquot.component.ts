@@ -14,7 +14,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AliquotComponent implements OnInit {
 
-  //
+  // variable de configuracion para la paginacion
   config: any;
 
   // coleccion de aliquotas
@@ -28,15 +28,14 @@ export class AliquotComponent implements OnInit {
   idUserCurrent;
 
   ngOnInit(): void {
+
      //configuracion para la paginación
      this.config = {
       itemsPerPage: 3,
       currentPage: 1,
       totalItems: this.collectionAliquots.data.length
     };
-
-    
-
+ 
     //-----------------------------------------------------------------
     // variable del seteo del Uid del usuario actual
     this.idUserCurrent = localStorage.getItem('userId')
@@ -73,20 +72,15 @@ export class AliquotComponent implements OnInit {
     }
     );
 
-    //-----------------------------------------------------------------
-   
-
   }
 
+  // metodo funcion para el cambio de pagina
   pageChanged(event) {
+
+    // seteo de la configuracion de la pagina actual
     this.config.currentPage = event;
-    console.log(this.config.totalItems)
-  }
+    //console.log(this.config.totalItems)
 
-  color(event){
-    this.collectionAliquots
   }
-
-  
 
 }

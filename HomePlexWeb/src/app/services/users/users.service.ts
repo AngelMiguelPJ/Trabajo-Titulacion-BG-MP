@@ -1,8 +1,10 @@
-import { Injectable, ɵclearResolutionOfComponentResourcesQueue } from '@angular/core';
+import { Injectable } from '@angular/core';
+
+// servicios de firebase
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ChildActivationEnd } from '@angular/router';
-import { Subject } from 'rxjs';
+
+// importacion complementaria para mapeo de datos
 import { map } from 'rxjs/operators';
 
 // modelo para exportacion
@@ -22,36 +24,36 @@ export interface UsersExport {
 
 export class UsersService {
 
-  // Varibel userUid del usuario actual
+  // Variable userUid del usuario actual
   userUid;
 
-  // variable bandera para establecer si es admin o no
+  // variable bandera para establecer si es admin, contador o no
   isAdmin = false;
   isAccountant = false;
 
   // contructor para iniciar los servicios
   constructor(private angularFirestore: AngularFirestore,
-              private angularFireAuth: AngularFireAuth,) { }
+    private angularFireAuth: AngularFireAuth,) { }
 
 
-  // Servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
-  getUsersService(){
+  // Metodo -funcion -servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
+  getUsersService() {
 
     //userUid del usuario actual obtenido en el inicio de sesion
     this.userUid = localStorage.getItem('userId')
 
     // respectivo servicio de firestore para la obtencion de los usuarios
-    return this.angularFirestore.collection('users').snapshotChanges().pipe(map(users =>{
+    return this.angularFirestore.collection('users').snapshotChanges().pipe(map(users => {
 
       // return del mapeo de los usuarios
-      return users.map(res =>{
-        
+      return users.map(res => {
+
         //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
         if (res.payload.doc.data()['Uid'] === this.userUid) {
           const adminVar = res.payload.doc.data()['TipoUsuario']
-          if(adminVar == 'Administrador'){
+          if (adminVar == 'Administrador') {
             this.isAdmin = true
-          }else{
+          } else {
             this.isAdmin = false
           }
         }
@@ -59,17 +61,17 @@ export class UsersService {
         //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
         if (res.payload.doc.data()['Uid'] === this.userUid) {
           const accountVar = res.payload.doc.data()['TipoUsuario']
-          if(accountVar == 'Contador'){
+          if (accountVar == 'Contador') {
             this.isAccountant = true
-          }else{
+          } else {
             this.isAccountant = false
           }
         }
-        
+
         // seteo de los datos en el modelo UsersExport para su exportacion
         const data = res.payload.doc.data() as UsersExport
         data.id = res.payload.doc.id;
-        return data;    
+        return data;
 
       })
 
@@ -78,7 +80,7 @@ export class UsersService {
   }
 
 
-  // registrar usuarios mediante correo y contraseña, ademas de los demas datos en firestore
+  // Metodo -funcion -servicio para el registro de usuarios mediante correo y contraseña, ademas de los demas datos en firestore
   registerUsersService(email: string, password: string, name: string, tipoUsuario: string) {
     return new Promise((resolve, reject) => {
 
@@ -86,6 +88,7 @@ export class UsersService {
       this.angularFireAuth.createUserWithEmailAndPassword(email, password)
         .then(
           res => {
+
             //console.log(res.user.uid)
             // uid del usuario creado
             const uid = res.user.uid;
@@ -106,32 +109,32 @@ export class UsersService {
         ).catch(
           err =>
             reject(err)
-          )
+        )
 
     })
 
   }
 
-  // Motodo-funcion-servicio para la optencion de usuarios mediante snapshotchanges
+  // Metodo -funcion -servicio para la optencion de usuarios mediante snapshotchanges
   // para luego por setear estos datos en un arreglo
-  getUsersServices(){
+  getUsersServices() {
     return this.angularFirestore.collection("users").snapshotChanges();
   }
-  
-  // Metodo-funcion-servicio de actualizacion de datos de un usuario por id y el campo a actualizar
-  updateUsersServices(id:any, users:any){
+
+  // Metodo -funcion -servicio de actualizacion de datos de un usuario por id y el campo a actualizar
+  updateUsersServices(id: any, users: any) {
     return this.angularFirestore.collection("users").doc(id).update(users);
 
   }
 
-  // Metodo-funcion-servicio de actualizacion de foto de perfil de un usuario por id y el campo a actualizar
-  updateUsersServicesImg(id:any, users:any){
+  // Metodo -funcion -servicio de actualizacion de foto de perfil de un usuario por id y el campo a actualizar
+  updateUsersServicesImg(id: any, users: any) {
     return this.angularFirestore.collection("users").doc(id).update(users);
 
   }
-  
-  // Metodo-funcion-servicio de borrarado de datos de un usuario por id
-  deleteUsersServices(id:any){
+
+  // Metodo -funcion -servicio de borrarado de datos de un usuario por id
+  deleteUsersServices(id: any) {
     return this.angularFirestore.collection("users").doc(id).delete();
   }
 

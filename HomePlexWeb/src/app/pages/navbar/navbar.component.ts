@@ -1,8 +1,14 @@
 //importacion de librerias a usar
 import { Component, OnInit } from '@angular/core';
+
+// servicios de firebase
 import { AngularFirestore } from '@angular/fire/firestore';
+
+// servicios de autenticacion y usuarios
 import { AuthService } from '../../services/auth/auth.service';
 import { UsersService } from '../../services/users/users.service';
+
+// librerias, servicios extras
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -23,7 +29,6 @@ export class NavbarComponent implements OnInit {
   nameUserInfor;
   emailUserInfor;
   imgUserInfor;
- 
 
   // constructor que inicia lso servicios o funciones
   constructor(public authService: AuthService,
@@ -37,37 +42,30 @@ export class NavbarComponent implements OnInit {
 
     // Llamado al servicio de usuarios para obtener datos de acuerdo al usuario actual
     this.usersService.getUsersService().subscribe(users => {
-
       // seteo de datos en un arreglo
       this.usersList = users
-
       // condicion for para recorrer el arreglo
       for (let index = 0; index < this.usersList.length; index++) {
-        
         // igualacion de cada indice del arreglo a una variable mientras recorre
         const uides = this.usersList[index];
-
         // condicional para obtener solo los datos del usuario actual
         if (uides.Uid === this.userUid) {
-
           // seteo de los datos pertinentes al usuario actual
           this.nameUserInfor = uides.Name,
           this.emailUserInfor = uides.Email,
-          this.imgUserInfor = uides.Img
-
+          this.imgUserInfor = uides.Img     
         }
-
       }
-
     })
 
   }
 
   // funcion - metodo para cerrar sesion
   logout() {
+
     // llamado al servio de cerrado de sesion
     this.authService.logoutService();
 
   }
-  
+
 }

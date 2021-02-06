@@ -6,168 +6,168 @@
 
     <!-- ============================================================================ -->
 
-      <!--Boton para apertura del form-modal de creacion de usuarios-->
-      <button type="button" class="btn btn-success" style="margin-bottom: 10px;" (click)="open(contentCreate)">Crear nuevo
-        usuario</button>
-      
-      <!--Tabla que refleja los usuarios y algunos datos-->
-      <table class="table">
+    <!--Boton para apertura del form-modal de creacion de usuarios-->
+    <button type="button" class="btn btn-success" style="margin-bottom: 10px;" (click)="open(contentCreate)">Crear nuevo
+      usuario</button>
 
-        <!--Cabecera de la tabla-->
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Tipo Usuario</th>
-            <th>Opciones</th>
-          </tr>
-        </thead>
+    <!--Tabla que refleja los usuarios y algunos datos-->
+    <table class="table">
 
-        <!--Cuerpo de la tabla visto a partir de un for -->
-        <tbody>
-          <tr *ngFor="let item of collection.data">
-            <td>{{item.Name}}</td>
-            <td>{{item.Email}}</td>
-            <td>{{item.TipoUsuario}}</td>
-            <td>
+      <!--Cabecera de la tabla-->
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Tipo Usuario</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
 
-              <!--Botones para eliminar y editar el respectivo usuario-->
-              <button type="button" class="btn btn-primary" (click)="openEditar(content,item)">Editar</button>
-              <button type="button" class="btn btn-danger" (click)="eliminar(item)">Borrar</button>
-            
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <!--Cuerpo de la tabla visto a partir de un for -->
+      <tbody>
+        <tr *ngFor="let item of collection.data">
+          <td>{{item.Name}}</td>
+          <td>{{item.Email}}</td>
+          <td>{{item.TipoUsuario}}</td>
+          <td>
 
-    <!-- ============================================================================ -->
-      
-      <!-- Formulario ng template para la edicion de datos-->
-      <ng-template #content let-modal>
+            <!--Botones para eliminar y editar el respectivo usuario-->
+            <button type="button" class="btn btn-primary" (click)="openEditar(content,item)">Editar</button>
+            <button type="button" class="btn btn-danger" (click)="eliminar(item)">Borrar</button>
 
-        <!-- Header del modal -->
-        <div class="modal-header">
-
-          <!-- Titulo del card -->
-          <h4 class="modal-title" id="modal-basic-title">Actualizar usuario</h4>
-          
-          <!-- Boton de cerrado -->
-          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-
-        </div>
-
-        <!-- Cuerpo del formulario -->
-        <div class="modal-body">
-
-          <!-- formulario con las variables a cambiar -->
-          <form>
-            <div class="form-group">
-
-              <!-- Grupo formulario que establece variables a partir del component.ts-->
-              <form [formGroup]="usersFormEdit">
-                
-                <!-- Campo Tipo de Usuario-->
-                <div class="form-group">
-                  <label>Tipo Usuario</label>
-
-                  <!-- Select de tipo de usuario apartir del arreglo en el ts-->
-                  <select type="'text" formControlName="TipoUsuario" class="form-control">
-                    
-                    <option *ngFor="let listTypes of typeUsers" [ngValue]="listTypes">{{listTypes}}</option>
-                  </select>
-
-                </div>
-
-              </form>
-
-            </div>
-          </form>
-
-        </div>
-
-        <!-- Boton de actualizacion aparatir de los datos del formulario-->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" (click)="actualizarEstudiante()">Actualizar</button>
-        </div>
-
-      </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <!-- ============================================================================ -->
-      
-      <!-- Formulario ng template para la creacion de datos-->
-      <ng-template #contentCreate let-modal>
 
-        <!-- Header del modal -->
-        <div class="modal-header">
+    <!-- Formulario ng template para la edicion de datos-->
+    <ng-template #content let-modal>
 
-          <!-- Titulo del card -->
-          <h4 class="modal-title" id="modal-basic-title">Crear Usuario</h4>
-          
-          <!-- Boton de cerrado -->
-          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
+      <!-- Header del modal -->
+      <div class="modal-header">
 
-        </div>
+        <!-- Titulo del card -->
+        <h4 class="modal-title" id="modal-basic-title">Actualizar usuario</h4>
 
-        <!-- Cuerpo del formulario -->
-        <div class="modal-body">
+        <!-- Boton de cerrado -->
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
 
-          <!-- formulario con las variables a crear -->
-          <form>
-            <div class="form-group">
+      </div>
 
-              <!-- Grupo formulario que establece variables a partir del component.ts-->
-              <form [formGroup]="usersFormCreate">
+      <!-- Cuerpo del formulario -->
+      <div class="modal-body">
 
-                <!-- Campo Nombre-->
-                <div class="form-group">
-                  <label>Nombre</label>
-                  <input type="text" formControlName="Name" class="form-control" #Name>
-                </div>
+        <!-- formulario con las variables a cambiar -->
+        <form>
+          <div class="form-group">
 
-                <!-- Campo Email-->
-                <div class="form-group">
-                  <label>Email</label>
-                  <input type="text" formControlName="Email" class="form-control" #Email>
-                </div>
+            <!-- Grupo formulario que establece variables a partir del component.ts-->
+            <form [formGroup]="usersFormEdit">
 
-                <!-- Campo password-->
-                <div class="form-group">
-                  <label>Password</label>
-                  <input type="text" formControlName="Password" class="form-control" #Password>
-                </div>
+              <!-- Campo Tipo de Usuario-->
+              <div class="form-group">
+                <label>Tipo Usuario</label>
 
-                <!-- Campo Tipo de usuario-->
-                <div class="form-group">
-                  <label>Tipo Usuario</label>
+                <!-- Select de tipo de usuario apartir del arreglo en el ts-->
+                <select type="'text" formControlName="TipoUsuario" class="form-control">
 
-                   <!-- Select de tipo de usuario apartir del arreglo en el ts-->
-                  <select type="'text" formControlName="TipoUsuario" class="form-control" #TipoUsuario>
-                    <option *ngFor="let listTypes of typeUsers">{{listTypes}}</option>
-                  </select>
+                  <option *ngFor="let listTypes of typeUsers" [ngValue]="listTypes">{{listTypes}}</option>
+                </select>
 
-                </div>
+              </div>
 
-              </form>
+            </form>
 
-            </div>
-          </form>
+          </div>
+        </form>
 
-        </div>
+      </div>
 
-        <!-- Boton de creacion a partir de los datos del formulario-->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark"
-            (click)="registerUsers(Email.value, Password.value, Name.value, TipoUsuario.value)">Guardar</button>
-        </div>
-        
-      </ng-template>
+      <!-- Boton de actualizacion aparatir de los datos del formulario-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="actualizarEstudiante()">Actualizar</button>
+      </div>
+
+    </ng-template>
 
     <!-- ============================================================================ -->
-     
+
+    <!-- Formulario ng template para la creacion de datos-->
+    <ng-template #contentCreate let-modal>
+
+      <!-- Header del modal -->
+      <div class="modal-header">
+
+        <!-- Titulo del card -->
+        <h4 class="modal-title" id="modal-basic-title">Crear Usuario</h4>
+
+        <!-- Boton de cerrado -->
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+
+      <!-- Cuerpo del formulario -->
+      <div class="modal-body">
+
+        <!-- formulario con las variables a crear -->
+        <form>
+          <div class="form-group">
+
+            <!-- Grupo formulario que establece variables a partir del component.ts-->
+            <form [formGroup]="usersFormCreate">
+
+              <!-- Campo Nombre-->
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" formControlName="Name" class="form-control" #Name>
+              </div>
+
+              <!-- Campo Email-->
+              <div class="form-group">
+                <label>Email</label>
+                <input type="text" formControlName="Email" class="form-control" #Email>
+              </div>
+
+              <!-- Campo password-->
+              <div class="form-group">
+                <label>Password</label>
+                <input type="text" formControlName="Password" class="form-control" #Password>
+              </div>
+
+              <!-- Campo Tipo de usuario-->
+              <div class="form-group">
+                <label>Tipo Usuario</label>
+
+                <!-- Select de tipo de usuario apartir del arreglo en el ts-->
+                <select type="'text" formControlName="TipoUsuario" class="form-control" #TipoUsuario>
+                  <option *ngFor="let listTypes of typeUsers">{{listTypes}}</option>
+                </select>
+
+              </div>
+
+            </form>
+
+          </div>
+        </form>
+
+      </div>
+
+      <!-- Boton de creacion a partir de los datos del formulario-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark"
+          (click)="registerUsers(Email.value, Password.value, Name.value, TipoUsuario.value)">Guardar</button>
+      </div>
+
+    </ng-template>
+
+    <!-- ============================================================================ -->
+
   </div>
 
 </div>

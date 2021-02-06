@@ -1,16 +1,26 @@
 <!-- Contenedor principal del login -->
 <div class="content" role="main">
+    <!--======================================================================================-->
+
+    <!--Titulo de la pagina-->
     <h2 style="text-align: center;">Eventos</h2>
-    <!---->
+
+    <!--======================================================================================-->
+
+    <!--Boton para crear un nuevo evento-->
     <div style="text-align: center; margin-bottom: 10px;">
         <button type="button" class="btn btn-success" (click)="openFormCreate(contentCreate)"
-            *ngIf="usersService.isAdmin">Crear nuevo evento</button>
+            *ngIf="usersService.isAdmin">Crear nuevo evento
+        </button>
     </div>
-    <!---->
+
+    <!--======================================================================================-->
+
+    <!--Tabla de visualizacion de los eventos en forma de tabla-->
     <div class="table-responsive">
         <table class="table">
 
-            <!---->
+            <!--cabecera de la tabla-->
             <thead class="table-dark">
                 <tr>
                     <th>Nombre</th>
@@ -28,7 +38,7 @@
                 </tr>
             </thead>
 
-            <!---->
+            <!-- Cuerpo de la tabla-->
             <tbody>
 
                 <tr *ngFor="let item of collection.data | paginate: config">
@@ -54,17 +64,19 @@
             </tbody>
 
         </table>
+
+        <!--Botones de paginacion-->
         <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
-        (pageChange)="pageChanged($event)"></pagination-controls>
-    
+            (pageChange)="pageChanged($event)"></pagination-controls>
+
     </div>
 
+    <!--======================================================================================-->
 
-    <!---->
-
+    <!--Formulario ng template para la creacion de datos-->
     <ng-template #contentCreate let-modal>
-        <!---->
 
+        <!-- Cabecera del modal-->
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Crear Evento</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -72,35 +84,41 @@
             </button>
         </div>
 
-        <!---->
+        <!-- cuerpo del modal-->
         <div class="modal-body">
 
-            <!---->
+            <!--Formulario-->
             <form>
                 <div class="form-group">
 
-                    <!---->
+                    <!-- Form grupo para los adatos-->
                     <form [formGroup]="eventsForm">
 
-                        <!---->
+                        <!--form group de foto e insertar-->
                         <div class="form-group">
+
+                            <!--Foto -->
                             <a class="twPc-avatarLink">
                                 <img alt="" [src]="imgEdit" class="twPc-avatarImg rounded-circle">
                             </a>
+
+                            <!--Boton para la edicion de foto-->
                             <div class="twPc-avatarLinkEdit">
                                 <label class="custom-file-upload">
                                     <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
                                     <input type="file" (change)="uploadFile($event)" />
                                 </label>
                             </div>
+
                         </div>
-                        <!---->
+
+                        <!-- Form grup de nombre-->
                         <div class="form-group">
                             <label>Nombre</label>
                             <input type="text" formControlName="Nombre" class="form-control">
                         </div>
 
-                        <!---->
+                        <!--Form grup del estado del evento-->
                         <div class="form-group">
                             <label>Evento Estado</label>
                             <select type="'text" formControlName="EventoAN" class="form-control"
@@ -109,10 +127,10 @@
                             </select>
                         </div>
 
-                        <!---->
+                        <!--Form grup interno-->
                         <div formGroupName="Reserva">
 
-                            <!---->
+                            <!--from grup duracion-->
                             <div class="form-group">
                                 <label>Duracion</label>
                                 <select type="'text" formControlName="Duracion" class="form-control"
@@ -122,20 +140,20 @@
                                 </select>
                             </div>
 
-                            <!---->
+                            <!--Form grup de descripcion-->
                             <div class="form-group">
                                 <label>Descripcion</label>
                                 <input type="text" formControlName="Descripcion" class="form-control">
                             </div>
 
-                            <!---->
+                            <!--form gruop de fecha-->
                             <div class="form-group">
                                 <label>Fecha</label>
                                 <input type="date" formControlName="Fecha" class="form-control"
                                     (disabled)="!fechaActual" min="{{fechaActual|date:'yyyy-MM-dd'}}">
                             </div>
 
-                            <!---->
+                            <!--Form grup de lugar-->
                             <div class="form-group">
                                 <label>Lugar</label>
                                 <select type="'text" formControlName="Lugar" class="form-control"
@@ -144,7 +162,7 @@
                                 </select>
                             </div>
 
-                            <!---->
+                            <!--form grup de numero de personas-->
                             <div class="form-group">
                                 <label>Personas</label>
                                 <select type="'text" formControlName="Personas" class="form-control"
@@ -159,15 +177,20 @@
 
 
                     </form>
+
                 </div>
             </form>
+
         </div>
+
+        <!--Boton de creacion deevento por medio de un modal -->
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-dark" (click)="createEvent()">Guardar</button>
         </div>
+
     </ng-template>
 
-    <!---->
+    <!--======================================================================================-->
 
     <!-- Formulario ng template para la edicion de datos-->
     <ng-template #content let-modal>
@@ -195,25 +218,31 @@
                     <!-- Grupo formulario que establece variables a partir del component.ts-->
                     <form [formGroup]="eventFormEdit">
 
-                        <!---->
+                        <!-- form grup de foto y seteo-->
                         <div class="form-group">
+
+                            <!--Foto-->
                             <a class="twPc-avatarLink">
                                 <img alt="" src="{{imgEdit}}" class="twPc-avatarImg rounded-circle">
                             </a>
+
+                            <!--Boton para foto-->
                             <div class="twPc-avatarLinkEdit">
                                 <label class="custom-file-upload">
                                     <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
                                     <input type="file" (change)="uploadFile($event)" />
                                 </label>
                             </div>
+
                         </div>
-                        <!---->
+
+                        <!-- form de nombre-->
                         <div class="form-group">
                             <label>Nombre</label>
                             <input type="text" formControlName="Nombre" class="form-control">
                         </div>
 
-                        <!---->
+                        <!--form de estado de evento-->
                         <div class="form-group">
                             <label>Evento Estado</label>
                             <select type="'text" formControlName="EventoAN" class="form-control"
@@ -222,10 +251,10 @@
                             </select>
                         </div>
 
-                        <!---->
+                        <!--for group interno-->
                         <div formGroupName="Reserva">
 
-                            <!---->
+                            <!--form de duracion-->
                             <div class="form-group">
                                 <label>Duracion</label>
                                 <select type="'text" formControlName="Duracion" class="form-control"
@@ -235,20 +264,20 @@
                                 </select>
                             </div>
 
-                            <!---->
+                            <!--form de descripcion-->
                             <div class="form-group">
                                 <label>Descripcion</label>
                                 <input type="text" formControlName="Descripcion" class="form-control">
                             </div>
 
-                            <!---->
+                            <!--form de fecha-->
                             <div class="form-group">
                                 <label>Fecha</label>
                                 <input type="date" formControlName="Fecha" class="form-control"
                                     (disabled)="!fechaActual" min="{{fechaActual|date:'yyyy-MM-dd'}}">
                             </div>
 
-                            <!---->
+                            <!--form de lugar-->
                             <div class="form-group">
                                 <label>Lugar</label>
                                 <select type="'text" formControlName="Lugar" class="form-control"
@@ -257,7 +286,7 @@
                                 </select>
                             </div>
 
-                            <!---->
+                            <!--form de personas-->
                             <div class="form-group">
                                 <label>Personas</label>
                                 <select type="'text" formControlName="Personas" class="form-control"
@@ -282,6 +311,6 @@
 
     </ng-template>
 
-    <!---->
+    <!--======================================================================================-->
 
 </div>

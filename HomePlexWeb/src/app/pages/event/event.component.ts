@@ -2,20 +2,15 @@ import { Component, OnInit } from '@angular/core';
 
 // servicio de eventos
 import { EventsService } from '../../services/events/events.service';
+import { BookingService } from 'src/app/services/booking/booking.service';
+import { UsersService } from 'src/app/services/users/users.service';
 
 // firebase
 import { AngularFireStorage } from '@angular/fire/storage';
 
 //importaciones extras
-import { NgbModal, ModalDismissReasons, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { isNullOrUndefined } from 'util';
-import { UsersService } from 'src/app/services/users/users.service';
-import { last, switchMap } from 'rxjs/operators';
-import { importExpr } from '@angular/compiler/src/output/output_ast';
-import { templateJitUrl } from '@angular/compiler';
-import { BookingService } from 'src/app/services/booking/booking.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-event',
@@ -31,16 +26,11 @@ export class EventComponent implements OnInit {
   // arreglo de collecion de eventos
   collection = { count: 0, data: [] }
 
-
-
   // iniciar servicios
-  constructor(private storage: AngularFireStorage, private ngbModal: NgbModal,
-    public formBuilder: FormBuilder, private eventsService: EventsService,
+  constructor(public formBuilder: FormBuilder, private eventsService: EventsService,
     public usersService: UsersService, private bookingService: BookingService) { }
 
   ngOnInit(): void {
-
-
 
     // configuracion de la paginacion
     this.config = {
@@ -71,29 +61,23 @@ export class EventComponent implements OnInit {
           UidEventBooking: e.payload.doc.data().idEventBooking,
           uidEvent: e.payload.doc.id
         }
-
       })
       //console.log(this.collection.data)
-
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
     }
     );
 
-
-
-
   }
 
   // funcion-metodo para el cambio de pagina segun la pagina actual
   pageChanged(event) {
+
+    // configurar establecida segun el evento
     this.config.currentPage = event;
-    console.log(this.config.totalItems)
+    //console.log(this.config.totalItems)
+
   }
-
-  
-
-  
 
 }

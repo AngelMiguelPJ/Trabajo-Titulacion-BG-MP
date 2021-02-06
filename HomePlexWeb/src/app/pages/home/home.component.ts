@@ -1,30 +1,39 @@
 import { Component, OnInit } from '@angular/core';
+
+// servicios de firebase
 import { AngularFireStorage } from '@angular/fire/storage';
+
+// servios - librerias extras
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+// servicios de eventos
 import { EventsService } from 'src/app/services/events/events.service';
-import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+
 export class HomeComponent implements OnInit {
-   // arreglo de collecion de eventos
-   collection = { count: 0, data: [] }
-   showNavigationArrows = false;
+
+  // arreglo de collecion de eventos
+  collection = { count: 0, data: [] }
+
+  // variables para la navegacion en el carrosuel
+  showNavigationArrows = false;
   showNavigationIndicators = false;
+
   // iniciar servicios
-  constructor(
-     private eventsService: EventsService,
-    ) {}
+  constructor(private eventsService: EventsService) { }
 
   ngOnInit(): void {
-     //cargando todos los eventos de firebase-firestore
-     this.eventsService.getEventsServices().subscribe(resp => {
+
+    //cargando todos los eventos de firebase-firestore
+    this.eventsService.getEventsServices().subscribe(resp => {
       //console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
-        this.collection.data = resp.map((e: any) => {
+      this.collection.data = resp.map((e: any) => {
         //console.log('respuesta 2: ', e)
         // return que devolvera los datos a collection
         return {
@@ -42,10 +51,8 @@ export class HomeComponent implements OnInit {
           UidEventBooking: e.payload.doc.data().idEventBooking,
           uidEvent: e.payload.doc.id
         }
-
       })
       //console.log(this.collection.data)
-
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);

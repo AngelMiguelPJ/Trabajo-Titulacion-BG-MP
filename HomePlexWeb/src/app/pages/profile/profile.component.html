@@ -1,155 +1,152 @@
 <!--Componente navbar html-->
 <div class="content" role="main">
+    <!--============================================================================-->
 
-    <!-- ============================================================================ -->
+    <!--Formulario de vision de datos del usuario-->
+    <div class="twPc-div">
 
-        <!-- Formulario de vision de datos del usuario-->
-        <div class="twPc-div">
+        <!--Imagen de fondo-->
+        <a class="twPc-bg twPc-block"></a>
 
-            <!--Imagen de fondo-->
-            <a class="twPc-bg twPc-block"></a>
+        <!--Imagen de perfil por llamado de variable-->
+        <a class="twPc-avatarLink">
+            <img alt="" src="{{imgUserInfor}}" class="twPc-avatarImg">
+        </a>
 
-            <!--Imagen de perfil por llamado de variable-->
-            <a class="twPc-avatarLink">
-                <img alt="" src="{{imgUserInfor}}" class="twPc-avatarImg">
-            </a>
+        <!--Boton para la edicion de la imagen de perfil-->
+        <div class="twPc-avatarLinkEdit">
+            <label class="custom-file-upload">
+                <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
+                <input type="file" (change)="uploadFile($event)" />
+            </label>
+        </div>
 
-            <!--Boton para la edicion de la imagen de perfil-->
-            <div class="twPc-avatarLinkEdit">
-                <label class="custom-file-upload">
-                    <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
-                    <input type="file" (change)="uploadFile($event)" />
-                </label>
+        <!--Nombre del usuario por llamado de variable-->
+        <div class="twPc-divUser">
+            <div class="twPc-divName">
+                <a>{{nameUserInfor}}</a>
             </div>
+        </div>
 
-            <!--Nombre del usuario por llamado de variable-->
-            <div class="twPc-divUser">
-                <div class="twPc-divName">
-                    <a>{{nameUserInfor}}</a>
-                </div>
-            </div>
-
-            <!--Card 1 para reflejar la informacion del usuario por llamado de variables -->
-            <div class="cardsInfo">
-                <div class="row">
-                    <div class="col">
-                        <div class="card" id="cards">
-
-                            <div class="card-body">
-                                <h6 class="card-title">Correo electronico</h6>
-                                <hr class="separacion">
-                                <p class="card-text"><small class="text-muted">{{emailUserInfor}}</small></p>
-                            </div>
+        <!--Card 1 para reflejar la informacion del usuario por llamado de variables -->
+        <div class="cardsInfo">
+            <div class="row">
+                <div class="col">
+                    <div class="card" id="cards">
+                        <div class="card-body">
+                            <h6 class="card-title">Correo electronico</h6>
+                            <hr class="separacion">
+                            <p class="card-text"><small class="text-muted">{{emailUserInfor}}</small></p>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="card" id="cards">
-                            <div class="card-body">
-                                <h6 class="card-title">Telefono</h6>
-                                <hr class="separacion">
-                                <p class="card-text"><small class="text-muted">{{phoneUserInfor}}</small></p>
-
-                            </div>
+                </div>
+                <div class="col">
+                    <div class="card" id="cards">
+                        <div class="card-body">
+                            <h6 class="card-title">Telefono</h6>
+                            <hr class="separacion">
+                            <p class="card-text"><small class="text-muted">{{phoneUserInfor}}</small></p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!--Card 2 para reflejar la informacion del usuario por llamado de variables -->
-            <div class="cardsInfo">
-                <div class="row">
-                    <div class="col">
-                        <div class="card" id="cards">
-                            <div class="card-body">
-                                <h6 class="card-title">Casa</h6>
-                                <hr class="separacion">
-                                <p class="card-text"><small class="text-muted">{{houseUserInfor}}</small></p>
-                            </div>
+        <!--Card 2 para reflejar la informacion del usuario por llamado de variables -->
+        <div class="cardsInfo">
+            <div class="row">
+                <div class="col">
+                    <div class="card" id="cards">
+                        <div class="card-body">
+                            <h6 class="card-title">Casa</h6>
+                            <hr class="separacion">
+                            <p class="card-text"><small class="text-muted">{{houseUserInfor}}</small></p>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="card" id="cards">
-                            <div class="card-body">
-                                <h6 class="card-title">Tipo usuario</h6>
-                                <hr class="separacion">
-                                <p class="card-text"><small class="text-muted">{{typeUserInfor}}</small></p>
-                            </div>
+                </div>
+                <div class="col">
+                    <div class="card" id="cards">
+                        <div class="card-body">
+                            <h6 class="card-title">Tipo usuario</h6>
+                            <hr class="separacion">
+                            <p class="card-text"><small class="text-muted">{{typeUserInfor}}</small></p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!--boton de edicion de informacion por medio llamado de variables -->
-            <div class="card text-center" style="border:none">
-                <div class="card-body" style="padding-top: 0; padding-bottom: 10px;">
-                    <button type="button" class="btn btn-primary"
-                        (click)="openEditar(content,nameUserInfor, phoneUserInfor, houseUserInfor)">Editar
-                        contenido</button>
-                </div>
+        <!--boton de edicion de informacion por medio llamado de variables -->
+        <div class="card text-center" style="border:none">
+            <div class="card-body" style="padding-top: 0; padding-bottom: 10px;">
+                <button type="button" class="btn btn-primary"
+                    (click)="openEditar(content,nameUserInfor, phoneUserInfor, houseUserInfor)">Editar
+                    contenido</button>
             </div>
+        </div>
+
+    </div>
+
+    <!--============================================================================-->
+
+    <!--Formulario ng template para la edicion de datos-->
+    <ng-template #content let-modal>
+
+        <!-- Header del modal -->
+        <div class="modal-header">
+
+            <!-- Titulo del card -->
+            <h4 class="modal-title" id="modal-basic-title">Actualizar usuario</h4>
+
+            <!-- Boton de cerrado -->
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
 
         </div>
 
-    <!-- ============================================================================ -->
+        <!-- Cuerpo del formulario -->
+        <div class="modal-body">
 
-        <!-- Formulario ng template para la edicion de datos-->
-        <ng-template #content let-modal>
+            <!-- formulario con las variables a cambiar -->
+            <form>
+                <div class="form-group">
 
-            <!-- Header del modal -->
-            <div class="modal-header">
+                    <!-- Grupo formulario que establece variables a partir del component.ts-->
+                    <form [formGroup]="usersFormEdit">
 
-                <!-- Titulo del card -->
-                <h4 class="modal-title" id="modal-basic-title">Actualizar usuario</h4>
+                        <!-- Campo Nombre-->
+                        <div class="form-group">
+                            <label>Nombres Y apellidos</label>
+                            <input type="text" formControlName="Name" class="form-control" #Name>
+                        </div>
 
-                <!-- Boton de cerrado -->
-                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                        <!-- Campo Telefono-->
+                        <div class="form-group">
+                            <label>Telefono</label>
+                            <input type="text" formControlName="Telefono" class="form-control" #Telefono>
+                        </div>
 
-            </div>
+                        <!-- Campo Casa-->
+                        <div class="form-group">
+                            <label>Casa</label>
+                            <input type="text" formControlName="Casa" class="form-control" #Casa>
+                        </div>
 
-            <!-- Cuerpo del formulario -->
-            <div class="modal-body">
+                    </form>
 
-                <!-- formulario con las variables a cambiar -->
-                <form>
-                    <div class="form-group">
+                </div>
+            </form>
 
-                        <!-- Grupo formulario que establece variables a partir del component.ts-->
-                        <form [formGroup]="usersFormEdit">
+        </div>
 
-                            <!-- Campo Nombre-->
-                            <div class="form-group">
-                                <label>Nombres Y apellidos</label>
-                                <input type="text" formControlName="Name" class="form-control" #Name>
-                            </div>
+        <!-- Boton de actualizacion aparatir de los datos del formulario-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="actualizarUsuario()">Actualizar</button>
+        </div>
 
-                            <!-- Campo Telefono-->
-                            <div class="form-group">
-                                <label>Telefono</label>
-                                <input type="text" formControlName="Telefono" class="form-control" #Telefono>
-                            </div>
+    </ng-template>
 
-                            <!-- Campo Casa-->
-                            <div class="form-group">
-                                <label>Casa</label>
-                                <input type="text" formControlName="Casa" class="form-control" #Casa>
-                            </div>
-
-                        </form>
-
-                    </div>
-                </form>
-
-            </div>
-
-            <!-- Boton de actualizacion aparatir de los datos del formulario-->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" (click)="actualizarUsuario()">Actualizar</button>
-            </div>
-
-        </ng-template>
-
-    <!-- ============================================================================ -->
+    <!--============================================================================-->
 
 </div>

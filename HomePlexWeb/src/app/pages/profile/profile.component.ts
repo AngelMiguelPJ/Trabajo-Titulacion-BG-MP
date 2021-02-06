@@ -1,13 +1,17 @@
 //importacion de librerias a usar
 import { Component, OnInit } from '@angular/core';
+
+// servicios de firebase
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
+
+// servicio de autenticacion y usuarios
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UsersService } from 'src/app/services/users/users.service';
+
+// importacion de librerias y servicios extra
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { isTemplateExpression, isTemplateSpan } from 'typescript';
-import { Router, UrlSegment } from '@angular/router';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { last, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -48,7 +52,7 @@ export class ProfileComponent implements OnInit {
   // Variables para la carga
   uploadPercent;
 
-  // constructor que inicia lso servicios o funciones
+  // constructor que inicia los servicios o funciones
   constructor(public authService: AuthService, public usersService: UsersService,
     private angularFirestore: AngularFirestore, private modalService: NgbModal,
     public fb: FormBuilder, private storage: AngularFireStorage) { }
@@ -86,17 +90,17 @@ export class ProfileComponent implements OnInit {
       for (let index = 0; index < this.usersList.length; index++) {
         const uides = this.usersList[index];
 
-          // condicion de obtener datos unicamente del usuario actual
-          if (uides.Uid === this.userUid) {
-            this.nameUserInfor = uides.Name,
+        // condicion de obtener datos unicamente del usuario actual
+        if (uides.Uid === this.userUid) {
+          this.nameUserInfor = uides.Name,
             this.uidUserInfor = uides.Uid,
             this.emailUserInfor = uides.Email,
             this.phoneUserInfor = uides.Telefono,
             this.typeUserInfor = uides.TipoUsuario,
             this.houseUserInfor = uides.Casa,
             this.imgUserInfor = uides.Img
-            //console.log(this.nameUserInfor)
-          }
+          //console.log(this.nameUserInfor)
+        }
 
       }
 
@@ -104,7 +108,7 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  // funcion para abri el ng model y cambiar los datos
+  // funcion para abrir el ng model y cambiar los datos
   openEditar(content, name: string, telefono: string, casa: string) {
 
     //llenar form para editar con los datos seteados a partir del formulario
@@ -114,7 +118,7 @@ export class ProfileComponent implements OnInit {
       Casa: casa,
     });
 
-    // igualancion del uid del usuario actual a la variable id firebase
+    // igualacion del uid del usuario actual a la variable id firebase
     this.idFirabaseActualizar = this.uidUserInfor;
 
     // cambiar el estado de la variable booleana a true
@@ -126,7 +130,7 @@ export class ProfileComponent implements OnInit {
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
+      }
       );
 
   }
@@ -157,13 +161,13 @@ export class ProfileComponent implements OnInit {
         this.usersFormEdit.reset();
         this.modalService.dismissAll();
 
-      // comprobacion de errores  
+        // comprobacion de errores  
       }).catch(error => {
         console.error(error);
-        });
+      });
 
     }
-    
+
   }
 
   // Actualizacion de imagen mediante subida del archivo en store de firebase
@@ -180,13 +184,13 @@ export class ProfileComponent implements OnInit {
 
     // Observador para ver el porcentaje de subida o tiempo que tarda en subir
     this.uploadPercent = this.task.percentageChanges();
-    
+
     // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
     this.task.snapshotChanges().pipe(
       last(),
-        switchMap(() =>
-          this.fileRef.getDownloadURL()
-        )
+      switchMap(() =>
+        this.fileRef.getDownloadURL()
+      )
     ).subscribe(url => {
 
       // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
@@ -199,7 +203,7 @@ export class ProfileComponent implements OnInit {
       this.idFirabaseActualizar = this.uidUserInfor;
       this.usersService.updateUsersServicesImg(this.idFirabaseActualizar, this.userImgEdit.value)
 
-      })
+    })
 
   }
 

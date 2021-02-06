@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 export class ChatService {
   
   // variables para el seteo de datos principales
+  // name: nombre de usuario,  ouid: id de otro usuario, id: id de usuario actual
   name;
   ouid;
   uid;
@@ -26,11 +27,14 @@ export class ChatService {
 
     // obtencion de los chats mediante un mapeo con el factor del tiempo
     return this.angularFirestore.collection('chats').doc(this.uid).collection(this.ouid, ref => ref.orderBy('time')).snapshotChanges().pipe(map(chats =>{
+      
+      // mapeo de datos
       return chats.map(a =>{
         const data = a.payload.doc.data()
         data.id = a.payload.doc.id
         return data;
       })
+      
     }))
 
   }

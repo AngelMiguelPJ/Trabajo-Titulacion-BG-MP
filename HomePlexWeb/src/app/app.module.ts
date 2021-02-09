@@ -28,6 +28,7 @@ import 'firebase/storage';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     NgxPaginationModule
   ],
-  providers: [FormBuilder, {provide: BUCKET, useValue: 'appchatfirebaseai.appspot.com'}],
+  providers: [FormBuilder, {provide: BUCKET, useValue: 'appchatfirebaseai.appspot.com'}, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -10,57 +10,49 @@ import { unescapeIdentifier } from '@angular/compiler';
 })
 export class AuthService {
 
-  constructor(private angularFireAuth: AngularFireAuth,
-              private router: Router,
-              private angularFirestore: AngularFirestore) { }
+    // bandera para verificar si esta autenticado o no
+  isAuthenticated = false;
 
-  // iniciar sesion mediante correo
+  // Contructor para iniciar los respectivos servicios
+  constructor(private angularFireAuth: AngularFireAuth, private router: Router,
+              private angularFirestore: AngularFirestore) {}
+
+  // Metodo -Funcion -servicio de iniciar sesion mediante correo y contraseña
   loginService(email: string, password: string) {
+    // returno de la promesa con el llamado del servicion de inicio de sesion con email y contraseña
     return new Promise((resolve, reject) => {
+
+      // servicio de inicio de sesion
       this.angularFireAuth.signInWithEmailAndPassword(email, password).then(res => {
-        const a = res.user.uid
-        const emailUser = res.user.email
-        localStorage.setItem('userId', a)
-        localStorage.setItem('emailUser', emailUser)
+
+        // cambio del estado de la bander de si esta iniciada sesion
+        this.isAuthenticated = true;
+        // igual variable de uid del usuario que inicia sesion para guardarla localmente
+        const userId = res.user.uid;
+        localStorage.setItem('userId', userId);
         resolve(res)
       }).catch(err => {
         reject(err)
-      })
+        this.isAuthenticated = false
+        })
+
     })
+
   }
 
-  // cerrar sesion
+  // Metodo -Funcion -servicio para cerrar sesion
   logoutService() {
+
+    // llamado al servicio de cerrado de sesion de firebaseauth
     this.angularFireAuth.signOut().then(() => {
-      this.router.navigate((['/login']));
+
+      // cambio del estado de si esta logeado o no
+      this.isAuthenticated = false
+
+      // redirreccion de rutas para cuando cierra sesion
+      this.router.navigate(['/login']);
+
     })
-  }
-
-  // registrar usuarios
-  registerService(email: string, password: string, name: string) {
-    return new Promise((resolve, reject) => {
-      this.angularFireAuth.createUserWithEmailAndPassword(email, password)
-        .then(
-          res => {
-            console.log(res.user.uid)
-            const uid = res.user.uid;
-            this.angularFirestore.collection('users').doc(res.user.uid).set({
-              Uid: uid,
-              Name: name,
-              Email: email,
-              Img: '',
-              Casa: '',
-              Telefono: '',
-              TipoUsuario: ''
-
-            })
-            resolve(res)
-          }
-        ).catch(
-          err =>
-            reject(err)
-        )
-    })
-
+    
   }
 }

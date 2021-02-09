@@ -1,8 +1,54 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title style="text-align: center;">Eventos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-card *ngFor="let item of collection.data | paginate: config">
+    <ion-card-content class="ionCard">
+      <ion-grid class="ionGrid">
+        <ion-row>
+          <ion-col class="colImg">
+            <ion-img src="{{item.Img}}"></ion-img>
+          </ion-col>
+          <ion-col style="text-align: center;">
+            <ion-text color="primary">
+              <h4>{{item.Nombre}}</h4>
+            </ion-text>
+            <p style="font-size: 11px;">{{item.Descripcion}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="font-size: 11px;">
+            Personas: <b>{{item.Personas}}</b>
+          </ion-col>
+          <ion-col style="font-size: 11px;">
+            Lugar: <b>{{item.Lugar}}</b>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="font-size: 11px;">
+            Hora: <b>{{item.Duracion}}</b>
+          </ion-col>
+          <ion-col style="font-size: 11px;">
+            Fecha: <b>{{item.Fecha}}</b>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="font-size: 11px;">
+            Estado:
+            <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'"
+              [class.redClass]="item.EventoAN =='Desaprovado'">
+              {{item.EventoAN}}
+            </b>
+          </ion-col>
+        </ion-row>
 
-
-
-<ion-content>
-  <div id="container">
-    <strong>Eventos component</strong>
-  </div>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <!--Botones - controladores de la paginacion-->
+  <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+    (pageChange)="pageChanged($event)">
+  </pagination-controls>
 </ion-content>

@@ -1,5 +1,25 @@
-<ion-content>
-  <div id="container">
-    <strong>Alicuotas component</strong>
-  </div>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title style="text-align: center;">Eventos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content >
+  <ion-card *ngFor="let item of collectionAliquots.data | paginate: config">
+    
+    <ion-card-header style="background-color: #4e73df; padding: 0px; height: 10px;">
+    </ion-card-header>
+  
+    <ion-card-content >
+      <ion-card-title>{{item.DatosVecinoNombre}}</ion-card-title>
+      <ion-card-subtitle>{{item.Descripcion}} </ion-card-subtitle>
+      Keep close to Nature's heart... and break clear away, once in awhile,
+    </ion-card-content>
+  </ion-card>
+  
+  <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+    (pageChange)="pageChanged($event)">
+  </pagination-controls>
+  
+
+  
 </ion-content>

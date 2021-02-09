@@ -10,7 +10,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 
 //importaciones extras
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder } from '@angular/forms';
+
 
 @Component({
   selector: 'app-event',
@@ -27,7 +27,7 @@ export class EventComponent implements OnInit {
   collection = { count: 0, data: [] }
 
   // iniciar servicios
-  constructor(public formBuilder: FormBuilder, private eventsService: EventsService,
+  constructor( private eventsService: EventsService,
     public usersService: UsersService, private bookingService: BookingService) { }
 
   ngOnInit(): void {

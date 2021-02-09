@@ -84,6 +84,8 @@
 
                                 <!-- Mensaje del otro usuario-->
                                 <label>{{chat.msg}}</label>
+                                <br>
+                                <label style="font-size: 10px;">{{chat.hora}}</label>
 
                             </li>
                             </div>
@@ -98,6 +100,8 @@
                                 
                                 <!--Mensaje del usuario actual-->
                                 <label>{{chat.msg}}</label>
+                                <br>
+                                <label style="font-size: 10px;">{{chat.hora}}</label>
 
                             </li>
                             </div>
@@ -115,7 +119,7 @@
                         <div class="input-group">
                             <!-- input de introduccion de mensajes y envio mediante la tecla enter-->
                             
-                            <input type="text" class="form-control" placeholder="Escribir....." name="newMessage"
+                            <input type="text" class="form-control"  placeholder="Escriba un mensaje...." name="newMessage"
                                 #textMsg (keyup.enter)="send(textMsg.value)"/>
                             <!--Boton para el envio de mensajes mediante el evento click -->
                             <button class="msg_send_btn" type="button" (click)="send(textMsg.value)">

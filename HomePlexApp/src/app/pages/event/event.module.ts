@@ -7,15 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { EventPageRoutingModule } from './event-routing.module';
 
 import { EventPage } from './event.page';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EventPageRoutingModule
+    EventPageRoutingModule,
+    NgxPaginationModule
   ],
   declarations: [EventPage],
-  exports: [EventPage]
+  exports: [EventPage],
+
 })
 export class EventPageModule {}

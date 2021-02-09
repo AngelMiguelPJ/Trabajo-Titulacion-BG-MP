@@ -6,23 +6,23 @@
           <!--IconLink to UserProfile-->
 
           <ion-buttons>
-            <ion-tab-button tab="profile">
-              <ion-icon name="person-circle"></ion-icon>
+            <ion-tab-button tab="tabchat">
+              <img class="img-profile" src="{{imgUserInfor}}">
+
             </ion-tab-button>
           </ion-buttons>
 
         </ion-col>
         <ion-col>
           <!--Text: Name and email-->
-          <ion-title size="small">Hola, @ {{name}}
-            <br>{{emailUser}}
+          <ion-title style="font-size: 11px;">Hola, {{nameUserInfor}}
           </ion-title>
         </ion-col>
         <ion-col>
           <!--IconLink to Notifications-->
 
           <ion-buttons>
-            <ion-tab-button tab="notification">
+            <ion-tab-button>
               <ion-icon name="notifications"></ion-icon>
             </ion-tab-button>
           </ion-buttons>
@@ -103,9 +103,9 @@
     <ion-slides>
       <ion-slide>
 
-        <ion-avatar style="margin-right: 5px;">
+        <ion-avatar style="margin-right: 5px; margin-bottom: 0px;">
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" style="width: 75%;">
-          <ion-label style="font-size: 8px;">Name</ion-label>
+          <ion-label style="font-size: 8px; margin-top: 0px;">Name</ion-label>
         </ion-avatar>
         
         <ion-avatar style="margin-right: 5px;">
@@ -147,27 +147,25 @@
     </ion-grid>
   </div>
 
-  <div class="reservas" style=" margin-left: 10px; margin-right: 10px;">
+  <div class="reservas" style=" margin-left: 10px; margin-right: 10px; margin-top: 0px; margin-bottom: 0px;">
     <ion-grid>
       <ion-row>
         <ion-col style="background-color: whitesmoke; border-radius: 10px; margin-right: 5px; text-align: center;">
-
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
-          <p style="font-size: 11px; margin-bottom: 0px; margin-top: 0px;">Casa comunal</p>
-
+          <p style="font-size: 10px; margin-bottom: 0px; margin-top: 0px;">Casa comunal</p>
         </ion-col>
         <ion-col style="background-color: whitesmoke;  border-radius: 10px; margin-right: 5px; text-align: center;">
 
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
 
-          <p style="font-size: 11px; margin-bottom: 0px; margin-top: 0px;">Parking</p>
+          <p style="font-size: 10px; margin-bottom: 0px; margin-top: 0px;">Parking</p>
 
 
         </ion-col>
         <ion-col style="background-color: whitesmoke; border-radius: 10px; text-align: center; ">
 
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
-          <p style="font-size: 11px; margin-bottom: 0px; margin-top: 0px;">Cancha deportiva</p>
+          <p style="font-size: 10px; margin-bottom: 0px; margin-top: 0px;">Cancha deportiva</p>
 
 
         </ion-col>
@@ -194,7 +192,7 @@
 
 
 
-  <div>
+
     <ion-grid>
       <ion-row
         style="background-color: whitesmoke;border-radius: 10px; margin-left: 10px; margin-right: 10px;align-content: center ;">
@@ -219,10 +217,10 @@
 
       </ion-row>
     </ion-grid>
-  </div>
-  <div>
+ 
+
     <ion-grid>
-      <ion-row style="background-color: whitesmoke; border-radius: 10px; margin-left: 10px; margin-right: 10px;">
+      <ion-row style="background-color: whitesmoke; border-radius: 10px; margin-left: 10px; margin-right: 10px; margin-bottom: 0px;">
 
         <ion-col size="2" style="justify-content: center;; align-items: center; display: flex;">
           <ion-icon name="person-circle"></ion-icon>
@@ -245,10 +243,5 @@
 
       </ion-row>
     </ion-grid>
-  </div>
-
-
-
-
 
 </ion-content>

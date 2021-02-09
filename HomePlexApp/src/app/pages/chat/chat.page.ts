@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { concatAll, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UsersService } from 'src/app/services/users/users.service';
 
 
 @Component({
@@ -16,43 +17,37 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class ChatPage implements OnInit {
 
-   // variables
-   uid;
-   users = [];
-   name;
+   // arreglo de usuarios
+  usersList = [];
+  userUid;
+ 
 
-  constructor(private router: Router,
-    private authService: AuthService,
-    private angularFirestore: AngularFirestore,
-    private angularFireAuth: AngularFireAuth,
-    private navController: NavController) {
 
-      this.uid = localStorage.getItem('userId');
-      console.log(this.uid)
-  
-      //
-      this.angularFirestore.collection("users").get().subscribe(userData => {
-        userData.forEach(childData => {
-          if (childData.data()['Uid'] != this.uid) {
-            this.users.push(childData.data())
-            console.log(this.users)  
-          }
-        })
-      })
-  
-  }
+  constructor(private usersService: UsersService, private angularFirestore: AngularFirestore,
+    private navController: NavController) {}
 
   ngOnInit() {
+
+    // seteo de la variable uid del usuario actual para diferencia en html
+    this.userUid = localStorage.getItem('userId');
+
+    // llamado al servico para la obtencion de los usuarios
+    
+
+    this.usersService.getUsersService().subscribe(userData => {
+      userData.forEach(childData => {
+        if (childData.id != this.userUid) {
+          this.usersList.push(childData) 
+        }
+      })
+    })
   }
 
-  logout() {
-    this.authService.logoutService()
-    localStorage.removeItem('userId')
-  }
 
-  gotoChatRoom(uid,name){
-    sessionStorage.setItem("uid", uid);
-    sessionStorage.setItem("name", name);
+  gotoChatRoom(uid,name,img){
+    sessionStorage.setItem('uidContact', uid)
+    sessionStorage.setItem('nameContact', name)
+    sessionStorage.setItem('imgContact', img)
     this.navController.navigateForward("/chatroom")  
   }
 

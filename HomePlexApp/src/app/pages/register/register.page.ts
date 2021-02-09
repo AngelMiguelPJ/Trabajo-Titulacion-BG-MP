@@ -9,26 +9,13 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class RegisterPage implements OnInit {
 
-  // variables
-  public name: string;
-  public email: string;
-  public password; string;
 
-  constructor(private authService: AuthService, private router: Router) { }
+
+  constructor() { }
 
   ngOnInit() {
   }
 
-  register() {
-    this.authService.registerService(this.email, this.password, this.name)
-      .then(
-        auth => {
-          this.router.navigate(['/tabs/tabhome'])
-          console.log(auth)
-        }).catch(
-          err =>
-            console.log(err)
-        )
-  }
+
 
 }

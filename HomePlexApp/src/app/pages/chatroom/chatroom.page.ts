@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { ChatService } from 'src/app/services/chat/chat.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -8,52 +9,71 @@ import { Router } from '@angular/router';
   styleUrls: ['./chatroom.page.scss'],
 })
 export class ChatroomPage implements OnInit {
-  // datos
-  name;
-  ouid;
-  uid;
-  chats = [];
-  textMsg;
-  nameCurrUser;
+
+  
+    // variables para el seteo de datos principales
+    name;
+    ouid;
+    uid;
+    letras;
+    img;
+  
+    // seteo de los chats
+    chats = [];
 
   constructor(private angularFirestore: AngularFirestore,
-    private router: Router) {
-    this.name = sessionStorage.getItem("name");
-    this.ouid = sessionStorage.getItem('uid');
+    private router: Router, private chatService: ChatService,) {
+    // iniciacion de las variables princiaples
+    this.name = sessionStorage.getItem("nameContact");
+    this.ouid = sessionStorage.getItem('uidContact');
+    this.img = sessionStorage.getItem('imgContact')
 
+    // seteo de la variable uid del usuario actual
     this.uid = localStorage.getItem('userId');
-    this.nameCurrUser = localStorage.getItem('userCurrentName')
 
-    angularFirestore.collection("chats").doc(this.uid).collection(this.ouid, ref => ref.orderBy('time')).snapshotChanges().subscribe(snap => {
-      this.chats = [];
-      snap.forEach(child => {
-        this.chats.push(child.payload.doc.data())
-        console.log(this.chats)
-      });
-
-    })
+    
   }
 
   ngOnInit() {
+    
+    // llamado al servicio para la obtencion de los chats
+    this.chatService.getChatService().subscribe(chats => {
+
+      // seteo de los chat en el arreglo chats
+      this.chats = chats;
+
+    })
   }
 
-  send() {
+  send(textMsg: string) {
 
 
+    // agregar mensajes por medio del servicio de firestore del usuario actual a otro
     this.angularFirestore.collection("chats").doc(this.uid).collection(this.ouid).add({
       time: Date.now(),
+      fecha: new Date().toLocaleDateString(),
+      hora: new Date().toLocaleTimeString(navigator.language, {
+        hour: '2-digit',
+        minute: '2-digit'
+      }),
       uid: this.uid,
-      msg: this.textMsg,
-      Name: this.nameCurrUser
+      msg: textMsg,
+    }).then(() => {
+      this.letras = ''
     })
 
+    // agregar mensajes por medio del servicio de firestore de otro usuario al actual
     this.angularFirestore.collection("chats").doc(this.ouid).collection(this.uid).add({
       time: Date.now(),
+      fecha: new Date().toLocaleDateString(),
+      hora: new Date().toLocaleTimeString(navigator.language, {
+        hour: '2-digit',
+        minute: '2-digit'
+      }),
       uid: this.uid,
-      msg: this.textMsg,
-      Name: this.nameCurrUser
+      msg: textMsg,
     }).then(() => {
-      this.textMsg = "";
+      this.letras = ''
     })
 
   }

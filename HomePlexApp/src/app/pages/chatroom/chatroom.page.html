@@ -11,7 +11,7 @@
         <ion-col>
           <ion-item lines="none">
             <ion-avatar slot="end">
-              <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
+              <img src="{{img}}"/>
             </ion-avatar>
             <ion-label style="text-align: center;">{{name}}</ion-label>
           </ion-item>
@@ -26,7 +26,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollDownOnLoad="true">
+<ion-content>
   <ion-list class="chat-list" no-lines *ngFor="let chat of chats">
 
     <ion-item lines="none"  *ngIf="chat.uid != uid" >
@@ -35,6 +35,11 @@
         <h2>
           <b>
             {{chat.msg}}
+          </b>
+        </h2>
+        <h2>
+          <b>
+            {{chat.hora}}
           </b>
         </h2>
       </ion-label>
@@ -48,6 +53,11 @@
             {{chat.msg}}
           </b>
         </h2>
+        <h2>
+          <b>
+            {{chat.hora}}
+          </b>
+        </h2>
       </ion-label>
     </ion-item>
 
@@ -58,7 +68,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-item>
-      <ion-input spellcheck="true" [(ngModel)]="textMsg" placeholder="Escribir..." (keyup.enter)="send()"></ion-input>
+      <ion-input spellcheck="true" [(ngModel)]="letras" placeholder="Escribir..." #textMsg (keyup.enter)="send(textMsg.value)"></ion-input>
 
     </ion-item>
   </ion-toolbar>

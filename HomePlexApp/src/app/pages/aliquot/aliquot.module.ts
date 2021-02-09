@@ -8,12 +8,15 @@ import { AliquotPageRoutingModule } from './aliquot-routing.module';
 
 import { AliquotPage } from './aliquot.page';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AliquotPageRoutingModule
+    AliquotPageRoutingModule,
+    NgxPaginationModule
   ],
   declarations: [AliquotPage],
   exports: [AliquotPage]

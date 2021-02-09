@@ -30,15 +30,16 @@
 </ion-header>
 <ion-content>
   <div id="container">
-    <ion-item lines="none" *ngFor = "let user of users" (click)="gotoChatRoom(user.Uid,user.Name)" button>
+    <ion-item lines="none" *ngFor="let user of usersList" (click)="gotoChatRoom(user.Uid,user.Name, user.Img)" button>
+      
       <ion-avatar slot="start">
-        <ion-img src="https://picsum.photos/seed/picsum/200/300"></ion-img>
+        <ion-img src="{{user.Img}}"></ion-img>
       </ion-avatar>
-      <ion-label>
+      <ion-label >
         <h1>{{user.Name}}</h1>
       </ion-label>
   
     </ion-item>
-    <ion-button (click)="logout()" >desconectarse</ion-button>
+    
   </div>
 </ion-content>

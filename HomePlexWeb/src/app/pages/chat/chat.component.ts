@@ -1,11 +1,9 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, OnInit, ViewChild, } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ChatService } from 'src/app/services/chat/chat.service';
 import { UsersService } from 'src/app/services/users/users.service';
-
+import { DatePipe } from '@angular/common'
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -14,6 +12,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 
 export class ChatComponent implements OnInit {
 
+  @ViewChild('textMsg') inputName;
 
   // arreglo de usuarios
   usersList = [];
@@ -25,10 +24,11 @@ export class ChatComponent implements OnInit {
 
   // seteo de los chats
   chats = [];
- 
+
   // iniciar servicios
-  constructor(private usersService: UsersService, private angularFirestore: AngularFirestore, 
-              private route: Router, private chatService: ChatService) {
+  constructor(private usersService: UsersService, private angularFirestore: AngularFirestore,
+    private route: Router, private chatService: ChatService,
+    private datepipe: DatePipe) {
 
     // iniciacion de las variables princiaples
     this.name = sessionStorage.getItem("nameContact");
@@ -41,7 +41,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
 
-     // seteo de la variable uid del usuario actual para diferencia en html
+    // seteo de la variable uid del usuario actual para diferencia en html
     this.userUid = localStorage.getItem('userId');
 
     // llamado al servico para la obtencion de los usuarios
@@ -52,13 +52,12 @@ export class ChatComponent implements OnInit {
     })
 
     // llamado al servicio para la obtencion de los chats
-    this.chatService.getChatService().subscribe(chats =>{
+    this.chatService.getChatService().subscribe(chats => {
 
       // seteo de los chat en el arreglo chats
       this.chats = chats;
 
     })
-
   }
 
   // Funcion - metodo para actualizar el panel derecho del chat de acuerdo al usuario
@@ -80,24 +79,38 @@ export class ChatComponent implements OnInit {
 
   // funcion - metodo para el envio de mensajes
   send(textMsg: string) {
+    //const fechaActual = new Date().toLocaleTimeString();
+    ///const fechaActual2 = new Date().toLocaleDateString();
+    //const datelest = this.datepipe.transform(fechaActual, 'dd-MM-yyyy')
+    //console.log(fechaActual, '+', fechaActual2)
 
     // agregar mensajes por medio del servicio de firestore del usuario actual a otro
     this.angularFirestore.collection("chats").doc(this.uid).collection(this.ouid).add({
       time: Date.now(),
+      fecha: new Date().toLocaleDateString(),
+      hora: new Date().toLocaleTimeString(navigator.language, {
+        hour: '2-digit',
+        minute: '2-digit'
+      }),
       uid: this.uid,
-      msg: textMsg
+      msg: textMsg,
     }).then(() => {
-      textMsg = "";
-      })
+      this.inputName.nativeElement.value = ' ';
+    })
 
     // agregar mensajes por medio del servicio de firestore de otro usuario al actual
     this.angularFirestore.collection("chats").doc(this.ouid).collection(this.uid).add({
       time: Date.now(),
+      fecha: new Date().toLocaleDateString(),
+      hora: new Date().toLocaleTimeString(navigator.language, {
+        hour: '2-digit',
+        minute: '2-digit'
+      }),
       uid: this.uid,
-      msg: textMsg
+      msg: textMsg,
     }).then(() => {
-      textMsg = "";
-      })
+      this.inputName.nativeElement.value = ' ';
+    })
 
   }
 

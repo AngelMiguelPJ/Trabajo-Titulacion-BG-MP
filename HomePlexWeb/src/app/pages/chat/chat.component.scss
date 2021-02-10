@@ -28,7 +28,7 @@ img {
 
 .channel_heading {
 	float: left;
-	width: 40%;
+	width: 100%;
 }
 
 .srch_bar {
@@ -253,4 +253,13 @@ img {
 #chatMio{
 	border-top-right-radius: 0px;
 	background-color: #dcf8c6;
+}
+@media (max-width: 991px) {
+	.chat_people{
+		display: grid;
+  grid-template-columns: 2rem auto ;
+  grid-gap: 0px;
+  background-color: none;
+  padding: 0px;
+	}
 }

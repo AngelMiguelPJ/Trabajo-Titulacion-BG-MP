@@ -18,6 +18,16 @@ export interface UsersExport {
   Img: string
 }
 
+export interface usuarios{
+  Casa: string,
+  Email: string,
+  Img: string,
+  Name: string,
+  Telefono: string,
+  TipoUsuario: string,
+  Uid: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +36,9 @@ export class UsersService {
 
   // Variable userUid del usuario actual
   userUid;
+  list;
+    
+ 
 
   // variable bandera para establecer si es admin, contador o no
   isAdmin = false;
@@ -44,7 +57,7 @@ export class UsersService {
 
     // respectivo servicio de firestore para la obtencion de los usuarios
     return this.angularFirestore.collection('users').snapshotChanges().pipe(map(users => {
-
+      
       // return del mapeo de los usuarios
       return users.map(res => {
 
@@ -68,16 +81,20 @@ export class UsersService {
           }
         }
 
-        // seteo de los datos en el modelo UsersExport para su exportacion
+          // seteo de los datos en el modelo UsersExport para su exportacion
         const data = res.payload.doc.data() as UsersExport
         data.id = res.payload.doc.id;
         return data;
+
+
+        
 
       })
 
     }))
 
   }
+
 
 
   // Metodo -funcion -servicio para el registro de usuarios mediante correo y contraseña, ademas de los demas datos en firestore
@@ -115,6 +132,22 @@ export class UsersService {
 
   }
 
+
+  getAllUsersWithoutThisUser(){
+
+    //userUid del usuario actual obtenido en el inicio de sesion
+    this.userUid = localStorage.getItem('userId')
+
+    return this.angularFirestore.collection('users', ref => ref.where('Uid', '!=', this.userUid)).snapshotChanges().pipe(map(res=>{
+      //console.log(res)
+     
+      return res.map(a=>{
+        const data = a.payload.doc.data()
+        return data
+      })
+      
+    }))
+  }
   // Metodo -funcion -servicio para la optencion de usuarios mediante snapshotchanges
   // para luego por setear estos datos en un arreglo
   getUsersServices() {

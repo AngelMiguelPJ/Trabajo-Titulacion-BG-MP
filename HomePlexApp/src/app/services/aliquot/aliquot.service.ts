@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 
 // servicios de firebase
 import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +12,26 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 export class AliquotService {
 
+  //
+  userUid;
+
   // contructor para iniciar servicios
   constructor(private angularFirestore: AngularFirestore) { }
 
+   // Metodo -funcion -servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
+
   // Motodo -funcion -servicio para la optencion de alicuotas
-  getAliquotServices() {
-    return this.angularFirestore.collection('aliquot').snapshotChanges()
+  getAliquotServices(){
+
+    this.userUid = localStorage.getItem('userId')
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('aliquot', ref => ref.where('DatosVecino.uidUser', '==', this.userUid)).snapshotChanges().pipe(map(res=>{
+      //console.log(res)  
+      return res.map(a=>{
+        const data = a.payload.doc.data()
+        return data
+      })  
+    }))
   }
 
   // Metodo -funcion -servicio de actualizacion de datos de alicuotas por id y datos

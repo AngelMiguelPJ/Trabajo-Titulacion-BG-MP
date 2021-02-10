@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 // firebase
 import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,16 @@ export class EventsService {
 
   constructor(private angularFirestore: AngularFirestore) { }
 
-  // Metodo -funcion -servicio para la obtencion de usuarios mediante snapshotchanges
-  getEventsServices() {
-    return this.angularFirestore.collection('events').snapshotChanges()
+  //
+  getEventsServices(){
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('events').snapshotChanges().pipe(map(res=>{
+      //console.log(res)  
+      return res.map(a=>{
+        const data = a.payload.doc.data()
+        return data
+      })  
+    }))
   }
 
   // Metodo -funcion -servicio de actualizacion de datos del evento por id y el campos a actualizar

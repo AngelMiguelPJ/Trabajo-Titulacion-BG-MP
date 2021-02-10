@@ -1,25 +1,52 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title style="text-align: center;">Eventos</ion-title>
+    <ion-title style="text-align: center;">Alicuotas</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content >
-  <ion-card *ngFor="let item of collectionAliquots.data | paginate: config">
-    
-    <ion-card-header style="background-color: #4e73df; padding: 0px; height: 10px;">
-    </ion-card-header>
-  
-    <ion-card-content >
-      <ion-card-title>{{item.DatosVecinoNombre}}</ion-card-title>
-      <ion-card-subtitle>{{item.Descripcion}} </ion-card-subtitle>
-      Keep close to Nature's heart... and break clear away, once in awhile,
+<ion-content fullscreen>
+  <ion-card *ngFor="let item of collectionAliquot | paginate: config">
+    <ion-card-content class="ionCard">
+      <ion-grid class="ionGrid">
+        <ion-row>
+          <ion-col style="text-align: center;">
+            <ion-text color="primary">
+              <h4>{{item.DatosVecino.Nombre}}</h4>
+            </ion-text>
+            <p style="font-size: 11px;">{{item.Descripcion}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="font-size: 11px;">
+            Valor: <b>{{item.ValorCuota}}</b>
+          </ion-col>
+          <ion-col style="font-size: 11px;">
+            Valor Extra: <b>{{item.ValorExtra}}</b>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="font-size: 11px;">
+            Fecha: <b>{{item.Fecha}}</b>
+          </ion-col>
+          <ion-col style="font-size: 11px;">
+            Fecha vencimiento: <b>{{item.FechaVencimiento}}</b>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col style="font-size: 11px;">
+            Estado:
+            <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'"
+              [class.redClass]="item.EstadoCuota =='No pagada'">
+              {{item.EstadoCuota}}
+            </b>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
     </ion-card-content>
   </ion-card>
-  
+  <!--Botones - controladores de la paginacion-->
   <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
     (pageChange)="pageChanged($event)">
   </pagination-controls>
-  
-
-  
 </ion-content>

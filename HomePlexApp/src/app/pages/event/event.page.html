@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen>
-  <ion-card *ngFor="let item of collection.data | paginate: config">
+  <ion-card *ngFor="let item of collectionEvents | paginate: config">
     <ion-card-content class="ionCard">
       <ion-grid class="ionGrid">
         <ion-row>
@@ -15,23 +15,23 @@
             <ion-text color="primary">
               <h4>{{item.Nombre}}</h4>
             </ion-text>
-            <p style="font-size: 11px;">{{item.Descripcion}}</p>
+            <p style="font-size: 11px;">{{item.Reserva.Descripcion}}</p>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col style="font-size: 11px;">
-            Personas: <b>{{item.Personas}}</b>
+            Personas: <b>{{item.Reserva.Personas}}</b>
           </ion-col>
           <ion-col style="font-size: 11px;">
-            Lugar: <b>{{item.Lugar}}</b>
+            Lugar: <b>{{item.Reserva.Lugar}}</b>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col style="font-size: 11px;">
-            Hora: <b>{{item.Duracion}}</b>
+            Hora: <b>{{item.Reserva.Duracion}}</b>
           </ion-col>
           <ion-col style="font-size: 11px;">
-            Fecha: <b>{{item.Fecha}}</b>
+            Fecha: <b>{{item.Reserva.Fecha}}</b>
           </ion-col>
         </ion-row>
         <ion-row>

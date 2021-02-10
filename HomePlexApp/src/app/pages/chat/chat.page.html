@@ -30,13 +30,13 @@
 </ion-header>
 <ion-content>
   <div id="container">
-    <ion-item lines="none" *ngFor="let user of usersList" (click)="gotoChatRoom(user.Uid,user.Name, user.Img)" button>
+    <ion-item lines="none" *ngFor="let user of users" (click)="gotoChatRoom(user.Uid,user.Name, user.Img)" button>
       
       <ion-avatar slot="start">
         <ion-img src="{{user.Img}}"></ion-img>
       </ion-avatar>
       <ion-label >
-        <h1>{{user.Name}}</h1>
+        <h4>{{user.Name}}</h4>
       </ion-label>
   
     </ion-item>

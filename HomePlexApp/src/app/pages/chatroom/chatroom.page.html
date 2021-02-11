@@ -1,75 +1,64 @@
-<ion-header>
-  <ion-toolbar>
-    
-    <ion-grid>
-      <ion-row>
-        <ion-col size='col-2'>
-          <ion-tab-button (click)="chatTabPage()">
-            <ion-icon name="arrow-back-circle"></ion-icon>
-          </ion-tab-button>
-        </ion-col>
-        <ion-col>
-          <ion-item lines="none">
-            <ion-avatar slot="end">
-              <img src="{{img}}"/>
-            </ion-avatar>
-            <ion-label style="text-align: center; font-size: 14px;">{{name}}</ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-        
-  
-      
-      
+<ion-header class="ion-no-border">
 
-  </ion-toolbar>
+
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-tab-button (click)="chatTabPage()">
+      <ion-icon name="arrow-back-circle"></ion-icon>
+    </ion-tab-button>
+  </ion-buttons>
+  <ion-buttons slot="primary">
+      <img class="img-profile" src="{{img}}"/>
+  </ion-buttons>
+
+  <ion-title style="text-align: center;">{{name}}</ion-title>
+</ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list class="chat-list" no-lines *ngFor="let chat of chats">
+<ion-content fullscreen class="ion-no-border" class="background">
 
-    <ion-item lines="none"  *ngIf="chat.uid != uid" >
+
+  <ion-list  *ngFor="let chat of chats" style="background-color: transparent;">
+    <div class="grid-container responsive">
+
+    <ion-item class="chatMsgOtro" *ngIf="chat.uid != uid"  >    
       <ion-label class="ion-text-left">
-        <p>{{name}}</p>
-        <h2>
-          <b>
-            {{chat.msg}}
-          </b>
-        </h2>
-        <h2>
-          <b>
-            {{chat.hora}}
-          </b>
-        </h2>
+        <div>
+          <h5><b>{{name}}</b></h5>        
+        <p>{{chat.msg}}</p>                          
+        <p style="font-size: 10px;">{{chat.hora}}</p>           
+        </div>      
       </ion-label>
     </ion-item>
 
-    <ion-item lines="none"  *ngIf="chat.uid == uid">
+    </div>
+
+    <div class="grid-container responsive">
+      <div></div>
+    <ion-item class="chatMsgMio" *ngIf="chat.uid == uid">
       <ion-label class="ion-text-right">
-        <p>yo</p>
-        <h2>
-          <b>
-            {{chat.msg}}
-          </b>
-        </h2>
-        <h2>
-          <b>
-            {{chat.hora}}
-          </b>
-        </h2>
+        <div>
+          <h5><b>yo</b></h5>        
+        <p>{{chat.msg}}</p>                          
+        <p style="font-size: 10px;">{{chat.hora}}</p>           
+        </div> 
       </ion-label>
     </ion-item>
-
+  </div>
 
   </ion-list>
+  
 </ion-content>
+<ion-footer class="ion-no-border">
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-item>
-      <ion-input spellcheck="true" [(ngModel)]="letras" placeholder="Escribir..." #textMsg (keyup.enter)="send(textMsg.value)"></ion-input>
-
+    <ion-item class="ion-no-border" >
+      <ion-input  [(ngModel)]="letras" placeholder="Escribir..." #textMsg (keyup.enter)="send(textMsg.value)"></ion-input>
+      <ion-buttons slot="end">
+        <ion-tab-button (click)="send(textMsg.value)">
+          <ion-icon class="iconSend" name="paper-plane"></ion-icon>
+        </ion-tab-button>
+      </ion-buttons>
     </ion-item>
-  </ion-toolbar>
+
+  
 </ion-footer>

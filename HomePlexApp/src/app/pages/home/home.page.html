@@ -7,7 +7,7 @@
 
           <ion-buttons>
             <ion-tab-button tab="tabchat">
-              <img class="img-profile" src="{{imgUserInfor}}">
+              <img class="img-profile" src="{{imgProfile}}">
 
             </ion-tab-button>
           </ion-buttons>
@@ -15,15 +15,15 @@
         </ion-col>
         <ion-col>
           <!--Text: Name and email-->
-          <ion-title style="font-size: 11px;">Hola, {{nameUserInfor}}
+          <ion-title style="font-size: 11px;">Hola, {{name}}
           </ion-title>
         </ion-col>
         <ion-col>
           <!--IconLink to Notifications-->
 
           <ion-buttons>
-            <ion-tab-button>
-              <ion-icon name="notifications"></ion-icon>
+            <ion-tab-button (click)="logout()">
+              <ion-icon name="log-in"></ion-icon>
             </ion-tab-button>
           </ion-buttons>
 

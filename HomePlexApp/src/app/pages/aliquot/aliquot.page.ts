@@ -29,8 +29,8 @@ export class AliquotPage implements OnInit {
     this.aliquotService.getAliquotServices().subscribe(resp=>{
       this.collectionAliquot = resp
       this.collectionAliquotLength = resp.length
-      console.log(resp.length)
-      console.log(this.collectionAliquot)
+      //console.log(resp.length)
+      //console.log(this.collectionAliquot)
     })
 
   }

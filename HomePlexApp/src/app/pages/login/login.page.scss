@@ -1,0 +1,77 @@
+
+
+
+
+
+
+ion-header{
+    background-color: white;
+    border:none;
+}
+
+
+
+ion-toolbar{
+    border: none;
+--background: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
+transition: 1.8s ease-in-out;
+  border-radius: 50%;
+  z-index: 6;
+  width: 150%;
+    height: 200px;
+    transform: translateX(-15%);
+    right: initial;
+    top: initial;
+    transition: 2s ease-in-out;
+    bottom: 50px;
+}
+
+
+
+.panel {
+
+  text-align: center;
+
+}
+
+.panel .content {
+  color: #fff;
+  padding: 3rem 5rem 1rem 4rem;
+}
+
+.panel .content p{
+    font-size: 12px;
+}
+.input-field {
+  background-color: #f0f0f0;
+  margin: 10px 0;
+  border-radius: 55px;
+  position: relative;
+}
+
+.input-field input {
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+.gridButton{
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.itemInput{
+  --background: #f0f0f0; border-radius: 25px; margin-bottom: 10px; margin-left: 20px; margin-right: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

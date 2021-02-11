@@ -263,3 +263,29 @@ img {
   padding: 0px;
 	}
 }
+
+@media (max-width: 560px) {
+	#mail{
+	  display: none;
+	}
+  }
+
+  @media (max-width: 408px) {
+	.chat_people{
+
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto ;
+  vertical-align: center;
+	}
+	.chat_ib{
+		padding: 0px;
+	}
+  }
+
+  
+  @media (max-width: 370px) {
+	.channel_heading h4{
+		font-size: 16px;
+	}
+  }

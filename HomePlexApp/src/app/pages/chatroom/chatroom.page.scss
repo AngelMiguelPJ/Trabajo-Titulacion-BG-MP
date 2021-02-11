@@ -1,0 +1,55 @@
+ion-toolbar{
+    --background: #2196F3;
+    --color: white;
+  }
+
+  .img-profile,
+.img-profile {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+ion-title{
+    font-size: medium;
+}
+
+ion-button{
+    margin-left: 10px;
+}
+
+ion-input{
+    
+    border-radius: 10px;  
+}
+
+ion-item .sc-ion-input-md-h {
+     --padding-start: 10px; 
+}
+ion-item .sc-ion-buttons-md-h{
+    margin-left: 0px;
+}
+
+ion-content.background{
+    --background: url(https://pbs.twimg.com/media/DN0Gf06W4AEe_Yv.jpg);;
+}
+
+ion-item.chatMsgOtro{
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+ion-item.chatMsgMio{
+    border-radius: 20px;
+    --background: #dcf8c6;
+    margin-top: 5px;
+}
+.grid-container {
+	display: grid;
+	grid-template-columns: auto auto ;
+	background-color: transparent;
+}
+ion-icon.iconSend{
+    color: #2196F3;
+  }

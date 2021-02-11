@@ -79,6 +79,9 @@ export class ChatroomPage implements OnInit {
   }
 
   chatTabPage() {
+    this.img = sessionStorage.removeItem('imgContact')
+    this.name = sessionStorage.removeItem("nameContact");
+    this.ouid = sessionStorage.removeItem('uidContact');
     this.router.navigate(['/tabs/tabchat'])
   }
 

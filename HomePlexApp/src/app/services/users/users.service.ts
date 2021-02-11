@@ -18,16 +18,6 @@ export interface UsersExport {
   Img: string
 }
 
-export interface usuarios{
-  Casa: string,
-  Email: string,
-  Img: string,
-  Name: string,
-  Telefono: string,
-  TipoUsuario: string,
-  Uid: string
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -36,18 +26,14 @@ export class UsersService {
 
   // Variable userUid del usuario actual
   userUid;
-  list;
     
- 
-
   // variable bandera para establecer si es admin, contador o no
   isAdmin = false;
   isAccountant = false;
 
   // contructor para iniciar los servicios
   constructor(private angularFirestore: AngularFirestore,
-    private angularFireAuth: AngularFireAuth,) { }
-
+    private angularFireAuth: AngularFireAuth) { }
 
   // Metodo -funcion -servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
   getUsersService() {
@@ -85,9 +71,6 @@ export class UsersService {
         const data = res.payload.doc.data() as UsersExport
         data.id = res.payload.doc.id;
         return data;
-
-
-        
 
       })
 
@@ -132,6 +115,22 @@ export class UsersService {
 
   }
 
+  getOnlyThisUser(){
+
+    //userUid del usuario actual obtenido en el inicio de sesion
+    this.userUid = localStorage.getItem('userId')
+
+    return this.angularFirestore.collection('users', ref => ref.where('Uid', '==', this.userUid)).snapshotChanges().pipe(map(res=>{
+      //console.log(res)
+     
+      return res.map(a=>{
+        const data = a.payload.doc.data()
+        return data
+      })
+      
+    }))
+  }
+
 
   getAllUsersWithoutThisUser(){
 
@@ -148,6 +147,7 @@ export class UsersService {
       
     }))
   }
+  
   // Metodo -funcion -servicio para la optencion de usuarios mediante snapshotchanges
   // para luego por setear estos datos en un arreglo
   getUsersServices() {

@@ -14,6 +14,7 @@ import { firebaseConfig } from './services/firebase/firebase.service';
 
 // importaciones angular
 import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 
@@ -24,7 +25,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
             IonicModule.forRoot(),
             AppRoutingModule,
             AngularFireModule.initializeApp(firebaseConfig),
-            AngularFireModule
+            AngularFireModule,
+            AngularFirestoreModule.enablePersistence(),
             ],
   providers: [
     StatusBar,

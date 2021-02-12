@@ -1,0 +1,33 @@
+
+
+  
+  <!-- List of Text Items -->
+  <div class="modal-body">
+  <form>
+    <div class="form-group">
+
+        <!-- Grupo formulario que establece variables a partir del component.ts-->
+        <form [formGroup]="usersFormEdit">
+
+            <!-- Campo Nombre-->
+            <div class="form-group">
+              <ion-item  lines="none">
+                <ion-icon name="mail" slot="start"></ion-icon>
+                <ion-input type="text" formControlName="Name" class="form-control" #Name placeholder="{{NameUsuario}}"></ion-input>
+              </ion-item>
+
+            </div>
+
+        </form>
+
+    </div>
+</form>
+</div>
+  <ion-item  lines='none'>
+    <ion-button  style="margin: auto;" (click)="actualizarUsuario(Name.value)" >Actualizar</ion-button>
+  </ion-item>
+
+  
+
+
+

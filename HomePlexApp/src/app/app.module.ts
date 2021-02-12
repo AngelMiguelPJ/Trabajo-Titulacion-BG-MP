@@ -16,6 +16,7 @@ import { firebaseConfig } from './services/firebase/firebase.service';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
   providers: [
     StatusBar,
     SplashScreen,
-    
+    FormBuilder,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -1,0 +1,45 @@
+
+
+ion-title{
+    font-size: 12px;
+    text-align: center;
+}
+
+ion-header.background{
+    background: url("https://pbs.twimg.com/profile_banners/50988711/1384539792/600x200");
+    
+}
+
+ion-toolbar{
+    --background: transparent;
+    height: 6rem;
+}
+
+ion-card { 
+    margin-bottom: -45px;
+    margin-top: 0;
+    border: none;
+}
+
+
+.header-md::after {
+    background-repeat: no-repeat;
+    height: 0px;
+}
+
+
+
+ion-icon.back{
+    color: white;
+  }
+
+ion-item.items{
+    --background: #f0f0f0;
+    border-radius: 20px;
+    margin: 0 10px 10px 10px;
+}
+
+.sc-ion-modal-md-h{
+    height: 50%;
+    --width: 50%;
+}

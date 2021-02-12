@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 import { UsersService } from 'src/app/services/users/users.service';
@@ -16,7 +17,8 @@ export class HomePage implements OnInit {
 
 
   constructor(public usersService: UsersService,
-              public authService: AuthService) {}
+              public authService: AuthService,
+              private navController: NavController) {}
 
   ngOnInit() {
 

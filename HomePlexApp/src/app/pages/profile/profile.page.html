@@ -1,9 +1,47 @@
-<ion-header>
+<ion-header class="ion-no-border" class="background">
+
+
   <ion-toolbar>
-    <ion-title>profile</ion-title>
+    <ion-buttons slot="start">
+      <ion-tab-button (click)="goHome()">
+        <ion-icon class="back" name="arrow-back-circle"></ion-icon>
+      </ion-tab-button>
+    </ion-buttons>
   </ion-toolbar>
+
+  <ion-card style="width: fit-content;margin-left: auto; margin-right: auto;">
+    <ion-avatar style="height: 100px;
+    width: 100px;">
+      <img style="border-radius: 0px;" src={{imgProfile}}>
+    </ion-avatar>
+  </ion-card>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
+
+  <!-- List of Text Items -->
+  <ion-list style="margin-top: 2rem;">
+
+    <ion-item lines='none'>
+      <ion-label style="text-align: center;">{{nameUser}}</ion-label>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="mail" slot="start"></ion-icon>
+      <ion-label>
+        <h4>{{emailUser}}</h4>
+      </ion-label>
+    </ion-item>
+
+
+    <ion-item lines='none'>
+      <ion-button style="margin: auto;" (click)="presentPopover(nameUser)">Editar contenido</ion-button>
+    </ion-item>
+  </ion-list>
+
+
+
+
+
 
 </ion-content>

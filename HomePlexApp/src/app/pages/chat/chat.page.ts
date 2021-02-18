@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 
 import { UsersService } from 'src/app/services/users/users.service';
 
@@ -21,7 +21,10 @@ export class ChatPage implements OnInit {
 
 
   constructor(private usersService: UsersService,
-              private navController: NavController) {}
+              private navController: NavController,
+              private loadingController: LoadingController) {
+                this.presentLoading()
+              }
 
   ngOnInit() {
     this.usersService.getAllUsersWithoutThisUser().subscribe(res =>{
@@ -29,6 +32,19 @@ export class ChatPage implements OnInit {
       this.users = res
     })
   }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando',
+      duration: 1000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+
+  }
+
 
   gotoChatRoom(uid,name,img){
     sessionStorage.setItem('uidContact', uid)

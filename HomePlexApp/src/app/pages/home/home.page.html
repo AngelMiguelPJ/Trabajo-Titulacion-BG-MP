@@ -1,37 +1,20 @@
-<ion-header>
+<ion-header class="ion-no-border" class="background">
   <ion-toolbar>
-    <div>
-      <ion-row>
-        <ion-col>
-          <!--IconLink to UserProfile-->
-
-          <ion-buttons>
-            <ion-tab-button routerLink='/profile'>
-              <img class="img-profile" src="{{imgProfile}}">
-
-            </ion-tab-button>
-          </ion-buttons>
-
-        </ion-col>
-        <ion-col>
-          <!--Text: Name and email-->
-          <ion-title style="font-size: 11px;">Hola, {{name}}
-          </ion-title>
-        </ion-col>
-        <ion-col>
-          <!--IconLink to Notifications-->
-
-          <ion-buttons>
-            <ion-tab-button (click)="logout()">
-              <ion-icon name="log-in"></ion-icon>
-            </ion-tab-button>
-          </ion-buttons>
-
-        </ion-col>
-      </ion-row>
-
-    </div>
-
+    <ion-buttons slot="start">
+      <ion-tab-button routerLink='/profile'>
+        <ion-avatar style="height: 32px; width: 32px;">
+          <img src="{{imgProfile}}">
+        </ion-avatar>
+      </ion-tab-button>
+    </ion-buttons>
+    
+    <ion-buttons slot="end">
+      <ion-tab-button (click)="logout()">
+        <ion-icon  class="more" name="log-in"></ion-icon>
+      </ion-tab-button>    
+    </ion-buttons>
+    <ion-title style="text-align: center;">Hola, {{name}}</ion-title>
+    
   </ion-toolbar>
   <ion-card>
     <ion-card-content style=" padding:5px ;">

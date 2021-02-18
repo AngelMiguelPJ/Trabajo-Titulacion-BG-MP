@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 import { UsersService } from 'src/app/services/users/users.service';
@@ -17,28 +17,65 @@ export class HomePage implements OnInit {
 
 
   constructor(public usersService: UsersService,
-              public authService: AuthService,
-              private navController: NavController) {}
+    public authService: AuthService,
+    private navController: NavController,
+    public alertController: AlertController,
+    private loadingController: LoadingController) {
+      this.presentLoading()
+     }
 
   ngOnInit() {
 
-    this.usersService.getOnlyThisUser().subscribe(res =>{
+    this.usersService.getOnlyThisUser().subscribe(res => {
       // console.log(res)
-      res.map(resp =>{
-          this.name = resp['Name'];
-          this.imgProfile = resp['Img']      
+      res.map(resp => {
+        this.name = resp['Name'];
+        this.imgProfile = resp['Img']
       })
-     // console.log(this.name)
+      // console.log(this.name)
     })
 
   }
 
-    // funcion - metodo para cerrar sesion
-    logout() {
+  // funcion - metodo para cerrar sesion
+   logout() {
+    const alert = document.createElement('ion-alert');
+    alert.cssClass = 'my-custom-class';
+    alert.header = 'Cerrar sesion';
+    alert.message = '';
+    alert.buttons = [
+      {
+        text: 'No',
+        
+      }, {
+        text: 'Salir',
+        handler: () => {
+          this.authService.logoutService();
+          console.log('Confirm Okay')
+        }
+      }
+    ];
 
-      // llamado al servio de cerrado de sesion
-      this.authService.logoutService();
-  
-    }
+    document.body.appendChild(alert);
+    return alert.present();
+
+
+    
+    // llamado al servio de cerrado de sesion
+    
+
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando',
+      duration: 1000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+
+  }
 
 }

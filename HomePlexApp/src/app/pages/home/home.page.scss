@@ -1,13 +1,18 @@
-ion-toolbar {
-    --color: #ffffff;
-    --background: #2196F3;
-    border-radius: 100%; 
-    
-}
+
 ion-title{
     font-size: 12px;
     text-align: center;
 }
+
+ion-header.background{
+    background: #2196F3;    
+}
+
+ion-toolbar{
+    --background: transparent;
+    --color: white;
+}
+
 ion-card {
     
     border-radius: 15px;
@@ -16,9 +21,10 @@ ion-card {
     border: none;
 
 }
-ion-header {
-    background: #2196F3; 
-    border-bottom: #2196F3;   
+.imgProfile{
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 20px;
 }
 
 .header-md::after {
@@ -64,8 +70,3 @@ ion-content{
     text-align: right;
     font-size: 12px;
 }
-.img-profile {
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 20px;
-  }

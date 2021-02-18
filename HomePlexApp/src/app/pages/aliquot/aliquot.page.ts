@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { AliquotService } from 'src/app/services/aliquot/aliquot.service';
 
 @Component({
@@ -15,7 +16,10 @@ export class AliquotPage implements OnInit {
 
 
   // iniciar servicios
-  constructor(private aliquotService: AliquotService,) { }
+  constructor(private aliquotService: AliquotService,
+    private loadingController: LoadingController) { 
+      this.presentLoading()
+    }
 
   ngOnInit() {
 
@@ -41,6 +45,18 @@ export class AliquotPage implements OnInit {
     // configurar establecida segun el evento
     this.config.currentPage = event;
     //console.log(this.config.totalItems)
+
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando',
+      duration: 1000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
 
   }
 

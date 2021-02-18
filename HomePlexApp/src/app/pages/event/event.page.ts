@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { EventsService } from 'src/app/services/events/events.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
@@ -14,7 +15,10 @@ export class EventPage implements OnInit {
   collectionEvents;
   collectionEventsLength;
 
-  constructor(private eventsService: EventsService) { }
+  constructor(private eventsService: EventsService,
+    private loadingController: LoadingController) {
+      this.presentLoading()
+     }
 
   ngOnInit() {
 
@@ -41,6 +45,18 @@ export class EventPage implements OnInit {
     // configurar establecida segun el evento
     this.config.currentPage = event;
     //console.log(this.config.totalItems)
+
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando',
+      duration: 1000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
 
   }
   

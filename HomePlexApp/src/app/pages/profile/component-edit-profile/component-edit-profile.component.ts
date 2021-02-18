@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UsersService } from 'src/app/services/users/users.service';
-import { PopoverController } from '@ionic/angular';
+import { ModalController, NavParams, PopoverController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-component-edit-profile',
@@ -9,40 +8,24 @@ import { PopoverController } from '@ionic/angular';
   styleUrls: ['./component-edit-profile.component.scss'],
 })
 export class ComponentEditProfileComponent implements OnInit {
-  @Input() NameUsuario: string;
 
-  //
-  userUid;
-  usersFormEdit: FormGroup;
-  constructor(public usersService: UsersService,
-    public fb: FormBuilder,
-    public popoverController: PopoverController,
-   ) {
+  userData: any = {};
+  constructor(private modalController: ModalController,
+    private popover: PopoverController,
+              private navParams: NavParams) {
+                
+              }
+
+  ngOnInit() {this.userData = this.navParams.data}
+
+  close(name: string, telefono: string){
+    if (name != '') {
+      this.userData.Name = name
     }
-
-  ngOnInit() {
-    // variable del seteo del Uid del usuario actual
-    this.userUid = localStorage.getItem('userId')
-
-    this.usersFormEdit = this.fb.group({
-      Name: ['', Validators.required],
-      
-    });
-  }
-
-  actualizarUsuario(nameUser: string) {
-    
-
-    this.usersFormEdit.setValue({
-      Name: nameUser,
-
-    });
-    this.userUid = localStorage.getItem('userId')
-    if (this.userUid !== null || this.userUid !== undefined) {
-      this.usersService.updateUsersServices(this.userUid, this.usersFormEdit.value)
-      this.popoverController.dismiss()
+    if (telefono != '') {
+      this.userData.Telefono = telefono
     }
+    this.popover.dismiss(this.userData)
   }
-  
 
 }

@@ -32,6 +32,9 @@ ion-card {
 ion-icon.back{
     color: white;
   }
+  ion-icon.more{
+    color: white;
+  }
 
 ion-item.items{
     --background: #f0f0f0;
@@ -42,4 +45,19 @@ ion-item.items{
 .sc-ion-modal-md-h{
     height: 50%;
     --width: 50%;
+}
+
+.twPc-avatarLinkEdit{
+    
+    margin-top: -25px;
+    margin-left: 80px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+ion-button.Users{
+    --background: #3880ff ;
+    color: white;
 }

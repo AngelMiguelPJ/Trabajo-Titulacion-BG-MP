@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule,  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -11,10 +11,10 @@ import { AppComponent } from './app.component';
 
 // importar servicio de firebase
 import { firebaseConfig } from './services/firebase/firebase.service';
-
+import { CommonModule } from '@angular/common';
 // importaciones angular
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -27,7 +27,8 @@ import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
             AppRoutingModule,
             AngularFireModule.initializeApp(firebaseConfig),
             AngularFireModule,
-            AngularFirestoreModule.enablePersistence(),
+            
+            CommonModule
             ],
   providers: [
     StatusBar,
@@ -35,6 +36,7 @@ import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
     FormBuilder,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

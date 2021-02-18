@@ -168,7 +168,7 @@ export class RegisterComponent implements OnInit {
   }
 
   // funcion o metodo actualizar usuario
-  actualizarEstudiante() {
+  actualizarUsuario() {
 
     // llamado a la variable uid del usuario y verificacion de si es nula o no
     if (this.idFirabaseActualizar !== null || this.idFirabaseActualizar !== undefined) {

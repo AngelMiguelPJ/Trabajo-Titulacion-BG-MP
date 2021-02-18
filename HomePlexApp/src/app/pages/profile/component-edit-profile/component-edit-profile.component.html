@@ -1,33 +1,12 @@
+<!-- List of Text Items -->
 
-
-  
-  <!-- List of Text Items -->
+<ion-content>
   <div class="modal-body">
-  <form>
-    <div class="form-group">
+  <ion-label>Nombre</ion-label>
+  <ion-input type= 'text' placeholder="{{userData.Name}}" #Name></ion-input>
+  <ion-label>Telefono</ion-label>
+  <ion-input type= 'text' placeholder="{{userData.Telefono}}" #Telefono></ion-input>
+  <ion-button (click)="close(Name.value, Telefono.value)">Guardar</ion-button>
 
-        <!-- Grupo formulario que establece variables a partir del component.ts-->
-        <form [formGroup]="usersFormEdit">
-
-            <!-- Campo Nombre-->
-            <div class="form-group">
-              <ion-item  lines="none">
-                <ion-icon name="mail" slot="start"></ion-icon>
-                <ion-input type="text" formControlName="Name" class="form-control" #Name placeholder="{{NameUsuario}}"></ion-input>
-              </ion-item>
-
-            </div>
-
-        </form>
-
-    </div>
-</form>
 </div>
-  <ion-item  lines='none'>
-    <ion-button  style="margin: auto;" (click)="actualizarUsuario(Name.value)" >Actualizar</ion-button>
-  </ion-item>
-
-  
-
-
-
+</ion-content>

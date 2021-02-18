@@ -26,10 +26,8 @@ export class LoginPage implements OnInit {
 
   // funcion de login
   login(){
-    this.authService.loginService(this.email, this.password).then( res =>{
-      this.router.navigate(['/tabs/tabhome'])
-      location.reload()
-    }).catch(err => alert('datos incorrectos o  no existe el usuario'))
+    this.authService.loginService(this.email, this.password)
+    
   }
 
 }

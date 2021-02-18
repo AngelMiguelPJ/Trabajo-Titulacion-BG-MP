@@ -116,20 +116,40 @@ export class UsersService {
   }
 
   getOnlyThisUser(){
-
+    
     //userUid del usuario actual obtenido en el inicio de sesion
     this.userUid = localStorage.getItem('userId')
-
     return this.angularFirestore.collection('users', ref => ref.where('Uid', '==', this.userUid)).snapshotChanges().pipe(map(res=>{
       //console.log(res)
      
       return res.map(a=>{
+
+        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (a.payload.doc.data()['Uid'] === this.userUid) {
+          const adminVar = a.payload.doc.data()['TipoUsuario']
+          if (adminVar == 'Administrador') {
+            this.isAdmin = true
+          } else {
+            this.isAdmin = false
+          }
+        }
+
+        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (a.payload.doc.data()['Uid'] === this.userUid) {
+          const accountVar = a.payload.doc.data()['TipoUsuario']
+          if (accountVar == 'Contador') {
+            this.isAccountant = true
+          } else {
+            this.isAccountant = false
+          }
+        }
         const data = a.payload.doc.data()
         return data
       })
       
     }))
   }
+  
 
 
   getAllUsersWithoutThisUser(){
@@ -152,6 +172,11 @@ export class UsersService {
   // para luego por setear estos datos en un arreglo
   getUsersServices() {
     return this.angularFirestore.collection("users").snapshotChanges();
+  }
+
+  getDataForId(id: string){
+    return this.angularFirestore.collection('users').doc(id).valueChanges()
+
   }
 
   // Metodo -funcion -servicio de actualizacion de datos de un usuario por id y el campo a actualizar

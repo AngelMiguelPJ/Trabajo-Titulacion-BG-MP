@@ -7,6 +7,13 @@
         <ion-icon class="back" name="arrow-back-circle"></ion-icon>
       </ion-tab-button>
     </ion-buttons>
+    
+    <ion-buttons slot="end" *ngIf="usersService.isAdmin">
+      <ion-tab-button (click)="goRegister()">
+        <ion-icon  class="more" name="people"></ion-icon>
+      </ion-tab-button>    
+    </ion-buttons>
+    
   </ion-toolbar>
 
   <ion-card style="width: fit-content;margin-left: auto; margin-right: auto;">
@@ -14,6 +21,13 @@
     width: 100px;">
       <img style="border-radius: 0px;" src={{imgProfile}}>
     </ion-avatar>
+    <div class="twPc-avatarLinkEdit">
+      <label class="custom-file-upload">
+        <ion-img src="../../../assets/lapiz.svg" style="width: 16px; height: 16px;" alt=""></ion-img>
+        <input type="file" (change)="uploadFile($event)" />
+      </label>
+    </div>
+
   </ion-card>
 </ion-header>
 
@@ -21,6 +35,7 @@
 
   <!-- List of Text Items -->
   <ion-list style="margin-top: 2rem;">
+
 
     <ion-item lines='none'>
       <ion-label style="text-align: center;">{{nameUser}}</ion-label>
@@ -33,15 +48,36 @@
       </ion-label>
     </ion-item>
 
+    <ion-item class="items" lines="none">
+      <ion-icon name="call" slot="start"></ion-icon>
+      <ion-label>
+        <h4>{{phoneUser}}</h4>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="home" slot="start"></ion-icon>
+      <ion-label>
+        <h4>{{houseUser}}</h4>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="accessibility" slot="start"></ion-icon>
+      <ion-label>
+        <h4>{{typeUser}}</h4>
+      </ion-label>
+    </ion-item>
+
 
     <ion-item lines='none'>
-      <ion-button style="margin: auto;" (click)="presentPopover(nameUser)">Editar contenido</ion-button>
+      <ion-button style="margin: auto;" (click)="presentPopover(nameUser, phoneUser)">Editar contenido</ion-button>
     </ion-item>
+
+
+    
+
   </ion-list>
-
-
-
-
 
 
 </ion-content>

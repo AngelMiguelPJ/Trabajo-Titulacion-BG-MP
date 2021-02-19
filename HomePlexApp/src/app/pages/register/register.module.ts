@@ -8,6 +8,7 @@ import { RegisterPageRoutingModule } from './register-routing.module';
 
 import { RegisterPage } from './register.page';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CreateUserComponent } from './create-user/create-user.component';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RegisterPageRoutingModule,
     NgxPaginationModule
   ],
-  declarations: [RegisterPage],
+  declarations: [RegisterPage, CreateUserComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })

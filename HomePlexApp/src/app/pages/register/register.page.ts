@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LoadingController, ModalController, PopoverController } from '@ionic/angular';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CreateUserComponent } from './create-user/create-user.component';
 
 
 @Component({
@@ -18,13 +19,12 @@ export class RegisterPage implements OnInit {
     'Arrendatario'
   ]
 
-  
-
   // variable para introducir datos y respectivo conteo
   collection = { count: 0, data: [] }
   // variable para paginacion
   config: any;
   usersFormEdit: FormGroup;
+  usersFormCreate: FormGroup;
   userUid;
 
   constructor(private usersService: UsersService,
@@ -43,6 +43,12 @@ export class RegisterPage implements OnInit {
     }
 
     this.userUid = localStorage.getItem('userId')
+    this.usersFormCreate = this.fb.group({
+      Name: ['', Validators.required],
+      Email: ['', Validators.required],
+      Password: ['', Validators.required],
+      TipoUsuario: ['', Validators.required]
+    });
     //inicializando formulario para guardar los datos del usuario
     this.usersFormEdit = this.fb.group({
       TipoUsuario: ['', Validators.required],
@@ -90,7 +96,7 @@ export class RegisterPage implements OnInit {
     this.router.navigate(['/profile'])
   }
 
-  async up(val: string, Uid: string) {
+  async actualizar(val: string, Uid: string) {
 
     const loading = await this.loadingController.create({
       message: 'Cambios guardados',
@@ -99,13 +105,11 @@ export class RegisterPage implements OnInit {
     });
     await loading.present();
 
-    console.log(val)
-    console.log(Uid)
-    console.log(this.usersFormEdit.value)
+
     this.usersFormEdit.setValue({
       TipoUsuario: val,
     });
-    console.log(this.usersFormEdit.value)
+    //console.log(this.usersFormEdit.value)
     // llamado a la variable uid del usuario y verificacion de si es nula o no
     if (Uid !== null || Uid !== undefined) {
 
@@ -117,19 +121,53 @@ export class RegisterPage implements OnInit {
       )
     }
 
-    
+
 
 
   }
 
 
-    // funcion-metodo de eliminar el usuario de la base de datos
-    eliminar(item: any): void {
+  // funcion-metodo de eliminar el usuario de la base de datos
+  eliminar(item: any): void {
 
-      // llamado al servicio de eliminacion de usuarios
-      this.usersService.deleteUsersServices(item.idFirebase);
-  
-    }
+    // llamado al servicio de eliminacion de usuarios
+    this.usersService.deleteUsersServices(item.idFirebase);
+
+  }
+
+  async createUserPopover() {
+    
+    //console.log(this.usersFormEdit.value)
+    this.modalController.create({
+      component: CreateUserComponent,
+      cssClass: 'modal-create-user',
+      componentProps: this.usersFormCreate.value,
+      
+    }).then(modalres =>{
+      modalres.present();
+      modalres.onDidDismiss().then(res =>{
+        //console.log(res.data)
+        if (res.data != null || res.data != undefined) {
+          this.presentLoading()
+          //console.log(res.data.Email)
+          this.usersService.registerUsersService(res.data.Email, res.data.Password, res.data.Name, res.data.TipoUsuario)
+          }
+      })
+    });
+    
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Usuario creado',
+      duration: 1000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    //console.log('Loading dismissed!');
+  }
 
 
 

@@ -1,64 +1,86 @@
 <ion-header translucent>
   <ion-toolbar>
+    
     <ion-buttons slot="start">
-      <ion-menu-button auto-hide="false"></ion-menu-button>
+      <ion-tab-button >
+        <ion-icon name="search"></ion-icon>
+      </ion-tab-button>
     </ion-buttons>
-    <ion-buttons slot="primary">
-      <ion-button>
-        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-      </ion-button>
+    
+    <ion-buttons slot="end" *ngIf="usersService.isAdmin">
+      <ion-tab-button>
+        <ion-icon name="add-circle"></ion-icon>
+      </ion-tab-button>
     </ion-buttons>
 
-    <ion-title style="text-align: center;">Eventos</ion-title>
+    <ion-title>Eventos</ion-title>
   </ion-toolbar>
 
 </ion-header>
 <ion-content fullscreen>
   <ion-card *ngFor="let item of collectionEvents | paginate: config">
-    <ion-card-content class="ionCard">
-      <ion-grid class="ionGrid">
-        <ion-row>
-          <ion-col class="colImg">
-            <ion-img src="{{item.Img}}"></ion-img>
-          </ion-col>
-          <ion-col style="text-align: center;">
-            <ion-text color="primary">
-              <h4>{{item.Nombre}}</h4>
-            </ion-text>
-            <p style="font-size: 11px;">{{item.Reserva.Descripcion}}</p>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col style="font-size: 11px;">
-            Personas: <b>{{item.Reserva.Personas}}</b>
-          </ion-col>
-          <ion-col style="font-size: 11px;">
-            Lugar: <b>{{item.Reserva.Lugar}}</b>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col style="font-size: 11px;">
-            Hora: <b>{{item.Reserva.Duracion}}</b>
-          </ion-col>
-          <ion-col style="font-size: 11px;">
-            Fecha: <b>{{item.Reserva.Fecha}}</b>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col style="font-size: 11px;">
-            Estado:
-            <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'"
-              [class.redClass]="item.EventoAN =='Desaprovado'">
-              {{item.EventoAN}}
-            </b>
-          </ion-col>
-        </ion-row>
+    <ion-item style="--padding-start: 0px;" lines="none">
+      
+      <ion-thumbnail slot="start" style="padding: 0px; margin: 0px; width: 30%; height: 50px;" >
+        <img src="{{item.Img}}">
+      </ion-thumbnail>
+      <ion-label style="text-align: center;">{{item.Nombre}}</ion-label>
+      <div slot="end">
+        <ion-icon class='Edit' name="create" *ngIf="usersService.isAdmin"></ion-icon>
+        <br>
+        <ion-icon class='Delete' name="trash" *ngIf="usersService.isAdmin"></ion-icon>
+      </div>
+      
+    </ion-item>
+  
+    <ion-card-content style="padding: 0px;">
 
-      </ion-grid>
+      <ion-item>
+        <ion-grid style="padding: 0px;">
+          <ion-row>
+            <ion-col style="font-size: 10px; text-align: center;">
+              <b>{{item.Reserva.Descripcion}}</b>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col style="font-size: 10px;">
+              Personas: <b>{{item.Reserva.Personas}}</b>
+            </ion-col>
+            <ion-col style="font-size: 10px;">
+              Lugar: <b>{{item.Reserva.Lugar}}</b>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="font-size: 10px;">
+              Hora: <b>{{item.Reserva.Duracion}}</b>
+            </ion-col>
+            <ion-col style="font-size: 10px;">
+              Fecha: <b>{{item.Reserva.Fecha}}</b>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="font-size: 10px; text-align: center;">
+              Estado:
+              <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'"
+                [class.redClass]="item.EventoAN =='Desaprovado'">
+                {{item.EventoAN}}
+              </b>
+            </ion-col>
+          </ion-row>
+  
+        </ion-grid>
+  
+      </ion-item>
+
+        
+      
     </ion-card-content>
+    
   </ion-card>
   <!--Botones - controladores de la paginacion-->
   <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
     (pageChange)="pageChanged($event)">
   </pagination-controls>
+  
 </ion-content>

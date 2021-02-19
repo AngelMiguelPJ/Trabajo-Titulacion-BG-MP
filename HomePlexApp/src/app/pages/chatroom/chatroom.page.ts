@@ -10,16 +10,16 @@ import { ChatService } from 'src/app/services/chat/chat.service';
 })
 export class ChatroomPage implements OnInit {
 
-  
-    // variables para el seteo de datos principales
-    name;
-    ouid;
-    uid;
-    letras;
-    img;
-  
-    // seteo de los chats
-    chats = [];
+
+  // variables para el seteo de datos principales
+  name;
+  ouid;
+  uid;
+  letras;
+  img;
+
+  // seteo de los chats
+  chats = [];
 
   constructor(private angularFirestore: AngularFirestore,
     private router: Router, private chatService: ChatService,) {
@@ -31,11 +31,11 @@ export class ChatroomPage implements OnInit {
     // seteo de la variable uid del usuario actual
     this.uid = localStorage.getItem('userId');
 
-    
+
   }
 
   ngOnInit() {
-    
+
     // llamado al servicio para la obtencion de los chats
     this.chatService.getChatService().subscribe(chats => {
 
@@ -45,7 +45,7 @@ export class ChatroomPage implements OnInit {
     })
   }
 
-  send(textMsg: string) {
+  send(textMsg: any) {
 
 
     // agregar mensajes por medio del servicio de firestore del usuario actual a otro

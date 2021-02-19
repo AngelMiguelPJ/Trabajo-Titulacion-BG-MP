@@ -6,15 +6,9 @@ import { ModalController, NavController, PopoverController } from '@ionic/angula
 import { last, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UsersService } from 'src/app/services/users/users.service';
-import { ComponentEditProfileComponent } from './component-edit-profile/component-edit-profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 
-
-interface User {
-  id: number;
-  first: string;
-  last: string;
-}
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -96,22 +90,19 @@ export class ProfilePage implements OnInit {
     });
     //console.log(this.usersFormEdit.value)
     this.popoverController.create({
-      component: ComponentEditProfileComponent,
+      component: EditProfileComponent,
       cssClass: 'my-custom-class',
       componentProps: this.usersFormEdit.value,
-      
-  
     }).then(modalres =>{
       modalres.present();
       modalres.onDidDismiss().then(res =>{
-        //console.log(res.data)
+        console.log(res.data)
         if (res.data != null || res.data != undefined) {
           this.usersFormEdit.setValue({
             Name: res.data.Name,
             Telefono: res.data.Telefono,
           });
           this.usersService.updateUsersServices(this.userUid, this.usersFormEdit.value)
-
         }
       })
     });

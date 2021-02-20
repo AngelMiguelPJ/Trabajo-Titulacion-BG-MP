@@ -7,7 +7,7 @@
       </ion-tab-button>
     </ion-buttons>
     
-    <ion-buttons slot="end" *ngIf="usersService.isAdmin">
+    <ion-buttons slot="end" (click)="createUserModal()">
       <ion-tab-button>
         <ion-icon name="add-circle"></ion-icon>
       </ion-tab-button>
@@ -26,9 +26,9 @@
       </ion-thumbnail>
       <ion-label style="text-align: center;">{{item.Nombre}}</ion-label>
       <div slot="end">
-        <ion-icon class='Edit' name="create" *ngIf="usersService.isAdmin"></ion-icon>
+        <ion-icon class='Edit' name="create" (click)="editEventModal(item)"></ion-icon>
         <br>
-        <ion-icon class='Delete' name="trash" *ngIf="usersService.isAdmin"></ion-icon>
+        <ion-icon class='Delete' name="trash"  (click)="deleteEvent(item)"></ion-icon>
       </div>
       
     </ion-item>
@@ -39,24 +39,24 @@
         <ion-grid style="padding: 0px;">
           <ion-row>
             <ion-col style="font-size: 10px; text-align: center;">
-              <b>{{item.Reserva.Descripcion}}</b>
+              <b>{{item.Descripcion}}</b>
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col style="font-size: 10px;">
-              Personas: <b>{{item.Reserva.Personas}}</b>
+              Personas: <b>{{item.Personas}}</b>
             </ion-col>
             <ion-col style="font-size: 10px;">
-              Lugar: <b>{{item.Reserva.Lugar}}</b>
+              Lugar: <b>{{item.Lugar}}</b>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col style="font-size: 10px;">
-              Hora: <b>{{item.Reserva.Duracion}}</b>
+              Hora: <b>{{item.Duracion}}</b>
             </ion-col>
             <ion-col style="font-size: 10px;">
-              Fecha: <b>{{item.Reserva.Fecha}}</b>
+              Fecha: <b>{{item.Fecha}}</b>
             </ion-col>
           </ion-row>
           <ion-row>

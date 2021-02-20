@@ -14,13 +14,7 @@ export class EventsService {
   //
   getEventsServices(){
     //userUid del usuario actual obtenido en el inicio de sesion
-    return this.angularFirestore.collection('events').snapshotChanges().pipe(map(res=>{
-      //console.log(res)  
-      return res.map(a=>{
-        const data = a.payload.doc.data()
-        return data
-      })  
-    }))
+    return this.angularFirestore.collection('events').snapshotChanges();
   }
 
   // Metodo -funcion -servicio de actualizacion de datos del evento por id y el campos a actualizar

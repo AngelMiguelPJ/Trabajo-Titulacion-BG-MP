@@ -130,7 +130,7 @@ export class EventRegisterComponent implements OnInit {
     this.uidAdmin = localStorage.getItem('userId')
     this.eventsForm = this.formBuilder.group({
       idUser: this.uidAdmin,
-      idEventBooking: idRandomEvent,
+      idEventBooking: '',
       Img: '',
       Nombre: ['', Validators.required],
       EventoAN: ['', Validators.required],
@@ -258,10 +258,15 @@ export class EventRegisterComponent implements OnInit {
     // llamado al servicio de eliminacion de eventos 
     this.eventsService.deleteEventsServices(item.uidEvent);
 
-    // llamado al servico de eliminacion de reservas 
-    if (item.UidEventBooking == this.bVar) {
-      this.bookingService.deleteBookingServices(this.aVar)
-    }
+    this.collectionBooking.data.map(res => {
+      const a = res.id
+      const b = res.UidEventBooking
+      console.log("a: ", a, "b", b)
+      // llamado al servico de eliminacion de reservas 
+      if (item.UidEventBooking == b) {
+        this.bookingService.deleteBookingServices(a)
+      }
+    })
 
     // llamado al servicio de eliminacion de imagenes
     this.storage.refFromURL(item.Img).delete()
@@ -273,6 +278,8 @@ export class EventRegisterComponent implements OnInit {
 
     //console.log(this.eventImgForm.value)
     // seteo de datos de reservas por medio de datos de eventos
+    const idRandomEvent = Math.random().toString(36).substring(2);
+    this.eventsForm.value.idEventBooking = idRandomEvent
     this.eventsBookingForm.setValue({
       idUserReserv: this.uidAdmin,
       Ocupado: 'si',
@@ -422,11 +429,15 @@ export class EventRegisterComponent implements OnInit {
         Personas: this.eventFormEdit.value.Reserva.Personas
       })
     })
-
-    // condicion para actualizar reserva segun el evento
-    if (this.eventFormEdit.value.idEventBooking == this.bVar) {
-      this.bookingService.updateBookingServices(this.aVar, this.eventBookingFormEdit.value)
+    this.collectionBooking.data.map(res => {
+      const a = res.id
+      const b = res.UidEventBooking
+      console.log("a: ", a, "b", b)
+      if (this.eventFormEdit.value.idEventBooking == b) {
+      this.bookingService.updateBookingServices(a, this.eventBookingFormEdit.value)
     }
+    })
+    
 
     // llamado a la variable uid del usuario y verificacion de si es nula o no
     if (this.uidEventEdit !== null || this.uidEventEdit !== undefined) {

@@ -1,3 +1,72 @@
-<p>
-  event-create works!
-</p>
+<ion-content>
+  <ion-list style="margin-top: 2rem;">
+
+    <ion-item class="itemImg" lines="none">
+      <ion-avatar style="height: 100px;width: 100px; margin: auto;">
+        <img style="border-radius: 0px;" src="{{imgEdit}}">
+        <div class="twPc-avatarLinkEdit">
+          <label class="custom-file-upload">
+            <ion-img src="../../../assets/lapiz.svg" style="width: 16px; height: 16px;" alt=""></ion-img>
+            <input type="file" (change)="uploadFile($event)" />
+          </label>
+        </div>
+      </ion-avatar>
+
+
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="text-outline" slot="start"></ion-icon>
+      <ion-input type='text' placeholder="Nombre" [(ngModel)]="eventBookingDataCreate.Nombre" required></ion-input>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="thumbs-up" slot="start"></ion-icon>
+
+      <ion-select mode="ios" placeholder="Estado" [(ngModel)]="eventBookingDataCreate.EventoAN" required>
+        <ion-select-option *ngFor="let status of statusEvent">{{status}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="time" slot="start"></ion-icon>
+
+      <ion-select mode="ios" placeholder="Duracion" [(ngModel)]="eventBookingDataCreate.Reserva.Duracion" required>
+        <ion-select-option *ngFor="let duration of durationEvent">{{duration}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="text-outline" slot="start"></ion-icon>
+      <ion-input type='text' placeholder="Descripcion" [(ngModel)]="eventBookingDataCreate.Reserva.Descripcion" required></ion-input>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="calendar" slot="start"></ion-icon>
+      <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" min="{{fechaActual|date:'yyyy-MM-dd'}}"
+        placeholder="fecha" [(ngModel)]="eventBookingDataCreate.Reserva.Fecha"></ion-datetime>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="trail-sign" slot="start"></ion-icon>
+      <ion-select mode="ios" placeholder="Lugar" [(ngModel)]="eventBookingDataCreate.Reserva.Lugar" required>
+        <ion-select-option *ngFor="let place of placeEvent" >{{place}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
+      <ion-icon name="people" slot="start"></ion-icon>
+      <ion-select mode="ios" placeholder="Personas" [(ngModel)]="eventBookingDataCreate.Reserva.Personas" required>
+        <ion-select-option *ngFor="let people of peopleEvent" >
+          {{people}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <!-- Round -->
+    <ion-item lines='none'>
+      <ion-button size="smaller" style="margin: auto;" shape="round" (click)="guardar()">Guardar</ion-button>
+    </ion-item>
+
+
+  </ion-list>
+</ion-content>

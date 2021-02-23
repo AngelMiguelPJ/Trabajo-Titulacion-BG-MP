@@ -43,8 +43,8 @@
           <td>{{item.DatosVecinoNombre}}</td>
           <td>{{item.ValorCuota}}</td>
           <td>{{item.ValorExtra}}</td>
-          <td>{{item.Fecha}}</td>
-          <td>{{item.FechaVencimiento}}</td>
+          <td>{{item.Fecha.split('T')[0]}}</td>
+          <td>{{item.FechaVencimiento.split('T')[0]}}</td>
           <td>{{item.EstadoCuota}}</td>
           <td>{{item.Descripcion}}</td>
           <td>

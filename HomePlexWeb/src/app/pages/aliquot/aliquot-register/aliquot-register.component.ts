@@ -116,10 +116,10 @@ export class AliquotRegisterComponent implements OnInit {
     );
 
     // aleatorio para la alicuota
-    const idAliquotRandom = Math.random().toString(36).substring(2);
+    
     //iniciar formulario para la creacion de alicuotas
     this.aliquotFormCreate = this.formBuilder.group({
-      IdAliquot: idAliquotRandom,
+      IdAliquot: '',
       DatosVecino: '',
       ValorCuota: '',
       ValorExtra: '',
@@ -154,7 +154,9 @@ export class AliquotRegisterComponent implements OnInit {
 
   // funcion - metodo para la creacion de las alicuotas
   createAliquot() {
-
+    const idAliquotRandom = Math.random().toString(36).substring(2);
+    this.aliquotFormCreate.value.IdAliquot = idAliquotRandom;
+    console.table(this.aliquotFormCreate.value)
     // llamado al servicio de creacion de alicuotas
     this.aliquotService.createAliquotServices(this.aliquotFormCreate.value).then(resp => {
 

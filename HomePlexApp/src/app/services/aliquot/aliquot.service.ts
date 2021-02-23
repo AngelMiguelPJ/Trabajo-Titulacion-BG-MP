@@ -19,7 +19,10 @@ export class AliquotService {
   constructor(private angularFirestore: AngularFirestore) { }
 
    // Metodo -funcion -servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
-
+      // Motodo -funcion -servicio para la optencion de alicuotas
+  getAllAliquotServices() {
+    return this.angularFirestore.collection('aliquot').snapshotChanges()
+  }
   // Motodo -funcion -servicio para la optencion de alicuotas
   getAliquotServices(){
 

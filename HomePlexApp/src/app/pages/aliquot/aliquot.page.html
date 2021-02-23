@@ -1,61 +1,155 @@
 <ion-header translucent>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button auto-hide="false"></ion-menu-button>
+      <ion-tab-button>
+        <ion-icon name="search"></ion-icon>
+      </ion-tab-button>
     </ion-buttons>
-    <ion-buttons slot="primary">
-      <ion-button>
-        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-      </ion-button>
+    <!--*ngIf="usersService.isAdmin"-->
+    <ion-buttons slot="end" (click)="createAliquotModal()" *ngIf="usersService.isAdmin">
+      <ion-tab-button>
+        <ion-icon name="add-circle"></ion-icon>
+      </ion-tab-button>
     </ion-buttons>
 
-    <ion-title style="text-align: center;">Alicuotas</ion-title>
+    <ion-title>Alicuotas</ion-title>
   </ion-toolbar>
+
+
+
 </ion-header>
 <ion-content fullscreen>
-  <ion-card *ngFor="let item of collectionAliquot | paginate: config">
-    <ion-card-content class="ionCard">
-      <ion-grid class="ionGrid">
-        <ion-row>
-          <ion-col style="text-align: center;">
-            <ion-text color="primary">
-              <h4>{{item.DatosVecino.Nombre}}</h4>
-            </ion-text>
-            <p style="font-size: 11px;">{{item.Descripcion}}</p>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col style="font-size: 11px;">
-            Valor: <b>{{item.ValorCuota}}</b>
-          </ion-col>
-          <ion-col style="font-size: 11px;">
-            Valor Extra: <b>{{item.ValorExtra}}</b>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col style="font-size: 11px;">
-            Fecha: <b>{{item.Fecha}}</b>
-          </ion-col>
-          <ion-col style="font-size: 11px;">
-            Fecha vencimiento: <b>{{item.FechaVencimiento}}</b>
-          </ion-col>
+  <!--*ngIf="usersService.isAdmin"-->
+  <ion-segment mode="ios" (ionChange)="segmentChanged($event)" color="primary" value="Mias" *ngIf="usersService.isAdmin">
+    <ion-segment-button value="Mias" mode="ios">
+      <ion-label>Mis cuotas</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="todas" mode="ios">
+      <ion-label>todas</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-        </ion-row>
-        <ion-row>
-          <ion-col style="font-size: 11px;">
-            Estado:
-            <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'"
-              [class.redClass]="item.EstadoCuota =='No pagada'">
-              {{item.EstadoCuota}}
-            </b>
-          </ion-col>
-        </ion-row>
+  <div *ngIf="selectedSegment == 'Mias'">
+    <ion-card *ngFor="let item of collectionAliquot | paginate: config">
+      <ion-item style="--padding-start: 0px;" lines="none">
+        <ion-label style="text-align: center;">{{item.DatosVecino.Nombre}}</ion-label>
+      </ion-item>
 
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
-  <!--Botones - controladores de la paginacion-->
-  <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
-    (pageChange)="pageChanged($event)">
-  </pagination-controls>
+      <ion-card-content style="padding: 0px;">
+
+        <ion-item>
+          <ion-grid style="padding: 0px;">
+            <ion-row>
+              <ion-col style="text-align: center;">
+
+                <p style="font-size: 10px;">{{item.Descripcion}}</p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="font-size: 10px;">
+                Valor: <b>{{item.ValorCuota}}</b>
+              </ion-col>
+              <ion-col style="font-size: 10px;">
+                Valor Extra: <b>{{item.ValorExtra}}</b>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="font-size: 10px;">
+                Fecha: <b>{{item.Fecha.split('T')[0]}}</b>
+              </ion-col>
+              <ion-col style="font-size: 10px;">
+                Estado:
+                <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'"
+                  [class.redClass]="item.EstadoCuota =='No pagada'">
+                  {{item.EstadoCuota}}
+                </b>
+              </ion-col>
+
+            </ion-row>
+            <ion-row>
+              <ion-col style="font-size: 10px;">
+                Fecha vencimiento: <b>{{item.FechaVencimiento.split('T')[0]}}</b>
+              </ion-col>
+
+            </ion-row>
+
+          </ion-grid>
+
+        </ion-item>
+
+
+
+      </ion-card-content>
+
+    </ion-card>
+    <!--Botones - controladores de la paginacion-->
+    <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+      (pageChange)="pageChanged($event)">
+    </pagination-controls>
+  </div>
+
+
+  <div *ngIf="selectedSegment == 'todas'">
+    <ion-card *ngFor="let item of collectionAliquotsAll.data| paginate: config2">
+      <ion-item style="--padding-start: 0px;" lines="none">
+
+        <ion-label style="text-align: center;">{{item.DatosVecinoNombre}}</ion-label>
+        
+          <ion-icon class='Edit' slot="end" name="create" (click)="editAliquotModal(item)"></ion-icon>
+          
+        
+
+      </ion-item>
+
+      <ion-card-content style="padding: 0px;">
+
+        <ion-item>
+          <ion-grid style="padding: 0px;">
+            <ion-row>
+              <ion-col style="text-align: center;">
+
+                <p style="font-size: 10px;">{{item.Descripcion}}</p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="font-size: 10px;">
+                Valor: <b>{{item.ValorCuota}}</b>
+              </ion-col>
+              <ion-col style="font-size: 10px;">
+                Valor Extra: <b>{{item.ValorExtra}}</b>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="font-size: 10px;">
+                Fecha: <b>{{item.Fecha.split('T')[0]}}</b>
+              </ion-col>
+              <ion-col style="font-size: 10px;">
+                Estado:
+                <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'"
+                  [class.redClass]="item.EstadoCuota =='No pagada'">
+                  {{item.EstadoCuota}}
+                </b>
+              </ion-col>
+
+            </ion-row>
+            <ion-row>
+              <ion-col style="font-size: 10px;">
+                Fecha vencimiento: <b>{{item.FechaVencimiento.split('T')[0]}}</b>
+              </ion-col>
+
+            </ion-row>
+
+          </ion-grid>
+
+        </ion-item>
+
+      </ion-card-content>
+
+    </ion-card>
+    <!--Botones - controladores de la paginacion-->
+    <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+      (pageChange)="pageChanged2($event)">
+    </pagination-controls>
+  </div>
+
 </ion-content>

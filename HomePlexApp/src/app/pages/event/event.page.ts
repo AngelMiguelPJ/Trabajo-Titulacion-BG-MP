@@ -24,8 +24,7 @@ export class EventPage implements OnInit {
   collectionEventsBooking;
   collectionEventsBookingLength;
   // variables para establecer id y uid de reservas
-  aVar: any = {};
-  bVar: any = {};
+
   uidEventEdit;
 
   // formulario
@@ -283,7 +282,7 @@ export class EventPage implements OnInit {
     });
     // igualancion del uid del usuario actual a la variable id firebase
     this.uidEventEdit = item.uidEvent;
-    console.log(this.bVar)
+
     //console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: EventEditComponent,

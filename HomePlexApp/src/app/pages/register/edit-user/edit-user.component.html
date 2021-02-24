@@ -1,3 +1,24 @@
-<p>
-  edit-user works!
-</p>
+<!-- List of Text Items -->
+<ion-toolbar>
+  <ion-title style="text-align: center;">Editar usuario</ion-title>
+</ion-toolbar>
+<ion-content fullscreen>
+
+  <ion-item class="items" lines="none">
+    <ion-icon name="home" slot="start"></ion-icon>
+    <ion-input type='text' [(ngModel)]="usersFormEdit.value.Casa" placeholder="Casa" required></ion-input>
+  </ion-item>
+
+  <ion-item class="items" lines="none">
+    <ion-icon name="accessibility" slot="start"></ion-icon>
+
+    <ion-select interface="popover" mode="ios" placeholder="Tipo Usuario" [(ngModel)]="usersFormEdit.value.TipoUsuario" required>
+      <ion-select-option *ngFor="let tipo of typeUsers">{{tipo}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item lines='none'>
+    <ion-button size="smaller" style="margin: auto;" shape="round" (click)="updateUser()">Guardar</ion-button>
+  </ion-item>
+
+</ion-content>

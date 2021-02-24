@@ -3,19 +3,14 @@ ion-toolbar{
   --color: white;
 }
 
-ion-select::part(icon) {
-  color: #2196F3;
-  opacity: 1;
+ion-icon.Edit{
+  color: green;
 }
 
-
-
-
-
-/* Set the text color */
-ion-select::part(text) {
-  color: #2196F3;
+ion-icon.Delete{
+  color: red;
 }
+
 
 
 

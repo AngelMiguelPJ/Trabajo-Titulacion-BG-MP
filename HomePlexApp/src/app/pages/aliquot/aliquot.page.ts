@@ -90,7 +90,7 @@ export class AliquotPage implements OnInit {
 
     this.modalController.create({
       component: AliquotCreateComponent,
-      cssClass: 'modal-create-eventBooking'
+      cssClass: 'modal-create-aliquot'
 
     }).then(modalres => {
       modalres.present();
@@ -103,7 +103,7 @@ export class AliquotPage implements OnInit {
 
     this.modalController.create({
       component: AliquotEditComponent,
-      cssClass: 'modal-create-eventBooking',
+      cssClass: 'modal-edit-aliquot',
       componentProps: item,
 
     }).then(modalres => {

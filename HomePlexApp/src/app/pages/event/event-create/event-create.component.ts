@@ -94,6 +94,12 @@ export class EventCreateComponent implements OnInit {
 
   }
 
+  cancelar(){
+    this.modalController.dismiss({
+      'dismissed': true
+    });
+  }
+
   async presentToast() {
     const toast = await this.toastController.create({
       message: ' <b style="text-align:center">Debe llenar todos los datos</b>',

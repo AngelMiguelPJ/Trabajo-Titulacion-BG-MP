@@ -1,28 +1,36 @@
-<ion-header >
+<ion-header>
   <ion-toolbar>
-    
-    <ion-buttons slot="primary">
-      <ion-button>
-        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-      </ion-button>
+
+    <ion-buttons slot="start">
+      <ion-tab-button *ngIf="!searchBarOpen" (click)="searchBarOpen=true">
+        <ion-icon name="search"></ion-icon>
+      </ion-tab-button>
+
     </ion-buttons>
 
-    <ion-title slot="start" style="text-align: center;">Mensajes</ion-title>
+    <ion-title>Mensajes</ion-title>
   </ion-toolbar>
 
 </ion-header>
-<ion-content>
-  <div id="container">
+<ion-content fullscreen>
+
+  <ion-searchbar mode="ios" *ngIf="searchBarOpen" mode="ios" (ionInput)="filterList($event)"
+      showCancelButton='true' (ionCancel)="searchBarOpen=false"
+      placeholder="Buscar por nombre......"
+      cancelButtonText="Cancelar"
+      (ionClear)="searchValue"
+      clearInput>
+    </ion-searchbar>
+
     <ion-item lines="none" *ngFor="let user of users" (click)="gotoChatRoom(user.Uid,user.Name, user.Img)" button>
-      
+
       <ion-avatar slot="start">
         <ion-img src="{{user.Img}}"></ion-img>
       </ion-avatar>
-      <ion-label >
+      <ion-label>
         <h4>{{user.Name}}</h4>
       </ion-label>
-  
+
     </ion-item>
-    
-  </div>
+
 </ion-content>

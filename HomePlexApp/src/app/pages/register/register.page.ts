@@ -4,6 +4,8 @@ import { LoadingController, ModalController, PopoverController } from '@ionic/an
 import { UsersService } from 'src/app/services/users/users.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -18,9 +20,12 @@ export class RegisterPage implements OnInit {
     'Vecino',
     'Arrendatario'
   ]
+  searchBarOpen = false;
+  searchValue = false;
 
   // variable para introducir datos y respectivo conteo
   collection = { count: 0, data: [] }
+  collectionBackup = {count: 0, data: []}
   // variable para paginacion
   config: any;
   usersFormEdit: FormGroup;
@@ -37,22 +42,11 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
 
     this.config = {
-      itemsPerPage: 3,
+      itemsPerPage: 2,
       currentPage: 1,
       totalItems: this.collection.data.length,
     }
 
-    this.userUid = localStorage.getItem('userId')
-    this.usersFormCreate = this.fb.group({
-      Name: ['', Validators.required],
-      Email: ['', Validators.required],
-      Password: ['', Validators.required],
-      TipoUsuario: ['', Validators.required]
-    });
-    //inicializando formulario para guardar los datos del usuario
-    this.usersFormEdit = this.fb.group({
-      TipoUsuario: ['', Validators.required],
-    });
 
     //cargando todos los usuarios de firebase-firestore
     this.usersService.getUsersServices().subscribe(resp => {
@@ -81,6 +75,48 @@ export class RegisterPage implements OnInit {
       console.error(error);
     }
     );
+
+    this.usersService.getUsersServices().subscribe(resp => {
+      //console.log(resp.length)
+      // mapeo de los datos de los usuarios en el arreglo collection
+      this.collectionBackup.data = resp.map((e: any) => {
+
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          Uid: e.payload.doc.data().Uid,
+          Name: e.payload.doc.data().Name,
+          Email: e.payload.doc.data().Email,
+          Telefono: e.payload.doc.data().Telefono,
+          Casa: e.payload.doc.data().Casa,
+          TipoUsuario: e.payload.doc.data().TipoUsuario,
+          Img: e.payload.doc.data().Img,
+          idFirebase: e.payload.doc.id
+        }
+
+      })
+
+    }, error => {
+      // imprimir en caso de que de algun error
+      console.error(error);
+    }
+    );
+  }
+
+  async filterList(evt) {
+    this.collection.data = this.collectionBackup.data;
+    const searchTerm = evt.srcElement.value;
+  
+    if (!searchTerm) {
+      return;
+    }
+  
+    this.collection.data = this.collection.data.filter(currentFood => {
+      if (currentFood.Name && searchTerm) {
+        return (currentFood.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 
   // funcion-metodo para el cambio de pagina segun la pagina actual
@@ -93,74 +129,87 @@ export class RegisterPage implements OnInit {
   }
 
   goProfile() {
-    this.router.navigate(['/profile'])
+    this.router.navigate(['/profile']);
+    this.searchBarOpen = false;
+    this.searchValue = false;
   }
 
-  async actualizar(val: string, Uid: string) {
-
-    const loading = await this.loadingController.create({
-      message: 'Cambios guardados',
-      duration: 100,
-      translucent: true
-    });
-    await loading.present();
-
-
-    this.usersFormEdit.setValue({
-      TipoUsuario: val,
-    });
-    //console.log(this.usersFormEdit.value)
-    // llamado a la variable uid del usuario y verificacion de si es nula o no
-    if (Uid !== null || Uid !== undefined) {
-
-      // llamado al servicio de actualizacion de usuarios setenado el uid y los valores del usuario actual
-      this.usersService.updateUsersServices(Uid, this.usersFormEdit.value).then(() => {
-        loading.dismiss();
-      }
-
-      )
-    }
 
 
 
-
-  }
 
 
   // funcion-metodo de eliminar el usuario de la base de datos
-  eliminar(item: any): void {
+  async deleteUser(item: any) {
+    const alert = document.createElement('ion-alert');
+    alert.cssClass = 'my-custom-class';
+    alert.message = 'Seguro que desea eliminar este usuario';
+    alert.buttons = [
+      {
+        text: 'No',
+        
+      }, {
+        text: 'Eliminar',
+        handler: () => {
+          this.usersService.deleteUsersServices(item.idFirebase);
+          console.log('Confirm Okay')
+        }
+      }
+    ];
 
+    document.body.appendChild(alert);
+    return alert.present();
     // llamado al servicio de eliminacion de usuarios
-    this.usersService.deleteUsersServices(item.idFirebase);
-
+   
   }
 
-  async createUserPopover() {
+  async createUserModal() {
     
     //console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: CreateUserComponent,
-      cssClass: 'modal-create-user',
-      componentProps: this.usersFormCreate.value,
-      
+      cssClass: 'modal-create-user'
     }).then(modalres =>{
       modalres.present();
-      modalres.onDidDismiss().then(res =>{
-        //console.log(res.data)
-        if (res.data != null || res.data != undefined) {
-          this.presentLoading()
-          //console.log(res.data.Email)
-          this.usersService.registerUsersService(res.data.Email, res.data.Password, res.data.Name, res.data.TipoUsuario)
-          }
-      })
+      
+      modalres.onDidDismiss().then(()=>{
+        //this.presentLoading();
+      });;
     });
+  }
+
+  async editUserModal(item: any) {
     
+    //console.log(this.usersFormEdit.value)
+    this.modalController.create({
+      component: EditUserComponent,
+      cssClass: 'modal-edit-user',
+      componentProps: item
+    }).then(modalres =>{
+      modalres.present();
+      
+      modalres.onDidDismiss().then(()=>{
+        //this.presentLoadingSave();
+      });
+      
+    });
   }
 
   async presentLoading() {
     const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
       message: 'Usuario creado',
+      duration: 1000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    //console.log('Loading dismissed!');
+  }
+  async presentLoadingSave() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Guardando cambios',
       duration: 1000
     });
     await loading.present();

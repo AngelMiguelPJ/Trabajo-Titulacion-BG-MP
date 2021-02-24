@@ -25,14 +25,27 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-.modal-create-user{
+.modal-create-user{    
+  --height: 70%;
+  --width: 90%
+}
+
+.modal-edit-user{
     
-    --height: 60%;
-    --width: 90%
-  }
+  --height: 40%;
+  --width: 90%
+}
 
   .modal-create-eventBooking{
     
     --height: 80%;
+    --width: 95%
+  }
+  .modal-edit-aliquot{
+    --height: 90%;
+    --width: 95%
+  }
+  .modal-create-aliquot{
+    --height: 90%;
     --width: 95%
   }

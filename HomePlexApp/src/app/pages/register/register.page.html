@@ -7,53 +7,73 @@
       </ion-tab-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-tab-button (click)="createUserPopover()">
+      <ion-tab-button *ngIf="!searchBarOpen" (click)="searchBarOpen=true">
+        <ion-icon name="search"></ion-icon>
+      </ion-tab-button>
+      <ion-tab-button (click)="createUserModal()">
         <ion-icon name="person-add"></ion-icon>
       </ion-tab-button>
     </ion-buttons>
-    
+
 
 
 
     <ion-title style="text-align: center;">Usuarios</ion-title>
   </ion-toolbar>
+
+
+
 </ion-header>
 
 <ion-content fullscreen>
+  <ion-searchbar mode="ios" *ngIf="searchBarOpen" mode="ios" (ionInput)="filterList($event)"
+      showCancelButton='true' (ionCancel)="searchBarOpen=false"
+      placeholder="Buscar por nombre......"
+      cancelButtonText="Cancelar"
+      (value)='searchValue=false'
+      clearInput>
+    </ion-searchbar>
 
-  <ion-list *ngFor="let item of collection.data | paginate: config">
+  <ion-card *ngFor="let item of collection.data | paginate: config">
+    <ion-item style="--padding-start: 0px;" lines="none">
 
+      <ion-thumbnail slot="start" style="padding: 5px; margin: 0px;">
+        <img src="{{item.Img}}" style="border-radius: 50%;">
+      </ion-thumbnail>
+      <ion-label style="text-align: center;">{{item.Name}}</ion-label>
+      <div slot="end">
+        <ion-icon class='Edit' name="create" (click)="editUserModal(item)"></ion-icon>
+        <br>
+        <ion-icon class='Delete' name="trash" (click)="deleteUser(item)"></ion-icon>
+      </div>
 
-    <ion-item-sliding>
-
+    </ion-item>
+    <ion-card-content style="padding: 0px;">
       <ion-item>
-        <ion-avatar slot="start">
-          <img src="{{item.Img}}">
-        </ion-avatar>
-        <ion-label>
-          <h2><b>{{item.Name}}</b> </h2>
-          <h3>{{item.Email}}</h3>
-          <h3>{{item.Telefono}}</h3>
-          <h3>{{item.Casa}}</h3>
-          <h3>
-            <ion-item lines="none" style="--padding-start:0px; height: 25px; align-items: start;">
-              <ion-select  interface="popover"  value="{{item.TipoUsuario}}" (ionChange)="actualizar(val.value, item.Uid)" #val  style="--padding-top:0px;--padding-bottom:0px; font-size: 14px;">
-                <ion-select-option *ngFor="let tipo of typeUsers"  >{{tipo}}</ion-select-option>
-              </ion-select>
-            </ion-item>           
-          </h3>
-        </ion-label>
+        <ion-grid style="padding: 0px;">
+          <ion-row>
+            <ion-col style="font-size: 10px;">
+              Telefono: <b>{{item.Telefono}}</b>
+            </ion-col>
+            <ion-col style="font-size: 10px;">
+              Casa: <b>{{item.Casa}}</b>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="font-size: 10px;">
+              Correo: <b>{{item.Email}}</b>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="font-size: 10px;">
+              Tipo de usuario: <b>{{item.TipoUsuario}}</b>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
       </ion-item>
-
-
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="eliminar(item)">Eliminar <br> usuario</ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-
-
-
-  </ion-list>
+    </ion-card-content>
+  </ion-card>
   <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
     (pageChange)="pageChanged($event)">
   </pagination-controls>

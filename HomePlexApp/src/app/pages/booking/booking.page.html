@@ -1,26 +1,19 @@
 <ion-content fullscreen>
+    <ion-searchbar showcancelbutton="" (ionInput)="filterList($event)"></ion-searchbar>
 
-  
-  <ion-card>
-    <ion-item>
+
+    <div id="container">
+        <ion-item lines="none" *ngFor="let user of foodList">
+          
+          <ion-avatar slot="start">
+            <ion-img src="{{user.Img}}"></ion-img>
+          </ion-avatar>
+          <ion-label >
+            <h4>{{user.Name}}</h4>
+          </ion-label>
       
-      <ion-thumbnail slot="start">
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-      </ion-thumbnail>
-      <ion-label style="text-align: center;">Carnaval</ion-label>
-      <div slot="end">
-        <ion-icon class='Edit' name="create"></ion-icon>
-        <br>
-        <ion-icon class='Delete' name="trash"></ion-icon>
+        </ion-item>
+        
       </div>
-      
-    </ion-item>
-  
-    <ion-card-content>
-      <p>This is content, without any paragraph or header tags,
-      within an ion-card-content element.</p>
-    </ion-card-content>
-    
-  </ion-card>
-  
+
 </ion-content>

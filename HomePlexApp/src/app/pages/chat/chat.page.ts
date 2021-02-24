@@ -11,26 +11,44 @@ import { UsersService } from 'src/app/services/users/users.service';
 })
 export class ChatPage implements OnInit {
 
-   // arreglo de usuarios
-   // variables
-   uid;
-   users = [];
- 
-   name;
-
-
+  // arreglo de usuarios
+  // variables
+  uid;
+  users = [];
+  usersBackUp = [];
+  name;
+  searchBarOpen = false;
+  searchValue = false;
 
   constructor(private usersService: UsersService,
-              private navController: NavController,
-              private loadingController: LoadingController) {
-                this.presentLoading()
-              }
+    private navController: NavController,
+    private loadingController: LoadingController) {
+    this.presentLoading();
+
+  }
 
   ngOnInit() {
-    this.usersService.getAllUsersWithoutThisUser().subscribe(res =>{
+
+    this.usersService.getAllUsersWithoutThisUser().subscribe(res => {
       //console.log(res)
-      this.users = res
+      this.users = res;
+      this.usersBackUp = res;
     })
+  }
+
+  async filterList(evt) {
+    this.users = this.usersBackUp;
+    const searchTerm = evt.srcElement.value;
+
+    if (!searchTerm) {
+      return;
+    }
+
+    this.users = this.users.filter(current => {
+      if (current.Name && searchTerm) {
+        return (current.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 
   async presentLoading() {
@@ -45,13 +63,14 @@ export class ChatPage implements OnInit {
 
   }
 
+  gotoChatRoom(uid, name, img) {
 
-  gotoChatRoom(uid,name,img){
+    this.searchValue = true;
     sessionStorage.setItem('uidContact', uid)
     sessionStorage.setItem('nameContact', name)
     sessionStorage.setItem('imgContact', img)
-    this.navController.navigateForward("/chatroom")  
-  }
+    this.navController.navigateForward("/chatroom");
 
+  }
 
 }

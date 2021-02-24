@@ -81,7 +81,7 @@ export class UsersService {
 
 
   // Metodo -funcion -servicio para el registro de usuarios mediante correo y contraseña, ademas de los demas datos en firestore
-  registerUsersService(email: string, password: string, name: string, tipoUsuario: string) {
+  registerUsersService(email: string, password: string, name: string, tipoUsuario: string, casa: string) {
     return new Promise((resolve, reject) => {
 
       // respectivo servicio de creacion de usuarios de firestore
@@ -99,8 +99,8 @@ export class UsersService {
               Uid: uid,
               Email: email,
               Name: name,
-              Img: '',
-              Casa: '',
+              Img: 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
+              Casa: casa,
               Telefono: '',
               TipoUsuario: tipoUsuario
             })

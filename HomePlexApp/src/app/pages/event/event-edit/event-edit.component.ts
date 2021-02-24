@@ -11,8 +11,8 @@ import { last, switchMap } from 'rxjs/operators';
 })
 export class EventEditComponent implements OnInit {
 
-   //  numero de personas posibles
-   peopleEvent = [
+  //  numero de personas posibles
+  peopleEvent = [
     '1 - 5 personas',
     '5 - 10 personas'
   ]
@@ -68,15 +68,21 @@ export class EventEditComponent implements OnInit {
 
     // seteo de la fecha actual
     this.fechaActual = Date.now()
-    console.log(this.navParams.data)
+    //console.log(this.navParams.data)
     this.eventBookingDataCreate = this.navParams.data
-   this.imgEdit = this.eventBookingDataCreate.Img;
+    this.imgEdit = this.eventBookingDataCreate.Img;
     // iniciar formulario para la subida de imagenes
   }
 
-  guardar(){
+  guardar() {
     console.log(this.eventBookingDataCreate)
     this.modalController.dismiss(this.eventBookingDataCreate)
+  }
+
+  cancelar(){
+    this.modalController.dismiss({
+      'dismissed': true
+    });
   }
 
 

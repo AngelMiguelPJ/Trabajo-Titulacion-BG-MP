@@ -1,12 +1,21 @@
 <!-- List of Text Items -->
+<ion-toolbar>
+  <ion-title>Editar perfil</ion-title>
+</ion-toolbar>
+<ion-content fullscreen>
 
-<ion-content>
-  <div class="modal-body">
-  <ion-label>Nombre</ion-label>
-  <ion-input type= 'text' [(ngModel)]="userData.Name"></ion-input>
-  <ion-label>Telefono</ion-label>
-  <ion-input type= 'text' [(ngModel)]="userData.Telefono"></ion-input>
-  <ion-button (click)="close()">Guardar</ion-button>
 
-</div>
+  <ion-item class="items" lines="none">
+    <ion-icon name="text-outline" slot="start"></ion-icon>
+    <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Name" placeholder="Nombre" required></ion-input>
+  </ion-item>
+  <ion-item class="items" lines="none">
+    <ion-icon name="call" slot="start"></ion-icon>
+    <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Telefono" placeholder="Telefono" required></ion-input>
+  </ion-item>
+  <ion-item lines='none'>
+    <ion-button size="smaller" style="margin: auto;" shape="round" (click)="updateUser()">Guardar</ion-button>
+  </ion-item>
+
+
 </ion-content>

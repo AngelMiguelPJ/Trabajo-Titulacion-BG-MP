@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { IonRouterOutlet, LoadingController, ModalController } from '@ionic/angular';
 import { BookingService } from 'src/app/services/booking/booking.service';
 import { EventsService } from 'src/app/services/events/events.service';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -36,6 +36,8 @@ export class EventPage implements OnInit {
   eventsBookingFormCreate: FormGroup;
   eventsBookingFormEdit: FormGroup;
 
+  //
+
 
   constructor(private eventsService: EventsService,
     private bookingService: BookingService,
@@ -43,7 +45,8 @@ export class EventPage implements OnInit {
     public formBuilder: FormBuilder,
     private storage: AngularFireStorage,
     public usersService: UsersService,
-    public modalController: ModalController) { this.presentLoading() }
+    public modalController: ModalController,
+    private routerOutlet: IonRouterOutlet) { this.presentLoading() }
 
   ngOnInit() {
 
@@ -68,7 +71,7 @@ export class EventPage implements OnInit {
           id: e.payload.doc.id,
           Nombre: e.payload.doc.data().Nombre,
           EventoAN: e.payload.doc.data().EventoAN,
-          Fecha: e.payload.doc.data().Reserva.Fecha,
+          Fecha: e.payload.doc.data().Reserva.Fecha.split('T')[0],
           Duracion: e.payload.doc.data().Reserva.Duracion,
           Lugar: e.payload.doc.data().Reserva.Lugar,
           Descripcion: e.payload.doc.data().Reserva.Descripcion,
@@ -116,7 +119,7 @@ export class EventPage implements OnInit {
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
         Duracion: ['', Validators.required],
-        Fecha: Date.toString,
+        Fecha: ['', Validators.required],
         Lugar: ['', Validators.required],
         Personas: ['', Validators.required]
       })
@@ -131,7 +134,7 @@ export class EventPage implements OnInit {
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
         Duracion: ['', Validators.required],
-        Fecha: Date.toString,
+        Fecha: ['', Validators.required],
         Lugar: ['', Validators.required],
         Personas: ['', Validators.required]
       })
@@ -150,7 +153,7 @@ export class EventPage implements OnInit {
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
         Lugar: ['', Validators.required],
-        Fecha: Date.toString,
+        Fecha: ['', Validators.required],
         Duracion: ['', Validators.required],
         Personas: ['', Validators.required]
       })
@@ -161,7 +164,7 @@ export class EventPage implements OnInit {
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
         Lugar: ['', Validators.required],
-        Fecha: Date.toString,
+        Fecha: ['', Validators.required],
         Duracion: ['', Validators.required],
         Personas: ['', Validators.required]
       })
@@ -199,7 +202,7 @@ export class EventPage implements OnInit {
     this.collectionEventsBooking.map(res => {
       const a = res.id
       const b = res.UidEventBooking
-      console.log("a: ", a, "b", b)
+      //console.log("a: ", a, "b", b)
       // llamado al servico de eliminacion de reservas 
       if (item.UidEventBooking == b) {
         this.bookingService.deleteBookingServices(a)
@@ -217,7 +220,6 @@ export class EventPage implements OnInit {
 
     this.modalController.create({
       component: EventCreateComponent,
-      cssClass: 'modal-create-eventBooking',
       componentProps: this.eventsFormCreate.value,
 
     }).then(modalres => {
@@ -286,7 +288,6 @@ export class EventPage implements OnInit {
     //console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: EventEditComponent,
-      cssClass: 'modal-create-eventBooking',
       componentProps: this.eventsFormEdit.value,
 
     }).then(modalres => {

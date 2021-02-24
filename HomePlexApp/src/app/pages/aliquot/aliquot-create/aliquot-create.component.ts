@@ -26,7 +26,6 @@ export class AliquotCreateComponent implements OnInit {
   //forms
   aliquotFormCreate: FormGroup;
 
-  aliquotDataCreate: any = {};
 
   // coleccion de usuarios
   collectionUsers = { count: 0, data: [] }
@@ -56,7 +55,7 @@ export class AliquotCreateComponent implements OnInit {
     })
     //console.log('a', this.aliquotFormCreate.value)
 
-    this.aliquotDataCreate = this.aliquotFormCreate.value
+
     //console.log('b', this.aliquotDataCreate)
 
     //cargando todos los usuarios de firebase-firestore

@@ -47,16 +47,8 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
 
-    this.userUid = localStorage.getItem('userId')
-    //inicializando formulario para guardar los datos del usuario
-    this.usersFormEdit = this.fb.group({
-      Name: ['', Validators.required],
-      Telefono: ['', Validators.required]
-    });
-
-
     this.usersService.getOnlyThisUser().subscribe(res => {
-      // console.log(res)
+      //console.log(res)
       this.usersList = res
       res.map(resp => {
         this.imgProfile = resp['Img'],
@@ -66,7 +58,7 @@ export class ProfilePage implements OnInit {
           this.houseUser = resp['Casa'],
           this.typeUser = resp['TipoUsuario']
       })
-     // console.log(this.usersList)
+      //console.log(this.usersList)
     })
 
     this.userImgEdit = this.fb.group({
@@ -83,30 +75,18 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/register'])
   }
 
-  async presentPopover(name: string, telefono: string) {
-    this.usersFormEdit.setValue({
-      Name: name,
-      Telefono: telefono,
-    });
+  async presentPopover() {
+
     //console.log(this.usersFormEdit.value)
-    this.popoverController.create({
+    this.modalController.create({
       component: EditProfileComponent,
-      cssClass: 'my-custom-class',
-      componentProps: this.usersFormEdit.value,
-    }).then(modalres =>{
+      cssClass: 'modal-edit-user',
+      componentProps: this.usersList,
+    }).then(modalres => {
       modalres.present();
-      modalres.onDidDismiss().then(res =>{
-        console.log(res.data)
-        if (res.data != null || res.data != undefined) {
-          this.usersFormEdit.setValue({
-            Name: res.data.Name,
-            Telefono: res.data.Telefono,
-          });
-          this.usersService.updateUsersServices(this.userUid, this.usersFormEdit.value)
-        }
-      })
+      modalres.onDidDismiss()
     });
-    
+
   }
 
   uploadFile(event) {
@@ -119,8 +99,6 @@ export class ProfilePage implements OnInit {
     // tareas y referencia del path 
     this.fileRef = this.storage.ref(this.filepath);
     this.task = this.storage.upload(this.filepath, this.file);
-
-
 
     // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
     this.task.snapshotChanges().pipe(

@@ -1,45 +1,39 @@
 <!-- List of Text Items -->
-
-<ion-content>
-
-
-  <ion-list style="margin-top: 2rem;">
-
-
-
+<ion-toolbar>
+  <ion-title style="text-align: center;">Nuevo usuario</ion-title>
+</ion-toolbar>
+<ion-content fullscreen>
 
     <ion-item class="items" lines="none">
       <ion-icon name="text-outline" slot="start"></ion-icon>
-      <ion-input type='text' [(ngModel)]="userDataCreate.Name" placeholder="Nombre" required></ion-input>
+      <ion-input type='text' [(ngModel)]="usersFormCreate.value.Name" placeholder="Nombre" required></ion-input>
     </ion-item>
 
     <ion-item class="items" lines="none">
       <ion-icon name="mail" slot="start"></ion-icon>
-      <ion-input type='email' [(ngModel)]="userDataCreate.Email" placeholder="ejemplo@mail.com" required></ion-input>
+      <ion-input type='email' [(ngModel)]="usersFormCreate.value.Email" placeholder="ejemplo@mail.com" required></ion-input>
     </ion-item>
 
     <ion-item class="items" lines="none">
       <ion-icon name="lock-closed" slot="start"></ion-icon>
-      <ion-input type='password' [(ngModel)]="userDataCreate.Password" placeholder="Contraseña" required></ion-input>
+      <ion-input type='password' [(ngModel)]="usersFormCreate.value.Password" placeholder="Contraseña" required></ion-input>
+    </ion-item>
+    <ion-item class="items" lines="none">
+      <ion-icon name="home" slot="start"></ion-icon>
+      <ion-input type='text' [(ngModel)]="usersFormCreate.value.Casa" placeholder="Casa" required></ion-input>
     </ion-item>
 
     <ion-item class="items" lines="none">
       <ion-icon name="accessibility" slot="start"></ion-icon>
 
-      <ion-select interface="popover" mode="ios" placeholder="Tipo Usuario" [(ngModel)]="userDataCreate.TipoUsuario" required>
+      <ion-select interface="popover" mode="ios" placeholder="Tipo Usuario" [(ngModel)]="usersFormCreate.value.TipoUsuario" required>
         <ion-select-option *ngFor="let tipo of typeUsers">{{tipo}}</ion-select-option>
       </ion-select>
     </ion-item>
 
-
     <!-- Round -->
     <ion-item lines='none'>
-      <ion-button size="smaller" style="margin: auto;" shape="round" (click)="guardar()">Guardar</ion-button>
+      <ion-button size="smaller" style="margin: auto;" shape="round" (click)="registerUser()">Guardar</ion-button>
     </ion-item>
-
-
-  </ion-list>
-
-
 
 </ion-content>

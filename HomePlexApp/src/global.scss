@@ -26,13 +26,13 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 .modal-create-user{    
-  --height: 70%;
+  --height: 50%;
   --width: 90%
 }
 
 .modal-edit-user{
     
-  --height: 40%;
+  --height: 30%;
   --width: 90%
 }
 
@@ -49,3 +49,18 @@
     --height: 90%;
     --width: 95%
   }
+  .style-modal-create-event{
+    --height: 75%;
+    --width: 95%
+  }
+
+  .style-modal-edite-event{
+    --height: 75%;
+    --width: 95%
+  }
+
+  .ngx-pagination {
+    padding-left: 0px !important;
+    margin: 0px;
+  }
+  

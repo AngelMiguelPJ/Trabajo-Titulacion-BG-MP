@@ -1,8 +1,8 @@
 
 
 ion-title{
-    font-size: 12px;
-    text-align: center;
+
+color: white;
 }
 
 ion-header.background{
@@ -16,7 +16,7 @@ ion-toolbar{
 }
 
 ion-card { 
-    margin-bottom: -45px;
+    margin-bottom: -50px;
     margin-top: 0;
     border: none;
 }
@@ -24,7 +24,7 @@ ion-card {
 
 .header-md::after {
     background-repeat: no-repeat;
-    height: 0px;
+
 }
 
 
@@ -37,27 +37,19 @@ ion-icon.back{
   }
 
 ion-item.items{
-    --background: #f0f0f0;
-    border-radius: 20px;
-    margin: 0 10px 10px 10px;
+    margin: 10px 10px 20px 10px;
 }
 
-.sc-ion-modal-md-h{
-    height: 50%;
-    --width: 50%;
-}
+
 
 .twPc-avatarLinkEdit{
     
     margin-top: -25px;
-    margin-left: 80px;
+    margin-left: 130px;
 }
 
 input[type="file"] {
     display: none;
 }
 
-ion-button.Users{
-    --background: #3880ff ;
-    color: white;
-}
+

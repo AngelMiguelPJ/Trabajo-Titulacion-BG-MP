@@ -22,13 +22,13 @@
       clearInput>
     </ion-searchbar>
 
-    <ion-item lines="none" *ngFor="let user of users" (click)="gotoChatRoom(user.Uid,user.Name, user.Img)" button>
+    <ion-item lines="none" *ngFor="let user of users" (click)="gotoChatRoom(user.Uid,user.Name, user.Img)" button style="margin: 10px 0px;">
 
-      <ion-avatar slot="start">
+      <ion-avatar slot="start" style="height: 48px; width: 48px;">
         <ion-img src="{{user.Img}}"></ion-img>
       </ion-avatar>
       <ion-label>
-        <h4>{{user.Name}}</h4>
+        {{user.Name}}
       </ion-label>
 
     </ion-item>

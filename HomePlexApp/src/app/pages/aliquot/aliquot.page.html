@@ -40,24 +40,23 @@
         <ion-item>
           <ion-grid style="padding: 0px;">
             <ion-row>
-              <ion-col style="text-align: center;">
-
-                <p style="font-size: 10px;">{{item.Descripcion}}</p>
+              <ion-col>
+                <ion-label style="text-align: center;">{{item.Descripcion}}</ion-label>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Valor: <b>{{item.ValorCuota}}</b>
               </ion-col>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Valor Extra: <b>{{item.ValorExtra}}</b>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Fecha: <b>{{item.Fecha.split('T')[0]}}</b>
               </ion-col>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Estado:
                 <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'"
                   [class.redClass]="item.EstadoCuota =='No pagada'">
@@ -67,7 +66,7 @@
 
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Fecha vencimiento: <b>{{item.FechaVencimiento.split('T')[0]}}</b>
               </ion-col>
 
@@ -83,9 +82,11 @@
 
     </ion-card>
     <!--Botones - controladores de la paginacion-->
-    <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
-      (pageChange)="pageChanged($event)">
-    </pagination-controls>
+    <ion-item lines="none" style="margin: auto; display: table;">
+      <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true" style="margin: 0px;"
+        (pageChange)="pageChanged($event)">
+      </pagination-controls>
+    </ion-item>
   </div>
 
 
@@ -106,24 +107,24 @@
         <ion-item>
           <ion-grid style="padding: 0px;">
             <ion-row>
-              <ion-col style="text-align: center;">
+              <ion-col>
 
-                <p style="font-size: 10px;">{{item.Descripcion}}</p>
+                <ion-label style="text-align: center;">{{item.Descripcion}}</ion-label>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Valor: <b>{{item.ValorCuota}}</b>
               </ion-col>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Valor Extra: <b>{{item.ValorExtra}}</b>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Fecha: <b>{{item.Fecha.split('T')[0]}}</b>
               </ion-col>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Estado:
                 <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'"
                   [class.redClass]="item.EstadoCuota =='No pagada'">
@@ -133,7 +134,7 @@
 
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 10px;">
+              <ion-col style="font-size: 12px;">
                 Fecha vencimiento: <b>{{item.FechaVencimiento.split('T')[0]}}</b>
               </ion-col>
 
@@ -147,9 +148,11 @@
 
     </ion-card>
     <!--Botones - controladores de la paginacion-->
-    <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+  <ion-item lines="none" style="margin: auto; display: table;">
+    <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true" style="margin: 0px;"
       (pageChange)="pageChanged2($event)">
     </pagination-controls>
+  </ion-item>
   </div>
 
 </ion-content>

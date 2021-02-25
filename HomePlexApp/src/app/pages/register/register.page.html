@@ -37,35 +37,31 @@
   <ion-card *ngFor="let item of collection.data | paginate: config">
     <ion-item style="--padding-start: 0px;" lines="none">
 
-      <ion-thumbnail slot="start" style="padding: 5px; margin: 0px;">
+      <ion-thumbnail slot="start" style="padding: 0px; margin: 0px; width: 48px; height: 48px;">
         <img src="{{item.Img}}" style="border-radius: 50%;">
       </ion-thumbnail>
       <ion-label style="text-align: center;">{{item.Name}}</ion-label>
-      <div slot="end">
-        <ion-icon class='Edit' name="create" (click)="editUserModal(item)"></ion-icon>
-        <br>
-        <ion-icon class='Delete' name="trash" (click)="deleteUser(item)"></ion-icon>
-      </div>
-
+        <ion-icon slot="end" class='Edit' name="create" (click)="editUserModal(item)"></ion-icon>
+        <ion-icon slot="end" class='Delete' name="trash" (click)="deleteUser(item)"></ion-icon>
     </ion-item>
     <ion-card-content style="padding: 0px;">
       <ion-item>
         <ion-grid style="padding: 0px;">
           <ion-row>
-            <ion-col style="font-size: 10px;">
+            <ion-col style="font-size: 12px;">
               Telefono: <b>{{item.Telefono}}</b>
             </ion-col>
-            <ion-col style="font-size: 10px;">
+            <ion-col style="font-size: 12px;">
               Casa: <b>{{item.Casa}}</b>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col style="font-size: 10px;">
+            <ion-col style="font-size: 12px;">
               Correo: <b>{{item.Email}}</b>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col style="font-size: 10px;">
+            <ion-col style="font-size: 12px;">
               Tipo de usuario: <b>{{item.TipoUsuario}}</b>
             </ion-col>
           </ion-row>
@@ -74,9 +70,12 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
-  <pagination-controls style="font-size: 13px;" previousLabel="Anterior" nextLabel="siguiente" responsive="true"
-    (pageChange)="pageChanged($event)">
-  </pagination-controls>
+  <!--Botones - controladores de la paginacion-->
+  <ion-item lines="none" style="margin: auto; display: table;">
+    <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+      (pageChange)="pageChanged($event)">
+    </pagination-controls>
+  </ion-item>
 
 
 

@@ -10,15 +10,16 @@
     
     <ion-buttons slot="end" *ngIf="usersService.isAdmin">
       <ion-tab-button (click)="goRegister()">
-        <ion-icon  class="more" name="people"></ion-icon>
+        <ion-icon class="more" name="people"></ion-icon>
       </ion-tab-button>    
     </ion-buttons>
+
+    <ion-title style="text-align: center;">Perfil</ion-title>
     
   </ion-toolbar>
 
   <ion-card style="width: fit-content;margin-left: auto; margin-right: auto;">
-    <ion-avatar style="height: 100px;
-    width: 100px;">
+    <ion-avatar style="height: 150px; width: 150px;">
       <img style="border-radius: 0px;" src={{imgProfile}}>
     </ion-avatar>
     <div class="twPc-avatarLinkEdit">
@@ -34,7 +35,7 @@
 <ion-content fullscreen>
 
   <!-- List of Text Items -->
-  <ion-list style="margin-top: 2rem;">
+  <ion-list style="margin-top: 4rem;">
 
 
     <ion-item lines='none'>
@@ -44,34 +45,35 @@
     <ion-item class="items" lines="none">
       <ion-icon name="mail" slot="start"></ion-icon>
       <ion-label>
-        <h4>{{emailUser}}</h4>
+        {{emailUser}}
       </ion-label>
     </ion-item>
 
     <ion-item class="items" lines="none">
       <ion-icon name="call" slot="start"></ion-icon>
       <ion-label>
-        <h4>{{phoneUser}}</h4>
+        {{phoneUser}}
       </ion-label>
     </ion-item>
 
     <ion-item class="items" lines="none">
       <ion-icon name="home" slot="start"></ion-icon>
       <ion-label>
-        <h4>{{houseUser}}</h4>
+        {{houseUser}}
       </ion-label>
     </ion-item>
 
     <ion-item class="items" lines="none">
       <ion-icon name="accessibility" slot="start"></ion-icon>
       <ion-label>
-        <h4>{{typeUser}}</h4>
+        {{typeUser}}
       </ion-label>
     </ion-item>
 
 
+
     <ion-item lines='none'>
-      <ion-button style="margin: auto;" (click)="presentPopover()">Editar contenido</ion-button>
+      <ion-button size="smaller" style="margin: auto;" shape="round" (click)="presentPopover()">Editar informacion</ion-button>
     </ion-item>
 
 

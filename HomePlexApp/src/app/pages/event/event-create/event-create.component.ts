@@ -95,9 +95,7 @@ export class EventCreateComponent implements OnInit {
   }
 
   cancelar(){
-    this.modalController.dismiss({
-      'dismissed': true
-    });
+    this.modalController.dismiss();
   }
 
   async presentToast() {

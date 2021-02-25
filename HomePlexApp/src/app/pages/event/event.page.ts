@@ -18,6 +18,7 @@ export class EventPage implements OnInit {
   // variable para paginacion
   config: any;
   collectionEvents;
+  collectionEventsBackUp;
   collectionEventsLength;
   uidAdmin;
 
@@ -37,6 +38,8 @@ export class EventPage implements OnInit {
   eventsBookingFormEdit: FormGroup;
 
   //
+  searchBarOpen = false;
+  searchValue = false;
 
 
   constructor(private eventsService: EventsService,
@@ -53,7 +56,7 @@ export class EventPage implements OnInit {
     //--------------------------------------------------------
     // configuracion de la paginacion
     this.config = {
-      itemsPerPage: 2,
+      itemsPerPage: 3,
       currentPage: 1,
       totalItems: this.collectionEventsLength
     };
@@ -63,6 +66,34 @@ export class EventPage implements OnInit {
       //console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionEvents = resp.map((e: any) => {
+        // console.log('respuesta 2: ', e)
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          id: e.payload.doc.id,
+          Nombre: e.payload.doc.data().Nombre,
+          EventoAN: e.payload.doc.data().EventoAN,
+          Fecha: e.payload.doc.data().Reserva.Fecha.split('T')[0],
+          Duracion: e.payload.doc.data().Reserva.Duracion,
+          Lugar: e.payload.doc.data().Reserva.Lugar,
+          Descripcion: e.payload.doc.data().Reserva.Descripcion,
+          Personas: e.payload.doc.data().Reserva.Personas,
+          Img: e.payload.doc.data().Img,
+          UidEventBooking: e.payload.doc.data().idEventBooking,
+          uidEvent: e.payload.doc.id
+        }
+      })
+      //console.log(this.collectionEvents)
+    }, error => {
+      // imprimir en caso de que de algun error
+      console.error(error);
+    }
+    );
+    this.eventsService.getEventsServices().subscribe(resp => {
+      //console.log('respuesta 1: ', resp)
+      // mapeo de los datos de los usuarios en el arreglo collection
+      this.collectionEventsBackUp = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
         // return que devolvera los datos a collection
         return {
@@ -172,6 +203,23 @@ export class EventPage implements OnInit {
 
   }
 
+  async filterList(evt) {
+    this.collectionEvents = this.collectionEventsBackUp;
+    const searchTerm = evt.srcElement.value;
+  
+    if (!searchTerm) {
+      return;
+    }
+  
+    this.collectionEvents = this.collectionEvents.filter(currentFood => { 
+      if (currentFood.Nombre && searchTerm) {
+        return (currentFood.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 
+                || currentFood.Fecha.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      } 
+    });
+  }
+
 
   // funcion-metodo para el cambio de pagina segun la pagina actual
   pageChanged(event) {
@@ -195,7 +243,7 @@ export class EventPage implements OnInit {
   }
 
   deleteEvent(item: any) {
-
+    this.config.currentPage = 1,
     // llamado al servicio de eliminacion de eventos 
     this.eventsService.deleteEventsServices(item.uidEvent);
 
@@ -221,6 +269,7 @@ export class EventPage implements OnInit {
     this.modalController.create({
       component: EventCreateComponent,
       componentProps: this.eventsFormCreate.value,
+      cssClass: 'style-modal-create-event'
 
     }).then(modalres => {
       modalres.present();
@@ -289,6 +338,7 @@ export class EventPage implements OnInit {
     this.modalController.create({
       component: EventEditComponent,
       componentProps: this.eventsFormEdit.value,
+      cssClass: 'style-modal-edite-event'
 
     }).then(modalres => {
       modalres.present();

@@ -37,13 +37,13 @@ export class AliquotPage implements OnInit {
 
     // configuracion de la paginacion
     this.config = {
-      itemsPerPage: 2,
+      itemsPerPage: 3,
       currentPage: 1,
       totalItems: this.collectionAliquotLength
     };
 
     this.config2 = {
-      itemsPerPage: 2,
+      itemsPerPage: 3,
       currentPage: 1,
       totalItems: this.collectionAliquotsAll.data.length
     };

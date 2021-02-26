@@ -1,45 +1,52 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { ActionSheetController } from '@ionic/angular';
-import { first } from 'rxjs/operators';
-import { UsersService } from 'src/app/services/users/users.service';
+
+import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+
+import { ActionSheetController, IonContent } from '@ionic/angular';
+
+
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.page.html',
   styleUrls: ['./booking.page.scss'],
 })
 export class BookingPage implements OnInit {
-  public foodList: any[];
-  public foodListBackup: any[];
-  users = [];
-  constructor(private firestore: AngularFirestore,
-    private usersService: UsersService) { }
+  @ViewChild('content', { static: false }) content: IonContent;
+  constructor(public _zone: NgZone) { }
 
   ngOnInit() {
-
-    this.usersService.getAllUsersWithoutThisUser().pipe(first()).subscribe(res=>{
-      this.foodListBackup = res;
-      this.foodList = res;
-    })
+    this.scrollToBottom();
   }
 
+  scrollToBottom() {
+    this._zone.run(() => {
 
-  async filterList(evt) {
-    this.foodList = this.foodListBackup;
-    const searchTerm = evt.srcElement.value;
-  
-    if (!searchTerm) {
-      return;
-    }
-  
-    this.foodList = this.foodList.filter(currentFood => {
-      if (currentFood.Name && searchTerm) {
-        return (currentFood.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
-      }
+      const duration: number = 300;
+
+      setTimeout(() => {
+
+        this.content.scrollToBottom(duration).then(() => {
+
+          setTimeout(() => {
+
+            this.content.getScrollElement().then((element: any) => {
+
+              if (element.scrollTopMax != element.scrollTop) {
+                // trigger scroll again.
+                this.content.scrollToBottom(duration).then(() => {
+
+                  // loaded... do something
+
+                });
+              }
+              else {
+                // loaded... do something
+              }
+            });
+          });
+        });
+
+      }, 20);
     });
   }
-
-
-
 
 }

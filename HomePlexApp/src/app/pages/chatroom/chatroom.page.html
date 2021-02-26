@@ -15,10 +15,10 @@
 </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen class="ion-no-border" class="background">
+<ion-content fullscreen class="ion-no-border" class="background" #content>
 
-
-  <ion-list  *ngFor="let chat of chats" style="background-color: transparent;">
+  <div style="margin-bottom: 4rem;">
+    <ion-list  *ngFor="let chat of chats" style="background-color: transparent;">
     <div class="grid-container responsive">
 
     <ion-item class="chatMsgOtro" *ngIf="chat.uid != uid"  >    
@@ -26,7 +26,7 @@
         <div>
           <h5><b>{{name}}</b></h5>        
         <p>{{chat.msg}}</p>                          
-        <p style="font-size: 10px;">{{chat.hora}}</p>           
+        <p style="font-size: 10px;">{{chat.fecha}}, {{chat.hora}}</p>           
         </div>      
       </ion-label>
     </ion-item>
@@ -40,18 +40,18 @@
         <div>
           <h5><b>yo</b></h5>        
         <p>{{chat.msg}}</p>                          
-        <p style="font-size: 10px;">{{chat.hora}}</p>           
+        <p style="font-size: 10px;">{{chat.fecha}}, {{chat.hora}}</p>           
         </div> 
       </ion-label>
     </ion-item>
   </div>
 
   </ion-list>
+  </div>
   
-</ion-content>
-<ion-footer class="ion-no-border">
 
-    <ion-item class="ion-no-border" >
+
+    <ion-item class="itemsend" >
       <ion-input  [(ngModel)]="letras" placeholder="Escribir..." #textMsg (keyup.enter)="send(textMsg.value)"></ion-input>
       <ion-buttons slot="end">
         <ion-tab-button (click)="send(textMsg.value)">
@@ -61,4 +61,7 @@
     </ion-item>
 
   
-</ion-footer>
+
+  
+</ion-content>
+

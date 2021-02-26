@@ -17,12 +17,17 @@ export class AliquotPage implements OnInit {
   config: any;
   config2: any;
   collectionAliquot;
+  collectionAliquotBackUp;
   collectionAliquotLength;
 
   //
   selectedSegment: string = 'Mias';
   // coleccion de aliquotas
-  collectionAliquotsAll = { count: 0, data: [] }
+  collectionAliquotsAll = { count: 0, data: [] };
+  collectionAliquotsAllBackUp = { count: 0, data: [] };
+
+  searchBarOpen = false;
+  searchValue = false;
 
 
   // iniciar servicios
@@ -49,8 +54,9 @@ export class AliquotPage implements OnInit {
     };
     // alicuotas para un solo usuario
     this.aliquotService.getAliquotServices().subscribe(resp => {
-      this.collectionAliquot = resp
-      this.collectionAliquotLength = resp.length
+      this.collectionAliquot = resp;
+      this.collectionAliquotBackUp = resp;
+      this.collectionAliquotLength = resp.length;
       //console.log(resp.length)
      //console.log(this.collectionAliquot)
     })
@@ -70,14 +76,32 @@ export class AliquotPage implements OnInit {
           DatosVecinoNombre: e.payload.doc.data().DatosVecino.Nombre,
           ValorCuota: e.payload.doc.data().ValorCuota,
           ValorExtra: e.payload.doc.data().ValorExtra,
-          Fecha: e.payload.doc.data().Fecha,
-          FechaVencimiento: e.payload.doc.data().FechaVencimiento,
+          Fecha: e.payload.doc.data().Fecha.split('T')[0],
+          FechaVencimiento: e.payload.doc.data().FechaVencimiento.split('T')[0],
           EstadoCuota: e.payload.doc.data().EstadoCuota,
           Descripcion: e.payload.doc.data().Descripcion,
           IdAliquot: e.payload.doc.data().IdAliquot
         }
       })
-      //console.log(this.collectionAliquotsAll.data)
+      this.collectionAliquotsAllBackUp.data = resp.map((e: any) => {
+        // console.log('respuesta 2: ', e)
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          id: e.payload.doc.id,
+          DatosVecino: e.payload.doc.data().DatosVecino,
+          DatosVecinoNombre: e.payload.doc.data().DatosVecino.Nombre,
+          ValorCuota: e.payload.doc.data().ValorCuota,
+          ValorExtra: e.payload.doc.data().ValorExtra,
+          Fecha: e.payload.doc.data().Fecha.split('T')[0],
+          FechaVencimiento: e.payload.doc.data().FechaVencimiento.split('T')[0],
+          EstadoCuota: e.payload.doc.data().EstadoCuota,
+          Descripcion: e.payload.doc.data().Descripcion,
+          IdAliquot: e.payload.doc.data().IdAliquot
+        }
+      })
+      //console.log(this.collectionAliquotsAllBackUp.data)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
@@ -85,6 +109,37 @@ export class AliquotPage implements OnInit {
     );
 
   }
+
+  async filterListAliquot(evt) {
+    this.collectionAliquot = this.collectionAliquotBackUp;
+    const searchTerm = evt.srcElement.value;
+  
+    if (!searchTerm) {
+      return;
+    }
+  
+    this.collectionAliquot = this.collectionAliquot.filter(currentFood => { 
+      if (currentFood.DatosVecino.Nombre && searchTerm) {
+        return (currentFood.DatosVecino.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      } 
+    });
+  }
+
+  async filterListAliquotAll(evt) {
+    this.collectionAliquotsAll.data = this.collectionAliquotsAllBackUp.data;
+    const searchTerm = evt.srcElement.value;
+  
+    if (!searchTerm) {
+      return;
+    }
+  
+    this.collectionAliquotsAll.data = this.collectionAliquotsAll.data.filter(currentFood => { 
+      if (currentFood.DatosVecinoNombre && searchTerm) {
+        return (currentFood.DatosVecinoNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      } 
+    });
+  }
+
 
   async createAliquotModal() {
 

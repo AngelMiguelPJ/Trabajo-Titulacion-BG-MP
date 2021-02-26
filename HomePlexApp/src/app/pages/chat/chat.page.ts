@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, NavController } from '@ionic/angular';
+import { ChatService } from 'src/app/services/chat/chat.service';
 
 import { UsersService } from 'src/app/services/users/users.service';
-
+import { ChatroomPage } from '../chatroom/chatroom.page';
 
 @Component({
   selector: 'app-chat',
@@ -10,6 +11,8 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
+
+
 
   // arreglo de usuarios
   // variables
@@ -20,9 +23,12 @@ export class ChatPage implements OnInit {
   searchBarOpen = false;
   searchValue = false;
 
+  collection;
+
   constructor(private usersService: UsersService,
     private navController: NavController,
-    private loadingController: LoadingController) {
+    private loadingController: LoadingController,
+    private chatService: ChatService,) {
     this.presentLoading();
 
   }
@@ -33,7 +39,10 @@ export class ChatPage implements OnInit {
       //console.log(res)
       this.users = res;
       this.usersBackUp = res;
+
     })
+
+
   }
 
   async filterList(evt) {

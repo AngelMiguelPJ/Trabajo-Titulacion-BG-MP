@@ -56,7 +56,7 @@ export class EventPage implements OnInit {
     //--------------------------------------------------------
     // configuracion de la paginacion
     this.config = {
-      itemsPerPage: 3,
+      itemsPerPage: 2,
       currentPage: 1,
       totalItems: this.collectionEventsLength
     };

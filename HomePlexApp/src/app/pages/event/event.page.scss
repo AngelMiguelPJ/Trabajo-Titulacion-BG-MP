@@ -17,8 +17,6 @@ ion-toolbar{
   --color: white;
 }
 
-
-
 ion-icon.Edit{
   color: green;
 }
@@ -27,4 +25,10 @@ ion-icon.Delete{
   color: red;
 }
 
-
+.item1 {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 7rem;
+  width: 100%;
+}

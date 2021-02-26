@@ -1,26 +1,30 @@
 <ion-header translucent>
   <ion-toolbar>
+
     <ion-buttons slot="start">
-      <ion-tab-button>
+      <ion-tab-button *ngIf="!searchBarOpen" (click)="searchBarOpen=true">
         <ion-icon name="search"></ion-icon>
       </ion-tab-button>
     </ion-buttons>
+
     <!--*ngIf="usersService.isAdmin"-->
-    <ion-buttons slot="end" (click)="createAliquotModal()" *ngIf="usersService.isAdmin">
+    <ion-buttons slot="end" (click)="createAliquotModal()">
       <ion-tab-button>
         <ion-icon name="add-circle"></ion-icon>
       </ion-tab-button>
     </ion-buttons>
 
     <ion-title>Alicuotas</ion-title>
+
   </ion-toolbar>
+
 
 
 
 </ion-header>
 <ion-content fullscreen>
   <!--*ngIf="usersService.isAdmin"-->
-  <ion-segment mode="ios" (ionChange)="segmentChanged($event)" color="primary" value="Mias" *ngIf="usersService.isAdmin">
+  <ion-segment mode="ios" (ionChange)="segmentChanged($event)" color="primary" value="Mias">
     <ion-segment-button value="Mias" mode="ios">
       <ion-label>Mis cuotas</ion-label>
     </ion-segment-button>
@@ -29,57 +33,82 @@
     </ion-segment-button>
   </ion-segment>
 
+  <ion-searchbar mode="ios" *ngIf="searchBarOpen && selectedSegment == 'Mias'"  showCancelButton='true' (ionCancel)="searchBarOpen=false"
+    placeholder="Buscar por nombre......" cancelButtonText="Cancelar" (value)='searchValue=false' (ionInput)="filterListAliquot($event)">
+  </ion-searchbar>
+
+  <ion-searchbar mode="ios" *ngIf="searchBarOpen && selectedSegment == 'todas'" showCancelButton='true' (ionCancel)="searchBarOpen=false"
+  placeholder="Buscar por nombre o fecha" cancelButtonText="Cancelar" (value)='searchValue=false' (ionInput)="filterListAliquotAll($event)">
+</ion-searchbar>
+
+
+
+
   <div *ngIf="selectedSegment == 'Mias'">
-    <ion-card *ngFor="let item of collectionAliquot | paginate: config">
-      <ion-item style="--padding-start: 0px;" lines="none">
-        <ion-label style="text-align: center;">{{item.DatosVecino.Nombre}}</ion-label>
-      </ion-item>
 
-      <ion-card-content style="padding: 0px;">
-
-        <ion-item>
+    <ion-card class="action-card" style="margin: 10px 10px;" *ngFor="let item of collectionAliquot | paginate: config">
+      <!-- Colorize Progressbar -->
+      <ion-progress-bar color="primary" value="1"></ion-progress-bar>
+      <ion-card-header style="padding: 0 10px;">
+        <ion-item style="--padding-start: 0px;" lines="none">
+          <ion-label>
+            <ion-card-title style="font-size: 24px; text-align: center;">{{item.DatosVecino.Nombre}}</ion-card-title>
+          </ion-label>
+        </ion-item>
+      </ion-card-header>
+      <ion-card-content style="padding: 0 10px;">
+        <ion-list lines="none">
           <ion-grid style="padding: 0px;">
             <ion-row>
-              <ion-col>
-                <ion-label style="text-align: center;">{{item.Descripcion}}</ion-label>
+              <ion-col style="text-align: center; padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  {{item.Descripcion}}
+                </ion-label>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 12px;">
-                Valor: <b>{{item.ValorCuota}}</b>
+              <ion-col style="padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  <p style="font-size: 12px;">Valor</p>
+                  {{item.ValorCuota}}
+                </ion-label>
               </ion-col>
-              <ion-col style="font-size: 12px;">
-                Valor Extra: <b>{{item.ValorExtra}}</b>
+              <ion-col style="padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  <p style="font-size: 12px;">Valor extra</p>
+                  {{item.ValorExtra}}
+                </ion-label>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col style="padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  <p style="font-size: 12px;">Fecha</p>
+                  {{item.Fecha}}
+                </ion-label>
+              </ion-col>
+              <ion-col style="padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  <p style="font-size: 12px;">Fecha vencimiento</p>
+                  {{item.FechaVencimiento}}
+                </ion-label>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 12px;">
-                Fecha: <b>{{item.Fecha.split('T')[0]}}</b>
+              <ion-col style="text-align: center;">
+                <ion-label style="font-size: 14px;">
+                  <b [class.greenClass]="item.EstadoCuota =='Pagada'"
+                    [class.orangeClass]="item.EstadoCuota =='Pendiente'"
+                    [class.redClass]="item.EstadoCuota =='No pagada'">
+                    {{item.EstadoCuota}}
+                  </b>
+                </ion-label>
               </ion-col>
-              <ion-col style="font-size: 12px;">
-                Estado:
-                <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'"
-                  [class.redClass]="item.EstadoCuota =='No pagada'">
-                  {{item.EstadoCuota}}
-                </b>
-              </ion-col>
-
             </ion-row>
-            <ion-row>
-              <ion-col style="font-size: 12px;">
-                Fecha vencimiento: <b>{{item.FechaVencimiento.split('T')[0]}}</b>
-              </ion-col>
-
-            </ion-row>
-
           </ion-grid>
-
-        </ion-item>
-
-
-
+        </ion-list>
       </ion-card-content>
-
     </ion-card>
     <!--Botones - controladores de la paginacion-->
     <ion-item lines="none" style="margin: auto; display: table;">
@@ -91,68 +120,79 @@
 
 
   <div *ngIf="selectedSegment == 'todas'">
-    <ion-card *ngFor="let item of collectionAliquotsAll.data| paginate: config2">
-      <ion-item style="--padding-start: 0px;" lines="none">
 
-        <ion-label style="text-align: center;">{{item.DatosVecinoNombre}}</ion-label>
-        
+    <ion-card class="action-card" style="margin: 10px 10px;"
+      *ngFor="let item of collectionAliquotsAll.data | paginate: config2">
+      <!-- Colorize Progressbar -->
+      <ion-progress-bar color="primary" value="1"></ion-progress-bar>
+      <ion-card-header style="padding: 0 10px;">
+        <ion-item style="--padding-start: 0px;" lines="none">
+          <ion-label>
+            <ion-card-title style="font-size: 24px;">{{item.DatosVecinoNombre}}</ion-card-title>
+          </ion-label>
           <ion-icon class='Edit' slot="end" name="create" (click)="editAliquotModal(item)"></ion-icon>
-          
-        
-
-      </ion-item>
-
-      <ion-card-content style="padding: 0px;">
-
-        <ion-item>
+        </ion-item>
+      </ion-card-header>
+      <ion-card-content style="padding: 0 10px;">
+        <ion-list lines="none">
           <ion-grid style="padding: 0px;">
             <ion-row>
-              <ion-col>
-
-                <ion-label style="text-align: center;">{{item.Descripcion}}</ion-label>
+              <ion-col style="text-align: center; padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  {{item.Descripcion}}
+                </ion-label>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 12px;">
-                Valor: <b>{{item.ValorCuota}}</b>
+              <ion-col style="padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  <p style="font-size: 12px;">Valor</p>
+                  {{item.ValorCuota}}
+                </ion-label>
               </ion-col>
-              <ion-col style="font-size: 12px;">
-                Valor Extra: <b>{{item.ValorExtra}}</b>
+              <ion-col style="padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  <p style="font-size: 12px;">Valor extra</p>
+                  {{item.ValorExtra}}
+                </ion-label>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col style="padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  <p style="font-size: 12px;">Fecha</p>
+                  {{item.Fecha}}
+                </ion-label>
+              </ion-col>
+              <ion-col style="padding: 0px;">
+                <ion-label style="font-size: 14px;">
+                  <p style="font-size: 12px;">Fecha vencimiento</p>
+                  {{item.FechaVencimiento}}
+                </ion-label>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col style="font-size: 12px;">
-                Fecha: <b>{{item.Fecha.split('T')[0]}}</b>
+              <ion-col style="text-align: center;">
+                <ion-label style="font-size: 14px;">
+                  <b [class.greenClass]="item.EstadoCuota =='Pagada'"
+                    [class.orangeClass]="item.EstadoCuota =='Pendiente'"
+                    [class.redClass]="item.EstadoCuota =='No pagada'">
+                    {{item.EstadoCuota}}
+                  </b>
+                </ion-label>
               </ion-col>
-              <ion-col style="font-size: 12px;">
-                Estado:
-                <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'"
-                  [class.redClass]="item.EstadoCuota =='No pagada'">
-                  {{item.EstadoCuota}}
-                </b>
-              </ion-col>
-
             </ion-row>
-            <ion-row>
-              <ion-col style="font-size: 12px;">
-                Fecha vencimiento: <b>{{item.FechaVencimiento.split('T')[0]}}</b>
-              </ion-col>
-
-            </ion-row>
-
           </ion-grid>
-
-        </ion-item>
-
+        </ion-list>
       </ion-card-content>
-
     </ion-card>
     <!--Botones - controladores de la paginacion-->
-  <ion-item lines="none" style="margin: auto; display: table;">
-    <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true" style="margin: 0px;"
-      (pageChange)="pageChanged2($event)">
-    </pagination-controls>
-  </ion-item>
+    <ion-item lines="none" style="margin: auto; display: table;">
+      <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true" style="margin: 0px;"
+        (pageChange)="pageChanged2($event)">
+      </pagination-controls>
+    </ion-item>
   </div>
 
 </ion-content>

@@ -8,13 +8,14 @@
     </ion-buttons>
 
     <!--*ngIf="usersService.isAdmin"-->
-    <ion-buttons slot="end" (click)="createAliquotModal()">
+    <ion-buttons slot="end" (click)="createAliquotModal()" *ngIf="usersService.isAccountant">
       <ion-tab-button>
         <ion-icon name="add-circle"></ion-icon>
       </ion-tab-button>
     </ion-buttons>
 
-    <ion-title>Alicuotas</ion-title>
+    <ion-title style="text-align: center;" *ngIf="usersService.isAccountant">Alicuotas</ion-title>
+    <ion-title *ngIf="!usersService.isAccountant">Alicuotas</ion-title>
 
   </ion-toolbar>
 
@@ -24,7 +25,7 @@
 </ion-header>
 <ion-content fullscreen>
   <!--*ngIf="usersService.isAdmin"-->
-  <ion-segment mode="ios" (ionChange)="segmentChanged($event)" color="primary" value="Mias">
+  <ion-segment mode="ios" (ionChange)="segmentChanged($event)" color="primary" value="Mias" *ngIf="usersService.isAccountant">
     <ion-segment-button value="Mias" mode="ios">
       <ion-label>Mis cuotas</ion-label>
     </ion-segment-button>
@@ -46,13 +47,22 @@
 
   <div *ngIf="selectedSegment == 'Mias'">
 
-    <ion-card class="action-card" style="margin: 10px 10px;" *ngFor="let item of collectionAliquot | paginate: config">
+    <ion-card class="action-card" style="margin: 5px 10px;" *ngFor="let item of collectionAliquot | paginate: config">
       <!-- Colorize Progressbar -->
       <ion-progress-bar color="primary" value="1"></ion-progress-bar>
       <ion-card-header style="padding: 0 10px;">
         <ion-item style="--padding-start: 0px;" lines="none">
           <ion-label>
-            <ion-card-title style="font-size: 24px; text-align: center;">{{item.DatosVecino.Nombre}}</ion-card-title>
+            <ion-card-title style="font-size: 20px">{{item.DatosVecino.Nombre}}</ion-card-title>
+          </ion-label>
+          <ion-label>
+            <ion-card-subtitle style="text-align: right;">
+              <b [class.greenClass]="item.EstadoCuota =='Pagada'"
+              [class.orangeClass]="item.EstadoCuota =='Pendiente'"
+              [class.redClass]="item.EstadoCuota =='No pagada'">
+              {{item.EstadoCuota}}
+            </b>
+            </ion-card-subtitle>
           </ion-label>
         </ion-item>
       </ion-card-header>
@@ -61,8 +71,8 @@
           <ion-grid style="padding: 0px;">
             <ion-row>
               <ion-col style="text-align: center; padding: 0px;">
-                <ion-label style="font-size: 14px;">
-                  {{item.Descripcion}}
+                <ion-label style="font-size: 14px; color: black;">
+                  <b>{{item.Descripcion}}</b>
                 </ion-label>
               </ion-col>
             </ion-row>
@@ -95,17 +105,7 @@
                 </ion-label>
               </ion-col>
             </ion-row>
-            <ion-row>
-              <ion-col style="text-align: center;">
-                <ion-label style="font-size: 14px;">
-                  <b [class.greenClass]="item.EstadoCuota =='Pagada'"
-                    [class.orangeClass]="item.EstadoCuota =='Pendiente'"
-                    [class.redClass]="item.EstadoCuota =='No pagada'">
-                    {{item.EstadoCuota}}
-                  </b>
-                </ion-label>
-              </ion-col>
-            </ion-row>
+
           </ion-grid>
         </ion-list>
       </ion-card-content>
@@ -121,7 +121,7 @@
 
   <div *ngIf="selectedSegment == 'todas'">
 
-    <ion-card class="action-card" style="margin: 10px 10px;"
+    <ion-card class="action-card" style="margin: 5px 10px;"
       *ngFor="let item of collectionAliquotsAll.data | paginate: config2">
       <!-- Colorize Progressbar -->
       <ion-progress-bar color="primary" value="1"></ion-progress-bar>
@@ -129,6 +129,15 @@
         <ion-item style="--padding-start: 0px;" lines="none">
           <ion-label>
             <ion-card-title style="font-size: 24px;">{{item.DatosVecinoNombre}}</ion-card-title>
+          </ion-label>
+          <ion-label>
+            <ion-card-subtitle style="text-align: right;">
+              <b [class.greenClass]="item.EstadoCuota =='Pagada'"
+              [class.orangeClass]="item.EstadoCuota =='Pendiente'"
+              [class.redClass]="item.EstadoCuota =='No pagada'">
+              {{item.EstadoCuota}}
+            </b>
+            </ion-card-subtitle>
           </ion-label>
           <ion-icon class='Edit' slot="end" name="create" (click)="editAliquotModal(item)"></ion-icon>
         </ion-item>
@@ -169,17 +178,6 @@
                 <ion-label style="font-size: 14px;">
                   <p style="font-size: 12px;">Fecha vencimiento</p>
                   {{item.FechaVencimiento}}
-                </ion-label>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col style="text-align: center;">
-                <ion-label style="font-size: 14px;">
-                  <b [class.greenClass]="item.EstadoCuota =='Pagada'"
-                    [class.orangeClass]="item.EstadoCuota =='Pendiente'"
-                    [class.redClass]="item.EstadoCuota =='No pagada'">
-                    {{item.EstadoCuota}}
-                  </b>
                 </ion-label>
               </ion-col>
             </ion-row>

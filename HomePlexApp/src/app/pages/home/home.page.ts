@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
-
 import { UsersService } from 'src/app/services/users/users.service';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -14,17 +12,26 @@ export class HomePage implements OnInit {
   usersList = [];
   name;
   imgProfile;
-
+  option = {
+    slidesPerView: 1.2,
+    centeredSlides: true,
+    loop: false,
+    spaceBetween: 5,
+    autoplay:true,
+    initialSlide: 1.5,
+  }
 
   constructor(public usersService: UsersService,
     public authService: AuthService,
     private navController: NavController,
     public alertController: AlertController,
-    private loadingController: LoadingController) {
-      this.presentLoading()
-     }
+    private loadingController: LoadingController,){
+       this.presentLoading()
+    }
 
   ngOnInit() {
+    // Schedule a single notification
+// Schedule delayed notification
 
     this.usersService.getOnlyThisUser().subscribe(res => {
       // console.log(res)
@@ -37,6 +44,7 @@ export class HomePage implements OnInit {
 
   }
 
+  
   // funcion - metodo para cerrar sesion
    logout() {
     const alert = document.createElement('ion-alert');

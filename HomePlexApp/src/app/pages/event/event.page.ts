@@ -269,7 +269,7 @@ export class EventPage implements OnInit {
     this.modalController.create({
       component: EventCreateComponent,
       componentProps: this.eventsFormCreate.value,
-      cssClass: 'style-modal-create-event'
+      //cssClass: 'style-modal-create-event'
 
     }).then(modalres => {
       modalres.present();
@@ -338,7 +338,7 @@ export class EventPage implements OnInit {
     this.modalController.create({
       component: EventEditComponent,
       componentProps: this.eventsFormEdit.value,
-      cssClass: 'style-modal-edite-event'
+      //cssClass: 'style-modal-edite-event'
 
     }).then(modalres => {
       modalres.present();

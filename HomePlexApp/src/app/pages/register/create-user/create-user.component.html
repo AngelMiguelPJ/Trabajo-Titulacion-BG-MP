@@ -2,7 +2,7 @@
 <ion-toolbar>
   <ion-title style="text-align: center;">Nuevo usuario</ion-title>
 </ion-toolbar>
-<ion-content>
+<ion-content fullscreen style="margin-top: 5px;">
 
     <ion-item class="items" lines="none">
       <ion-icon name="text-outline" slot="start"></ion-icon>
@@ -33,6 +33,7 @@
 
     <!-- Round -->
     <ion-item lines='none'>
+      <ion-button size="smaller" style="margin: auto;" shape="round" color='danger' (click)="cancelar()">Cancelar</ion-button>
       <ion-button size="smaller" style="margin: auto;" shape="round" (click)="registerUser()">Guardar</ion-button>
     </ion-item>
 

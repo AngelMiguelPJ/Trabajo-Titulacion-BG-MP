@@ -72,4 +72,8 @@ export class CreateUserComponent implements OnInit {
     toast.present();
   }
 
+  cancelar(){
+    this.modalController.dismiss();
+  }
+
 }

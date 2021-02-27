@@ -2,85 +2,89 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-tab-button routerLink='/profile'>
-        <ion-avatar  style="height: 32px; width: 32px;">
+        <ion-avatar style="height: 32px; width: 32px;">
           <img src="{{imgProfile}}">
         </ion-avatar>
       </ion-tab-button>
     </ion-buttons>
-    
+
     <ion-buttons slot="end">
       <ion-tab-button (click)="logout()">
-        <ion-icon  class="more" name="log-in"></ion-icon>
-      </ion-tab-button>    
+        <ion-icon class="more" name="log-in"></ion-icon>
+      </ion-tab-button>
     </ion-buttons>
     <ion-title style="text-align: center;">Hola, {{name}}</ion-title>
-    
+
   </ion-toolbar>
-  <ion-card>
-    <ion-card-content style=" padding:5px ;">
-      <ion-slides>
-        <ion-slide>
-          <ion-grid>
-            <ion-row style=" margin-left: 5px; margin-right: 5px;">
-
-              <ion-col size="2" style="justify-content: center;; align-items: center; display: flex;">
-                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
-              </ion-col>
-              <ion-col style="font-size: 12px;">
-                <ion-label>
-                  asas
-                </ion-label>
-                <br>
-                <ion-label>
-                  asas
-                </ion-label>
-              </ion-col>
-
-            </ion-row>
-          </ion-grid>
-        </ion-slide>
-        <ion-slide>
-          <ion-grid>
-            <ion-row style=" margin-left: 5px; margin-right: 5px;">
-
-              <ion-col size="2" style="justify-content: center;; align-items: center; display: flex;">
-                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
-              </ion-col>
-              <ion-col style="font-size: 12px;">
-                <ion-label>
-                  asas
-                </ion-label>
-                <br>
-                <ion-label>
-                  asas
-                </ion-label>
-              </ion-col>
-
-            </ion-row>
-          </ion-grid>
-        </ion-slide>
-      </ion-slides>
-    </ion-card-content>
-  </ion-card>
-
 </ion-header>
 
 
-<ion-content>
-  <div class="subtitulo">
-    <ion-grid>
-      <ion-row>
-        <ion-col class="col1">
-          Contactos
-        </ion-col>
-        <ion-col class="col2">
-          <ion-tab-button tab="contact" style="font-size: 8px;justify-content: flex-end; flex-flow: wrap;">
-            Ver todos
-          </ion-tab-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+<ion-content fullscreen>
+  <ion-slides [options]="option">
+
+    <ion-slide>
+      <ion-card style="margin: 10px 10px;">
+        <img src="{{imgProfile}}" style="background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 7rem;
+        width: 100%;"/>
+        <ion-card-header>
+          <ion-card-subtitle>Destination</ion-card-subtitle>
+          <ion-card-title>Madison, WI</ion-card-title>
+        </ion-card-header>
+
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card style="margin: 10px 10px;">
+        <img src="{{imgProfile}}" style="background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 7rem;
+        width: 100%;"/>
+        <ion-card-header>
+          <ion-card-subtitle>Destination</ion-card-subtitle>
+          <ion-card-title>Madison, WI</ion-card-title>
+        </ion-card-header>
+
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card style="margin: 10px 10px;">
+        <img src="{{imgProfile}}" style="background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 7rem;
+        width: 100%;"/>
+        <ion-card-header>
+          <ion-card-subtitle>Destination</ion-card-subtitle>
+          <ion-card-title>Madison, WI</ion-card-title>
+        </ion-card-header>
+
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card style="margin: 10px 10px;">
+        <img src="{{imgProfile}}" style="background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 7rem;
+        width: 100%;"/>
+        <ion-card-header>
+          <ion-card-subtitle>Destination</ion-card-subtitle>
+          <ion-card-title>Madison, WI</ion-card-title>
+        </ion-card-header>
+
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-item lines="none">
+    <ion-label>Contactos</ion-label>
+    <ion-badge slot="end">ver todos</ion-badge>
+  </ion-item>
+
 
   <div>
     <ion-slides>
@@ -90,7 +94,7 @@
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" style="width: 75%;">
           <ion-label style="font-size: 8px; margin-top: 0px;">Name</ion-label>
         </ion-avatar>
-        
+
         <ion-avatar style="margin-right: 5px;">
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" style="width: 75%;">
           <ion-label style="font-size: 8px;">Name</ion-label>
@@ -115,20 +119,10 @@
     </ion-slides>
   </div>
 
-  <div class="subtitulo2">
-    <ion-grid>
-      <ion-row>
-        <ion-col class="col1">
-          Reservas
-        </ion-col>
-        <ion-col class="col2">
-          <ion-tab-button tab="tabbooking" style=" font-size: 8px;justify-content: flex-end; flex-flow: wrap;">
-            Ver todos
-          </ion-tab-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+  <ion-item lines="none">
+    <ion-label>Reservas</ion-label>
+    <ion-badge slot="end" color="success">ver todas</ion-badge>
+  </ion-item>
 
   <div class="reservas" style=" margin-left: 10px; margin-right: 10px; margin-top: 0px; margin-bottom: 0px;">
     <ion-grid>
@@ -156,75 +150,62 @@
     </ion-grid>
   </div>
 
-  <div class="subtitulo3">
-    <ion-grid>
-      <ion-row>
-        <ion-col class="col1">
-          Cuotas
-        </ion-col>
-        <ion-col class="col2">
-          <ion-tab-button tab="aliquot" style=" font-size: 8px;justify-content: flex-end; flex-flow: wrap;">
-            Ver todos
-          </ion-tab-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+  <ion-item lines="none">
+    <ion-label>Alicuotas</ion-label>
+    <ion-badge slot="end" color="warning">ver todas</ion-badge>
+  </ion-item>
 
 
+  <ion-grid>
+    <ion-row
+      style="background-color: whitesmoke;border-radius: 10px; margin-left: 10px; margin-right: 10px;align-content: center ;">
+      <ion-col size="2" style="justify-content: center;; align-items: center; display: flex;">
+        <ion-icon name="person-circle"></ion-icon>
+      </ion-col>
+      <ion-col style=" font-size: 12px;">
+        <ion-label>
+          asas
+        </ion-label>
+        <br>
+        <ion-label>
+          asas
+        </ion-label>
+      </ion-col>
+      <ion-col
+        style=" text-align: right; font-size: 12px; justify-content: flex-end;align-items: center; display: flex;">
+        <ion-label>
+          $ 20,00
+        </ion-label>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
 
 
+  <ion-grid>
+    <ion-row
+      style="background-color: whitesmoke; border-radius: 10px; margin-left: 10px; margin-right: 10px; margin-bottom: 0px;">
 
+      <ion-col size="2" style="justify-content: center;; align-items: center; display: flex;">
+        <ion-icon name="person-circle"></ion-icon>
+      </ion-col>
+      <ion-col style=" font-size: 12px;">
+        <ion-label>
+          asas
+        </ion-label>
+        <br>
+        <ion-label>
+          asas
+        </ion-label>
+      </ion-col>
+      <ion-col
+        style=" text-align: right;  font-size: 12px; justify-content: flex-end; align-items: center; display: flex;">
+        <ion-label>
+          $ 20,00
+        </ion-label>
+      </ion-col>
 
-    <ion-grid>
-      <ion-row
-        style="background-color: whitesmoke;border-radius: 10px; margin-left: 10px; margin-right: 10px;align-content: center ;">
-        <ion-col size="2" style="justify-content: center;; align-items: center; display: flex;">
-          <ion-icon name="person-circle"></ion-icon>
-        </ion-col>
-        <ion-col style=" font-size: 12px;">
-          <ion-label>
-            asas
-          </ion-label>
-          <br>
-          <ion-label>
-            asas
-          </ion-label>
-        </ion-col>
-        <ion-col
-          style=" text-align: right; font-size: 12px; justify-content: flex-end;align-items: center; display: flex;">
-          <ion-label>
-            $ 20,00
-          </ion-label>
-        </ion-col>
-
-      </ion-row>
-    </ion-grid>
- 
-
-    <ion-grid>
-      <ion-row style="background-color: whitesmoke; border-radius: 10px; margin-left: 10px; margin-right: 10px; margin-bottom: 0px;">
-
-        <ion-col size="2" style="justify-content: center;; align-items: center; display: flex;">
-          <ion-icon name="person-circle"></ion-icon>
-        </ion-col>
-        <ion-col style=" font-size: 12px;">
-          <ion-label>
-            asas
-          </ion-label>
-          <br>
-          <ion-label>
-            asas
-          </ion-label>
-        </ion-col>
-        <ion-col
-          style=" text-align: right;  font-size: 12px; justify-content: flex-end; align-items: center; display: flex;">
-          <ion-label>
-            $ 20,00
-          </ion-label>
-        </ion-col>
-
-      </ion-row>
-    </ion-grid>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>

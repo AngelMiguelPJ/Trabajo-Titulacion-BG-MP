@@ -115,6 +115,11 @@ export class AliquotCreateComponent implements OnInit {
 
   }
 
+  cancelar() {
+    this.modalController.dismiss();
+  }
+
+
   // Funcion - metodo para setear la fecha de vencimiento 1 mes despues o mas 
   // de acuerdo a la fecha designada primera
   cambio(fechaEnviada) {

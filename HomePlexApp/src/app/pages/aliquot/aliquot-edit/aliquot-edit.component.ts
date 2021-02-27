@@ -53,40 +53,43 @@ export class AliquotEditComponent implements OnInit {
       EstadoCuota: this.navParams.data.EstadoCuota,
       Descripcion: this.navParams.data.Descripcion
     })
-    
+
     //console.log('c',this.aliquotFormEdit.value)
 
 
-   }
+  }
 
-   updateAliquot(){
-    
+  updateAliquot() {
+
     // condicionamiento para que el id de la alicuota no se nulla ni indefinida
     if (this.IdAliquotUpdate !== null || this.IdAliquotUpdate !== undefined) {
-      if ( this.aliquotFormEdit.value.Descripcion != null
-      && this.aliquotFormEdit.value.EstadoCuota != null
-      && this.aliquotFormEdit.value.Fecha != null
-      && this.aliquotFormEdit.value.FechaVencimiento != null
-      && this.aliquotFormEdit.value.ValorCuota != null
-      && this.aliquotFormEdit.value.ValorExtra != null){
-        
-      // llamado al servicio de actualizacion de alicuotas
-      this.aliquotService.updateAliquotServices(this.IdAliquotUpdate, this.aliquotFormEdit.value).then(()=>{
-        this.modalController.dismiss({
-          'dismissed': true
-        });
-      }).catch(error => {
-        console.error(error);
-      });
+      if (this.aliquotFormEdit.value.Descripcion != null
+        && this.aliquotFormEdit.value.EstadoCuota != null
+        && this.aliquotFormEdit.value.Fecha != null
+        && this.aliquotFormEdit.value.FechaVencimiento != null
+        && this.aliquotFormEdit.value.ValorCuota != null) {
 
-      }else{
+        // llamado al servicio de actualizacion de alicuotas
+        this.aliquotService.updateAliquotServices(this.IdAliquotUpdate, this.aliquotFormEdit.value).then(() => {
+          this.modalController.dismiss({
+            'dismissed': true
+          });
+        }).catch(error => {
+          console.error(error);
+        });
+
+      } else {
         this.presentToast();
       }
     }
-   }
+  }
+
+  cancelar() {
+    this.modalController.dismiss();
+  }
 
 
-   cambio(fechaEnviada) {
+  cambio(fechaEnviada) {
     this.fechaSelect = Date.parse(fechaEnviada)
     var mesDespues = 30 * 24 * 60 * 60 * 1000
     this.fechaVencimiento = this.fechaSelect + mesDespues;

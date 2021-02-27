@@ -11,13 +11,13 @@ import { Location } from '@angular/common';
 })
 export class AuthService {
 
-    // bandera para verificar si esta autenticado o no
+  // bandera para verificar si esta autenticado o no
   isAuthenticated = false;
 
   // Contructor para iniciar los respectivos servicios
   constructor(private angularFireAuth: AngularFireAuth, private router: Router,
-              private angularFirestore: AngularFirestore,
-              public location: Location) {}
+    private angularFirestore: AngularFirestore,
+    public location: Location) { }
 
   // Metodo -Funcion -servicio de iniciar sesion mediante correo y contraseña
   loginService(email: string, password: string) {
@@ -32,9 +32,10 @@ export class AuthService {
         // igual variable de uid del usuario que inicia sesion para guardarla localmente
         const userId = res.user.uid;
         localStorage.setItem('userId', userId);
-        location.reload()
-  //this.router.navigate(['/tabs/tabhome'])
-        this.router.navigateByUrl('/tabs/tabhome', {skipLocationChange: true}).then(()=>{
+        
+        //this.router.navigate(['/tabs/tabhome'])
+        this.router.navigateByUrl('/tabs/tabhome', { skipLocationChange: true }).then(() => {
+          location.reload();
           console.log(decodeURI(this.location.path()));
           this.router.navigate([decodeURI(this.location.path())])
         })
@@ -43,7 +44,7 @@ export class AuthService {
         reject(err)
         this.isAuthenticated = false
         alert('datos incorrectos o  no existe el usuario')
-        })
+      })
 
     })
 
@@ -54,15 +55,15 @@ export class AuthService {
 
     // llamado al servicio de cerrado de sesion de firebaseauth
     this.angularFireAuth.signOut().then(() => {
-     
+
       // cambio del estado de si esta logeado o no
       this.isAuthenticated = false
-      
-      
+
+
       // redirreccion de rutas para cuando cierra sesion
       this.router.navigate(['/login']);
 
     })
-    
+
   }
 }

@@ -62,6 +62,10 @@ export class EditUserComponent implements OnInit {
     }
   }
 
+  cancelar(){
+    this.modalController.dismiss();
+  }
+
   async presentToast() {
     const toast = await this.toastController.create({
       message: ' <b style="text-align:center">Debe llenar todos los datos</b>',

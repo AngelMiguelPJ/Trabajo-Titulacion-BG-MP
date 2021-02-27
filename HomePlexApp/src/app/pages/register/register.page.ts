@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController, PopoverController } from '@ionic/angular';
+import { IonRouterOutlet, LoadingController, ModalController, PopoverController } from '@ionic/angular';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateUserComponent } from './create-user/create-user.component';
@@ -37,7 +37,8 @@ export class RegisterPage implements OnInit {
     private router: Router,
     public fb: FormBuilder,
     public popoverController: PopoverController,
-    private loadingController: LoadingController) { }
+    private loadingController: LoadingController,
+    private routerOutlet: IonRouterOutlet) { }
 
   ngOnInit() {
 
@@ -168,7 +169,7 @@ export class RegisterPage implements OnInit {
     //console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: CreateUserComponent,
-      cssClass: 'modal-create-user'
+      //cssClass: 'modal-create-user'
     }).then(modalres =>{
       modalres.present();
       
@@ -183,7 +184,7 @@ export class RegisterPage implements OnInit {
     //console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: EditUserComponent,
-      cssClass: 'modal-edit-user',
+      //cssClass: 'modal-edit-user',
       componentProps: item
     }).then(modalres =>{
       modalres.present();

@@ -14,7 +14,8 @@
       </ion-tab-button>    
     </ion-buttons>
 
-    <ion-title style="text-align: center;">Perfil</ion-title>
+    <ion-title style="text-align: center;"  *ngIf="usersService.isAdmin">Perfil</ion-title>
+    <ion-title  *ngIf="!usersService.isAdmin">Perfil</ion-title>
     
   </ion-toolbar>
 

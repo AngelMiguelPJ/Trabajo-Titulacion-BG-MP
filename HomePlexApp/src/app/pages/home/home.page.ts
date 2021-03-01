@@ -2,6 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UsersService } from 'src/app/services/users/users.service';
+
+import {
+  Plugins,
+  PushNotification,
+  PushNotificationToken,
+  PushNotificationActionPerformed,
+} from '@capacitor/core';
+
+const { PushNotifications } = Plugins;
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -21,6 +31,8 @@ export class HomePage implements OnInit {
     initialSlide: 1.5,
   }
 
+  
+
   constructor(public usersService: UsersService,
     public authService: AuthService,
     private navController: NavController,
@@ -28,10 +40,44 @@ export class HomePage implements OnInit {
     private loadingController: LoadingController,){
        this.presentLoading()
     }
+  
 
   ngOnInit() {
     // Schedule a single notification
 // Schedule delayed notification
+    PushNotifications.requestPermission().then(result => {
+      if (result.granted) {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+      } else {
+        // Show some error
+      }
+    });
+    PushNotifications.addListener(
+      'registration',
+      (token: PushNotificationToken) => {
+        console.log(token.value);
+        alert('Push registration success, token: ' + token.value);
+      },
+    );
+
+    PushNotifications.addListener('registrationError', (error: any) => {
+      alert('Error on registration: ' + JSON.stringify(error));
+    });
+
+    PushNotifications.addListener(
+      'pushNotificationReceived',
+      (notification: PushNotification) => {
+        alert('Push received: ' + JSON.stringify(notification));
+      },
+    );
+
+    PushNotifications.addListener(
+      'pushNotificationActionPerformed',
+      (notification: PushNotificationActionPerformed) => {
+        alert('Push action performed: ' + JSON.stringify(notification));
+      },
+    );
 
     this.usersService.getOnlyThisUser().subscribe(res => {
       // console.log(res)

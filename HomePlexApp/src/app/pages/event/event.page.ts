@@ -140,21 +140,7 @@ export class EventPage implements OnInit {
     }
     );
     //--------------------------------------------------------
-    this.uidAdmin = localStorage.getItem('userId');
-    this.eventsFormCreate = this.formBuilder.group({
-      idUser: this.uidAdmin,
-      idEventBooking: '',
-      Img: '',
-      Nombre: ['', Validators.required],
-      EventoAN: ['', Validators.required],
-      Reserva: this.formBuilder.group({
-        Descripcion: ['', Validators.required],
-        Duracion: ['', Validators.required],
-        Fecha: ['', Validators.required],
-        Lugar: ['', Validators.required],
-        Personas: ['', Validators.required]
-      })
-    });
+
 
     // inicializacion de formulario para la edicion de un evento
     this.eventsFormEdit = this.formBuilder.group({
@@ -171,24 +157,10 @@ export class EventPage implements OnInit {
       })
     });
 
-    // iniciar formulario para la subida de imagenes
-    this.eventsImg = this.formBuilder.group({
-      Img: ''
-    })
+
 
     // Iniciar formulario para la creacion de reservas a partir de datos de un evento
-    this.eventsBookingFormCreate = this.formBuilder.group({
-      idUserReserv: '',
-      idEventBooking: '',
-      Ocupado: ['', Validators.required],
-      Reserva: this.formBuilder.group({
-        Descripcion: ['', Validators.required],
-        Lugar: ['', Validators.required],
-        Fecha: ['', Validators.required],
-        Duracion: ['', Validators.required],
-        Personas: ['', Validators.required]
-      })
-    })
+
 
     ///
     this.eventsBookingFormEdit = this.formBuilder.group({
@@ -268,48 +240,11 @@ export class EventPage implements OnInit {
 
     this.modalController.create({
       component: EventCreateComponent,
-      componentProps: this.eventsFormCreate.value,
       //cssClass: 'style-modal-create-event'
 
     }).then(modalres => {
       modalres.present();
-      modalres.onDidDismiss().then(res => {
-        //console.log(res.data)
-
-        if (res.data != null || res.data != undefined) {
-          this.presentLoading();
-
-          this.eventsFormCreate.value.Img = res.data.Img;
-          this.eventsFormCreate.value.Nombre = res.data.Nombre;
-          this.eventsFormCreate.value.EventoAN = res.data.EventoAN;
-          this.eventsFormCreate.value.idEventBooking = res.data.idEventBooking
-          this.eventsBookingFormCreate.setValue({
-            idUserReserv: res.data.idUser,
-            Ocupado: 'si',
-            idEventBooking: res.data.idEventBooking,
-            Reserva: ({
-              Descripcion: res.data.Reserva.Descripcion,
-              Lugar: res.data.Reserva.Lugar,
-              Fecha: res.data.Reserva.Fecha,
-              Duracion: res.data.Reserva.Duracion,
-              Personas: res.data.Reserva.Personas
-            })
-          })
-          //console.log(this.eventsBookingFormCreate.value)
-          //console.log(this.eventsFormCreate.value)
-          // llamado al servicio de creacion de eventosde acuerdo a los datos del form
-          this.eventsService.createEventsServices(this.eventsFormCreate.value).then(resp => {
-
-            // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
-            this.bookingService.createBookingServices(this.eventsBookingFormCreate.value)
-
-
-          }).catch(err => {
-            // impirmir error si es que diera alguno
-            console.log(err)
-          })
-        }
-      })
+      modalres.onDidDismiss();
     });
 
   }

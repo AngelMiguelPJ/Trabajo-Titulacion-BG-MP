@@ -102,6 +102,9 @@ export class EventRegisterComponent implements OnInit {
   task;
   uploadPercent;
 
+  usersList = [];
+  nameUserInfor;
+
   // iniciar servicios
   constructor(private storage: AngularFireStorage, private ngbModal: NgbModal,
     public formBuilder: FormBuilder, private eventsService: EventsService,
@@ -165,7 +168,6 @@ export class EventRegisterComponent implements OnInit {
 
     // Iniciar formulario para la creacion de reservas a partir de datos de un evento
     this.eventsBookingForm = this.formBuilder.group({
-      idUserReserv: '',
       idEventBooking: '',
       Ocupado: '',
       Reserva: this.formBuilder.group({
@@ -174,6 +176,10 @@ export class EventRegisterComponent implements OnInit {
         Fecha: Date.toString,
         Duracion: '',
         Personas: ''
+      }),
+      UserInfo: this.formBuilder.group({
+        userNameReserv: '',
+        idUserReserv: '',
       })
     })
 
@@ -244,6 +250,25 @@ export class EventRegisterComponent implements OnInit {
     }
     );
 
+    // Llamado al servicio de usuarios para obtener datos de acuerdo al usuario actual
+    this.usersService.getUsersService().subscribe(users => {
+      // seteo de datos en un arreglo
+      this.usersList = users
+      // condicion for para recorrer el arreglo
+      for (let index = 0; index < this.usersList.length; index++) {
+        // igualacion de cada indice del arreglo a una variable mientras recorre
+        const uides = this.usersList[index];
+        // condicional para obtener solo los datos del usuario actual
+        if (uides.Uid === this.uidAdmin) {
+          // seteo de los datos pertinentes al usuario actual
+          this.nameUserInfor = uides.Name
+
+        }
+      }
+    })
+
+
+
   }
 
   // funcion - metodo para el cambio de pagina segun la pagina actual
@@ -281,7 +306,7 @@ export class EventRegisterComponent implements OnInit {
     const idRandomEvent = Math.random().toString(36).substring(2);
     this.eventsForm.value.idEventBooking = idRandomEvent
     this.eventsBookingForm.setValue({
-      idUserReserv: this.uidAdmin,
+
       Ocupado: 'si',
       idEventBooking: this.eventsForm.value.idEventBooking,
       Reserva: ({
@@ -290,6 +315,10 @@ export class EventRegisterComponent implements OnInit {
         Fecha: this.eventsForm.value.Reserva.Fecha,
         Duracion: this.eventsForm.value.Reserva.Duracion,
         Personas: this.eventsForm.value.Reserva.Personas
+      }),
+      UserInfo: ({
+        userNameReserv: this.nameUserInfor,
+        idUserReserv: this.uidAdmin,
       })
     })
 
@@ -434,10 +463,10 @@ export class EventRegisterComponent implements OnInit {
       const b = res.UidEventBooking
       console.log("a: ", a, "b", b)
       if (this.eventFormEdit.value.idEventBooking == b) {
-      this.bookingService.updateBookingServices(a, this.eventBookingFormEdit.value)
-    }
+        this.bookingService.updateBookingServices(a, this.eventBookingFormEdit.value)
+      }
     })
-    
+
 
     // llamado a la variable uid del usuario y verificacion de si es nula o no
     if (this.uidEventEdit !== null || this.uidEventEdit !== undefined) {

@@ -6,8 +6,8 @@
         <ion-icon name="search"></ion-icon>
       </ion-tab-button>
     </ion-buttons>
-
-    <ion-buttons slot="end" (click)="createUserModal()" *ngIf="usersService.isAdmin">
+    <!--*ngIf="usersService.isAdmin"-->
+    <ion-buttons slot="end" (click)="createUserModal()" >
       <ion-tab-button>
         <ion-icon name="add-circle"></ion-icon>
       </ion-tab-button>

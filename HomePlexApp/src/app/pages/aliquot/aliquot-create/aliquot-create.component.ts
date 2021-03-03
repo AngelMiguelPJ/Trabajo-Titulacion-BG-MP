@@ -51,7 +51,9 @@ export class AliquotCreateComponent implements OnInit {
       Fecha: '',
       FechaVencimiento: '',
       EstadoCuota: '',
-      Descripcion: ''
+      Descripcion: '',
+      NumeroMes: '',
+
     })
     //console.log('a', this.aliquotFormCreate.value)
 
@@ -85,6 +87,7 @@ export class AliquotCreateComponent implements OnInit {
   createAliquot() {
     const idAliquotRandom = Math.random().toString(36).substring(2);
     this.aliquotFormCreate.value.IdAliquot = idAliquotRandom;
+    this.aliquotFormCreate.value.NumeroMes = this.aliquotFormCreate.value.Fecha.split('-')[1];
     if (this.aliquotFormCreate.value.DatosVecino != ''
       && this.aliquotFormCreate.value.Descripcion != ''
       && this.aliquotFormCreate.value.EstadoCuota != ''
@@ -93,6 +96,7 @@ export class AliquotCreateComponent implements OnInit {
       && this.aliquotFormCreate.value.ValorCuota != ''
       && this.aliquotFormCreate.value.ValorExtra != '') {
       console.log(this.aliquotFormCreate.value)
+
       this.aliquotService.createAliquotServices(this.aliquotFormCreate.value).then(resp => {
 
         // llaamado al servicio de creacion de copia de seguridad de alicuotas

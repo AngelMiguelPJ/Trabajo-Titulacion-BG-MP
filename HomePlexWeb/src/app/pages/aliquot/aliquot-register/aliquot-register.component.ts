@@ -126,7 +126,8 @@ export class AliquotRegisterComponent implements OnInit {
       Fecha: Date.toString,
       FechaVencimiento: Date.toString,
       EstadoCuota: '',
-      Descripcion: ''
+      Descripcion: '',
+      NumeroMes: '',
     })
 
     // formulario para la edicion de alicuotas
@@ -156,6 +157,7 @@ export class AliquotRegisterComponent implements OnInit {
   createAliquot() {
     const idAliquotRandom = Math.random().toString(36).substring(2);
     this.aliquotFormCreate.value.IdAliquot = idAliquotRandom;
+    this.aliquotFormCreate.value.NumeroMes = this.aliquotFormCreate.value.Fecha.split('-')[1];
     console.table(this.aliquotFormCreate.value)
     // llamado al servicio de creacion de alicuotas
     this.aliquotService.createAliquotServices(this.aliquotFormCreate.value).then(resp => {

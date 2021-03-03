@@ -32,13 +32,9 @@ export class AuthService {
         // igual variable de uid del usuario que inicia sesion para guardarla localmente
         const userId = res.user.uid;
         localStorage.setItem('userId', userId);
-        
+
         //this.router.navigate(['/tabs/tabhome'])
-        this.router.navigateByUrl('/tabs/tabhome', { skipLocationChange: true }).then(() => {
-          location.reload();
-          console.log(decodeURI(this.location.path()));
-          this.router.navigate([decodeURI(this.location.path())])
-        })
+        this.router.navigateByUrl('/tabs/tabhome')
         resolve(res)
       }).catch(err => {
         reject(err)
@@ -52,7 +48,7 @@ export class AuthService {
 
   // Metodo -Funcion -servicio para cerrar sesion
   logoutService() {
-
+    location.reload();
     // llamado al servicio de cerrado de sesion de firebaseauth
     this.angularFireAuth.signOut().then(() => {
 
@@ -61,7 +57,13 @@ export class AuthService {
 
 
       // redirreccion de rutas para cuando cierra sesion
-      this.router.navigate(['/login']);
+      //this.router.navigate(['/tabs/tabhome'])
+      this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
+        console.log(decodeURI(this.location.path()));
+
+        this.router.navigate([decodeURI(this.location.path())])
+      })
+
 
     })
 

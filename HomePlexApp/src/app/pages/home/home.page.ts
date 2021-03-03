@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { SplashScreen } from '@capacitor/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { AliquotService } from 'src/app/services/aliquot/aliquot.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { EventsService } from 'src/app/services/events/events.service';
 import { UsersService } from 'src/app/services/users/users.service';
 @Component({
   selector: 'app-home',
@@ -12,27 +15,60 @@ export class HomePage implements OnInit {
   usersList = [];
   name;
   imgProfile;
-  option = {
-    slidesPerView: 1.2,
-    centeredSlides: true,
-    loop: false,
-    spaceBetween: 5,
-    autoplay:true,
-    initialSlide: 1.5,
-  }
+  eventos;
+  eventosLength;
+  users;
+  usersLength;
+  mesActual;
+  mesEvento;
+  option;
+  option2;
+  aliquotCurrentMonth;
+  aliquotLastMonth;
+ 
 
   constructor(public usersService: UsersService,
     public authService: AuthService,
     private navController: NavController,
     public alertController: AlertController,
-    private loadingController: LoadingController,){
-       this.presentLoading()
-    }
+    private loadingController: LoadingController,
+    private eventsService: EventsService,
+    private aliquotService: AliquotService) {
+
+
+  }
 
   ngOnInit() {
-    // Schedule a single notification
-// Schedule delayed notification
 
+    this.option = {
+      slidesPerView: 1.2,
+      centeredSlides: true,
+      loop: false,
+      spaceBetween: 5,
+      autoplay: true,
+      initialSlide: 1.5,
+    }
+    this.option2 = {
+      slidesPerView: 5,
+      centeredSlides: true,
+      loop: true,
+      spaceBetween: 1,
+      autoplay: false,
+      initialSlide: 2.5,
+    }
+
+    this.eventsService.getAllEventsFilterServices().subscribe(res => {
+      //console.log('eventos',res)
+      this.eventos = res;
+      this.eventosLength = this.eventos.length
+      //console.log(this.eventos.length)
+      
+    })
+    this.usersService.getAllUsersWithoutThisUser().subscribe(res => {
+      //console.log(res)
+      this.users = res;
+      this.usersLength = this.users.length
+    })
     this.usersService.getOnlyThisUser().subscribe(res => {
       // console.log(res)
       res.map(resp => {
@@ -42,11 +78,25 @@ export class HomePage implements OnInit {
       // console.log(this.name)
     })
 
+    this.aliquotService.getAliquotUserCurrentMonth().subscribe(res=>{
+      //console.log(res);
+      this.aliquotCurrentMonth = res;
+      console.log(this.aliquotCurrentMonth)
+    })
+    this.aliquotService.getAliquotUserLastMonth().subscribe(res=>{
+      //console.log(res)
+      this.aliquotLastMonth = res;
+      console.log(this.aliquotLastMonth)
+    })
+
+
+
   }
 
-  
+
+
   // funcion - metodo para cerrar sesion
-   logout() {
+  logout() {
     const alert = document.createElement('ion-alert');
     alert.cssClass = 'my-custom-class';
     alert.header = 'Cerrar sesion';
@@ -54,12 +104,12 @@ export class HomePage implements OnInit {
     alert.buttons = [
       {
         text: 'No',
-        
+
       }, {
         text: 'Salir',
         handler: () => {
           this.authService.logoutService();
-          console.log('Confirm Okay')
+          // console.log('Confirm Okay')
         }
       }
     ];
@@ -68,9 +118,9 @@ export class HomePage implements OnInit {
     return alert.present();
 
 
-    
+
     // llamado al servio de cerrado de sesion
-    
+
 
   }
 
@@ -85,5 +135,15 @@ export class HomePage implements OnInit {
     const { role, data } = await loading.onDidDismiss();
 
   }
+  gotoChatRoom(uid, name, img) {
+
+    sessionStorage.setItem('uidContact', uid)
+    sessionStorage.setItem('nameContact', name)
+    sessionStorage.setItem('imgContact', img)
+    this.navController.navigateForward("/chatroom");
+
+  }
+
+
 
 }

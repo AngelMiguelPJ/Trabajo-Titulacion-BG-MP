@@ -25,8 +25,18 @@ export class LoginPage implements OnInit {
   }
 
   // funcion de login
-  login(){
-    this.authService.loginService(this.email, this.password)
+  login(email, password) {
+
+    // llamado al servicio de authenticacion para logearse
+    this.authService.loginService(email, password).then(res => {
+      //console.log("Respuesta: ", res)
+      // redireccion a la pagina home si se logea correctamente
+      this.router.navigate(["/tabs/tabhome"]);
+    }).catch(err => {
+      // mensaje de error en consola
+      console.log("Error: ", err)
+    })
+
   }
 
 }

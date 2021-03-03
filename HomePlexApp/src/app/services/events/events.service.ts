@@ -2,17 +2,31 @@ import { Injectable } from '@angular/core';
 
 // firebase
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
+import { last, map } from 'rxjs/operators';
+
+export interface event {
+  Nombre: ''
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService {
-
+  mesActual;
+  datos;
   constructor(private angularFirestore: AngularFirestore) { }
-
+  getAllEventsFilterServices() {
+    
+    return this.angularFirestore.collection('events', ref=> ref.orderBy('Reserva.Fecha').limit(3)).snapshotChanges().pipe(map(res => {
+      //console.log('eventos 1',res)
+      return res.map(b => {
+        //console.log(b.payload.doc.data())
+        return b.payload.doc.data();
+      })
+    }))
+  }
   //
-  getEventsServices(){
+  getEventsServices() {
     //userUid del usuario actual obtenido en el inicio de sesion
     return this.angularFirestore.collection('events').snapshotChanges();
   }
@@ -33,7 +47,7 @@ export class EventsService {
   }
 
   // Metodo - funcion - servicio de actualizacion de la imagen de cada evento
-  updateEventsServicesImg(id:any, users:any){
+  updateEventsServicesImg(id: any, users: any) {
     return this.angularFirestore.collection("events").doc(id).update(users);
   }
 

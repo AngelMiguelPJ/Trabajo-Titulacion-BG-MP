@@ -25,20 +25,20 @@
   <ion-item class="itemInput" lines="none">
 
     <ion-icon position="fixed" name="person" size="small"></ion-icon>
-    <ion-input type="text" name="email" placeholder="Correo electronico" [(ngModel)]="email" style="margin-left: 10px;">
+    <ion-input type="text" name="email" placeholder="Correo electronico" #userMail  style="margin-left: 10px;">
     </ion-input>
   </ion-item>
 
   <ion-item class="itemInput" lines="none">
 
     <ion-icon position="fixed" name="lock-closed" size="small"></ion-icon>
-    <ion-input type="password" name="password" placeholder="Contraseña" [(ngModel)]="password"
+    <ion-input type="password" name="password" placeholder="Contraseña" #userPassword
       style="margin-left: 10px;"></ion-input>
   </ion-item>
 
   <div class="gridButton">
     <div></div>
-    <ion-button shape="round" (click)="login()" >Entrar</ion-button>
+    <ion-button shape="round" (click)="login(userMail.value, userPassword.value)">Entrar</ion-button>
     <div></div>
   </div>
 

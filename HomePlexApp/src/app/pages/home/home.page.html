@@ -13,115 +13,52 @@
         <ion-icon class="more" name="log-in"></ion-icon>
       </ion-tab-button>
     </ion-buttons>
-    <ion-title style="text-align: center;">Hola, {{name}}</ion-title>
+    <ion-title style="text-align: center; font-size: 14px;">Hola, {{name}}</ion-title>
 
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content fullscreen>
   <ion-slides [options]="option">
-
-    <ion-slide>
+    <ion-slide *ngFor="let item of eventos" routerLink='/tabs/tabevent'>
       <ion-card style="margin: 10px 10px;">
-        <img src="{{imgProfile}}" style="background-position: center;
+        <img src="{{item.Img}}" style="background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
         height: 7rem;
-        width: 100%;"/>
+        width: max-content;" />
         <ion-card-header>
-          <ion-card-subtitle>Destination</ion-card-subtitle>
-          <ion-card-title>Madison, WI</ion-card-title>
+          <ion-card-title>{{item.Nombre}}</ion-card-title>
+          <ion-card-subtitle>{{item.Reserva.Descripcion}}</ion-card-subtitle>
         </ion-card-header>
-
       </ion-card>
     </ion-slide>
-    <ion-slide>
-      <ion-card style="margin: 10px 10px;">
-        <img src="{{imgProfile}}" style="background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        height: 7rem;
-        width: 100%;"/>
-        <ion-card-header>
-          <ion-card-subtitle>Destination</ion-card-subtitle>
-          <ion-card-title>Madison, WI</ion-card-title>
-        </ion-card-header>
 
-      </ion-card>
-    </ion-slide>
-    <ion-slide>
-      <ion-card style="margin: 10px 10px;">
-        <img src="{{imgProfile}}" style="background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        height: 7rem;
-        width: 100%;"/>
-        <ion-card-header>
-          <ion-card-subtitle>Destination</ion-card-subtitle>
-          <ion-card-title>Madison, WI</ion-card-title>
-        </ion-card-header>
-
-      </ion-card>
-    </ion-slide>
-    <ion-slide>
-      <ion-card style="margin: 10px 10px;">
-        <img src="{{imgProfile}}" style="background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        height: 7rem;
-        width: 100%;"/>
-        <ion-card-header>
-          <ion-card-subtitle>Destination</ion-card-subtitle>
-          <ion-card-title>Madison, WI</ion-card-title>
-        </ion-card-header>
-
-      </ion-card>
-    </ion-slide>
   </ion-slides>
 
   <ion-item lines="none">
-    <ion-label>Contactos</ion-label>
-    <ion-badge slot="end">ver todos</ion-badge>
+    <ion-label>
+      <b>Contactos</b>
+    </ion-label>
+    <ion-badge slot="end" style="background-color: #2196F3;" routerLink='/tabs/tabchat'>ver todos</ion-badge>
   </ion-item>
 
+  <ion-slides [options]="option2">
+    <ion-slide *ngFor="let item of users">
+      <ion-grid>
+        <ion-row style="padding: 0px;">
+          <ion-avatar (click)="gotoChatRoom(item.Uid,item.Name, item.Img)">
+            <img src="{{item.Img}}" style="height: 64px; width: 64px;">
+          </ion-avatar>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
 
-  <div>
-    <ion-slides>
-      <ion-slide>
-
-        <ion-avatar style="margin-right: 5px; margin-bottom: 0px;">
-          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" style="width: 75%;">
-          <ion-label style="font-size: 8px; margin-top: 0px;">Name</ion-label>
-        </ion-avatar>
-
-        <ion-avatar style="margin-right: 5px;">
-          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" style="width: 75%;">
-          <ion-label style="font-size: 8px;">Name</ion-label>
-        </ion-avatar>
-
-        <ion-avatar style="margin-right: 5px;">
-          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" style="width: 75%;">
-          <ion-label style="font-size: 8px;">Name</ion-label>
-        </ion-avatar>
-
-        <ion-avatar style="margin-right: 5px;">
-          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" style="width: 75%;">
-          <ion-label style="font-size: 8px;">Name</ion-label>
-        </ion-avatar>
-
-        <ion-avatar>
-          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" style="width: 75%;">
-          <ion-label style="font-size: 8px; margin-top: 2px;">Name</ion-label>
-        </ion-avatar>
-      </ion-slide>
-
-    </ion-slides>
-  </div>
+  </ion-slides>
 
   <ion-item lines="none">
-    <ion-label>Reservas</ion-label>
-    <ion-badge slot="end" color="success">ver todas</ion-badge>
+    <ion-label><b>Reservas</b></ion-label>
+    <ion-badge slot="end"style="background-color: #2196F3;" routerLink='/tabs/tabbooking'>ver todas</ion-badge>
   </ion-item>
 
   <div class="reservas" style=" margin-left: 10px; margin-right: 10px; margin-top: 0px; margin-bottom: 0px;">
@@ -151,61 +88,88 @@
   </div>
 
   <ion-item lines="none">
-    <ion-label>Alicuotas</ion-label>
-    <ion-badge slot="end" color="warning">ver todas</ion-badge>
+    <ion-label><b>Alicuotas</b></ion-label>
+    <ion-badge slot="end" style="background-color: #2196F3;" routerLink='/tabs/tabaliquot'>ver todas</ion-badge>
   </ion-item>
 
-
-  <ion-grid>
-    <ion-row
-      style="background-color: whitesmoke;border-radius: 10px; margin-left: 10px; margin-right: 10px;align-content: center ;">
-      <ion-col size="2" style="justify-content: center;; align-items: center; display: flex;">
-        <ion-icon name="person-circle"></ion-icon>
-      </ion-col>
-      <ion-col style=" font-size: 12px;">
-        <ion-label>
-          asas
+  <ion-card style="margin: 5px 10px;">
+    <ion-card-content style="padding: 0px;">
+      <ion-item lines='none' *ngFor="let item of aliquotCurrentMonth">
+        <ion-icon slot="start" name="cash" style="color: green;"*ngIf="item.EstadoCuota == 'Pagada'"></ion-icon>
+        <ion-icon slot="start" name="cash" style="color: orange;" *ngIf="item.EstadoCuota == 'Pendiente'"></ion-icon>
+        <ion-icon slot="start" name="cash" style="color: red;" *ngIf="item.EstadoCuota == 'No pagada'"></ion-icon>
+        <ion-label class="item">
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                {{item.Descripcion}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="font-size: 12px;">
+                Del {{item.Fecha}} al {{item.FechaVencimiento}}
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-label>
-        <br>
-        <ion-label>
-          asas
+        <ion-note slot="end" style="margin: auto; font-size: 14px; color: green;" *ngIf="item.EstadoCuota == 'Pagada'">
+          <ion-label>
+            $ {{item.ValorCuota + item.ValorExtra}}
+          </ion-label>
+        </ion-note>
+        <ion-note slot="end" style="margin: auto; font-size: 14px; color: orange;" *ngIf="item.EstadoCuota == 'Pendiente'">
+          <ion-label>
+            $ {{item.ValorCuota + item.ValorExtra}}
+          </ion-label>
+        </ion-note>
+        <ion-note slot="end" style="margin: auto; font-size: 14px; color: red;" *ngIf="item.EstadoCuota == 'No pagada'">
+          <ion-label>
+            $ {{item.ValorCuota + item.ValorExtra}}
+          </ion-label>
+        </ion-note>
+    
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card style="margin: 5px 10px;">
+    <ion-card-content style="padding: 0px;">
+      <ion-item lines='none' *ngFor="let item of aliquotLastMonth">
+        <ion-icon slot="start" name="cash" style="color: green;"*ngIf="item.EstadoCuota == 'Pagada'"></ion-icon>
+        <ion-icon slot="start" name="cash" style="color: orange;" *ngIf="item.EstadoCuota == 'Pendiente'"></ion-icon>
+        <ion-icon slot="start" name="cash" style="color: red;" *ngIf="item.EstadoCuota == 'No pagada'"></ion-icon>
+        <ion-label class="item">
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                {{item.Descripcion}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col style="font-size: 12px;">
+                Del {{item.Fecha}} al {{item.FechaVencimiento}}
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-label>
-      </ion-col>
-      <ion-col
-        style=" text-align: right; font-size: 12px; justify-content: flex-end;align-items: center; display: flex;">
-        <ion-label>
-          $ 20,00
-        </ion-label>
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
-
-
-  <ion-grid>
-    <ion-row
-      style="background-color: whitesmoke; border-radius: 10px; margin-left: 10px; margin-right: 10px; margin-bottom: 0px;">
-
-      <ion-col size="2" style="justify-content: center;; align-items: center; display: flex;">
-        <ion-icon name="person-circle"></ion-icon>
-      </ion-col>
-      <ion-col style=" font-size: 12px;">
-        <ion-label>
-          asas
-        </ion-label>
-        <br>
-        <ion-label>
-          asas
-        </ion-label>
-      </ion-col>
-      <ion-col
-        style=" text-align: right;  font-size: 12px; justify-content: flex-end; align-items: center; display: flex;">
-        <ion-label>
-          $ 20,00
-        </ion-label>
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
-
+        <ion-note slot="end" style="margin: auto; font-size: 14px; color: green;" *ngIf="item.EstadoCuota == 'Pagada'">
+          <ion-label>
+            $ {{item.ValorCuota + item.ValorExtra}}
+          </ion-label>
+        </ion-note>
+        <ion-note slot="end" style="margin: auto; font-size: 14px; color: orange;" *ngIf="item.EstadoCuota == 'Pendiente'">
+          <ion-label>
+            $ {{item.ValorCuota + item.ValorExtra}}
+          </ion-label>
+        </ion-note>
+        <ion-note slot="end" style="margin: auto; font-size: 14px; color: red;" *ngIf="item.EstadoCuota == 'No pagada'">
+          <ion-label>
+            $ {{item.ValorCuota + item.ValorExtra}}
+          </ion-label>
+        </ion-note>
+    
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  
 </ion-content>

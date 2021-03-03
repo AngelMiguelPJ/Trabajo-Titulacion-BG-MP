@@ -33,3 +33,4 @@ export class BookingService {
     return this.angularFirestore.collection("booking").doc(idBooking).delete();
   }
 }
+

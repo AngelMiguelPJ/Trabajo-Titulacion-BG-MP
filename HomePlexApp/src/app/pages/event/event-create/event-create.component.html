@@ -52,16 +52,14 @@
     <ion-item class="items" lines="none">
       <ion-icon name="trail-sign" slot="start"></ion-icon>
       <ion-select mode="ios" placeholder="Lugar" [(ngModel)]="eventsFormCreate.value.Reserva.Lugar" required>
-        <ion-select-option *ngFor="let place of placeEvent" >{{place}}
-        </ion-select-option>
+        <ion-select-option *ngFor="let place of placeEvent">{{place}}</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item class="items" lines="none">
       <ion-icon name="people" slot="start"></ion-icon>
       <ion-select mode="ios" placeholder="Personas" [(ngModel)]="eventsFormCreate.value.Reserva.Personas" required>
-        <ion-select-option *ngFor="let people of peopleEvent" >
-          {{people}}</ion-select-option>
+        <ion-select-option *ngFor="let people of peopleEvent">{{people}}</ion-select-option>
       </ion-select>
     </ion-item>
     <!-- Round -->

@@ -7,7 +7,7 @@
       </ion-tab-button>
     </ion-buttons>
     <!--*ngIf="usersService.isAdmin"-->
-    <ion-buttons slot="end" (click)="createUserModal()" >
+    <ion-buttons slot="end" (click)="createUserModal()" *ngIf="usersService.isAdmin">
       <ion-tab-button>
         <ion-icon name="add-circle"></ion-icon>
       </ion-tab-button>
@@ -32,7 +32,7 @@
         <ion-label>
           <ion-card-title style="font-size: 20px;">{{item.Nombre}}</ion-card-title>
         </ion-label>
-
+        <!--*ngIf="usersService.isAdmin"-->
         <ion-icon slot="end" class='Edit' name="create" (click)="editEventModal(item)" *ngIf="usersService.isAdmin"></ion-icon>
         <ion-icon slot="end" class='Delete' name="trash" (click)="deleteEvent(item)" *ngIf="usersService.isAdmin"></ion-icon>
       </ion-item>

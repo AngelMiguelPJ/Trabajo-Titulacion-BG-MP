@@ -16,7 +16,7 @@ export class EventCreateComponent implements OnInit {
 
   //  numero de personas posibles
   peopleEvent = [
-    '1 - 5 personas',
+    '1 - 6 personas',
     '5 - 10 personas'
   ]
 

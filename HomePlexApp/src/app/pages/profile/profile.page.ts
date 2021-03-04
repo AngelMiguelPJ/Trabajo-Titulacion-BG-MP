@@ -33,7 +33,7 @@ export class ProfilePage implements OnInit {
   file;
   fileRef;
   task;
-  userUid
+  userUid;
 
 
   usersFormEdit: FormGroup;
@@ -87,7 +87,7 @@ export class ProfilePage implements OnInit {
     //console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: EditProfileComponent,
-      cssClass: 'modal-edit-user',
+      
       componentProps: this.usersList,
     }).then(modalres => {
       modalres.present();

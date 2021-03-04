@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, NavParams, PopoverController, ToastController } from '@ionic/angular';
 import firebase from 'firebase/app';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { UsersService } from 'src/app/services/users/users.service';
-
+import { last, switchMap } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -14,10 +16,23 @@ import { AlertController } from '@ionic/angular';
 export class EditProfileComponent implements OnInit {
 
   userProfileFormEdit: FormGroup;
+  usersList = [];
+  nameUser;
+  userImgEdit: FormGroup;
+  imgProfile;
+  userUid;
+    //  variables para establecer la subia de imagenes
+    filepath;
+    file;
+    fileRef;
+    task;
+    uidUser;
 
-  uidUser;
-
-  constructor(private modalController: ModalController,
+  constructor(
+    private modalController: ModalController,
+    private router: Router,
+    public fb: FormBuilder,
+    private storage: AngularFireStorage,
     private popover: PopoverController,
     public alertCtrl: AlertController,
     private navParams: NavParams,
@@ -27,6 +42,18 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit() {
 
+    this.usersService.getOnlyThisUser().subscribe(res => {
+      //console.log(res)
+      this.usersList = res
+      res.map(resp => {
+        this.imgProfile = resp['Img'],
+        this.nameUser = resp['Name']
+      })
+      //console.log(this.usersList)
+    }),
+    this.userImgEdit = this.fb.group({
+      Img: ['']
+    }),
     this.userProfileFormEdit = this.formBuilder.group({
       Name: this.navParams.data[0].Name,
       Telefono: this.navParams.data[0].Telefono
@@ -174,5 +201,45 @@ export class EditProfileComponent implements OnInit {
     });
     toast.present();
   }
+
+  goBack() {
+    this.modalController.dismiss({
+      'dismissed': true
+    });
+  }
+
+  uploadFile(event) {
+
+    // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
+    this.file = event.target.files[0];
+    // establecimiento de la estructura de guardad en store
+    this.filepath = 'usersImgProfile/' + this.nameUser + '/' + 'photoPerfil';
+
+    // tareas y referencia del path 
+    this.fileRef = this.storage.ref(this.filepath);
+    this.task = this.storage.upload(this.filepath, this.file);
+
+    // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
+    this.task.snapshotChanges().pipe(
+      last(),
+      switchMap(() =>
+        this.fileRef.getDownloadURL()
+      )
+    ).subscribe(url => {
+
+      // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
+      this.userImgEdit.setValue({
+        Img: url
+      })
+
+      //console.log(this.userImgEdit.value)
+      // igualacion de variables y llamado a la funcion o metodo para actuializar la imagen setenado el uid de usuario actual y el url de la imagen que subio
+      this.userUid = localStorage.getItem('userId')
+      this.usersService.updateUsersServicesImg(this.userUid, this.userImgEdit.value)
+
+    })
+
+  }
+
 
 }

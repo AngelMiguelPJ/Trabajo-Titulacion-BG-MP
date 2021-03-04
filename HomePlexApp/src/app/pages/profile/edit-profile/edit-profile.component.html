@@ -1,7 +1,31 @@
 <!-- List of Text Items -->
-<ion-toolbar>
-  <ion-title style="text-align: center;">Editar perfil</ion-title>
-</ion-toolbar>
+<ion-header class="ion-no-border" class="background">
+
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-tab-button (click)="goBack()">
+        <ion-icon class="back" name="arrow-back-circle"></ion-icon>
+      </ion-tab-button>
+    </ion-buttons>
+
+    <ion-title style="text-align: center;"  *ngIf="usersService.isAdmin">Editar Perfil</ion-title>
+    <ion-title  *ngIf="!usersService.isAdmin">Editar Perfil</ion-title>
+  </ion-toolbar>
+  
+  <ion-card style="width: fit-content;margin-left: auto; margin-right: auto;">
+    <ion-avatar style="height: 150px; width: 150px;">
+      <img style="border-radius: 0px;" src={{imgProfile}}>
+    </ion-avatar>
+    <div class="twPc-avatarLinkEdit">
+      <label class="custom-file-upload">
+        <ion-img src="../../../assets/lapiz.svg" style="width: 16px; height: 16px;" alt=""></ion-img>
+        <input type="file" (change)="uploadFile($event)" />
+      </label>
+    </div>
+
+  </ion-card>
+</ion-header>
 
 <ion-content fullscreen>
 

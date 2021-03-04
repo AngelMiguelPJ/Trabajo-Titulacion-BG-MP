@@ -3,3 +3,61 @@ ion-item.items{
     border-radius: 20px;
     margin: 0 10px 10px 10px;
 }
+
+
+ion-title{
+
+    color: white;
+    }
+    
+    ion-header.background{
+        background: url("https://pbs.twimg.com/profile_banners/50988711/1384539792/600x200");
+        
+    }
+    
+    ion-toolbar{
+        --background: transparent;
+        height: 6rem;
+    }
+    
+    ion-card { 
+        margin-bottom: -50px;
+        margin-top: 0;
+        border: none;
+    }
+    
+    
+    .header-md::after {
+        background-repeat: no-repeat;
+    
+    }
+    
+    
+    
+    ion-icon.back{
+        color: white;
+      }
+      ion-icon.more{
+        color: white;
+      }
+    
+    ion-item.items{
+        margin: 10px 10px 20px 10px;
+    }
+    
+    
+    
+    .twPc-avatarLinkEdit{
+        
+        margin-top: -25px;
+        margin-left: 130px;
+    }
+    
+    input[type="file"] {
+        display: none;
+    }
+    
+    
+    .pop-over-style .popover-content {
+        --min-width: 300px !important;
+    }

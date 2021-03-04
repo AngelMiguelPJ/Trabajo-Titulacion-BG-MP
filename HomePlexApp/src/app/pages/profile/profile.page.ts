@@ -24,6 +24,7 @@ export class ProfilePage implements OnInit {
   emailUser;
   nameUser;
   phoneUser;
+  passwordUser;
   typeUser;
   houseUser;
   userImgEdit: FormGroup;

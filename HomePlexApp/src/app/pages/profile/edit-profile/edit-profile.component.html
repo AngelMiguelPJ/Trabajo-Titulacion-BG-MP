@@ -2,20 +2,23 @@
 <ion-toolbar>
   <ion-title style="text-align: center;">Editar perfil</ion-title>
 </ion-toolbar>
+
 <ion-content fullscreen>
 
+  <ion-list style="margin-top: 4rem;">
+    <ion-item class="items" lines="none">
+      <ion-icon name="text-outline" slot="start"></ion-icon>
+      <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Name" placeholder="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item class="items" lines="none">
+      <ion-icon name="call" slot="start"></ion-icon>
+      <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Telefono" placeholder="Telefono" required>
+      </ion-input>
+    </ion-item>
 
-  <ion-item class="items" lines="none">
-    <ion-icon name="text-outline" slot="start"></ion-icon>
-    <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Name" placeholder="Nombre" required></ion-input>
-  </ion-item>
-  <ion-item class="items" lines="none">
-    <ion-icon name="call" slot="start"></ion-icon>
-    <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Telefono" placeholder="Telefono" required></ion-input>
-  </ion-item>
-  <ion-item lines='none'>
-    <ion-button size="smaller" style="margin: auto;" shape="round" (click)="updateUser()">Guardar</ion-button>
-  </ion-item>
+  </ion-list>
 
+    <ion-button expand="block" (click)="changePassword()" color="danger">Cambiar contraseña</ion-button>
+    <ion-button expand="block" (click)="updateUser()">Guardar</ion-button><br>
 
 </ion-content>

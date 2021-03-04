@@ -14,6 +14,7 @@ export interface UsersExport {
   Email: string,
   TipoUsuario: string,
   Telefono: string,
+  Password: string,
   Casa: string
   Img: string
 }

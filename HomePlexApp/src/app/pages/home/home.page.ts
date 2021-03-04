@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { SplashScreen } from '@capacitor/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { AliquotService } from 'src/app/services/aliquot/aliquot.service';
@@ -33,12 +34,13 @@ export class HomePage implements OnInit {
     public alertController: AlertController,
     private loadingController: LoadingController,
     private eventsService: EventsService,
-    private aliquotService: AliquotService) {
+    private aliquotService: AliquotService ) {
 
 
   }
 
   ngOnInit() {
+
 
     this.option = {
       slidesPerView: 1.2,
@@ -81,17 +83,19 @@ export class HomePage implements OnInit {
     this.aliquotService.getAliquotUserCurrentMonth().subscribe(res=>{
       //console.log(res);
       this.aliquotCurrentMonth = res;
-      console.log(this.aliquotCurrentMonth)
+      //console.log(this.aliquotCurrentMonth)
     })
     this.aliquotService.getAliquotUserLastMonth().subscribe(res=>{
       //console.log(res)
       this.aliquotLastMonth = res;
-      console.log(this.aliquotLastMonth)
+      //console.log(this.aliquotLastMonth)
     })
 
 
 
   }
+
+
 
 
 

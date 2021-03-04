@@ -38,8 +38,11 @@
     <ion-item class="chatMsgMio" *ngIf="chat.uid == uid">
       <ion-label class="ion-text-right">
         <div>
-          <h5><b>yo</b></h5>        
-        <p>{{chat.msg}}</p>                          
+          <h5><b>yo</b></h5> 
+          <ion-text>
+            <p>{{chat.msg}}</p> 
+          </ion-text>       
+                                 
         <p style="font-size: 10px;">{{chat.fecha}}, {{chat.hora}}</p>           
         </div> 
       </ion-label>
@@ -52,7 +55,7 @@
 
 
     <ion-item class="itemsend" >
-      <ion-input  [(ngModel)]="letras" placeholder="Escribir..." #textMsg (keyup.enter)="send(textMsg.value)"></ion-input>
+      <ion-input maxlength="25" [(ngModel)]="letras" placeholder="Escribir..." #textMsg (keyup.enter)="send(textMsg.value)"></ion-input>
       <ion-buttons slot="end">
         <ion-tab-button (click)="send(textMsg.value)">
           <ion-icon class="iconSend" name="paper-plane"></ion-icon>

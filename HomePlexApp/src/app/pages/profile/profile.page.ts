@@ -1,4 +1,5 @@
 import { Component, OnInit, } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -43,7 +44,8 @@ export class ProfilePage implements OnInit {
     public fb: FormBuilder,
     private storage: AngularFireStorage,
     public modalController: ModalController,
-    public authService: AuthService,) { }
+    public authService: AuthService,
+    private angularFireAuth: AngularFireAuth,) { }
 
   ngOnInit() {
 
@@ -65,6 +67,10 @@ export class ProfilePage implements OnInit {
       Img: ['']
     })
 
+  }
+
+  changePass(){
+    this.angularFireAuth.updateCurrentUser
   }
 
   goHome() {

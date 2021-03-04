@@ -75,7 +75,7 @@ export class EventEditComponent implements OnInit {
   }
 
   guardar() {
-    console.log(this.eventBookingDataCreate)
+    //console.log(this.eventBookingDataCreate)
     this.modalController.dismiss(this.eventBookingDataCreate)
   }
 

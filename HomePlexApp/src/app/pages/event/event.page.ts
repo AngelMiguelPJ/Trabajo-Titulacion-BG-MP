@@ -311,17 +311,17 @@ export class EventPage implements OnInit {
           // console.log('c', this.eventsBookingFormEdit.value.Reserva.Duracion)
           //console.log(this.bVar)
           //console.log(this.aVar)
-          console.log(this.eventsFormEdit.value.idEventBooking)
+          //console.log(this.eventsFormEdit.value.idEventBooking)
 
           //----------------------
           this.collectionEventsBooking.map(res => {
             const a = res.id
             const b = res.UidEventBooking
-            console.log("a: ", a, "b", b)
+            //console.log("a: ", a, "b", b)
             // condicion para actualizar reserva segun el evento
             if (this.eventsFormEdit.value.idEventBooking == b) {
-              console.log(b)
-              console.log(a)
+              //console.log(b)
+              //console.log(a)
               this.bookingService.updateBookingServices(a, this.eventsBookingFormEdit.value)
             }
           })

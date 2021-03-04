@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 // routeo
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 // servicio de login
 import { AuthService } from '../../services/auth/auth.service';
+import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,8 @@ export class LoginPage implements OnInit {
   password: string;
 
   constructor(private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private modalController: ModalController) {
                 
                }
 
@@ -36,6 +39,18 @@ export class LoginPage implements OnInit {
       // mensaje de error en consola
       console.log("Error: ", err)
     })
+
+  }
+
+  async resetPasswordByEmail() {
+
+    //console.log(this.usersFormEdit.value)
+    this.modalController.create({
+      component: ResetPasswordComponent
+    }).then(modalres => {
+      modalres.present();
+      modalres.onDidDismiss()
+    });
 
   }
 

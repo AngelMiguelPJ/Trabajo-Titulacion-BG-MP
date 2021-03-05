@@ -36,7 +36,7 @@
     </ion-item>
     <ion-item class="items" lines="none">
       <ion-icon name="mail" slot="start"></ion-icon>
-      <ion-input  *ngIf!="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Email"
+      <ion-input  *ngIf="!usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Email"
         placeholder="Correo Electronico" readonly (click)="myFunction(1)">
       </ion-input>
       <ion-input *ngIf="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Email"
@@ -52,7 +52,7 @@
 
     <ion-item class="items" lines="none">
       <ion-icon name="home" slot="start"></ion-icon>
-      <ion-input *ngIf!="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Casa"
+      <ion-input *ngIf="!usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Casa"
         placeholder="Casa" readonly (click)="myFunction(2)">
       </ion-input>
       <ion-input *ngIf="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Casa"
@@ -64,7 +64,7 @@
       <ion-select *ngIf="usersService.isAdmin" interface="popover" mode="ios" placeholder="Tipo Usuario" [(ngModel)]="userProfileFormEdit.value.TipoUsuario" required>
         <ion-select-option *ngFor="let tipo of typeUsers" >{{tipo}}</ion-select-option>
       </ion-select>
-      <ion-input  type='text' *ngIf!="usersService.isAdmin" [(ngModel)]="userProfileFormEdit.value.TipoUsuario"
+      <ion-input  type='text' *ngIf="!usersService.isAdmin" [(ngModel)]="userProfileFormEdit.value.TipoUsuario"
         placeholder="Casa" readonly required (click)="myFunction(3)">
       </ion-input>
     </ion-item>

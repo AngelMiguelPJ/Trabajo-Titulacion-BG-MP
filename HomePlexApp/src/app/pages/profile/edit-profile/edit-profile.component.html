@@ -9,10 +9,10 @@
       </ion-tab-button>
     </ion-buttons>
 
-    <ion-title style="text-align: center;"  *ngIf="usersService.isAdmin">Editar Perfil</ion-title>
-    <ion-title  *ngIf="!usersService.isAdmin">Editar Perfil</ion-title>
+    <ion-title style="text-align: center;" *ngIf="usersService.isAdmin">Editar Perfil</ion-title>
+    <ion-title *ngIf="!usersService.isAdmin">Editar Perfil</ion-title>
   </ion-toolbar>
-  
+
   <ion-card style="width: fit-content;margin-left: auto; margin-right: auto;">
     <ion-avatar style="height: 150px; width: 150px;">
       <img style="border-radius: 0px;" src={{imgProfile}}>
@@ -35,14 +35,44 @@
       <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Name" placeholder="Nombre" required></ion-input>
     </ion-item>
     <ion-item class="items" lines="none">
+      <ion-icon name="mail" slot="start"></ion-icon>
+      <ion-input  *ngIf!="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Email"
+        placeholder="Correo Electronico" readonly (click)="myFunction(1)">
+      </ion-input>
+      <ion-input *ngIf="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Email"
+        placeholder="Correo Electronico" required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item class="items" lines="none">
       <ion-icon name="call" slot="start"></ion-icon>
       <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Telefono" placeholder="Telefono" required>
       </ion-input>
     </ion-item>
 
+    <ion-item class="items" lines="none">
+      <ion-icon name="home" slot="start"></ion-icon>
+      <ion-input *ngIf!="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Casa"
+        placeholder="Casa" readonly (click)="myFunction(2)">
+      </ion-input>
+      <ion-input *ngIf="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Casa"
+        placeholder="Casa" required>
+      </ion-input>
+    </ion-item>
+    <ion-item class="items" lines="none" >
+      <ion-icon name="accessibility" slot="start"></ion-icon>
+      <ion-select *ngIf="usersService.isAdmin" interface="popover" mode="ios" placeholder="Tipo Usuario" [(ngModel)]="userProfileFormEdit.value.TipoUsuario" required>
+        <ion-select-option *ngFor="let tipo of typeUsers" >{{tipo}}</ion-select-option>
+      </ion-select>
+      <ion-input  type='text' *ngIf!="usersService.isAdmin" [(ngModel)]="userProfileFormEdit.value.TipoUsuario"
+        placeholder="Casa" readonly required (click)="myFunction(3)">
+      </ion-input>
+    </ion-item>
+
   </ion-list>
 
-    <ion-button expand="block" (click)="changePassword()" color="danger">Cambiar contraseña</ion-button>
-    <ion-button expand="block" (click)="updateUser()">Guardar</ion-button><br>
+
+  <ion-button expand="block" (click)="changePassword()" color="danger">Cambiar contraseña</ion-button>
+  <ion-button expand="block" (click)="updateUser()">Guardar</ion-button><br>
 
 </ion-content>

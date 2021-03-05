@@ -20,7 +20,16 @@ export class EditProfileComponent implements OnInit {
   nameUser;
   userImgEdit: FormGroup;
   imgProfile;
+  mailUser;
   userUid;
+  typeUser;
+  houseUser;
+  typeUsers = [
+    'Contador',
+    'Administrador',
+    'Vecino',
+    'Arrendatario'
+  ]
     //  variables para establecer la subia de imagenes
     filepath;
     file;
@@ -43,23 +52,28 @@ export class EditProfileComponent implements OnInit {
   ngOnInit() {
 
     this.usersService.getOnlyThisUser().subscribe(res => {
-      //console.log(res)
       this.usersList = res
       res.map(resp => {
         this.imgProfile = resp['Img'],
-        this.nameUser = resp['Name']
-      })
-      //console.log(this.usersList)
+        this.nameUser = resp['Name'],
+        this.mailUser = resp['Email'],
+        this.houseUser = resp['Casa']
+        
+        })
+      console.log(this.usersList)
     }),
     this.userImgEdit = this.fb.group({
       Img: ['']
     }),
     this.userProfileFormEdit = this.formBuilder.group({
       Name: this.navParams.data[0].Name,
-      Telefono: this.navParams.data[0].Telefono
+      Telefono: this.navParams.data[0].Telefono,
+      Email : this.navParams.data[0].Email,
+      Casa : this.navParams.data[0].Casa,
+      TipoUsuario : this.navParams.data[0].TipoUsuario
     })
     
-    //console.log(this.navParams.data[0].Uid)
+    console.log(this.navParams.data[0].Uid)
     this.uidUser = this.navParams.data[0].Uid
 
   }
@@ -241,5 +255,21 @@ export class EditProfileComponent implements OnInit {
 
   }
 
+  myFunction(number : number){
+    
+    switch (number) {
+      case 1:
+        alert('Solo dministradores pueden cambiar el correo electronico')
+        break;
+      case 2:
+        alert('Solo dministradores pueden cambiar la casa')
+      break;
+      case 3:
+        alert('Solo dministradores pueden cambiar el tipo de usuario')
+      break;
+      default:
+        break;
+    }
 
+  }
 }

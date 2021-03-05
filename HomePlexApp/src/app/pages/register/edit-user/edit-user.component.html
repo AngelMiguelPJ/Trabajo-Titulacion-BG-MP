@@ -11,7 +11,6 @@
 
   <ion-item class="items" lines="none">
     <ion-icon name="accessibility" slot="start"></ion-icon>
-
     <ion-select interface="popover" mode="ios" placeholder="Tipo Usuario" [(ngModel)]="usersFormEdit.value.TipoUsuario" required>
       <ion-select-option *ngFor="let tipo of typeUsers">{{tipo}}</ion-select-option>
     </ion-select>

@@ -32,18 +32,18 @@
 </ion-item>
 
 <ion-item class="items" lines="none">
-  <ion-icon name="time" slot="start"></ion-icon>
-
+  <ion-icon name="trail-sign" slot="start"></ion-icon>
   <ion-select mode="ios" placeholder="Lugar" [(ngModel)]="bookingBookingDataCreate.Reserva.Lugar" required>
-    <ion-select-option *ngFor="let personas of placeBooking">{{personas}}</ion-select-option>
+    <ion-select-option *ngFor="let place of placeBooking" >{{place}}
+    </ion-select-option>
   </ion-select>
 </ion-item>
 
 <ion-item class="items" lines="none">
-  <ion-icon name="time" slot="start"></ion-icon>
-
+  <ion-icon name="people" slot="start"></ion-icon>
   <ion-select mode="ios" placeholder="Personas" [(ngModel)]="bookingBookingDataCreate.Reserva.Personas" required>
-    <ion-select-option *ngFor="let personas of peopleBooking">{{personas}}</ion-select-option>
+    <ion-select-option *ngFor="let people of peopleBooking" >
+      {{people}}</ion-select-option>
   </ion-select>
 </ion-item>
 

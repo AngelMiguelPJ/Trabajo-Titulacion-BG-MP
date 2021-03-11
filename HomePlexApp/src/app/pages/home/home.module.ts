@@ -16,6 +16,7 @@ import { TabsPage } from 'src/app/tabs/tabs.page';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
+    
   ],
   declarations: [HomePage],
   exports: [HomePage]

@@ -148,6 +148,12 @@ export class HomePage implements OnInit {
 
   }
 
+  gotoCreateBooking() {
+
+    this.navController.navigateForward("/booking");
+
+  }
+
 
 
 }

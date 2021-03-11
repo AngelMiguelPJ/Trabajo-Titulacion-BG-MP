@@ -243,7 +243,7 @@ export class BookingPage implements OnInit {
 
     //seteo de variables en el form editar
     this.bookingFormEdit.setValue({
-
+      
       BookingAN: item.BookingAN,
       idBookingBooking: item.UidBookingBooking,
       Reserva: ({

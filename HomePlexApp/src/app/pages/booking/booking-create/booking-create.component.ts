@@ -65,11 +65,11 @@ export class BookingCreateComponent implements OnInit {
 
     // seteo de la fecha actual
     this.fechaActual = Date.now();
-
+    this.uidAdmin = localStorage.getItem('userId');
     //iniciar formulario para la creacion de reservas
     this.bookingFormCreate = this.formBuilder.group({
       idUser: this.uidAdmin,
-      idBookingBooking: '',
+      
       BookingAN: ['', Validators.required],
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],

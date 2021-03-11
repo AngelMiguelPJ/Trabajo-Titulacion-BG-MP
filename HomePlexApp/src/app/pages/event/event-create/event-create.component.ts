@@ -107,8 +107,9 @@ export class EventCreateComponent implements OnInit {
       Img: ''
     })
     this.eventsBookingFormCreate = this.formBuilder.group({
-
       idEventBooking: '',
+      idBookingBooking: '',
+      BookingAN: ['', Validators.required],
       Ocupado: ['', Validators.required],
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
@@ -132,6 +133,8 @@ export class EventCreateComponent implements OnInit {
     this.eventsFormCreate.value.Reserva.Fecha = this.eventsFormCreate.value.Reserva.Fecha.split('T')[0];
     this.eventsBookingFormCreate.setValue({
       idEventBooking: this.idAleatorio,
+      idBookingBooking : this.idAleatorio,
+      BookingAN : this.eventsFormCreate.value.EventoAN,
       Ocupado: 'Si',
       Reserva: ({
         Descripcion: this.eventsFormCreate.value.Reserva.Descripcion,
@@ -145,8 +148,8 @@ export class EventCreateComponent implements OnInit {
         idUserReserv: this.uidAdmin,
       })
     })
-    //console.log(this.eventsFormCreate.value)
-    //console.log(this.eventsBookingFormCreate.value)
+    console.log(this.eventsFormCreate.value)
+    console.log(this.eventsBookingFormCreate.value)
     
     if (this.eventsFormCreate.value.Nombre != '' && this.eventsFormCreate.value.EventoAN != ''
       && this.eventsFormCreate.value.Reserva.Duracion != '' && this.eventsFormCreate.value.Reserva.Descripcion != ''

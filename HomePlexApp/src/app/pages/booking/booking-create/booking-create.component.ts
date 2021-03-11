@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavParams, ToastController } from '@ionic/angular';
-import { last, switchMap } from 'rxjs/operators';
+import { ModalController, ToastController } from '@ionic/angular';
 import { BookingService } from 'src/app/services/booking/booking.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
@@ -13,7 +11,9 @@ import { UsersService } from 'src/app/services/users/users.service';
 })
 export class BookingCreateComponent implements OnInit {
 
-  //  numero de personas posibles
+  collectionUsers = { count: 0, data: [] }
+
+   //  numero de personas posibles
   peopleBooking = [
     '1 - 5 personas',
     '5 - 10 personas'
@@ -47,13 +47,6 @@ export class BookingCreateComponent implements OnInit {
 
   bookingBookingDataCreate: any = {};
 
-  // Variables para la subida de imagenes
-  imgEdit;
-  filepath;
-  file;
-  fileRef;
-  task;
-  uploadPercent;
 
   uidAdmin;
   idAleatorio;
@@ -61,28 +54,19 @@ export class BookingCreateComponent implements OnInit {
 
   usersList = [];
   nameUser;
-
-
-  constructor(private navParams: NavParams,
-    public modalController: ModalController,
+  constructor(private bookingService: BookingService,
     public formBuilder: FormBuilder,
-    public toastController: ToastController,
-    private usersService: UsersService,
-    private bookingService: BookingService,) { }
+    public usersService: UsersService,
+    public modalController: ModalController,
+    public toastController: ToastController) { }
+
 
   ngOnInit() {
-    this.fechaActual = Date.now()
-    this.usersService.getOnlyThisUser().subscribe(res => {
-      //console.log(res)
-      this.usersList = res
-      res.map(resp => {
-        this.nameUser = resp['Name']
-      })
-      //console.log(this.usersList)
-    })
 
+    // seteo de la fecha actual
+    this.fechaActual = Date.now();
 
-    this.uidAdmin = localStorage.getItem('userId');
+    //iniciar formulario para la creacion de reservas
     this.bookingFormCreate = this.formBuilder.group({
       idUser: this.uidAdmin,
       idBookingBooking: '',
@@ -95,36 +79,70 @@ export class BookingCreateComponent implements OnInit {
         Personas: ['', Validators.required]
       })
     });
+    //console.log('a', this.bookingFormCreate.value)
 
+
+    //console.log('b', this.bookingDataCreate)
+
+    //cargando todos los usuarios de firebase-firestore
+    this.usersService.getUsersServices().subscribe(resp => {
+      //console.log('respuesta 1: ', resp)
+      // mapeo de los datos de los usuarios en el arreglo collection
+      this.collectionUsers.data = resp.map((e: any) => {
+        // console.log('respuesta 2: ', e)
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          id: e.payload.doc.id,
+          //Nombre: e.payload.doc.data().Name,
+          uidUser: e.payload.doc.id
+        }
+      })
+      //console.log(this.collectionUsers.data)
+    }, error => {
+      // imprimir en caso de que de algun error
+      console.error(error);
+    }
+    );
   }
 
-  guardar() {
+
+  createBooking() {
     this.uidAdmin = localStorage.getItem('userId');
-    this.idAleatorio = Math.random().toString(36).substring(2);
-    this.bookingFormCreate.value.idBookingBooking = this.idAleatorio;
+    const idBookingRandom = Math.random().toString(36).substring(2);
+    this.bookingFormCreate.value.idBookingBooking = idBookingRandom;
     this.bookingFormCreate.value.Reserva.Fecha = this.bookingFormCreate.value.Reserva.Fecha.split('T')[0];
+    if (
+      this.bookingFormCreate.value.BookingAN != ''
+      && this.bookingFormCreate.value.Reserva.Duracion != ''
+      && this.bookingFormCreate.value.Reserva.Descripcion != ''
+      && this.bookingFormCreate.value.Reserva.Fecha != ''
+      && this.bookingFormCreate.value.Reserva.Lugar != ''
+      && this.bookingFormCreate.value.Reserva.Personas != '') {
+      console.log(this.bookingFormCreate.value)
 
-    console.log(this.bookingFormCreate.value)
-    
-    if (this.bookingFormCreate.value.Nombre != '' && this.bookingFormCreate.value.BookingAN != ''
-      && this.bookingFormCreate.value.Reserva.Duracion != '' && this.bookingFormCreate.value.Reserva.Descripcion != ''
-      && this.bookingFormCreate.value.Reserva.Fecha != '' && this.bookingFormCreate.value.Reserva.Lugar != ''
-      && this.bookingFormCreate.value.Reserva.Personas != '' && this.bookingFormCreate.value.Img != '') {
-        this.bookingService.createBookingServices(this.bookingFormCreate.value).then(resp => {
+      this.bookingService.createBookingServices(this.bookingFormCreate.value).then(resp => {
 
-            // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de Bookings
-            this.bookingService.createBookingServices(this.bookingFormCreate.value).then(()=>{
-              this.modalController.dismiss({
-                'dismissed': true
-              });
-            })
-          }).catch(err => {
-            // impirmir error si es que diera alguno
-            console.log(err)
-          })
+         //llaamado al servicio de creacion  de reservas
+        this.bookingService.createBookingServices(this.bookingFormCreate.value).then(() => {
+          this.modalController.dismiss({
+            'dismissed': true
+          });
+        })
+
+
+      }).catch(error => {
+        console.log(this.bookingFormCreate)
+        console.error(error)
+      })
+
     } else {
-      this.presentToast()
+      console.log('no recibe nada');
+      console.log(this.bookingFormCreate)
+      this.presentToast();
     }
+
 
   }
 
@@ -141,37 +159,5 @@ export class BookingCreateComponent implements OnInit {
     });
     toast.present();
   }
-
-  /*uploadFile(event) {
-
-    // variable random para id de las imagenes
-    const idRandom = Math.random().toString(36).substring(2);
-
-    // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
-    this.file = event.target.files[0];
-
-    // establecimiento de la estructura de guardad en store
-    this.filepath = 'booking/' + idRandom;
-
-    // tareas y referencia del path 
-    this.fileRef = this.storage.ref(this.filepath);
-    this.task = this.storage.upload(this.filepath, this.file);
-
-    // Observador para ver el porcentaje de subida o tiempo que tarda en subir
-    this.uploadPercent = this.task.percentageChanges();
-
-    // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
-    this.task.snapshotChanges().pipe(
-      last(),
-      switchMap(() =>
-        this.fileRef.getDownloadURL()
-      )
-    ).subscribe(url => {
-      // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
-      this.imgEdit = url;
-      this.bookingFormCreate.value.Img = url;
-    })
-
-  }*/ 
 
 }

@@ -243,6 +243,7 @@ export class BookingPage implements OnInit {
 
     //seteo de variables en el form editar
     this.bookingFormEdit.setValue({
+
       BookingAN: item.BookingAN,
       idBookingBooking: item.UidBookingBooking,
       Reserva: ({
@@ -270,7 +271,7 @@ export class BookingPage implements OnInit {
         if (res.data != null || res.data != undefined) {
           this.presentLoading()
           this.bookingFormEdit.setValue({
-            Lugar: res.data.Lugar,
+
             BookingAN: res.data.BookingAN,
             idBookingBooking: res.data.idBookingBooking,
             Reserva: ({

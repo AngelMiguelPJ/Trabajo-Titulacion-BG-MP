@@ -67,11 +67,11 @@ export class BookingEditComponent implements OnInit {
     this.fechaActual = Date.now()
     //console.log(this.navParams.data)
     this.bookingBookingDataCreate = this.navParams.data
-    console.log(this.bookingBookingDataCreate.Reserva.Lugar)
+    // iniciar formulario para la subida de imagenes
   }
 
   guardar() {
-    //console.log(this.bookingBookingDataCreate)
+    console.log(this.bookingBookingDataCreate)
     this.modalController.dismiss(this.bookingBookingDataCreate)
   }
 

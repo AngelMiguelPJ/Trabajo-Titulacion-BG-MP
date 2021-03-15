@@ -13,7 +13,7 @@ export class BookingCreateComponent implements OnInit {
 
   collectionUsers = { count: 0, data: [] }
 
-   //  numero de personas posibles
+  //  numero de personas posibles
   peopleBooking = [
     '1 - 5 personas',
     '5 - 10 personas'
@@ -69,7 +69,7 @@ export class BookingCreateComponent implements OnInit {
     //iniciar formulario para la creacion de reservas
     this.bookingFormCreate = this.formBuilder.group({
       idUser: this.uidAdmin,
-      
+
       BookingAN: ['', Validators.required],
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
@@ -122,16 +122,11 @@ export class BookingCreateComponent implements OnInit {
       && this.bookingFormCreate.value.Reserva.Personas != '') {
       console.log(this.bookingFormCreate.value)
 
-      this.bookingService.createBookingServices(this.bookingFormCreate.value).then(resp => {
-
-         //llaamado al servicio de creacion  de reservas
-        this.bookingService.createBookingServices(this.bookingFormCreate.value).then(() => {
-          this.modalController.dismiss({
-            'dismissed': true
-          });
-        })
-
-
+      //llaamado al servicio de creacion  de reservas
+      this.bookingService.createBookingServices(this.bookingFormCreate.value).then(() => {
+        this.modalController.dismiss({
+          'dismissed': true
+        });
       }).catch(error => {
         console.log(this.bookingFormCreate)
         console.error(error)

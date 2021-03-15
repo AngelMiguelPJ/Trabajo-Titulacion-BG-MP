@@ -39,6 +39,8 @@ export class BookingPage implements OnInit {
   searchBarOpen = false;
   searchValue = false;
 
+  selectedSegment: string = '';
+
 
   constructor(private bookingService: BookingService,
     private loadingController: LoadingController,
@@ -46,14 +48,15 @@ export class BookingPage implements OnInit {
     private storage: AngularFireStorage,
     public usersService: UsersService,
     public modalController: ModalController,
-    private routerOutlet: IonRouterOutlet) { this.presentLoading() }
+    private routerOutlet: IonRouterOutlet) {}
 
   ngOnInit() {
 
     //--------------------------------------------------------
+    this.selectedSegment = sessionStorage.getItem('Parking')
     // configuracion de la paginacion
     this.config = {
-      itemsPerPage: 2,
+      itemsPerPage: 3,
       currentPage: 1,
       totalItems: this.collectionBookingLength
     };
@@ -134,7 +137,6 @@ export class BookingPage implements OnInit {
     );
     //--------------------------------------------------------
 
-
     // inicializacion de formulario para la edicion de un Booking
     this.bookingFormEdit = this.formBuilder.group({
       idBookingBooking: '',
@@ -148,12 +150,7 @@ export class BookingPage implements OnInit {
       })
     });
 
-
-
     // Iniciar formulario para la creacion de reservas a partir de datos de un Booking
-
-
-    ///
     this.bookingBookingFormEdit = this.formBuilder.group({
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
@@ -333,5 +330,10 @@ export class BookingPage implements OnInit {
       })
     });
 
+  }
+
+  segmentChanged(ev: any) {
+    //console.log('Segment changed', ev);
+    this.selectedSegment = ev.target.value;
   }
 }

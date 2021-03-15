@@ -75,11 +75,11 @@ export class ProfilePage implements OnInit {
   }
 
   goHome() {
-    this.router.navigate(['/tabs/tabhome'])
+    this.router.navigateByUrl('/home')
   }
 
   goRegister() {
-    this.router.navigate(['/register'])
+    this.router.navigateByUrl('/register')
   }
 
   async presentPopover() {

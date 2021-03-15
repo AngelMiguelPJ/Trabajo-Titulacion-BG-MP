@@ -9,22 +9,9 @@
       </ion-tab-button>
     </ion-buttons>
 
-    <ion-title style="text-align: center;" *ngIf="usersService.isAdmin">Editar Perfil</ion-title>
-    <ion-title *ngIf="!usersService.isAdmin">Editar Perfil</ion-title>
+    <ion-title style="text-align: center;">Editar Perfil</ion-title>
   </ion-toolbar>
 
-  <ion-card style="width: fit-content;margin-left: auto; margin-right: auto;">
-    <ion-avatar style="height: 150px; width: 150px;">
-      <img style="border-radius: 0px;" src={{imgProfile}}>
-    </ion-avatar>
-    <div class="twPc-avatarLinkEdit">
-      <label class="custom-file-upload">
-        <ion-img src="../../../assets/lapiz.svg" style="width: 16px; height: 16px;" alt=""></ion-img>
-        <input type="file" (change)="uploadFile($event)" />
-      </label>
-    </div>
-
-  </ion-card>
 </ion-header>
 
 <ion-content fullscreen>
@@ -32,42 +19,20 @@
   <ion-list style="margin-top: 4rem;">
     <ion-item class="items" lines="none">
       <ion-icon name="text-outline" slot="start"></ion-icon>
-      <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Name" placeholder="Nombre" required></ion-input>
+      <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Name" placeholder="Nombre"
+        (keypress)="sololetras($event)" required></ion-input>
     </ion-item>
-    <ion-item class="items" lines="none">
-      <ion-icon name="mail" slot="start"></ion-icon>
-      <ion-input  *ngIf="!usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Email"
-        placeholder="Correo Electronico" readonly (click)="myFunction(1)">
-      </ion-input>
-      <ion-input *ngIf="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Email"
-        placeholder="Correo Electronico" required>
-      </ion-input>
-    </ion-item>
+
 
     <ion-item class="items" lines="none">
       <ion-icon name="call" slot="start"></ion-icon>
-      <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Telefono" placeholder="Telefono" required>
+      <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Telefono" placeholder="Telefono"
+        (keypress)="soloNumeros($event)" minlength="9" maxlength="10" (ngModelChange)="validarTelefono($event)"
+        [class.redClass]="telefonoValido == false" required>
       </ion-input>
     </ion-item>
 
-    <ion-item class="items" lines="none">
-      <ion-icon name="home" slot="start"></ion-icon>
-      <ion-input *ngIf="!usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Casa"
-        placeholder="Casa" readonly (click)="myFunction(2)">
-      </ion-input>
-      <ion-input *ngIf="usersService.isAdmin" type='text' [(ngModel)]="userProfileFormEdit.value.Casa"
-        placeholder="Casa" required>
-      </ion-input>
-    </ion-item>
-    <ion-item class="items" lines="none" >
-      <ion-icon name="accessibility" slot="start"></ion-icon>
-      <ion-select *ngIf="usersService.isAdmin" interface="popover" mode="ios" placeholder="Tipo Usuario" [(ngModel)]="userProfileFormEdit.value.TipoUsuario" required>
-        <ion-select-option *ngFor="let tipo of typeUsers" >{{tipo}}</ion-select-option>
-      </ion-select>
-      <ion-input  type='text' *ngIf="!usersService.isAdmin" [(ngModel)]="userProfileFormEdit.value.TipoUsuario"
-        placeholder="Casa" readonly required (click)="myFunction(3)">
-      </ion-input>
-    </ion-item>
+
 
   </ion-list>
 

@@ -95,13 +95,13 @@
               <ion-col style="padding: 0px;">
                 <ion-label style="font-size: 14px;">
                   <p style="font-size: 12px;">Fecha</p>
-                  {{item.Fecha}}
+                  {{item.Fecha.split('T')[0]}}
                 </ion-label>
               </ion-col>
               <ion-col style="padding: 0px;">
                 <ion-label style="font-size: 14px;">
                   <p style="font-size: 12px;">Fecha vencimiento</p>
-                  {{item.FechaVencimiento}}
+                  {{item.FechaVencimiento.split('T')[0]}}
                 </ion-label>
               </ion-col>
             </ion-row>
@@ -128,7 +128,7 @@
       <ion-card-header style="padding: 0 10px;">
         <ion-item style="--padding-start: 0px;" lines="none">
           <ion-label>
-            <ion-card-title style="font-size: 24px;">{{item.DatosVecinoNombre}}</ion-card-title>
+            <ion-card-title style="font-size: 20px;">{{item.DatosVecinoNombre}}</ion-card-title>
           </ion-label>
           <ion-label>
             <ion-card-subtitle style="text-align: right;">
@@ -171,13 +171,13 @@
               <ion-col style="padding: 0px;">
                 <ion-label style="font-size: 14px;">
                   <p style="font-size: 12px;">Fecha</p>
-                  {{item.Fecha}}
+                  {{item.Fecha.split('T')[0]}}
                 </ion-label>
               </ion-col>
               <ion-col style="padding: 0px;">
                 <ion-label style="font-size: 14px;">
                   <p style="font-size: 12px;">Fecha vencimiento</p>
-                  {{item.FechaVencimiento}}
+                  {{item.FechaVencimiento.split('T')[0]}}
                 </ion-label>
               </ion-col>
             </ion-row>
@@ -194,3 +194,32 @@
   </div>
 
 </ion-content>
+<ion-tab-bar slot="bottom">
+  <!--Home tab-->
+  <ion-tab-button routerLink='/home'>
+    <ion-icon name="home"></ion-icon>
+    <ion-label >Inicio</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/event'>
+    <ion-icon  name="calendar"></ion-icon>
+    <ion-label>Eventos</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/chat'>
+    <ion-icon name="chatbubbles"></ion-icon>
+    <ion-label>Chat</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/aliquot'>
+    <ion-icon   name="wallet"></ion-icon>
+    <ion-label>Cuotas</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/booking'>
+    <ion-icon  name="bookmarks"></ion-icon>
+    <ion-label>Reserva</ion-label>
+  </ion-tab-button>
+
+
+</ion-tab-bar>

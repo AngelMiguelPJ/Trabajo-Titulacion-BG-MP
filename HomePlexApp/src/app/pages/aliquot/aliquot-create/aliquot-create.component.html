@@ -7,42 +7,39 @@
   <ion-item class="items" lines="none">
     <ion-icon name="people" slot="start"></ion-icon>
     <ion-select mode="ios" placeholder="Usuarios" [(ngModel)]="aliquotFormCreate.value.DatosVecino" required>
-      <ion-select-option *ngFor="let users of collectionUsers.data" [value]="users" >
+      <ion-select-option *ngFor="let users of collectionUsers.data" [value]="users">
         {{users.Nombre}}</ion-select-option>
     </ion-select>
   </ion-item>
 
   <ion-item class="items" lines="none">
     <ion-icon name="cash" slot="start"></ion-icon>
-    <ion-input placeholder="Valor cuota" type="number" min="0" inputmode="numeric"
-    [(ngModel)]="aliquotFormCreate.value.ValorCuota" required>
-  </ion-input>
+    <ion-input placeholder="Valor cuota" type="tel" maxlength="3" (keypress)="soloNumeros($event)" min="0"
+      inputmode="numeric" [(ngModel)]="aliquotFormCreate.value.ValorCuota" required>
+    </ion-input>
   </ion-item>
 
   <ion-item class="items" lines="none">
     <ion-icon name="cash" slot="start"></ion-icon>
-    <ion-input placeholder="Valor extra" type="number" min="0" inputmode="numeric"
-    [(ngModel)]="aliquotFormCreate.value.ValorExtra" required
-    >
-  </ion-input>
+    <ion-input placeholder="Valor extra" type="tel" maxlength="3" (keypress)="soloNumeros($event)" min="0"
+      inputmode="numeric" [(ngModel)]="aliquotFormCreate.value.ValorExtra" required>
+    </ion-input>
   </ion-item>
 
   <ion-item class="items" lines="none">
     <ion-icon name="calendar" slot="start"></ion-icon>
-    
+
     <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" placeholder="Fecha"
-    min="{{fechaActual|date:'yyyy-MM-dd'}}"
-    [(ngModel)]="aliquotFormCreate.value.Fecha" required
-    (ionChange)="cambio(abcd.value)" #abcd>
-  </ion-datetime>
+      min="{{fechaActual|date:'yyyy-MM-dd'}}" [(ngModel)]="aliquotFormCreate.value.Fecha" required
+      (ionChange)="cambio(abcd.value)" #abcd>
+    </ion-datetime>
   </ion-item>
 
   <ion-item class="items" lines="none">
     <ion-icon name="calendar" slot="start"></ion-icon>
     <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" placeholder="Fecha vencimiento"
-    min="{{fechaVencimiento|date:'yyyy-MM-dd'}}"
-    [(ngModel)]="aliquotFormCreate.value.FechaVencimiento" required>
-  </ion-datetime>  
+      min="{{fechaVencimiento|date:'yyyy-MM-dd'}}" [(ngModel)]="aliquotFormCreate.value.FechaVencimiento" required>
+    </ion-datetime>
   </ion-item>
 
   <ion-item class="items" lines="none">
@@ -51,15 +48,17 @@
       <ion-select-option *ngFor="let status of estadoCuotaList">{{status}}</ion-select-option>
     </ion-select>
   </ion-item>
-  
+
   <ion-item class="items" lines="none">
     <ion-icon name="text-outline" slot="start"></ion-icon>
-    <ion-input type='text' placeholder="Descripcion" [(ngModel)]="aliquotFormCreate.value.Descripcion" required></ion-input>
+    <ion-input type='text' placeholder="Descripcion" [(ngModel)]="aliquotFormCreate.value.Descripcion" required>
+    </ion-input>
   </ion-item>
 
   <!-- Round -->
   <ion-item lines='none'>
-    <ion-button color="danger" size="smaller" style="margin: auto;" shape="round" (click)="cancelar()">Cancelar</ion-button>
+    <ion-button color="danger" size="smaller" style="margin: auto;" shape="round" (click)="cancelar()">Cancelar
+    </ion-button>
     <ion-button size="smaller" style="margin: auto;" shape="round" (click)="createAliquot()">Guardar</ion-button>
   </ion-item>
 </ion-content>

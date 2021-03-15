@@ -10,11 +10,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate : [AuthGuard]
-  },
-  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
     canActivate : [NologinGuard]
@@ -63,7 +58,9 @@ const routes: Routes = [
     path: 'chatroom',
     loadChildren: () => import('./pages/chatroom/chatroom.module').then( m => m.ChatroomPageModule),
     canActivate : [AuthGuard]
-  },
+  }
+
+
 
 
 ];

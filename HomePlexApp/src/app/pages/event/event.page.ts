@@ -49,7 +49,7 @@ export class EventPage implements OnInit {
     private storage: AngularFireStorage,
     public usersService: UsersService,
     public modalController: ModalController,
-    private routerOutlet: IonRouterOutlet) { this.presentLoading() }
+    private routerOutlet: IonRouterOutlet) { }
 
   ngOnInit() {
 

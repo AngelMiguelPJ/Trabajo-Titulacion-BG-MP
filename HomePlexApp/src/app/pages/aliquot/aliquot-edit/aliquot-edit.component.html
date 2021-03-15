@@ -12,15 +12,15 @@
 
   <ion-item class="items" lines="none">
     <ion-icon name="cash" slot="start"></ion-icon>
-    <ion-input placeholder="Valor cuota" type="number" min="0" inputmode="numeric"
-      [(ngModel)]="aliquotFormEdit.value.ValorCuota" required>
+    <ion-input placeholder="Valor cuota" type="tel" min="0" inputmode="numeric" maxlength="3"
+      [(ngModel)]="aliquotFormEdit.value.ValorCuota" (keypress)="soloNumeros($event)" required>
     </ion-input>
   </ion-item>
 
   <ion-item class="items" lines="none">
     <ion-icon name="cash" slot="start"></ion-icon>
-    <ion-input placeholder="Valor extra" type="number" min="0" inputmode="numeric"
-      [(ngModel)]="aliquotFormEdit.value.ValorExtra" required>
+    <ion-input placeholder="Valor extra" type="tel" min="0" inputmode="numeric" maxlength="3"
+      [(ngModel)]="aliquotFormEdit.value.ValorExtra" (keypress)="soloNumeros($event)" required>
     </ion-input>
   </ion-item>
 
@@ -48,7 +48,7 @@
 
   <ion-item class="items" lines="none">
     <ion-icon name="text-outline" slot="start"></ion-icon>
-    <ion-input type='text' [(ngModel)]="aliquotFormEdit.value.Descripcion" required></ion-input>
+    <ion-input type='text' [(ngModel)]="aliquotFormEdit.value.Descripcion" maxlength="50" required></ion-input>
   </ion-item>
 
   <!-- Round -->

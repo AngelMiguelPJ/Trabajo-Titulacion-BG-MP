@@ -19,6 +19,11 @@ export class CreateUserComponent implements OnInit {
 
   usersFormCreate: FormGroup;
 
+  // variables de validacion
+  public emailValido: boolean;
+  public telefonoValido: boolean;
+
+
   constructor(private popover: PopoverController,
     private navParams: NavParams,
     public modalController: ModalController,
@@ -42,20 +47,20 @@ export class CreateUserComponent implements OnInit {
 
     if (this.usersFormCreate.value.Name != '' && this.usersFormCreate.value.Email != ''
       && this.usersFormCreate.value.TipoUsuario != '' && this.usersFormCreate.value.Password != ''
-      && this.usersFormCreate.value.Casa != '') {
+      && this.usersFormCreate.value.Casa != '' && this.emailValido == true) {
       console.log(this.usersFormCreate.value)
       // llamado al servicio de registro de usuarios seteando dichas variables por medio del formulario
-      this.usersService.registerUsersService(this.usersFormCreate.value.Email, 
-        this.usersFormCreate.value.Password, this.usersFormCreate.value.Name, 
+      this.usersService.registerUsersService(this.usersFormCreate.value.Email,
+        this.usersFormCreate.value.Password, this.usersFormCreate.value.Name,
         this.usersFormCreate.value.TipoUsuario,
         this.usersFormCreate.value.Casa).then(() => {
-        this.modalController.dismiss({
-          'dismissed': true
-        });
-      }).catch(error => {
-        // comprobacion de errores  y reseteo del formulario create en caso de error
-        console.error(error)
-      })
+          this.modalController.dismiss({
+            'dismissed': true
+          });
+        }).catch(error => {
+          // comprobacion de errores  y reseteo del formulario create en caso de error
+          console.error(error)
+        })
     } else {
       this.presentToast()
     }
@@ -64,16 +69,47 @@ export class CreateUserComponent implements OnInit {
 
   async presentToast() {
     const toast = await this.toastController.create({
-      message: ' <b style="text-align:center">Debe llenar todos los datos</b>',
+      message: ' <b style="text-align:center">Debe llenar todos los datos o su correo electronico es erroneo</b>',
       duration: 1000,
-      color: 'primary',
+      color: 'danger',
 
     });
     toast.present();
   }
 
-  cancelar(){
+  cancelar() {
     this.modalController.dismiss();
+  }
+
+
+
+  // validacion de campos
+
+  // funcion de validacion de email
+  validarEmail(email: string) {
+
+    // algoritmo de comprobacion de email
+    const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    if (email.length >= 1) {
+      this.emailValido = regexp.test(email)
+
+      //console.log('Email es:', this.emailValido)
+    } else if(email.length == 0){
+      this.emailValido = null
+    }
+
+
+  }
+
+
+
+  sololetras(event: any) {
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (!regex.test(key)) {
+      event.preventDefault();
+      return false;
+    }
   }
 
 }

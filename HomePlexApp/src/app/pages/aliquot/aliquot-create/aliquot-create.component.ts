@@ -88,6 +88,7 @@ export class AliquotCreateComponent implements OnInit {
     const idAliquotRandom = Math.random().toString(36).substring(2);
     this.aliquotFormCreate.value.IdAliquot = idAliquotRandom;
     this.aliquotFormCreate.value.NumeroMes = this.aliquotFormCreate.value.Fecha.split('-')[1];
+    
     if (this.aliquotFormCreate.value.DatosVecino != ''
       && this.aliquotFormCreate.value.Descripcion != ''
       && this.aliquotFormCreate.value.EstadoCuota != ''
@@ -96,7 +97,6 @@ export class AliquotCreateComponent implements OnInit {
       && this.aliquotFormCreate.value.ValorCuota != ''
       && this.aliquotFormCreate.value.ValorExtra != '') {
       console.log(this.aliquotFormCreate.value)
-
       this.aliquotService.createAliquotServices(this.aliquotFormCreate.value).then(resp => {
 
         // llaamado al servicio de creacion de copia de seguridad de alicuotas
@@ -142,6 +142,17 @@ export class AliquotCreateComponent implements OnInit {
 
     });
     toast.present();
+  }
+
+  /** Validacion de campos **/
+  soloNumeros(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
   }
 
 }

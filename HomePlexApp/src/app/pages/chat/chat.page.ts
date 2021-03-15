@@ -28,10 +28,7 @@ export class ChatPage implements OnInit {
   constructor(private usersService: UsersService,
     private navController: NavController,
     private loadingController: LoadingController,
-    private chatService: ChatService,) {
-    this.presentLoading();
-
-  }
+    private chatService: ChatService,) {}
 
   ngOnInit() {
 

@@ -130,7 +130,7 @@ export class RegisterPage implements OnInit {
   }
 
   goProfile() {
-    this.router.navigate(['/profile']);
+    this.router.navigateByUrl('/profile')
     this.searchBarOpen = false;
     this.searchValue = false;
   }

@@ -15,7 +15,7 @@
     </ion-buttons>
 
     <ion-title style="text-align: center;"  *ngIf="usersService.isAdmin">Perfil</ion-title>
-    <ion-title  *ngIf="!usersService.isAdmin">Perfil</ion-title>
+    <ion-title style="text-align: center;" *ngIf="!usersService.isAdmin">Perfil</ion-title>
     
   </ion-toolbar>
 
@@ -23,12 +23,12 @@
     <ion-avatar style="height: 150px; width: 150px;">
       <img style="border-radius: 0px;" src={{imgProfile}}>
     </ion-avatar>
-    <!--<div class="twPc-avatarLinkEdit">
+    <div class="twPc-avatarLinkEdit">
       <label class="custom-file-upload">
         <ion-img src="../../../assets/lapiz.svg" style="width: 16px; height: 16px;" alt=""></ion-img>
         <input type="file" (change)="uploadFile($event)" />
       </label>
-    </div>-->
+    </div>
 
   </ion-card>
 </ion-header>

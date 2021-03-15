@@ -34,21 +34,19 @@ export class AliquotPage implements OnInit {
   constructor(private aliquotService: AliquotService,
     private loadingController: LoadingController,
     public modalController: ModalController,
-    public usersService: UsersService) {
-    this.presentLoading()
-  }
+    public usersService: UsersService) {}
 
   ngOnInit() {
 
     // configuracion de la paginacion
     this.config = {
-      itemsPerPage: 3,
+      itemsPerPage: 4,
       currentPage: 1,
       totalItems: this.collectionAliquotLength
     };
 
     this.config2 = {
-      itemsPerPage: 3,
+      itemsPerPage: 4,
       currentPage: 1,
       totalItems: this.collectionAliquotsAll.data.length
     };

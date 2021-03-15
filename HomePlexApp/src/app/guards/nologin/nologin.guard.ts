@@ -22,7 +22,7 @@ export class NologinGuard implements CanActivate {
       if (isNullOrUndefined(auth)) {
         return true
       } else {
-        this.router.navigate((['/tabs/tabhome']));
+        this.router.navigateByUrl('/home');
         return false
       }
       //console.log(auth);

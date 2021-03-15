@@ -40,7 +40,7 @@
     <ion-label>
       <b>Contactos</b>
     </ion-label>
-    <ion-badge slot="end" style="background-color: #2196F3;" routerLink='/tabs/tabchat'>ver todos</ion-badge>
+    <ion-badge slot="end" style="background-color: #2196F3;" routerLink='/chat'>ver todos</ion-badge>
   </ion-item>
 
   <ion-slides [options]="option2">
@@ -58,19 +58,19 @@
 
   <ion-item lines="none">
     <ion-label><b>Reservas</b></ion-label>
-    <ion-badge slot="end"style="background-color: #2196F3;" routerLink='/tabs/tabbooking'>ver todas</ion-badge>
+    <ion-badge slot="end" style="background-color: #2196F3;" routerLink='/booking'>ver todas</ion-badge>
   </ion-item>
 
   <div class="reservas" style=" margin-left: 10px; margin-right: 10px; margin-top: 0px; margin-bottom: 0px;">
     <ion-grid>
       <ion-row>
         <ion-col style="background-color: whitesmoke; border-radius: 10px; margin-right: 5px; text-align: center;">
-          <img src="../../../assets/livingroom.jpg" />
+          <img src="../../../assets/livingroom.jpg" (click)='gotoCreateBooking()' />
           <p style="font-size: 10px; margin-bottom: 0px; margin-top: 0px;">Casa comunal</p>
         </ion-col>
         <ion-col style="background-color: whitesmoke;  border-radius: 10px; margin-right: 5px; text-align: center;">
 
-          <img src="../../../assets/parking.jpg" />
+          <img src="../../../assets/parking.jpg" (click)='gotoCreateBooking()' />
 
           <p style="font-size: 10px; margin-bottom: 0px; margin-top: 0px;">Parking</p>
 
@@ -78,7 +78,7 @@
         </ion-col>
         <ion-col style="background-color: whitesmoke; border-radius: 10px; text-align: center; ">
 
-          <img src="../../../assets/park.jpg" (click)="gotoCreateBooking()"/>
+          <img src="../../../assets/park.jpg" (click)='gotoCreateBooking()' />
           <p style="font-size: 10px; margin-bottom: 0px; margin-top: 0px;">Cancha deportiva</p>
 
 
@@ -89,13 +89,13 @@
 
   <ion-item lines="none">
     <ion-label><b>Alicuotas</b></ion-label>
-    <ion-badge slot="end" style="background-color: #2196F3;" routerLink='/tabs/tabaliquot'>ver todas</ion-badge>
+    <ion-badge slot="end" style="background-color: #2196F3;" routerLink='/aliquot'>ver todas</ion-badge>
   </ion-item>
 
   <ion-card style="margin: 5px 10px;">
     <ion-card-content style="padding: 0px;">
       <ion-item lines='none' *ngFor="let item of aliquotCurrentMonth">
-        <ion-icon slot="start" name="cash" style="color: green;"*ngIf="item.EstadoCuota == 'Pagada'"></ion-icon>
+        <ion-icon slot="start" name="cash" style="color: green;" *ngIf="item.EstadoCuota == 'Pagada'"></ion-icon>
         <ion-icon slot="start" name="cash" style="color: orange;" *ngIf="item.EstadoCuota == 'Pendiente'"></ion-icon>
         <ion-icon slot="start" name="cash" style="color: red;" *ngIf="item.EstadoCuota == 'No pagada'"></ion-icon>
         <ion-label class="item">
@@ -107,7 +107,7 @@
             </ion-row>
             <ion-row>
               <ion-col style="font-size: 12px;">
-                Del {{item.Fecha}} al {{item.FechaVencimiento}}
+                Del {{item.Fecha.split('T')[0]}} al {{item.FechaVencimiento.split('T')[0]}}
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -117,7 +117,8 @@
             $ {{item.ValorCuota + item.ValorExtra}}
           </ion-label>
         </ion-note>
-        <ion-note slot="end" style="margin: auto; font-size: 14px; color: orange;" *ngIf="item.EstadoCuota == 'Pendiente'">
+        <ion-note slot="end" style="margin: auto; font-size: 14px; color: orange;"
+          *ngIf="item.EstadoCuota == 'Pendiente'">
           <ion-label>
             $ {{item.ValorCuota + item.ValorExtra}}
           </ion-label>
@@ -127,7 +128,7 @@
             $ {{item.ValorCuota + item.ValorExtra}}
           </ion-label>
         </ion-note>
-    
+
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -135,7 +136,7 @@
   <ion-card style="margin: 5px 10px;">
     <ion-card-content style="padding: 0px;">
       <ion-item lines='none' *ngFor="let item of aliquotLastMonth">
-        <ion-icon slot="start" name="cash" style="color: green;"*ngIf="item.EstadoCuota == 'Pagada'"></ion-icon>
+        <ion-icon slot="start" name="cash" style="color: green;" *ngIf="item.EstadoCuota == 'Pagada'"></ion-icon>
         <ion-icon slot="start" name="cash" style="color: orange;" *ngIf="item.EstadoCuota == 'Pendiente'"></ion-icon>
         <ion-icon slot="start" name="cash" style="color: red;" *ngIf="item.EstadoCuota == 'No pagada'"></ion-icon>
         <ion-label class="item">
@@ -157,7 +158,8 @@
             $ {{item.ValorCuota + item.ValorExtra}}
           </ion-label>
         </ion-note>
-        <ion-note slot="end" style="margin: auto; font-size: 14px; color: orange;" *ngIf="item.EstadoCuota == 'Pendiente'">
+        <ion-note slot="end" style="margin: auto; font-size: 14px; color: orange;"
+          *ngIf="item.EstadoCuota == 'Pendiente'">
           <ion-label>
             $ {{item.ValorCuota + item.ValorExtra}}
           </ion-label>
@@ -167,9 +169,48 @@
             $ {{item.ValorCuota + item.ValorExtra}}
           </ion-label>
         </ion-note>
-    
+
       </ion-item>
     </ion-card-content>
   </ion-card>
-  
+  <ion-card style="margin: 5px 10px;" *ngIf="aliquotCurrentMonthLenght == 0 && aliquotLastMonthLenght == 0">
+    <ion-card-content style="padding: 0px;">
+      <ion-item lines='none'>
+        <ion-label>
+          No tiene alicuotas
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
+
+<ion-tab-bar slot="bottom">
+  <!--Home tab-->
+  <ion-tab-button routerLink='/home'>
+    <ion-icon name="home"></ion-icon>
+    <ion-label >Inicio</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/event'>
+    <ion-icon  name="calendar"></ion-icon>
+    <ion-label>Eventos</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/chat'>
+    <ion-icon name="chatbubbles"></ion-icon>
+    <ion-label>Chat</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/aliquot'>
+    <ion-icon   name="wallet"></ion-icon>
+    <ion-label>Cuotas</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/booking'>
+    <ion-icon  name="bookmarks"></ion-icon>
+    <ion-label>Reserva</ion-label>
+  </ion-tab-button>
+
+
+</ion-tab-bar>

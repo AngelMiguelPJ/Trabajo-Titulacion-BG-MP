@@ -30,12 +30,14 @@ export class EditProfileComponent implements OnInit {
     'Vecino',
     'Arrendatario'
   ]
-    //  variables para establecer la subia de imagenes
-    filepath;
-    file;
-    fileRef;
-    task;
-    uidUser;
+  //  variables para establecer la subia de imagenes
+  filepath;
+  file;
+  fileRef;
+  task;
+  uidUser;
+
+  public telefonoValido: boolean;
 
   constructor(
     private modalController: ModalController,
@@ -54,43 +56,35 @@ export class EditProfileComponent implements OnInit {
     this.usersService.getOnlyThisUser().subscribe(res => {
       this.usersList = res
       res.map(resp => {
-        this.imgProfile = resp['Img'],
-        this.nameUser = resp['Name'],
-        this.mailUser = resp['Email'],
-        this.houseUser = resp['Casa']
-        
-        })
-      console.log(this.usersList)
+        this.nameUser = resp['Name']
+
+      })
+      //console.log(this.usersList)
     }),
-    this.userImgEdit = this.fb.group({
-      Img: ['']
-    }),
-    this.userProfileFormEdit = this.formBuilder.group({
-      Name: this.navParams.data[0].Name,
-      Telefono: this.navParams.data[0].Telefono,
-      Email : this.navParams.data[0].Email,
-      Casa : this.navParams.data[0].Casa,
-      TipoUsuario : this.navParams.data[0].TipoUsuario
-    })
-    
-    console.log(this.navParams.data[0].Uid)
+
+      this.userProfileFormEdit = this.formBuilder.group({
+        Name: this.navParams.data[0].Name,
+        Telefono: this.navParams.data[0].Telefono,
+      })
+
+    //console.log(this.navParams.data[0].Uid)
     this.uidUser = this.navParams.data[0].Uid
 
   }
 
-  async message(message:string) {
+  async message(message: string) {
     const alert = await this.alertCtrl.create({
-      header : 'Cambio contraseña',
+      header: 'Cambio contraseña',
       message: message,
       buttons: ['OK']
     })
     await alert.present();
   }
 
-  async changePassword(){
+  async changePassword() {
     const alert = await this.alertCtrl.create({
-      header : 'Cambiar de contraseña',
-      subHeader : 'Por motivos de seguridad ingresa tu contraseña actual',
+      header: 'Cambiar de contraseña',
+      subHeader: 'Por motivos de seguridad ingresa tu contraseña actual',
       inputs: [
         {
           name: 'oldPassword',
@@ -113,15 +107,15 @@ export class EditProfileComponent implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           handler: data => {
-            console.log('Cancel clicked');
+            //console.log('Cancel clicked');
           }
         },
-         {
+        {
           text: 'Guardar',
           handler: data => {
-                
+
             //First you get the current logged in user
-            const cpUser = firebase.auth().currentUser; 
+            const cpUser = firebase.auth().currentUser;
 
             /*Then you set credentials to be the current logged in user's email
             and the password the user typed in the input named "old password"
@@ -129,62 +123,62 @@ export class EditProfileComponent implements OnInit {
             const credentials = firebase.auth.EmailAuthProvider.credential(
               cpUser.email, data.oldPassword);
 
-              //Reauthenticating here with the data above
-              cpUser.reauthenticateWithCredential(credentials).then(
-                success => {
-                  if (data.Name !== null && data.Name !== "" ) {
-                    cpUser.updateProfile({
-                      displayName: data.Name
-                    })
+            //Reauthenticating here with the data above
+            cpUser.reauthenticateWithCredential(credentials).then(
+              success => {
+                if (data.Name !== null && data.Name !== "") {
+                  cpUser.updateProfile({
+                    displayName: data.Name
+                  })
                     .then((data) => {
-                      console.log(data);
+                      //console.log(data);
                       //this.presentToast();
                     })
                     .catch(err => {
-                      console.log(` failed ${err}`);
+                      //console.log(` failed ${err}`);
                     });
-                    console.log('Funciona');
-                  }
-                  if(data.newPassword != data.newPasswordConfirm){
-                    this.message('No cinciden las contraseñas');
+                  //console.log('Funciona');
+                }
+                if (data.newPassword != data.newPasswordConfirm) {
+                  this.message('No cinciden las contraseñas');
 
-                  } else if(data.newPassword.length < 6){
-                    this.message('Debe contener al menos 6 caracteres');
+                } else if (data.newPassword.length < 6) {
+                  this.message('Debe contener al menos 6 caracteres');
 
-                  } else {
-                    
-                    this.message('Tu contraseña se actualizo correctamente');
-                    
+                } else {
+
+                  this.message('Tu contraseña se actualizo correctamente');
+
                   /* Update the password to the password the user typed into the
                     new password input field */
-                  cpUser.updatePassword(data.newPassword).then(function(){
+                  cpUser.updatePassword(data.newPassword).then(function () {
                     //Success
-                  }).catch(function(error){
+                  }).catch(function (error) {
                     //Failed
                   });
-                  }
-                },
-                error => {
-                  console.log(error);
-                  if(error.code === "auth/wrong-password"){
-                    this.message('La contraseña antigua no es correcta');
-
-                  }
                 }
-              )
-              console.log(credentials); 
-            }
+              },
+              error => {
+                //console.log(error);
+                if (error.code === "auth/wrong-password") {
+                  this.message('La contraseña antigua no es correcta');
+
+                }
+              }
+            )
+            //console.log(credentials); 
           }
+        }
       ]
     })
     await alert.present();
   }
-  
+
   async updateUser() {
-    console.log(this.userProfileFormEdit.value)
+    //console.log(this.userProfileFormEdit.value)
     // llamado a la variable uid del usuario y verificacion de si es nula o no
     if (this.uidUser !== null || this.uidUser !== undefined) {
-      if (this.userProfileFormEdit.value.Name != '' && this.userProfileFormEdit.value.Telefono != '') {
+      if (this.userProfileFormEdit.value.Name != '' && this.userProfileFormEdit.value.Telefono != '' && this.telefonoValido == true) {
         // llamado al servicio de actualizacion de usuarios setenado el uid y los valores del usuario actual
         this.usersService.updateUsersServices(this.uidUser, this.userProfileFormEdit.value).then(() => {
 
@@ -208,9 +202,9 @@ export class EditProfileComponent implements OnInit {
 
   async presentToast() {
     const toast = await this.toastController.create({
-      message: ' <b style="text-align:center">Debe llenar todos los datos</b>',
+      message: ' <b style="text-align:center">Debe llenar todos los datos o su numero de telefono es incorrecto</b>',
       duration: 1000,
-      color: 'primary',
+      color: 'danger',
 
     });
     toast.present();
@@ -222,54 +216,50 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  uploadFile(event) {
+  // validaciones de campos
+  //funcion para la validacion de numero de telefono fijo o movil
+  validarTelefono(telefono: string) {
+    const digitoTelefono = telefono.substring(0, 2);
+    //console.log(digitoTelefono)
 
-    // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
-    this.file = event.target.files[0];
-    // establecimiento de la estructura de guardad en store
-    this.filepath = 'usersImgProfile/' + this.nameUser + '/' + 'photoPerfil';
+    if (telefono.length === 10 && digitoTelefono == '09') {
+      //console.log('true')
+      this.telefonoValido = true
+      return true;
 
-    // tareas y referencia del path 
-    this.fileRef = this.storage.ref(this.filepath);
-    this.task = this.storage.upload(this.filepath, this.file);
+    } else if (telefono.length === 9 && digitoTelefono == '02') {
+      this.telefonoValido = true
+      //console.log('true')
+      return true;
+    } else if (telefono.length === 0) {
+      this.telefonoValido = null
+      return null
 
-    // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
-    this.task.snapshotChanges().pipe(
-      last(),
-      switchMap(() =>
-        this.fileRef.getDownloadURL()
-      )
-    ).subscribe(url => {
-
-      // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
-      this.userImgEdit.setValue({
-        Img: url
-      })
-
-      //console.log(this.userImgEdit.value)
-      // igualacion de variables y llamado a la funcion o metodo para actuializar la imagen setenado el uid de usuario actual y el url de la imagen que subio
-      this.userUid = localStorage.getItem('userId')
-      this.usersService.updateUsersServicesImg(this.userUid, this.userImgEdit.value)
-
-    })
-
-  }
-
-  myFunction(number : number){
-    
-    switch (number) {
-      case 1:
-        alert('Solo dministradores pueden cambiar el correo electronico')
-        break;
-      case 2:
-        alert('Solo dministradores pueden cambiar la casa')
-      break;
-      case 3:
-        alert('Solo dministradores pueden cambiar el tipo de usuario')
-      break;
-      default:
-        break;
+    } else {
+      //console.log('false')
+      this.telefonoValido = false
+      return false;
     }
-
   }
+  soloNumeros(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
+  }
+
+  sololetras(event: any) {
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (!regex.test(key)) {
+      event.preventDefault();
+      return false;
+    }
+  }
+
+
+
 }

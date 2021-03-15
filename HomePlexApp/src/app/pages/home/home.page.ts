@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { NavigationEnd, Router } from '@angular/router';
 import { SplashScreen } from '@capacitor/core';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { AliquotService } from 'src/app/services/aliquot/aliquot.service';
@@ -24,9 +25,16 @@ export class HomePage implements OnInit {
   mesEvento;
   option;
   option2;
+
+
   aliquotCurrentMonth;
+  aliquotCurrentMonthLenght;
   aliquotLastMonth;
- 
+  aliquotLastMonthLenght;
+
+  // variable de recarga de pagina
+  recargaPagina;
+
 
   constructor(public usersService: UsersService,
     public authService: AuthService,
@@ -34,44 +42,78 @@ export class HomePage implements OnInit {
     public alertController: AlertController,
     private loadingController: LoadingController,
     private eventsService: EventsService,
-    private aliquotService: AliquotService ) {
+    private aliquotService: AliquotService,
+    private router: Router,
+    private angularFireAuth: AngularFireAuth) {
 
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+
+    this.recargaPagina = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+        // inicializacion del sistema de carousel de eventos
+        this.option = {
+          slidesPerView: 1.2,
+          centeredSlides: true,
+          loop: true,
+          spaceBetween: 5,
+          autoplay: true,
+          initialSlide: 1.5,
+        }
+
+        // inicializacion del sistema de carousel de contactos
+        this.option2 = {
+          slidesPerView: 5,
+          centeredSlides: true,
+          loop: true,
+          spaceBetween: 1,
+          autoplay: false,
+          initialSlide: 2.5,
+        }
+        this.obtenerDatosEventos();
+        this.obtenerDatosUsuarios();
+        this.obtenerDatosUsuarioActual();
+        this.obtenerDatosAlicuotaActual();
+        this.obtenerDatosAlicuotaUltima();
+      }
+    });
 
   }
 
   ngOnInit() {
 
+  }
 
-    this.option = {
-      slidesPerView: 1.2,
-      centeredSlides: true,
-      loop: false,
-      spaceBetween: 5,
-      autoplay: true,
-      initialSlide: 1.5,
-    }
-    this.option2 = {
-      slidesPerView: 5,
-      centeredSlides: true,
-      loop: true,
-      spaceBetween: 1,
-      autoplay: false,
-      initialSlide: 2.5,
-    }
+  async obtenerDatosEventos() {
 
-    this.eventsService.getAllEventsFilterServices().subscribe(res => {
+    // servicio para traer los eventos
+    await this.eventsService.getAllEventsFilterServices().subscribe(res => {
       //console.log('eventos',res)
       this.eventos = res;
       this.eventosLength = this.eventos.length
       //console.log(this.eventos.length)
-      
     })
-    this.usersService.getAllUsersWithoutThisUser().subscribe(res => {
+
+    
+  }
+  async obtenerDatosUsuarios() {
+
+    // Servicio para traer los contactos sin el usuario actual como en chat
+    await this.usersService.getAllUsersWithoutThisUser().subscribe(res => {
       //console.log(res)
       this.users = res;
       this.usersLength = this.users.length
     })
-    this.usersService.getOnlyThisUser().subscribe(res => {
+
+  }
+
+  async obtenerDatosUsuarioActual() {
+
+    // traer unicamente datos del usuario actua;
+    await this.usersService.getOnlyThisUser().subscribe(res => {
       // console.log(res)
       res.map(resp => {
         this.name = resp['Name'];
@@ -79,25 +121,35 @@ export class HomePage implements OnInit {
       })
       // console.log(this.name)
     })
-
-    this.aliquotService.getAliquotUserCurrentMonth().subscribe(res=>{
-      //console.log(res);
-      this.aliquotCurrentMonth = res;
-      //console.log(this.aliquotCurrentMonth)
-    })
-    this.aliquotService.getAliquotUserLastMonth().subscribe(res=>{
-      //console.log(res)
-      this.aliquotLastMonth = res;
-      //console.log(this.aliquotLastMonth)
-    })
-
-
-
   }
 
+  async obtenerDatosAlicuotaActual() {
+    
+    // traer cuota del mes actual del usuario
+    await this.aliquotService.getAliquotUserCurrentMonth().subscribe(res => {
+      //console.log(res.length);
+      this.aliquotCurrentMonth = res;
+      this.aliquotCurrentMonthLenght= res.length;
+      //console.log(this.aliquotCurrentMonth.lenght)
+    })
+  }
 
+  async obtenerDatosAlicuotaUltima() {
+    
+    // traer cuota del mes actual del usuario
+    await this.aliquotService.getAliquotUserLastMonth().subscribe(res => {
+      //console.log(res);
+      this.aliquotLastMonth= res;
+      this.aliquotLastMonthLenght = res.length;
+      //console.log(this.aliquotCurrentMonth)
+    })
+  }
 
-
+  ngOnDestroy() {
+    if (this.recargaPagina) {
+      this.recargaPagina.unsubscribe();
+    }
+  }
 
   // funcion - metodo para cerrar sesion
   logout() {
@@ -112,20 +164,24 @@ export class HomePage implements OnInit {
       }, {
         text: 'Salir',
         handler: () => {
-          this.authService.logoutService();
-          // console.log('Confirm Okay')
+          this.angularFireAuth.signOut().then(() => {
+
+            // cambio del estado de si esta logeado o no
+            //this.isAuthenticated = false;
+            localStorage.removeItem('userId');
+            localStorage.clear();
+            // redirreccion de rutas para cuando cierra sesion
+            //this.router.navigate(['/tabs/tabhome'])
+            
+          }).then(()=>{
+            this.router.navigateByUrl('/login')
+          })
         }
       }
     ];
 
     document.body.appendChild(alert);
     return alert.present();
-
-
-
-    // llamado al servio de cerrado de sesion
-
-
   }
 
   async presentLoading() {
@@ -135,23 +191,18 @@ export class HomePage implements OnInit {
       duration: 1000
     });
     await loading.present();
-
     const { role, data } = await loading.onDidDismiss();
-
   }
-  gotoChatRoom(uid, name, img) {
 
+  gotoChatRoom(uid, name, img) {
     sessionStorage.setItem('uidContact', uid)
     sessionStorage.setItem('nameContact', name)
     sessionStorage.setItem('imgContact', img)
     this.navController.navigateForward("/chatroom");
-
   }
 
   gotoCreateBooking() {
-
     this.navController.navigateForward("/booking");
-
   }
 
 

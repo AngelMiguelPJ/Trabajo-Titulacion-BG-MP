@@ -8,6 +8,7 @@ import { LogoutGuard } from './guards/logout/logout.guard';
 
 //Componentes
 import { AliquotRegisterComponent } from './pages/aliquot/aliquot-register/aliquot-register.component';
+import { BookingRegisterComponent } from './pages/booking/booking-register/booking-register.component';
 import { AliquotComponent } from './pages/aliquot/aliquot.component';
 import { BookingComponent } from './pages/booking/booking.component';
 import { ChatComponent } from './pages/chat/chat.component';
@@ -55,6 +56,12 @@ const routes: Routes = [
   {
     path: 'eventos/registrar',
     component: EventRegisterComponent,
+    canActivate : [AuthGuard]
+  },
+
+  {
+    path: 'reservas/registrar',
+    component: BookingRegisterComponent,
     canActivate : [AuthGuard]
   },
 

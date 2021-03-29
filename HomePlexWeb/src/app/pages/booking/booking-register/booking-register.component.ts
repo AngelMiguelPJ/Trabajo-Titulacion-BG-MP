@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-// servicio de eventos
-import { EventsService } from 'src/app/services/events/events.service';
+// servicio de reservas
 import { UsersService } from 'src/app/services/users/users.service';
 import { BookingService } from 'src/app/services/booking/booking.service';
 
@@ -14,28 +13,26 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { last, switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-event-register',
-  templateUrl: './event-register.component.html',
-  styleUrls: ['./event-register.component.scss']
+  selector: 'app-booking-register',
+  templateUrl: './booking-register.component.html',
+  styleUrls: ['./booking-register.component.scss']
 })
-
-export class EventRegisterComponent implements OnInit {
-
+export class BookingRegisterComponent implements OnInit {
   //  numero de personas posibles
-  peopleEvent = [
+  peopleBooking = [
     '1 - 5 personas',
     '5 - 10 personas'
   ]
 
-  // Lugar de los eventos
-  placeEvent = [
+  // Lugar de los reservas
+  placeBooking = [
     'Casa comunal',
     'Canchas deportivas',
     'Parqueadero'
   ]
 
-  // Duracion de eventos con intervalo de 3 horas
-  durationEvent = [
+  // Duracion de reservas con intervalo de 3 horas
+  durationBooking = [
     '7 a.m - 10 a.m',
     '10 a.m - 13 p.m',
     '13 p.m - 16 p.m',
@@ -43,8 +40,8 @@ export class EventRegisterComponent implements OnInit {
     '19 p.m - 22 p.m'
   ]
 
-  // Estado evento
-  statusEvent = [
+  // Estado reserva
+  statusBooking = [
     'Aprobado',
     'En espera',
     'Desaprobado'
@@ -60,23 +57,20 @@ export class EventRegisterComponent implements OnInit {
   // variables de cerrado
   closeResult = '';
 
-  // formulario para agregar eventos
-  eventsForm: FormGroup;
+  // formulario para agregar reservas
+  bookingsForm: FormGroup;
 
-  // formulario para agregar reserva a partir del evento
-  eventsBookingForm: FormGroup;
+  // formulario para agregar reserva a partir del reserva
+  ///bookingsBookingForm: FormGroup;
 
-  // formulario para agregar una imagen y esta setearla en la creacion de un evento
-  eventImgForm: FormGroup;
-
-  // formulario para la edicion de un evento
-  eventFormEdit: FormGroup;
+  // formulario para la edicion de un reserva
+  bookingFormEdit: FormGroup;
 
   // formulario para la edicion de una reserva
-  eventBookingFormEdit: FormGroup;
+  //bookingBookingFormEdit: FormGroup;
 
-  // uid firestore evento
-  uidEventEdit: string;
+  // uid firestore reserva
+  uidBookingEdit: string;
 
   // variable de bandera de actualizacion
   actualizar: boolean;
@@ -84,7 +78,7 @@ export class EventRegisterComponent implements OnInit {
   // variable para paginacion
   config: any;
 
-  // arreglo de collecion de eventos
+  // arreglo de collecion de reservas
   collection = { count: 0, data: [] }
 
   // arreglo de colleccion de reservas
@@ -94,28 +88,23 @@ export class EventRegisterComponent implements OnInit {
   aVar;
   bVar;
 
-  // Variables para la subida de imagenes
-  imgEdit;
-  filepath;
-  file;
-  fileRef;
-  task;
-  uploadPercent;
-
   usersList = [];
   nameUserInfor;
 
-  // iniciar servicios
-  constructor(private storage: AngularFireStorage, private ngbModal: NgbModal,
-    public formBuilder: FormBuilder, private eventsService: EventsService,
-    public usersService: UsersService, private bookingService: BookingService) { }
+
+  constructor(
+    private storage: AngularFireStorage,
+    private ngbModal: NgbModal,
+    public formBuilder: FormBuilder,
+    public usersService: UsersService,
+    private bookingService: BookingService) { }
 
   ngOnInit(): void {
 
     // seteo de la fecha actual
     this.fechaActual = Date.now()
-    // iniciar variable de Uid Firestore evento
-    this.uidEventEdit
+    // iniciar variable de Uid Firestore reserva
+    this.uidBookingEdit
 
     // iniciar variable de bander de actualizacion
     this.actualizar = false;
@@ -128,54 +117,17 @@ export class EventRegisterComponent implements OnInit {
       totalItems: this.collection.data.length
     };
 
-    // inicializacion del formulario de eventos
-    const idRandomEvent = Math.random().toString(36).substring(2);
+    // inicializacion del formulario de reservas
+    const idRandomBooking = Math.random().toString(36).substring(2);
     this.uidAdmin = localStorage.getItem('userId')
-    this.eventsForm = this.formBuilder.group({
-      idUser: this.uidAdmin,
-      idEventBooking: '',
-      Img: '',
-      Nombre: ['', Validators.required],
-      EventoAN: ['', Validators.required],
-      Reserva: this.formBuilder.group({
-        Descripcion: '',
-        Duracion: '',
-        Fecha: Date.toString,
-        Lugar: '',
-        Personas: ''
-      })
-    })
-
-    // inicializacion de formulario para la edicion de un evento
-    this.eventFormEdit = this.formBuilder.group({
-      Img: '',
-      Nombre: ['', Validators.required],
-      EventoAN: ['', Validators.required],
-      idEventBooking: '',
-      Reserva: this.formBuilder.group({
-        Descripcion: '',
-        Duracion: '',
-        Fecha: Date.toString,
-        Lugar: '',
-        Personas: ''
-      })
-    })
-
-    // iniciar formulario para la subida de imagenes
-    this.eventImgForm = this.formBuilder.group({
-      Img: ['']
-    })
-
-    // Iniciar formulario para la creacion de reservas a partir de datos de un evento
-    this.eventsBookingForm = this.formBuilder.group({
+    this.bookingsForm = this.formBuilder.group({
       idBookingBooking: '',
-      BookingAN: '',
-      Ocupado: '',
+      BookingAN: ['', Validators.required],
       Reserva: this.formBuilder.group({
         Descripcion: '',
-        Lugar: '',
-        Fecha: Date.toString,
         Duracion: '',
+        Fecha: Date.toString,
+        Lugar: '',
         Personas: ''
       }),
       UserInfo: this.formBuilder.group({
@@ -184,19 +136,20 @@ export class EventRegisterComponent implements OnInit {
       })
     })
 
-    ///
-    this.eventBookingFormEdit = this.formBuilder.group({
+    // inicializacion de formulario para la edicion de un reserva
+    this.bookingFormEdit = this.formBuilder.group({
+      BookingAN: ['', Validators.required],
       Reserva: this.formBuilder.group({
         Descripcion: '',
-        Lugar: '',
-        Fecha: Date.toString,
         Duracion: '',
+        Fecha: Date.toString,
+        Lugar: '',
         Personas: ''
       })
     })
 
-    //cargando todos los eventos de firebase-firestore
-    this.eventsService.getEventsServices().subscribe(resp => {
+    //cargando todos los reservas de firebase-firestore
+    this.bookingService.getBookingServices().subscribe(resp => {
       //console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collection.data = resp.map((e: any) => {
@@ -206,16 +159,14 @@ export class EventRegisterComponent implements OnInit {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          Nombre: e.payload.doc.data().Nombre,
-          EventoAN: e.payload.doc.data().EventoAN,
+          BookingAN: e.payload.doc.data().BookingAN,
           Fecha: e.payload.doc.data().Reserva.Fecha,
           Duracion: e.payload.doc.data().Reserva.Duracion,
           Lugar: e.payload.doc.data().Reserva.Lugar,
           Descripcion: e.payload.doc.data().Reserva.Descripcion,
           Personas: e.payload.doc.data().Reserva.Personas,
-          Img: e.payload.doc.data().Img,
-          UidEventBooking: e.payload.doc.data().idEventBooking,
-          uidEvent: e.payload.doc.id
+          UidBookingBooking: e.payload.doc.data().idBookingBooking,
+          uidBooking: e.payload.doc.id
         }
       })
       //console.log(this.collection.data)
@@ -236,12 +187,12 @@ export class EventRegisterComponent implements OnInit {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          UidEventBooking: e.payload.doc.data().idEventBooking
+          UidBookingBooking: e.payload.doc.data().idBookingBooking
         }
       })
       this.collectionBooking.data.map(res => {
         this.aVar = res.id
-        this.bVar = res.UidEventBooking
+        this.bVar = res.UidBookingBooking
         //console.log("a: ", this.aVar , "b", this.bVar)
       })
       //console.log(this.collectionBooking.data)
@@ -269,92 +220,77 @@ export class EventRegisterComponent implements OnInit {
     })
 
 
-
   }
-
   // funcion - metodo para el cambio de pagina segun la pagina actual
-  pageChanged(event) {
-    this.config.currentPage = event;
+  pageChanged(booking) {
+    this.config.currentPage = booking;
     console.log(this.config.totalItems)
   }
 
-  // funcion - metodo para borrar cualquier evento
-  deleteEvent(item: any) {
+  // funcion - metodo para borrar cualquier reserva
+  deleteBooking(item: any) {
 
-    // llamado al servicio de eliminacion de eventos 
-    this.eventsService.deleteEventsServices(item.uidEvent);
+    // llamado al servicio de eliminacion de reservas 
+    this.bookingService.deleteBookingServices(item.uidBooking);
 
     this.collectionBooking.data.map(res => {
       const a = res.id
-      const b = res.UidEventBooking
-      console.log("a: ", a, "b", b)
+      const b = res.UidBookingBooking
+      //console.log("a: ", a, "b", b)
       // llamado al servico de eliminacion de reservas 
-      if (item.UidEventBooking == b) {
+      if (item.UidBookingBooking == b) {
         this.bookingService.deleteBookingServices(a)
       }
     })
 
-    // llamado al servicio de eliminacion de imagenes
-    this.storage.refFromURL(item.Img).delete()
-
   }
 
-  //funcion - metodo guardar o crear un evento
-  createEvent() {
+  //funcion - metodo guardar o crear un reserva
+  createBooking() {
 
-    //console.log(this.eventImgForm.value)
-    // seteo de datos de reservas por medio de datos de eventos
-    const idRandomEvent = Math.random().toString(36).substring(2);
-    this.eventsForm.value.idEventBooking = idRandomEvent
-    this.eventsBookingForm.setValue({
-      idBookingBooking: this.eventsForm.value.idEventBooking,
-      BookingAN: this.eventsForm.value.EventoAN,
-      Ocupado: 'si',
+    // seteo de datos de reservas por medio de datos de reservas
+    const idRandomBooking = Math.random().toString(36).substring(2);
+    this.bookingsForm.value.idBookingBooking = idRandomBooking
+    this.bookingsForm.setValue({
+      idBookingBooking: this.bookingsForm.value.idBookingBooking,
+      BookingAN: this.bookingsForm.value.BookingAN,
       Reserva: ({
-        Descripcion: this.eventsForm.value.Reserva.Descripcion,
-        Lugar: this.eventsForm.value.Reserva.Lugar,
-        Fecha: this.eventsForm.value.Reserva.Fecha,
-        Duracion: this.eventsForm.value.Reserva.Duracion,
-        Personas: this.eventsForm.value.Reserva.Personas
+        Descripcion: this.bookingsForm.value.Reserva.Descripcion,
+        Lugar: this.bookingsForm.value.Reserva.Lugar,
+        Fecha: this.bookingsForm.value.Reserva.Fecha,
+        Duracion: this.bookingsForm.value.Reserva.Duracion,
+        Personas: this.bookingsForm.value.Reserva.Personas
       }),
       UserInfo: ({
         userNameReserv: this.nameUserInfor,
         idUserReserv: this.uidAdmin,
       })
     })
-    // seteo de variables de images
-    this.eventsForm.value.Img = this.eventImgForm.value.Img
+    
 
-    // llamado al servicio de creacion de eventosde acuerdo a los datos del form
-    this.eventsService.createEventsServices(this.eventsForm.value).then(resp => {
-
-      // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
-      this.bookingService.createBookingServices(this.eventsBookingForm.value)
+    // llamado al servicio de creacion de reservasde acuerdo a los datos del form
+    this.bookingService.createBookingServices(this.bookingsForm.value).then(resp => {
 
       // resetea el form y lo cierra
-      this.eventsForm.reset();
+      this.bookingsForm.reset();
       this.ngbModal.dismissAll();
 
     }).catch(err => {
       // impirmir error si es que diera alguno
       console.log(err)
-    })
+    }) 
 
   }
 
-  // Abri form para editar un evento
+  // Abri form para editar un reserva
   // funcion para abri el ng model y cambiar los datos
   openEditar(content, item: any) {
 
     //llenar form para editar con los datos seteados a partir del formulario
-    this.imgEdit = item.Img
-
     //seteo de variables en el form editar
-    this.eventFormEdit.setValue({
-      Img: this.imgEdit,
-      Nombre: item.Nombre,
-      EventoAN: item.EventoAN,
-      idEventBooking: item.UidEventBooking,
+    this.bookingFormEdit.setValue({
+
+      BookingAN: item.BookingAN,
       Reserva: ({
         Descripcion: item.Descripcion,
         Duracion: item.Duracion,
@@ -365,7 +301,7 @@ export class EventRegisterComponent implements OnInit {
     });
 
     // igualancion del uid del usuario actual a la variable id firebase
-    this.uidEventEdit = item.uidEvent;
+    this.uidBookingEdit = item.uidBooking;
 
     // cambiar el estado de la variable booleana a true
     this.actualizar = true;
@@ -381,10 +317,10 @@ export class EventRegisterComponent implements OnInit {
 
   }
 
-  // Abrir form para crear un evento
+  // Abrir form para crear un reserva
   openFormCreate(contentCreate) {
 
-    // cambio de estado de actualizarion
+    // cambio de estado de actualizacion
     this.actualizar = false;
 
     // apertura del modelform de crear
@@ -410,74 +346,37 @@ export class EventRegisterComponent implements OnInit {
 
   }
 
-  // funcion - metodo para la subida de imagenes a firestone
-  uploadFile(event) {
-
-    // variable random para id de las imagenes
-    const idRandom = Math.random().toString(36).substring(2);
-
-    // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
-    this.file = event.target.files[0];
-
-    // establecimiento de la estructura de guardad en store
-    this.filepath = 'events/' + idRandom;
-
-    // tareas y referencia del path 
-    this.fileRef = this.storage.ref(this.filepath);
-    this.task = this.storage.upload(this.filepath, this.file);
-
-    // Observador para ver el porcentaje de subida o tiempo que tarda en subir
-    this.uploadPercent = this.task.percentageChanges();
-
-    // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
-    this.task.snapshotChanges().pipe(
-      last(),
-      switchMap(() =>
-        this.fileRef.getDownloadURL()
-      )
-    ).subscribe(url => {
-      // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
-      this.imgEdit = url
-      this.eventImgForm.setValue({
-        Img: url
-      })
-    })
-
-  }
-
-  // funcion o metodo actualizar un evento
-  updateEvent() {
+  // funcion o metodo actualizar un reserva
+  updateBooking() {
 
     // seteo de valires en el form de editar de reservas
-    this.eventBookingFormEdit.setValue({
+    this.bookingFormEdit.setValue({
+      BookingAN: this.bookingFormEdit.value.BookingAN,
       Reserva: ({
-        Descripcion: this.eventFormEdit.value.Reserva.Descripcion,
-        Duracion: this.eventFormEdit.value.Reserva.Duracion,
-        Fecha: this.eventFormEdit.value.Reserva.Fecha,
-        Lugar: this.eventFormEdit.value.Reserva.Lugar,
-        Personas: this.eventFormEdit.value.Reserva.Personas
+        Descripcion: this.bookingFormEdit.value.Reserva.Descripcion,
+        Duracion: this.bookingFormEdit.value.Reserva.Duracion,
+        Fecha: this.bookingFormEdit.value.Reserva.Fecha,
+        Lugar: this.bookingFormEdit.value.Reserva.Lugar,
+        Personas: this.bookingFormEdit.value.Reserva.Personas
       })
     })
     this.collectionBooking.data.map(res => {
       const a = res.id
-      const b = res.UidEventBooking
+      const b = res.UidBookingBooking
       console.log("a: ", a, "b", b)
-      if (this.eventFormEdit.value.idEventBooking == b) {
-        this.bookingService.updateBookingServices(a, this.eventBookingFormEdit.value)
+      if (this.bookingFormEdit.value.idBookingBooking == b) {
+        this.bookingService.updateBookingServices(a, this.bookingFormEdit.value)
       }
     })
 
 
     // llamado a la variable uid del usuario y verificacion de si es nula o no
-    if (this.uidEventEdit !== null || this.uidEventEdit !== undefined) {
-
-      // igualacion de variables de imagenes
-      this.eventFormEdit.value.Img = this.imgEdit
+    if (this.uidBookingEdit !== null || this.uidBookingEdit !== undefined) {
 
       // servicio de acutalizacion de ventos
-      this.eventsService.updateEventsServices(this.uidEventEdit, this.eventFormEdit.value).then(resp => {
+      this.bookingService.updateBookingServices(this.uidBookingEdit, this.bookingFormEdit.value).then(resp => {
         // funciones de reseteo del formulario y cerrar modal al igual que el formulario
-        this.eventFormEdit.reset();
+        this.bookingFormEdit.reset();
         this.ngbModal.dismissAll();
       }).catch(error => {
         // comprobacion de errores 
@@ -488,3 +387,4 @@ export class EventRegisterComponent implements OnInit {
   }
 
 }
+

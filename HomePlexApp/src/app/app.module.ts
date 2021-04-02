@@ -14,6 +14,7 @@ import { firebaseConfig } from './services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 // importaciones angular
 import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -26,7 +27,8 @@ import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
             AppRoutingModule,
             AngularFireModule.initializeApp(firebaseConfig),
             AngularFireModule,
-            CommonModule
+            CommonModule,
+            AngularFirestoreModule.enablePersistence(),
             ],
   providers: [
     StatusBar,

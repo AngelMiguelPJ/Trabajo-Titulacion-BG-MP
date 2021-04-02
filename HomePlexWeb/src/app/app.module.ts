@@ -29,6 +29,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
+import { BookingRegisterComponent } from './pages/booking/booking-register/booking-register.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { DatePipe } from '@angular/common';
     RegisterComponent,
     NavbarComponent,
     AliquotRegisterComponent,
-    EventRegisterComponent
+    EventRegisterComponent,
+    BookingRegisterComponent
   ],
   imports: [
     BrowserModule,

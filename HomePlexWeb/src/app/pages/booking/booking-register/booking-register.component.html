@@ -1,0 +1,265 @@
+<!-- Contenedor principal del login -->
+<div class="content" role="main">
+    <!--======================================================================================-->
+
+    <!--Titulo de la pagina-->
+    <h2 style="text-align: center;">Reservas</h2>
+
+    <!--======================================================================================-->
+
+    <!--Boton para crear un nuevo reserva-->
+    <div style="text-align: center; margin-bottom: 10px;">
+        <button type="button" class="btn btn-success" (click)="openFormCreate(contentCreate)"
+            *ngIf="usersService.isAdmin">Crear nueva reserva
+        </button>
+    </div>
+
+    <!--======================================================================================-->
+
+    <!--Tabla de visualizacion de los reservas en forma de tabla-->
+    <div class="table-responsive">
+        <table class="table">
+
+            <!--cabecera de la tabla-->
+            <thead class="table-dark">
+                <tr>
+                    <th>Estado</th>
+                    <th>Descripcion</th>
+                    <th>Duracion</th>
+                    <th>Fecha</th>
+                    <th>Lugar</th>
+                    <th>Personas</th>
+                    <th *ngIf="usersService.isAdmin">opciones</th>
+                </tr>
+                <tr>
+
+                </tr>
+            </thead>
+
+            <!-- Cuerpo de la tabla-->
+            <tbody>
+
+                <tr *ngFor="let item of collection.data | paginate: config">
+                    <td>{{item.BookingAN}}</td>
+                    <td>{{item.Descripcion}}</td>
+                    <td>{{item.Duracion}}</td>
+                    <td>{{item.Fecha}}</td>
+                    <td>{{item.Lugar}}</td>
+                    <td>{{item.Personas}}</td>
+                    <td>
+
+                        <!--Botones para eliminar y editar el respectivo usuario-->
+                        <button type="button" class="btn btn-primary" (click)="openEditar(content,item)"
+                            *ngIf="usersService.isAdmin">Editar</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteBooking(item)"
+                            *ngIf="usersService.isAdmin">Borrar</button>
+
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <!--Botones de paginacion-->
+        <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+            (pageChange)="pageChanged($event)"></pagination-controls>
+
+    </div>
+
+    <!--======================================================================================-->
+
+    <!--Formulario ng template para la creacion de datos-->
+    <ng-template #contentCreate let-modal>
+
+        <!-- Cabecera del modal-->
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Crear Reserva</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <!-- cuerpo del modal-->
+        <div class="modal-body">
+
+            <!--Formulario-->
+            <form>
+                <div class="form-group">
+
+                    <!-- Form grupo para los datos-->
+                    <form [formGroup]="bookingsForm">
+
+                        <!--Form grup del estado del reserva-->
+                        <div class="form-group">
+                            <label>Reserva Estado</label>
+                            <select type="'text" formControlName="BookingAN" class="form-control"
+                                placeholder="Elija un estado">
+                                <option *ngFor="let status of statusBooking" [ngValue]="status">{{status}}</option>
+                            </select>
+                        </div>
+
+                        <!--Form grup interno-->
+                        <div formGroupName="Reserva">
+
+                            <!--from grup duracion-->
+                            <div class="form-group">
+                                <label>Duracion</label>
+                                <select type="'text" formControlName="Duracion" class="form-control"
+                                    placeholder="Elija una duracion">
+                                    <option *ngFor="let duration of durationBooking" [ngValue]="duration">{{duration}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!--Form grup de descripcion-->
+                            <div class="form-group">
+                                <label>Descripcion</label>
+                                <input type="text" formControlName="Descripcion" class="form-control">
+                            </div>
+
+                            <!--form gruop de fecha-->
+                            <div class="form-group">
+                                <label>Fecha</label>
+                                <input type="date" formControlName="Fecha" class="form-control"
+                                    (disabled)="!fechaActual" min="{{fechaActual|date:'yyyy-MM-dd'}}">
+                            </div>
+
+                            <!--Form grup de lugar-->
+                            <div class="form-group">
+                                <label>Lugar</label>
+                                <select type="'text" formControlName="Lugar" class="form-control"
+                                    placeholder="Elija una duracion">
+                                    <option *ngFor="let place of placeBooking" [ngValue]="place">{{place}}</option>
+                                </select>
+                            </div>
+
+                            <!--form grup de numero de personas-->
+                            <div class="form-group">
+                                <label>Personas</label>
+                                <select type="'text" formControlName="Personas" class="form-control"
+                                    placeholder="Elija una duracion">
+                                    <option *ngFor="let people of peopleBooking" [ngValue]="people">{{people}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <!---->
+
+
+                    </form>
+
+                </div>
+            </form>
+
+        </div>
+
+        <!--Boton de creacion dereserva por medio de un modal -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="createBooking()">Guardar</button>
+        </div>
+
+    </ng-template>
+
+    <!--======================================================================================-->
+
+    <!-- Formulario ng template para la edicion de datos-->
+    <ng-template #content let-modal>
+
+        <!-- Header del modal -->
+        <div class="modal-header">
+
+            <!-- Titulo del card -->
+            <h4 class="modal-title" id="modal-basic-title">Actualizar Reserva</h4>
+
+            <!-- Boton de cerrado -->
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+
+        <!-- Cuerpo del formulario -->
+        <div class="modal-body">
+
+            <!-- formulario con las variables a cambiar -->
+            <form>
+                <div class="form-group">
+
+                    <!-- Grupo formulario que establece variables a partir del component.ts-->
+                    <form [formGroup]="bookingFormEdit">
+
+
+                        <!--form de estado de reserva-->
+                        <div class="form-group">
+                            <label>Reserva Estado</label>
+                            <select type="'text" formControlName="BookingAN" class="form-control"
+                                placeholder="Elija un estado">
+                                <option *ngFor="let status of statusBooking" [ngValue]="status">{{status}}</option>
+                            </select>
+                        </div>
+
+                        <!--for group interno-->
+                        <div formGroupName="Reserva">
+
+                            <!--form de duracion-->
+                            <div class="form-group">
+                                <label>Duracion</label>
+                                <select type="'text" formControlName="Duracion" class="form-control"
+                                    placeholder="Elija una duracion">
+                                    <option *ngFor="let duration of durationBooking" [ngValue]="duration">{{duration}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!--form de descripcion-->
+                            <div class="form-group">
+                                <label>Descripcion</label>
+                                <input type="text" formControlName="Descripcion" class="form-control">
+                            </div>
+
+                            <!--form de fecha-->
+                            <div class="form-group">
+                                <label>Fecha</label>
+                                <input type="date" formControlName="Fecha" class="form-control"
+                                    (disabled)="!fechaActual" min="{{fechaActual|date:'yyyy-MM-dd'}}">
+                            </div>
+
+                            <!--form de lugar-->
+                            <div class="form-group">
+                                <label>Lugar</label>
+                                <select type="'text" formControlName="Lugar" class="form-control"
+                                    placeholder="Elija una duracion">
+                                    <option *ngFor="let place of placeBooking" [ngValue]="place">{{place}}</option>
+                                </select>
+                            </div>
+
+                            <!--form de personas-->
+                            <div class="form-group">
+                                <label>Personas</label>
+                                <select type="'text" formControlName="Personas" class="form-control"
+                                    placeholder="Elija una duracion">
+                                    <option *ngFor="let people of peopleBooking" [ngValue]="people">{{people}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </form>
+
+        </div>
+
+        <!-- Boton de actualizacion aparatir de los datos del formulario-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="updateBooking()">Actualizar</button>
+        </div>
+
+    </ng-template>
+
+    <!--======================================================================================-->
+
+</div>

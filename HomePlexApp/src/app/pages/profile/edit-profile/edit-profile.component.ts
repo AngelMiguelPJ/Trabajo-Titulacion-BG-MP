@@ -178,7 +178,7 @@ export class EditProfileComponent implements OnInit {
     //console.log(this.userProfileFormEdit.value)
     // llamado a la variable uid del usuario y verificacion de si es nula o no
     if (this.uidUser !== null || this.uidUser !== undefined) {
-      if (this.userProfileFormEdit.value.Name != '' && this.userProfileFormEdit.value.Telefono != '' && this.telefonoValido == true) {
+      if (this.userProfileFormEdit.value.Name !== '' && this.userProfileFormEdit.value.Telefono !== '' && this.telefonoValido === true) {
         // llamado al servicio de actualizacion de usuarios setenado el uid y los valores del usuario actual
         this.usersService.updateUsersServices(this.uidUser, this.userProfileFormEdit.value).then(() => {
 
@@ -222,12 +222,12 @@ export class EditProfileComponent implements OnInit {
     const digitoTelefono = telefono.substring(0, 2);
     //console.log(digitoTelefono)
 
-    if (telefono.length === 10 && digitoTelefono == '09') {
+    if (telefono.length === 10 && digitoTelefono === '09') {
       //console.log('true')
       this.telefonoValido = true
       return true;
 
-    } else if (telefono.length === 9 && digitoTelefono == '02') {
+    } else if (telefono.length === 9 && digitoTelefono === '02') {
       this.telefonoValido = true
       //console.log('true')
       return true;

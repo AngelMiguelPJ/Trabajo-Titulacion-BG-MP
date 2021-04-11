@@ -44,7 +44,7 @@ export class BookingComponent implements OnInit {
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
           Nombre: e.payload.doc.data().Nombre,
-          EventoAN: e.payload.doc.data().EventoAN,
+          BookingAN: e.payload.doc.data().BookingAN,
           Fecha: e.payload.doc.data().Reserva.Fecha,
           Duracion: e.payload.doc.data().Reserva.Duracion,
           Lugar: e.payload.doc.data().Reserva.Lugar,

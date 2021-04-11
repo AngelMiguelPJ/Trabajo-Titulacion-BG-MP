@@ -62,21 +62,31 @@ export class BookingCreateComponent implements OnInit {
 
 
   ngOnInit() {
+    this.usersService.getOnlyThisUser().subscribe(res => {
+      //console.log(res)
+      this.usersList = res
+      res.map(resp => {
+        this.nameUser = resp['Name']
+      })
+      //console.log(this.usersList)
+    })
 
     // seteo de la fecha actual
     this.fechaActual = Date.now();
     this.uidAdmin = localStorage.getItem('userId');
-    //iniciar formulario para la creacion de reservas
+        //iniciar formulario para la creacion de reservas
     this.bookingFormCreate = this.formBuilder.group({
-      idUser: this.uidAdmin,
-
       BookingAN: ['', Validators.required],
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
         Duracion: ['', Validators.required],
         Fecha: ['', Validators.required],
         Lugar: ['', Validators.required],
-        Personas: ['', Validators.required]
+        Personas: ['', Validators.required],      
+      }),
+      UserInfo: ({
+        userNameReserv: '',
+        idUserReserv: '',
       })
     });
     //console.log('a', this.bookingFormCreate.value)
@@ -112,6 +122,8 @@ export class BookingCreateComponent implements OnInit {
     this.uidAdmin = localStorage.getItem('userId');
     const idBookingRandom = Math.random().toString(36).substring(2);
     this.bookingFormCreate.value.idBookingBooking = idBookingRandom;
+    this.bookingFormCreate.value.UserInfo.userNameReserv = this.nameUser;
+    this.bookingFormCreate.value.UserInfo.idUserReserv = this.uidAdmin;
     this.bookingFormCreate.value.Reserva.Fecha = this.bookingFormCreate.value.Reserva.Fecha.split('T')[0];
     if (
       this.bookingFormCreate.value.BookingAN != ''

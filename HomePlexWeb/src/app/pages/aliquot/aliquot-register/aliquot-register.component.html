@@ -2,7 +2,7 @@
 <div class="content" role="main">
 
   <!--====================================================================================-->
-  \
+  
   <!-- titulo de la pagina - componente-->
   <h2 style="text-align: center;">Alicuotas</h2>
 
@@ -10,7 +10,7 @@
 
   <!-- boton para abri el ngmodel - form para la creacion de allicuotas-->
   <div style="text-align: center; margin-bottom: 10px;">
-    <button type="button" class="btn btn-success" (click)="open(contentCreate)" *ngIf="usersService.isAdmin">Agregar
+    <button type="button" class="btn btn-success" (click)="open(contentCreate)" *ngIf="usersService.isAccountant">Agregar
       alicuota
     </button>
   </div>
@@ -51,7 +51,7 @@
 
             <!--Boton para poder editar y abrir el ngModel form de edicion-->
             <button type="button" class="btn btn-primary" (click)="openEditar(contentEdit,item)"
-              *ngIf="usersService.isAdmin">
+              *ngIf="usersService.isAccountant">
               Editar
             </button>
 

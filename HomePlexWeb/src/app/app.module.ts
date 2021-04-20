@@ -30,6 +30,7 @@ import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
 import { BookingRegisterComponent } from './pages/booking/booking-register/booking-register.component';
+import { SecurityGuard } from './guards/security/security.guard';
 
 
 @NgModule({
@@ -58,7 +59,7 @@ import { BookingRegisterComponent } from './pages/booking/booking-register/booki
     FormsModule,
     NgxPaginationModule
   ],
-  providers: [FormBuilder, {provide: BUCKET, useValue: 'appchatfirebaseai.appspot.com'}, DatePipe],
+  providers: [SecurityGuard, FormBuilder, {provide: BUCKET, useValue: 'appchatfirebaseai.appspot.com'}, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

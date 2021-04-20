@@ -18,6 +18,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { SecurityGuard } from './guards/security/security.guard';
 
 // rutas
 const routes: Routes = [
@@ -56,13 +57,13 @@ const routes: Routes = [
   {
     path: 'eventos/registrar',
     component: EventRegisterComponent,
-    canActivate : [AuthGuard]
+    canActivate : [AuthGuard, SecurityGuard]
   },
 
   {
     path: 'reservas/registrar',
     component: BookingRegisterComponent,
-    canActivate : [AuthGuard]
+    canActivate : [AuthGuard, SecurityGuard]
   },
 
   {
@@ -80,20 +81,20 @@ const routes: Routes = [
   {
     path: 'alicuotas/registrar',
     component: AliquotRegisterComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, SecurityGuard],
   },
 
   {
     path: 'perfil',
     component: ProfileComponent,
     canActivate : [AuthGuard],
+
   },
   
   {
     path: 'registro',
     component: RegisterComponent,
-    canActivate : [AuthGuard],
-
+      canActivate : [AuthGuard],
   },
   
 ];

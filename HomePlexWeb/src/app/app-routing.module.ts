@@ -94,7 +94,7 @@ const routes: Routes = [
   {
     path: 'registro',
     component: RegisterComponent,
-      canActivate : [AuthGuard],
+      canActivate : [AuthGuard, SecurityGuard],
   },
   
 ];

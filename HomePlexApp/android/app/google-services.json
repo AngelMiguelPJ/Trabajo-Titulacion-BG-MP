@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "70653227859",
+    "project_id": "appchatfirebaseai",
+    "storage_bucket": "appchatfirebaseai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70653227859:android:225afee4966a9ddf7b67a6",
+        "android_client_info": {
+          "package_name": "com.esfot.roble2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70653227859-om8nb168seu4kau5ph889u524h2nmgba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK_FpGHMCc4Lf3mhlsKmwPsc3v-cKrRbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70653227859-om8nb168seu4kau5ph889u524h2nmgba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

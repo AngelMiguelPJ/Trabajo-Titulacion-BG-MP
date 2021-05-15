@@ -3,7 +3,6 @@ import { LoadingController, NavController } from '@ionic/angular';
 import { ChatService } from 'src/app/services/chat/chat.service';
 
 import { UsersService } from 'src/app/services/users/users.service';
-import { ChatroomPage } from '../chatroom/chatroom.page';
 
 @Component({
   selector: 'app-chat',

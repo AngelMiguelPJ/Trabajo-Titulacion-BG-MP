@@ -59,7 +59,11 @@ const routes: Routes = [
     path: 'chatroom',
     loadChildren: () => import('./pages/chatroom/chatroom.module').then( m => m.ChatroomPageModule),
     canActivate : [AuthGuard]
+  },  {
+    path: 'schedule-trash',
+    loadChildren: () => import('./pages/schedule-trash/schedule-trash.module').then( m => m.ScheduleTrashPageModule)
   }
+
 
 
 

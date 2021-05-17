@@ -9,13 +9,26 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class BookingService {
-
+  userUid;
   // contructor para iniciar servicios
   constructor(private angularFirestore: AngularFirestore) { }
 
   // Metodo -funcion -servicio para obtener las reservas
   getBookingServices() {
     return this.angularFirestore.collection('booking').snapshotChanges();
+  }
+
+  getBookingServicesUser() {
+
+    this.userUid = localStorage.getItem('userId')
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('booking', ref => ref.where('UserInfo.idUserReserv', '==', this.userUid)).snapshotChanges().pipe(map(res => {
+      //console.log(res)  
+      return res.map(a => {
+        const data = a.payload.doc.data()
+        return data
+      })
+    }))
   }
 
   // Metodo -funcion -servicio para actualizar las reservas de acuerdo al id y datos enviados

@@ -99,7 +99,7 @@ export class AliquotEditComponent implements OnInit {
     const toast = await this.toastController.create({
       message: ' <b style="text-align:center">Debe llenar todos los datos</b>',
       duration: 1000,
-      color: 'primary',
+      color: 'danger',
 
     });
     toast.present();

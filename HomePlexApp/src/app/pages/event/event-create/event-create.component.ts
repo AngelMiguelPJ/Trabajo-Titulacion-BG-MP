@@ -76,7 +76,13 @@ export class EventCreateComponent implements OnInit {
     private bookingService: BookingService,) { }
 
   ngOnInit() {
-    this.fechaActual = Date.now()
+    var fecha = Date.now();
+    //console.log(fecha)
+    var diaDespues = 1 * 24 * 60 * 60 * 1000;
+    //console.log(diaDespues);
+    this.fechaActual = fecha + diaDespues;
+    //console.log(this.fechaActual)
+
     this.usersService.getOnlyThisUser().subscribe(res => {
       //console.log(res)
       this.usersList = res

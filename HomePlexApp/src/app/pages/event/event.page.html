@@ -96,9 +96,9 @@
   </ion-card>
 
   <!--Botones - controladores de la paginacion-->
-  <ion-item lines="none" style="margin: auto; display: table;">
+  <ion-item lines="none" style="margin: auto; display: table;" >
     <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true" style="margin: 0px;"
-      (pageChange)="pageChanged($event)">
+      (pageChange)="pageChanged($event)" *ngIf="eventosLength != 0">
     </pagination-controls>
   </ion-item>
 
@@ -117,7 +117,7 @@
   </ion-tab-button>
 
   <ion-tab-button routerLink='/event'>
-    <ion-icon  name="calendar"></ion-icon>
+    <ion-icon id="evento" name="calendar"></ion-icon>
     <ion-label>Eventos</ion-label>
   </ion-tab-button>
 

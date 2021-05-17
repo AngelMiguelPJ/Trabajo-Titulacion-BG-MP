@@ -20,6 +20,7 @@ export class EventPage implements OnInit {
   collectionEvents;
   collectionEventsBackUp;
   collectionEventsLength;
+  eventosLength;
   uidAdmin;
 
   collectionEventsBooking;
@@ -64,6 +65,8 @@ export class EventPage implements OnInit {
     //cargando todos los eventos de firebase-firestore
     this.eventsService.getEventsServices().subscribe(resp => {
       //console.log('respuesta 1: ', resp)
+      this.eventosLength = resp.length;
+      //console.log(this.eventosLength)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionEvents = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -112,7 +115,7 @@ export class EventPage implements OnInit {
           uidEvent: e.payload.doc.id
         }
       })
-      //console.log(this.collectionEvents)
+      console.log(this.collectionEvents)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
@@ -278,7 +281,7 @@ export class EventPage implements OnInit {
     }).then(modalres => {
       modalres.present();
       modalres.onDidDismiss().then(res => {
-        //console.log(res.data)
+        console.log(res.data)
         //console.log('a', this.eventsFormEdit.value)
         if (res.data != null || res.data != undefined) {
           this.presentLoading()
@@ -307,30 +310,34 @@ export class EventPage implements OnInit {
           })
 
           //------------
-          // console.log('b', this.eventsFormEdit.value.Reserva.Duracion)
-          // console.log('c', this.eventsBookingFormEdit.value.Reserva.Duracion)
-          //console.log(this.bVar)
-          //console.log(this.aVar)
-          //console.log(this.eventsFormEdit.value.idEventBooking)
+          console.log('b', this.eventsFormEdit.value.Reserva.Duracion)
+          console.log('c', this.eventsBookingFormEdit.value.Reserva.Duracion)
+          console.log(this.eventsFormEdit.value.idEventBooking)
 
           //----------------------
           this.collectionEventsBooking.map(res => {
+            console.log(res)
             const a = res.id
             const b = res.UidEventBooking
-            //console.log("a: ", a, "b", b)
+            console.log("a: ", a, "b", b)
             // condicion para actualizar reserva segun el evento
             if (this.eventsFormEdit.value.idEventBooking == b) {
-              //console.log(b)
-              //console.log(a)
-              this.bookingService.updateBookingServices(a, this.eventsBookingFormEdit.value)
+              console.log(b)
+              console.log(a)
+              this.bookingService.updateBookingServices(a, this.eventsBookingFormEdit.value).then(resp => {
+                // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+                //this.eventsFormEdit.reset();
+  
+              }).catch(error => {
+                // comprobacion de errores 
+                console.error(error);
+              });
             }
           })
 
 
           // llamado a la variable uid del usuario y verificacion de si es nula o no
           if (this.uidEventEdit !== null || this.uidEventEdit !== undefined) {
-
-
 
             // servicio de acutalizacion de ventos
             this.eventsService.updateEventsServices(this.uidEventEdit, this.eventsFormEdit.value).then(resp => {

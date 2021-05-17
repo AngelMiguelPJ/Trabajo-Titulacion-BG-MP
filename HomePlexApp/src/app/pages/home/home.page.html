@@ -35,6 +35,21 @@
     </ion-slide>
 
   </ion-slides>
+  <ion-slides [options]="option" *ngIf="eventosLength == 0">
+    <ion-slide>
+      <ion-card style="margin: 10px 10px;">
+        <img src="assets/Eventos.jpg" style="background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 7rem;
+        width: max-content;" />
+        <ion-card-header>
+          <ion-card-title>No hay Eventos</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+
+  </ion-slides>
 
   <ion-item lines="none">
     <ion-label>
@@ -42,19 +57,90 @@
     </ion-label>
     <ion-badge slot="end" style="background-color: #2196F3;" routerLink='/schedule-trash'>ver todos</ion-badge>
   </ion-item>
+  <div *ngIf="collectionTrasScheduleLenght > 0">
+    <ion-card style="margin: 5px 10px;">
+      <ion-card-content style="padding: 0px;">
+        <ion-item lines='none' *ngFor="let item of collectionTrashSchedule">
+          <ion-icon slot="start" name="trash-bin-outline" style="color: green;"></ion-icon>
+          <ion-label class="item">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  {{item.Dia}}
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="font-size: 12px;">
+                  {{item.Descripcion}}
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-label>
+        
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div *ngIf="collectionTrasScheduleLenght == 0 && dia == 'Martes'">
+    <ion-card style="margin: 5px 10px;">
+      <ion-card-content style="padding: 0px;">
+        <ion-item lines='none' *ngFor="let item of collectionTrashSchedule">
+          <ion-icon slot="start" name="trash-bin-outline" style="color: green;"></ion-icon>
+          <ion-label class="item">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  Proximo dia de basura - Miercoles
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-label>
+        
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-  <ion-slides [options]="option2">
-    <ion-slide *ngFor="let item of users">
-      <ion-grid>
-        <ion-row style="padding: 0px;">
-          <ion-avatar (click)="gotoChatRoom(item.Uid,item.Name, item.Img)">
-            <img src="{{item.Img}}" style="height: 64px; width: 64px;">
-          </ion-avatar>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
+  <div *ngIf="collectionTrasScheduleLenght == 0 && dia == 'Jueves'">
+    <ion-card style="margin: 5px 10px;">
+      <ion-card-content style="padding: 0px;">
+        <ion-item lines='none'>
+          <ion-icon slot="start" name="trash-bin-outline" style="color: green;"></ion-icon>
+          <ion-label class="item">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  Proximo dia de basura - Viernes
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-label>
+        
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-  </ion-slides>
+  <div *ngIf="collectionTrasScheduleLenght == 0 && (dia == 'Sabado' || dia == 'Domingo')">
+    <ion-card style="margin: 5px 10px;">
+      <ion-card-content style="padding: 0px;">
+        <ion-item lines='none'>
+          <ion-icon slot="start" name="trash-bin-outline" style="color: green;"></ion-icon>
+          <ion-label class="item">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  Proximo dia de basura - Lunes
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-label>
+        
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
 
   <ion-item lines="none">
     <ion-label><b>Reservas</b></ion-label>
@@ -64,7 +150,7 @@
   <div class="reservas" style=" margin-left: 10px; margin-right: 10px; margin-top: 0px; margin-bottom: 0px;">
     <ion-grid>
       <ion-row>
-        <ion-col style="background-color: whitesmoke; border-radius: 10px; margin-right: 5px; text-align: center;">
+        <ion-col style="background-color: white; border-radius: 20px; margin-right: 5px; text-align: center;">
           <img src="../../../assets/livingroom.jpg" (click)='gotoCreateBooking()' />
           <p style="font-size: 10px; margin-bottom: 0px; margin-top: 0px;">Casa comunal</p>
         </ion-col>
@@ -76,7 +162,7 @@
 
 
         </ion-col>
-        <ion-col style="background-color: whitesmoke; border-radius: 10px; text-align: center; ">
+        <ion-col style="background-color: white; border-radius: 20px; text-align: center; ">
 
           <img src="../../../assets/park.jpg" (click)='gotoCreateBooking()' />
           <p style="font-size: 10px; margin-bottom: 0px; margin-top: 0px;">Cancha deportiva</p>
@@ -188,7 +274,7 @@
 <ion-tab-bar slot="bottom">
   <!--Home tab-->
   <ion-tab-button routerLink='/home'>
-    <ion-icon name="home"></ion-icon>
+    <ion-icon id="home" name="home"></ion-icon>
     <ion-label >Inicio</ion-label>
   </ion-tab-button>
 

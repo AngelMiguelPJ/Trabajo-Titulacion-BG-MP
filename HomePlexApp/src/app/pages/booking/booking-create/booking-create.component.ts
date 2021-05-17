@@ -14,13 +14,13 @@ export class BookingCreateComponent implements OnInit {
   collectionUsers = { count: 0, data: [] }
 
   //  numero de personas posibles
-  peopleBooking = [
+  peopleEvent = [
     '1 - 5 personas',
     '5 - 10 personas'
   ]
 
   // Lugar de los Booking
-  placeBooking = [
+  placeEvent = [
     'Casa comunal',
     'Canchas deportivas',
     'Parqueadero'
@@ -58,7 +58,8 @@ export class BookingCreateComponent implements OnInit {
     public formBuilder: FormBuilder,
     public usersService: UsersService,
     public modalController: ModalController,
-    public toastController: ToastController) { }
+    public toastController: ToastController,
+    public userService: UsersService) { }
 
 
   ngOnInit() {
@@ -72,23 +73,46 @@ export class BookingCreateComponent implements OnInit {
     })
 
     // seteo de la fecha actual
-    this.fechaActual = Date.now();
+    var fecha = Date.now();
+    //console.log(fecha)
+    var diaDespues = 1 * 24 * 60 * 60 * 1000;
+    //console.log(diaDespues);
+    this.fechaActual = fecha + diaDespues;
+    //console.log(this.fechaActual)
     this.uidAdmin = localStorage.getItem('userId');
-        //iniciar formulario para la creacion de reservas
-    this.bookingFormCreate = this.formBuilder.group({
-      BookingAN: ['', Validators.required],
-      Reserva: this.formBuilder.group({
-        Descripcion: ['', Validators.required],
-        Duracion: ['', Validators.required],
-        Fecha: ['', Validators.required],
-        Lugar: ['', Validators.required],
-        Personas: ['', Validators.required],      
-      }),
-      UserInfo: ({
-        userNameReserv: '',
-        idUserReserv: '',
-      })
-    });
+    console.log(this.userService.isAdmin)
+    if (this.userService.isAdmin == true) {
+      this.bookingFormCreate = this.formBuilder.group({
+        BookingAN: ['', Validators.required],
+        Reserva: this.formBuilder.group({
+          Descripcion: ['', Validators.required],
+          Duracion: ['', Validators.required],
+          Fecha: ['', Validators.required],
+          Lugar: ['', Validators.required],
+          Personas: ['', Validators.required],      
+        }),
+        UserInfo: this.formBuilder.group({
+          userNameReserv: '',
+          idUserReserv: '',
+        })
+      });
+    } else {
+      this.bookingFormCreate = this.formBuilder.group({
+        BookingAN: ['Aprobado', Validators.required],
+        Reserva: this.formBuilder.group({
+          Descripcion: ['', Validators.required],
+          Duracion: ['', Validators.required],
+          Fecha: ['', Validators.required],
+          Lugar: ['', Validators.required],
+          Personas: ['', Validators.required],      
+        }),
+        UserInfo: this.formBuilder.group({
+          userNameReserv: '',
+          idUserReserv: '',
+        })
+      });
+    }
+
     //console.log('a', this.bookingFormCreate.value)
 
 
@@ -146,7 +170,7 @@ export class BookingCreateComponent implements OnInit {
 
     } else {
       console.log('no recibe nada');
-      console.log(this.bookingFormCreate)
+      console.log(this.bookingFormCreate.value)
       this.presentToast();
     }
 

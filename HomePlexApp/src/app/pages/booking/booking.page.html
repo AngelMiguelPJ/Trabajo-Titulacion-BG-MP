@@ -34,7 +34,6 @@
         <ion-label>
           <ion-card-title style="font-size: 20px;">{{item.Nombre}}</ion-card-title>
         </ion-label>
-
         <ion-icon slot="end" class='Edit' name="create" (click)="editBookingModal(item)" *ngIf="usersService.isAdmin">
         </ion-icon>
         <ion-icon slot="end" class='Delete' name="trash" (click)="deleteBooking(item)" *ngIf="usersService.isAdmin">
@@ -102,7 +101,7 @@
   <!--Botones - controladores de la paginacion-->
   <ion-item lines="none" style="margin: auto; display: table;">
     <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true" style="margin: 0px;"
-      (pageChange)="pageChanged($event)">
+      (pageChange)="pageChanged($event)" *ngIf="bookingLenght != 0">
     </pagination-controls>
   </ion-item>
 </ion-content>
@@ -130,7 +129,7 @@
   </ion-tab-button>
 
   <ion-tab-button routerLink='/booking'>
-    <ion-icon name="bookmarks"></ion-icon>
+    <ion-icon id="reserva" name="bookmarks"></ion-icon>
     <ion-label>Reserva</ion-label>
   </ion-tab-button>
 

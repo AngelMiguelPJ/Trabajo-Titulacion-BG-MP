@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { NavigationEnd, Router } from '@angular/router';
@@ -6,6 +7,7 @@ import { AlertController, LoadingController, NavController } from '@ionic/angula
 import { AliquotService } from 'src/app/services/aliquot/aliquot.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { EventsService } from 'src/app/services/events/events.service';
+import { TrashService } from 'src/app/services/trash/trash.service';
 import { UsersService } from 'src/app/services/users/users.service';
 @Component({
   selector: 'app-home',
@@ -31,9 +33,12 @@ export class HomePage implements OnInit {
   aliquotCurrentMonthLenght;
   aliquotLastMonth;
   aliquotLastMonthLenght;
+  collectionTrashSchedule;
+  collectionTrasScheduleLenght;
 
   // variable de recarga de pagina
   recargaPagina;
+  dia;
 
 
   constructor(public usersService: UsersService,
@@ -44,12 +49,29 @@ export class HomePage implements OnInit {
     private eventsService: EventsService,
     private aliquotService: AliquotService,
     private router: Router,
-    private angularFireAuth: AngularFireAuth) {
+    private angularFireAuth: AngularFireAuth,
+    private trashService: TrashService) {
+
+
 
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
 
+    const fechaComoCadena = new Date(); // día lunes
+    const dias = [
+      'Domingo',
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+    ];
+    const numeroDia = new Date(fechaComoCadena).getDay();
+    this.dia = dias[numeroDia];
+    
+    console.log("Nombre de día de la semana: ", this.dia);
     this.recargaPagina = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // Trick the Router into believing it's last link wasn't previously loaded
@@ -74,16 +96,22 @@ export class HomePage implements OnInit {
           initialSlide: 2.5,
         }
         this.obtenerDatosEventos();
-        this.obtenerDatosUsuarios();
+        this.obtenerScheduleTrash();
         this.obtenerDatosUsuarioActual();
         this.obtenerDatosAlicuotaActual();
         this.obtenerDatosAlicuotaUltima();
+
       }
     });
+
+
+
+
 
   }
 
   ngOnInit() {
+
 
   }
 
@@ -97,16 +125,20 @@ export class HomePage implements OnInit {
       //console.log(this.eventos.length)
     })
 
-    
-  }
-  async obtenerDatosUsuarios() {
 
-    // Servicio para traer los contactos sin el usuario actual como en chat
-    await this.usersService.getAllUsersWithoutThisUser().subscribe(res => {
-      //console.log(res)
-      this.users = res;
-      this.usersLength = this.users.length
+  }
+
+  async obtenerScheduleTrash() {
+
+
+    //---
+    this.trashService.getTrashScheduleServicesNow().subscribe(resp=>{
+      //console.log(resp)
+      this.collectionTrashSchedule = resp;
+      this.collectionTrasScheduleLenght = resp.length;
+      console.log(this.collectionTrashSchedule)
     })
+
 
   }
 
@@ -124,22 +156,22 @@ export class HomePage implements OnInit {
   }
 
   async obtenerDatosAlicuotaActual() {
-    
+
     // traer cuota del mes actual del usuario
     await this.aliquotService.getAliquotUserCurrentMonth().subscribe(res => {
       //console.log(res.length);
       this.aliquotCurrentMonth = res;
-      this.aliquotCurrentMonthLenght= res.length;
+      this.aliquotCurrentMonthLenght = res.length;
       //console.log(this.aliquotCurrentMonth.lenght)
     })
   }
 
   async obtenerDatosAlicuotaUltima() {
-    
+
     // traer cuota del mes actual del usuario
     await this.aliquotService.getAliquotUserLastMonth().subscribe(res => {
       //console.log(res);
-      this.aliquotLastMonth= res;
+      this.aliquotLastMonth = res;
       this.aliquotLastMonthLenght = res.length;
       //console.log(this.aliquotCurrentMonth)
     })
@@ -172,8 +204,8 @@ export class HomePage implements OnInit {
             localStorage.clear();
             // redirreccion de rutas para cuando cierra sesion
             //this.router.navigate(['/tabs/tabhome'])
-            
-          }).then(()=>{
+
+          }).then(() => {
             this.router.navigateByUrl('/login')
           })
         }
@@ -194,12 +226,7 @@ export class HomePage implements OnInit {
     const { role, data } = await loading.onDidDismiss();
   }
 
-  gotoChatRoom(uid, name, img) {
-    sessionStorage.setItem('uidContact', uid)
-    sessionStorage.setItem('nameContact', name)
-    sessionStorage.setItem('imgContact', img)
-    this.navController.navigateForward("/chatroom");
-  }
+
 
   gotoCreateBooking() {
     this.navController.navigateForward("/booking");

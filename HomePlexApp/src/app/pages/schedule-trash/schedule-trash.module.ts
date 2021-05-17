@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ScheduleTrashPageRoutingModule } from './schedule-trash-routing.module';
 
 import { ScheduleTrashPage } from './schedule-trash.page';
+import { ScheduleEditComponent } from './schedule-trash/schedule-edit/schedule-edit.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { ScheduleTrashPage } from './schedule-trash.page';
     IonicModule,
     ScheduleTrashPageRoutingModule
   ],
-  declarations: [ScheduleTrashPage]
+  declarations: [ScheduleTrashPage, ScheduleEditComponent]
 })
 export class ScheduleTrashPageModule {}

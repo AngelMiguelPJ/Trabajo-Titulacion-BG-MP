@@ -1,55 +1,58 @@
-
 <ion-toolbar>
   <ion-title style="text-align: center;">Crear Reserva</ion-title>
 </ion-toolbar>
 <ion-content fullscreen>
 
-    <ion-item class="items" lines="none">
-      <ion-icon name="trail-sign" slot="start"></ion-icon>
-      <ion-select mode="ios" placeholder="Lugar" [(ngModel)]="bookingFormCreate.value.Reserva.Lugar" required>
-        <ion-select-option *ngFor="let place of placeBooking" >{{place}}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
 
-    <ion-item class="items" lines="none">
-      <ion-icon name="thumbs-up" slot="start"></ion-icon>
-      <ion-select mode="ios" placeholder="Estado" [(ngModel)]="bookingFormCreate.value.BookingAN" required>
-        <ion-select-option *ngFor="let status of statusBooking">{{status}}</ion-select-option>
-      </ion-select>
-    </ion-item>
 
-    <ion-item class="items" lines="none">
-      <ion-icon name="time" slot="start"></ion-icon>
+  <ion-item class="items" lines="none" *ngIf="usersService.isAdmin">
+    <ion-icon name="thumbs-up" slot="start"></ion-icon>
+    <ion-select mode="ios" placeholder="Estado" [(ngModel)]="bookingFormCreate.value.BookingAN" required>
+      <ion-select-option *ngFor="let status of statusBooking">{{status}}</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-      <ion-select mode="ios" placeholder="Duracion" [(ngModel)]="bookingFormCreate.value.Reserva.Duracion" required>
-        <ion-select-option *ngFor="let duration of durationBooking">{{duration}}</ion-select-option>
-      </ion-select>
-    </ion-item>
+  <ion-item class="items" lines="none">
+    <ion-icon name="time" slot="start"></ion-icon>
 
-    <ion-item class="items" lines="none">
-      <ion-icon name="text-outline" slot="start"></ion-icon>
-      <ion-input type='text' placeholder="Descripcion" [(ngModel)]="bookingFormCreate.value.Reserva.Descripcion" required></ion-input>
-    </ion-item>
+    <ion-select mode="ios" placeholder="Duracion" [(ngModel)]="bookingFormCreate.value.Reserva.Duracion" required>
+      <ion-select-option *ngFor="let duration of durationBooking">{{duration}}</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-    <ion-item class="items" lines="none">
-      <ion-icon name="calendar" slot="start"></ion-icon>
-      <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" min="{{fechaActual|date:'yyyy-MM-dd'}}"
-        placeholder="fecha" [(ngModel)]="bookingFormCreate.value.Reserva.Fecha"></ion-datetime>
-    </ion-item>
+  <ion-item class="items" lines="none">
+    <ion-icon name="text-outline" slot="start"></ion-icon>
+    <ion-input type='text' placeholder="Descripcion" [(ngModel)]="bookingFormCreate.value.Reserva.Descripcion" required>
+    </ion-input>
+  </ion-item>
 
-        <ion-item class="items" lines="none">
-      <ion-icon name="people" slot="start"></ion-icon>
-      <ion-select mode="ios" placeholder="Personas" [(ngModel)]="bookingFormCreate.value.Reserva.Personas" required>
-        <ion-select-option *ngFor="let people of peopleBooking" >
-          {{people}}</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <!-- Round -->
-    <ion-item lines='none'>
-      <ion-button color="danger" size="smaller" style="margin: auto;" shape="round" (click)="cancelar()">Cancelar</ion-button>
-      <ion-button size="smaller" style="margin: auto;" shape="round" (click)="createBooking()">Guardar</ion-button>
-    </ion-item>
+  <ion-item class="items" lines="none">
+    <ion-icon name="calendar" slot="start"></ion-icon>
+    <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" min="{{fechaActual|date:'yyyy-MM-dd'}}"
+      placeholder="fecha" [(ngModel)]="bookingFormCreate.value.Reserva.Fecha"></ion-datetime>
+  </ion-item>
+
+  <ion-item class="items" lines="none">
+    <ion-icon name="time" slot="start"></ion-icon>
+  
+    <ion-select mode="ios" placeholder="Lugar" [(ngModel)]="bookingFormCreate.value.Reserva.Lugar" required>
+      <ion-select-option *ngFor="let personas of placeEvent">{{personas}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  
+  <ion-item class="items" lines="none">
+    <ion-icon name="time" slot="start"></ion-icon>
+  
+    <ion-select mode="ios" placeholder="Personas" [(ngModel)]="bookingFormCreate.value.Reserva.Personas" required>
+      <ion-select-option *ngFor="let personas of peopleEvent">{{personas}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <!-- Round -->
+  <ion-item lines='none'>
+    <ion-button color="danger" size="smaller" style="margin: auto;" shape="round" (click)="cancelar()">Cancelar
+    </ion-button>
+    <ion-button size="smaller" style="margin: auto;" shape="round" (click)="createBooking()">Guardar</ion-button>
+  </ion-item>
 
 
 

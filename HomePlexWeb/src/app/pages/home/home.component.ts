@@ -5,6 +5,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 
 // servios - librerias extras
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AliquotService } from 'src/app/services/aliquot/aliquot.service';
 
 // servicios de eventos
 import { EventsService } from 'src/app/services/events/events.service';
@@ -19,22 +20,31 @@ export class HomeComponent implements OnInit {
 
   // arreglo de collecion de eventos
   collection = { count: 0, data: [] }
+  collectionEventsLenght;
 
   // variables para la navegacion en el carrosuel
   showNavigationArrows = false;
   showNavigationIndicators = false;
 
+  // variables de cuotas
+  aliquotCurrentMonth;
+  aliquotCurrentMonthLenght;
+  aliquotLastMonth;
+  aliquotLastMonthLenght;
+
   // iniciar servicios
-  constructor(private eventsService: EventsService) { }
+  constructor(private eventsService: EventsService,
+              private aliquotService: AliquotService) { }
 
   ngOnInit(): void {
 
     //cargando todos los eventos de firebase-firestore
     this.eventsService.getEventsServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      console.log('respuesta 1: ', resp)
+      this.collectionEventsLenght = resp.length;
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collection.data = resp.map((e: any) => {
-        //console.log('respuesta 2: ', e)
+        console.log('respuesta 2: ', e)
         // return que devolvera los datos a collection
         return {
           // seteo de los principales datos que se obtendran de los usuarios
@@ -58,6 +68,19 @@ export class HomeComponent implements OnInit {
       console.error(error);
     }
     );
+
+     this.aliquotService.getAliquotUserCurrentMonth().subscribe(res => {
+      //console.log(res.length);
+      this.aliquotCurrentMonth = res;
+      this.aliquotCurrentMonthLenght = res.length;
+      //console.log(this.aliquotCurrentMonth.lenght)
+    })
+ this.aliquotService.getAliquotUserLastMonth().subscribe(res => {
+      //console.log(res);
+      this.aliquotLastMonth = res;
+      this.aliquotLastMonthLenght = res.length;
+      //console.log(this.aliquotCurrentMonth)
+    })
 
   }
 

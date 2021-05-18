@@ -31,6 +31,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
 import { BookingRegisterComponent } from './pages/booking/booking-register/booking-register.component';
 import { SecurityGuard } from './guards/security/security.guard';
+import { ScheduleTrasComponent } from './pages/schedule-tras/schedule-tras.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { SecurityGuard } from './guards/security/security.guard';
     NavbarComponent,
     AliquotRegisterComponent,
     EventRegisterComponent,
-    BookingRegisterComponent
+    BookingRegisterComponent,
+    ScheduleTrasComponent
   ],
   imports: [
     BrowserModule,

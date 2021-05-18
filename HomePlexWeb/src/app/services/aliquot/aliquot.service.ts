@@ -11,7 +11,8 @@ import { map } from 'rxjs/operators';
 export class AliquotService {
 
   userUid;
-
+  currentMonth;
+  lastMonth;
   // contructor para iniciar servicios
   constructor(private angularFirestore: AngularFirestore) { }
 
@@ -30,6 +31,41 @@ export class AliquotService {
         const data = a.payload.doc.data()
         return data
       })  
+    }))
+  }
+
+  getAliquotUserCurrentMonth() {
+
+    this.currentMonth = new Date().toISOString().split('-')[1];
+    //console.log(this.currentMonth);
+
+    this.userUid = localStorage.getItem('userId')
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('aliquot', ref => ref.where('DatosVecino.uidUser', '==', this.userUid).where('NumeroMes', '==', this.currentMonth).limit(1)).snapshotChanges().pipe(map(res => {
+      //console.log(res)  
+      return res.map(a => {
+        const data = a.payload.doc.data()
+        return data
+      })
+    }))
+  }
+
+  getAliquotUserLastMonth() {
+    var abc = new Date();
+    abc.setMonth(abc.getMonth() - 1)
+    abc.getMonth() + 1
+    this.lastMonth = new Date(abc).toISOString().split('-')[1]
+    //console.log(this.lastMonth)
+
+    //console.log(this.currentMonth)
+    this.userUid = localStorage.getItem('userId')
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('aliquot', ref => ref.where('DatosVecino.uidUser', '==', this.userUid).where('NumeroMes', '==', this.lastMonth).limit(1)).snapshotChanges().pipe(map(res => {
+      //console.log(res)  
+      return res.map(a => {
+        const data = a.payload.doc.data()
+        return data
+      })
     }))
   }
 

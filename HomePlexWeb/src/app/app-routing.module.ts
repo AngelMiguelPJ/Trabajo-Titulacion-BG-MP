@@ -19,6 +19,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { SecurityGuard } from './guards/security/security.guard';
+import { ScheduleTrasComponent } from './pages/schedule-tras/schedule-tras.component';
 
 // rutas
 const routes: Routes = [
@@ -94,6 +95,12 @@ const routes: Routes = [
   {
     path: 'registro',
     component: RegisterComponent,
+      canActivate : [AuthGuard, SecurityGuard],
+  },
+
+  {
+    path: 'schedule-trash',
+    component: ScheduleTrasComponent,
       canActivate : [AuthGuard, SecurityGuard],
   },
   

@@ -11,6 +11,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { last, switchMap } from 'rxjs/operators';
+import { EventsService } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-booking-register',
@@ -70,7 +71,8 @@ export class BookingRegisterComponent implements OnInit {
   //bookingBookingFormEdit: FormGroup;
 
   // uid firestore reserva
-  uidBookingEdit: string;
+  idBookingEdit;
+uidBookingEdit;
 
   // variable de bandera de actualizacion
   actualizar: boolean;
@@ -79,11 +81,15 @@ export class BookingRegisterComponent implements OnInit {
   config: any;
 
   // arreglo de collecion de reservas
-  collection = { count: 0, data: [] }
+  collection = { count: 0, data: [] };
 
   // arreglo de colleccion de reservas
-  collectionBooking = { count: 0, data: [] }
-
+  collectionBooking = { count: 0, data: [] };
+  collectionEvents = { count: 0, data: [] };
+  collectionEventsDelete;
+  eventosLength;
+  eventsFormEdit: FormGroup;
+  collectionEventsEdit;
   // variables para establecer id y uid de reservas
   aVar;
   bVar;
@@ -97,14 +103,15 @@ export class BookingRegisterComponent implements OnInit {
     private ngbModal: NgbModal,
     public formBuilder: FormBuilder,
     public usersService: UsersService,
-    private bookingService: BookingService) { }
+    private bookingService: BookingService,
+    private eventsService: EventsService,
+    public userService: UsersService) { }
 
   ngOnInit(): void {
 
     // seteo de la fecha actual
     this.fechaActual = Date.now()
-    // iniciar variable de Uid Firestore reserva
-    this.uidBookingEdit
+
 
     // iniciar variable de bander de actualizacion
     this.actualizar = false;
@@ -120,21 +127,41 @@ export class BookingRegisterComponent implements OnInit {
     // inicializacion del formulario de reservas
     const idRandomBooking = Math.random().toString(36).substring(2);
     this.uidAdmin = localStorage.getItem('userId')
-    this.bookingsForm = this.formBuilder.group({
-      idBookingBooking: '',
-      BookingAN: ['', Validators.required],
-      Reserva: this.formBuilder.group({
-        Descripcion: '',
-        Duracion: '',
-        Fecha: Date.toString,
-        Lugar: '',
-        Personas: ''
-      }),
-      UserInfo: this.formBuilder.group({
-        userNameReserv: '',
-        idUserReserv: '',
+    console.log(this.userService.isAdmin)
+    if (this.userService.isAdmin == true) {
+      this.bookingsForm = this.formBuilder.group({
+        idBookingBooking: '',
+        BookingAN: ['', Validators.required],
+        Reserva: this.formBuilder.group({
+          Descripcion: '',
+          Duracion: '',
+          Fecha: Date.toString,
+          Lugar: '',
+          Personas: ''
+        }),
+        UserInfo: this.formBuilder.group({
+          userNameReserv: '',
+          idUserReserv: '',
+        })
       })
-    })
+    } else{
+      this.bookingsForm = this.formBuilder.group({
+        idBookingBooking: '',
+        BookingAN: ['Aprobado', Validators.required],
+        Reserva: this.formBuilder.group({
+          Descripcion: '',
+          Duracion: '',
+          Fecha: Date.toString,
+          Lugar: '',
+          Personas: ''
+        }),
+        UserInfo: this.formBuilder.group({
+          userNameReserv: '',
+          idUserReserv: '',
+        })
+      })
+    }
+    
 
     // inicializacion de formulario para la edicion de un reserva
     this.bookingFormEdit = this.formBuilder.group({
@@ -144,6 +171,17 @@ export class BookingRegisterComponent implements OnInit {
         Duracion: '',
         Fecha: Date.toString,
         Lugar: '',
+        Personas: ''
+      })
+    })
+
+    this.eventsFormEdit = this.formBuilder.group({
+      EventoAN: '',
+      Reserva: this.formBuilder.group({
+        Descripcion: '',
+        Lugar: '',
+        Fecha: '',
+        Duracion: '',
         Personas: ''
       })
     })
@@ -177,24 +215,22 @@ export class BookingRegisterComponent implements OnInit {
     );
 
     //cargando todos los usuarios de firebase-firestore
-    this.bookingService.getBookingServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+    this.eventsService.getEventsServices().subscribe(resp => {
+      console.log('respuesta 1: ', resp.length)
+      this.eventosLength = resp.length;
       // mapeo de los datos de los usuarios en el arreglo collection
-      this.collectionBooking.data = resp.map((e: any) => {
+      this.collectionEvents.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
         // return que devolvera los datos a collection
         return {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          UidBookingBooking: e.payload.doc.data().idBookingBooking
+          UidBookingBooking: e.payload.doc.data().idBookingBooking,
+          Img: e.payload.doc.data().Img
         }
       })
-      this.collectionBooking.data.map(res => {
-        this.aVar = res.id
-        this.bVar = res.UidBookingBooking
-        //console.log("a: ", this.aVar , "b", this.bVar)
-      })
+
       //console.log(this.collectionBooking.data)
     }, error => {
       // imprimir en caso de que de algun error
@@ -231,17 +267,23 @@ export class BookingRegisterComponent implements OnInit {
   deleteBooking(item: any) {
 
     // llamado al servicio de eliminacion de reservas 
-    this.bookingService.deleteBookingServices(item.uidBooking);
+    console.log('reserva:');
+    console.log(item.id);
+    console.log(item.UidBookingBooking);
 
-    this.collectionBooking.data.map(res => {
-      const a = res.id
-      const b = res.UidBookingBooking
-      //console.log("a: ", a, "b", b)
-      // llamado al servico de eliminacion de reservas 
-      if (item.UidBookingBooking == b) {
-        this.bookingService.deleteBookingServices(a)
+    for (let index = 0; index < this.eventosLength; index++) {
+      if (this.collectionEvents.data[index]['UidBookingBooking'] == item.UidBookingBooking) {
+        console.log('evento')
+        this.collectionEventsDelete = this.collectionEvents.data[index];
+        console.log(this.collectionEventsDelete.id)
+        console.log(this.collectionEventsDelete.UidBookingBooking)
+
+        this.eventsService.deleteEventsServices(this.collectionEventsDelete.id);
       }
-    })
+
+
+    }
+    this.bookingService.deleteBookingServices(item.id);
 
   }
 
@@ -289,7 +331,6 @@ export class BookingRegisterComponent implements OnInit {
     //llenar form para editar con los datos seteados a partir del formulario
     //seteo de variables en el form editar
     this.bookingFormEdit.setValue({
-
       BookingAN: item.BookingAN,
       Reserva: ({
         Descripcion: item.Descripcion,
@@ -301,7 +342,8 @@ export class BookingRegisterComponent implements OnInit {
     });
 
     // igualancion del uid del usuario actual a la variable id firebase
-    this.uidBookingEdit = item.uidBooking;
+    this.idBookingEdit = item.id;
+    this.uidBookingEdit = item.UidBookingBooking;
 
     // cambiar el estado de la variable booleana a true
     this.actualizar = true;
@@ -348,40 +390,62 @@ export class BookingRegisterComponent implements OnInit {
 
   // funcion o metodo actualizar un reserva
   updateBooking() {
-
+    console.log(this.collection.data);
     // seteo de valires en el form de editar de reservas
-    this.bookingFormEdit.setValue({
-      BookingAN: this.bookingFormEdit.value.BookingAN,
-      Reserva: ({
-        Descripcion: this.bookingFormEdit.value.Reserva.Descripcion,
-        Duracion: this.bookingFormEdit.value.Reserva.Duracion,
-        Fecha: this.bookingFormEdit.value.Reserva.Fecha,
-        Lugar: this.bookingFormEdit.value.Reserva.Lugar,
-        Personas: this.bookingFormEdit.value.Reserva.Personas
+    console.log(this.bookingFormEdit.value)
+    if (this.bookingFormEdit.value.Reserva.Descripcion !== '') {
+      this.eventsFormEdit.setValue({
+        EventoAN: this.bookingFormEdit.value.BookingAN,
+        Reserva: ({
+          Descripcion: this.bookingFormEdit.value.Reserva.Descripcion,
+          Lugar: this.bookingFormEdit.value.Reserva.Lugar,
+          Fecha: this.bookingFormEdit.value.Reserva.Fecha,
+          Duracion: this.bookingFormEdit.value.Reserva.Duracion,
+          Personas: this.bookingFormEdit.value.Reserva.Personas
+        })
       })
-    })
-    this.collectionBooking.data.map(res => {
-      const a = res.id
-      const b = res.UidBookingBooking
-      console.log("a: ", a, "b", b)
-      if (this.bookingFormEdit.value.idBookingBooking == b) {
-        this.bookingService.updateBookingServices(a, this.bookingFormEdit.value)
+      console.log('eventos', this.eventsFormEdit.value)
+      //-------------------
+      for (let index = 0; index < this.eventosLength; index++) {
+        if (this.collectionEvents.data[index]['UidBookingBooking'] == this.uidBookingEdit) {
+          console.log('evento')
+          this.collectionEventsEdit = this.collectionEvents.data[index];
+          console.log(this.collectionEventsEdit.id);
+          console.log(this.collectionEventsEdit.UidBookingBooking);
+          //this.bookingService.deleteBookingServices(item.id);
+          //this.eventsService.deleteEventsServices(this.collectionEventsDelete.id);
+          this.bookingService.updateBookingServices(this.idBookingEdit, this.bookingFormEdit.value).then(resp => {
+            // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+            //this.eventsFormEdit.reset();
+
+          }).catch(error => {
+            // comprobacion de errores 
+            console.error(error);
+          });
+          this.eventsService.updateEventsServices(this.collectionEventsEdit.id, this.eventsFormEdit.value).then(resp => {
+            // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+            //this.eventsFormEdit.reset();
+
+          }).catch(error => {
+            // comprobacion de errores 
+            console.error(error);
+          });
+          this.ngbModal.dismissAll();
+        }else{
+          this.bookingService.updateBookingServices(this.idBookingEdit, this.bookingFormEdit.value).then(resp => {
+            // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+            //this.eventsFormEdit.reset();
+            this.ngbModal.dismissAll();
+          }).catch(error => {
+            // comprobacion de errores 
+            console.error(error);
+          });
+        }
+        
+        
       }
-    })
-
-
-    // llamado a la variable uid del usuario y verificacion de si es nula o no
-    if (this.uidBookingEdit !== null || this.uidBookingEdit !== undefined) {
-
-      // servicio de acutalizacion de ventos
-      this.bookingService.updateBookingServices(this.uidBookingEdit, this.bookingFormEdit.value).then(resp => {
-        // funciones de reseteo del formulario y cerrar modal al igual que el formulario
-        this.bookingFormEdit.reset();
-        this.ngbModal.dismissAll();
-      }).catch(error => {
-        // comprobacion de errores 
-        console.error(error);
-      });
+      //---------------
+      
     }
 
   }

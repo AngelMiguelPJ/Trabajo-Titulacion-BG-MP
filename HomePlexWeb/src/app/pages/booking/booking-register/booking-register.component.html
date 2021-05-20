@@ -10,7 +10,7 @@
     <!--Boton para crear un nuevo reserva-->
     <div style="text-align: center; margin-bottom: 10px;">
         <button type="button" class="btn btn-success" (click)="openFormCreate(contentCreate)"
-            *ngIf="usersService.isAdmin">Crear nueva reserva
+            >Crear nueva reserva
         </button>
     </div>
 
@@ -91,7 +91,7 @@
                     <form [formGroup]="bookingsForm">
 
                         <!--Form grup del estado del reserva-->
-                        <div class="form-group">
+                        <div class="form-group" *ngIf="usersService.isAdmin">
                             <label>Reserva Estado</label>
                             <select type="'text" formControlName="BookingAN" class="form-control"
                                 placeholder="Elija un estado">

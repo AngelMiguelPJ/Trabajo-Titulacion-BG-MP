@@ -89,6 +89,8 @@ export class EventRegisterComponent implements OnInit {
 
   // arreglo de colleccion de reservas
   collectionBooking = { count: 0, data: [] }
+  collectionEventsBookingLength;
+  collectionEventsBookingDelete;
 
   // variables para establecer id y uid de reservas
   aVar;
@@ -113,7 +115,12 @@ export class EventRegisterComponent implements OnInit {
   ngOnInit(): void {
 
     // seteo de la fecha actual
-    this.fechaActual = Date.now()
+    var fecha = Date.now();
+    //console.log(fecha)
+    var diaDespues = 1 * 24 * 60 * 60 * 1000;
+    //console.log(diaDespues);
+    this.fechaActual = fecha + diaDespues;
+    //console.log(this.fechaActual)
     // iniciar variable de Uid Firestore evento
     this.uidEventEdit
 
@@ -133,7 +140,7 @@ export class EventRegisterComponent implements OnInit {
     this.uidAdmin = localStorage.getItem('userId')
     this.eventsForm = this.formBuilder.group({
       idUser: this.uidAdmin,
-      idEventBooking: '',
+      idBookingBooking: '',
       Img: '',
       Nombre: ['', Validators.required],
       EventoAN: ['', Validators.required],
@@ -151,7 +158,7 @@ export class EventRegisterComponent implements OnInit {
       Img: '',
       Nombre: ['', Validators.required],
       EventoAN: ['', Validators.required],
-      idEventBooking: '',
+      idBookingBooking: '',
       Reserva: this.formBuilder.group({
         Descripcion: '',
         Duracion: '',
@@ -170,7 +177,6 @@ export class EventRegisterComponent implements OnInit {
     this.eventsBookingForm = this.formBuilder.group({
       idBookingBooking: '',
       BookingAN: '',
-      Ocupado: '',
       Reserva: this.formBuilder.group({
         Descripcion: '',
         Lugar: '',
@@ -214,7 +220,7 @@ export class EventRegisterComponent implements OnInit {
           Descripcion: e.payload.doc.data().Reserva.Descripcion,
           Personas: e.payload.doc.data().Reserva.Personas,
           Img: e.payload.doc.data().Img,
-          UidEventBooking: e.payload.doc.data().idEventBooking,
+          UidEventBooking: e.payload.doc.data().idBookingBooking,
           uidEvent: e.payload.doc.id
         }
       })
@@ -228,6 +234,7 @@ export class EventRegisterComponent implements OnInit {
     //cargando todos los usuarios de firebase-firestore
     this.bookingService.getBookingServices().subscribe(resp => {
       //console.log('respuesta 1: ', resp)
+      this.collectionEventsBookingLength = resp.length
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionBooking.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -236,14 +243,10 @@ export class EventRegisterComponent implements OnInit {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          UidEventBooking: e.payload.doc.data().idEventBooking
+          UidEventBooking: e.payload.doc.data().idBookingBooking
         }
       })
-      this.collectionBooking.data.map(res => {
-        this.aVar = res.id
-        this.bVar = res.UidEventBooking
-        //console.log("a: ", this.aVar , "b", this.bVar)
-      })
+
       //console.log(this.collectionBooking.data)
     }, error => {
       // imprimir en caso de que de algun error
@@ -280,19 +283,23 @@ export class EventRegisterComponent implements OnInit {
 
   // funcion - metodo para borrar cualquier evento
   deleteEvent(item: any) {
-
+    console.log(item)
+    console.log(item.uidEvent);
+    console.log(item.UidEventBooking);
     // llamado al servicio de eliminacion de eventos 
-    this.eventsService.deleteEventsServices(item.uidEvent);
+    for (let index = 0; index < this.collectionEventsBookingLength; index++) {
+      if (this.collectionBooking.data[index]['UidEventBooking'] == item.UidEventBooking) {
+        console.log('reserva')
+        this.collectionEventsBookingDelete = this.collectionBooking.data[index];
+        console.log(this.collectionEventsBookingDelete.id)
+        console.log(this.collectionEventsBookingDelete.UidEventBooking)
 
-    this.collectionBooking.data.map(res => {
-      const a = res.id
-      const b = res.UidEventBooking
-      console.log("a: ", a, "b", b)
-      // llamado al servico de eliminacion de reservas 
-      if (item.UidEventBooking == b) {
-        this.bookingService.deleteBookingServices(a)
+        this.bookingService.deleteBookingServices(this.collectionEventsBookingDelete.id);
       }
-    })
+
+    }
+
+    this.eventsService.deleteEventsServices(item.uidEvent);
 
     // llamado al servicio de eliminacion de imagenes
     this.storage.refFromURL(item.Img).delete()
@@ -305,11 +312,10 @@ export class EventRegisterComponent implements OnInit {
     //console.log(this.eventImgForm.value)
     // seteo de datos de reservas por medio de datos de eventos
     const idRandomEvent = Math.random().toString(36).substring(2);
-    this.eventsForm.value.idEventBooking = idRandomEvent
+    this.eventsForm.value.idBookingBooking = idRandomEvent
     this.eventsBookingForm.setValue({
-      idBookingBooking: this.eventsForm.value.idEventBooking,
+      idBookingBooking: this.eventsForm.value.idBookingBooking,
       BookingAN: this.eventsForm.value.EventoAN,
-      Ocupado: 'si',
       Reserva: ({
         Descripcion: this.eventsForm.value.Reserva.Descripcion,
         Lugar: this.eventsForm.value.Reserva.Lugar,
@@ -354,7 +360,7 @@ export class EventRegisterComponent implements OnInit {
       Img: this.imgEdit,
       Nombre: item.Nombre,
       EventoAN: item.EventoAN,
-      idEventBooking: item.UidEventBooking,
+      idBookingBooking: item.UidEventBooking,
       Reserva: ({
         Descripcion: item.Descripcion,
         Duracion: item.Duracion,
@@ -462,7 +468,7 @@ export class EventRegisterComponent implements OnInit {
       const a = res.id
       const b = res.UidEventBooking
       console.log("a: ", a, "b", b)
-      if (this.eventFormEdit.value.idEventBooking == b) {
+      if (this.eventFormEdit.value.idBookingBooking == b) {
         this.bookingService.updateBookingServices(a, this.eventBookingFormEdit.value)
       }
     })

@@ -9,29 +9,29 @@
 
       <!--Template ng con mapeo de datos-->
       <ng-template ngbSlide *ngFor="let item of collection.data ">
-  
+
         <!--Todo el carousel enlazado a eventos-->
         <a routerLink="/eventos">
-  
+
           <!--Grid de eventos-->
           <div class="grid-container2 responsive">
-  
+
             <!--Imagen del evento primer div en el grid-->
             <div class="item12" style="background-image: url({{item.Img}});"></div>
-  
+
             <!--segundo div del grid-->
             <div class="item22">
-  
+
               <!--Nombre del evento-->
               <div>
                 <h5>{{item.Nombre}}</h5>
               </div>
-  
+
               <!--Descripcion del evento-->
               <div>
                 <p style="font-size: 12px;">{{item.Descripcion}} </p>
               </div>
-  
+
               <!--Estado del evento-->
               <div style="font-size: 12px;">Estado:
                 <b [class.greenClass]="item.EventoAN =='Aprobado'" [class.orangeClass]="item.EventoAN =='En espera'"
@@ -39,61 +39,61 @@
                   {{item.EventoAN}}
                 </b>
               </div>
-  
+
               <!--Lugar del evento-->
               <div style="font-size: 12px;">
                 Lugar: <b>{{item.Lugar}}</b>
               </div>
-  
+
             </div>
-  
+
           </div>
-  
+
         </a>
-  
+
       </ng-template>
-  
+
     </ngb-carousel>
   </div>
 
-  <div *ngIf='collectionEventsLenght == 0' >
+  <div *ngIf='collectionEventsLenght == 0'>
     <ngb-carousel [showNavigationArrows]="showNavigationArrows" [showNavigationIndicators]="showNavigationIndicators">
 
       <!--Template ng con mapeo de datos-->
       <ng-template ngbSlide>
-  
+
         <!--Todo el carousel enlazado a eventos-->
-        
-  
-          <!--Grid de eventos-->
-          <div class="grid-container2 responsive">
-  
-            <!--Imagen del evento primer div en el grid-->
-            <div class="item12NE" style="background-image: url('assets/img/Eventos.jpg');"></div>
-  
-            <!--segundo div del grid-->
-            <div class="item22NE">
-  
-              <!--Nombre del evento-->
-              <div>
-                <h2>No hay eventos</h2>
-              </div>
-  
+
+
+        <!--Grid de eventos-->
+        <div class="grid-container2 responsive">
+
+          <!--Imagen del evento primer div en el grid-->
+          <div class="item12NE" style="background-image: url('assets/img/Eventos.jpg');"></div>
+
+          <!--segundo div del grid-->
+          <div class="item22NE">
+
+            <!--Nombre del evento-->
+            <div>
+              <h2>No hay eventos</h2>
             </div>
-  
+
           </div>
-  
-        
-  
+
+        </div>
+
+
+
       </ng-template>
-  
+
     </ngb-carousel>
   </div>
 
 
   <!--=======================================================================-->
   <div class="row">
-    <div class="col" >
+    <div class="col">
       Alicuotas
     </div>
     <div class="col" style="text-align: right;">
@@ -107,14 +107,24 @@
       <div class="col-sm-6" *ngIf="aliquotLastMonthLenght > 0">
         <div class="card">
           <div class="card-body" *ngFor="let item of aliquotLastMonth">
-            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'Pagada'"><img src="assets/img/alicuotPay.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">Cuota del ultimo Mes</h5>
-            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'Pendiente'"><img src="assets/img/alicuotSNPay.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">Cuota del ultimo Mes</h5>
-            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'No pagada'"><img src="assets/img/alicuotNoPay.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">Cuota del ultimo Mes</h5>
-            <p class="card-text" id="textCuota" > Descripción: {{item.Descripcion}}</p>
-            <p class="card-text" id="textCuota" > Fecha: Del {{item.Fecha.split('T')[0]}} al {{item.FechaVencimiento.split('T')[0]}}</p>
-            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pagada'" style="color: green;"> Costo: $ {{item.ValorCuota + item.ValorExtra}}</p>
-            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pendiente'" style="color: orange;"> Costo: $ {{item.ValorCuota + item.ValorExtra}}</p>
-            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'No pagada'" style="color: red;"> Costo: $ {{item.ValorCuota + item.ValorExtra}}</p>
+            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'Pagada'"><img
+                src="assets/img/alicuotPay.svg" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">Cuota del ultimo Mes</h5>
+            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'Pendiente'"><img
+                src="assets/img/alicuotSNPay.svg" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">Cuota del ultimo Mes</h5>
+            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'No pagada'"><img
+                src="assets/img/alicuotNoPay.svg" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">Cuota del ultimo Mes</h5>
+            <p class="card-text" id="textCuota"> Descripción: {{item.Descripcion}}</p>
+            <p class="card-text" id="textCuota"> Fecha: Del {{item.Fecha.split('T')[0]}} al
+              {{item.FechaVencimiento.split('T')[0]}}</p>
+            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pagada'" style="color: green;"> Costo: $
+              {{item.ValorCuota + item.ValorExtra}}</p>
+            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pendiente'" style="color: orange;"> Costo: $
+              {{item.ValorCuota + item.ValorExtra}}</p>
+            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'No pagada'" style="color: red;"> Costo: $
+              {{item.ValorCuota + item.ValorExtra}}</p>
           </div>
         </div>
       </div>
@@ -131,15 +141,25 @@
       <div class="col-sm-6" *ngIf="aliquotCurrentMonthLenght > 0">
         <div class="card">
           <div class="card-body" *ngFor="let item of aliquotCurrentMonth">
-            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'Pagada'"><img src="assets/img/alicuotPay.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">Cuota del Mes actual</h5>
-            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'Pendiente'"><img src="assets/img/alicuotSNPay.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">Cuota del Mes actual</h5>
-            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'No pagada'"><img src="assets/img/alicuotNoPay.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">Cuota del Mes actual</h5>
-            <p class="card-text" id="textCuota" > Descripción: {{item.Descripcion}}</p>
-            <p class="card-text" id="textCuota" > Fecha: Del {{item.Fecha.split('T')[0]}} al {{item.FechaVencimiento.split('T')[0]}}</p>
-            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pagada'" style="color: green;"> Costo: $ {{item.ValorCuota + item.ValorExtra}}</p>
-            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pendiente'" style="color: orange;"> Costo: $ {{item.ValorCuota + item.ValorExtra}}</p>
-            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'No pagada'" style="color: red;"> Costo: $ {{item.ValorCuota + item.ValorExtra}}</p>
-          
+            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'Pagada'"><img
+                src="assets/img/alicuotPay.svg" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">Cuota del Mes actual</h5>
+            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'Pendiente'"><img
+                src="assets/img/alicuotSNPay.svg" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">Cuota del Mes actual</h5>
+            <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'No pagada'"><img
+                src="assets/img/alicuotNoPay.svg" alt="" width="30" height="24"
+                class="d-inline-block align-text-top">Cuota del Mes actual</h5>
+            <p class="card-text" id="textCuota"> Descripción: {{item.Descripcion}}</p>
+            <p class="card-text" id="textCuota"> Fecha: Del {{item.Fecha.split('T')[0]}} al
+              {{item.FechaVencimiento.split('T')[0]}}</p>
+            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pagada'" style="color: green;"> Costo: $
+              {{item.ValorCuota + item.ValorExtra}}</p>
+            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pendiente'" style="color: orange;"> Costo: $
+              {{item.ValorCuota + item.ValorExtra}}</p>
+            <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'No pagada'" style="color: red;"> Costo: $
+              {{item.ValorCuota + item.ValorExtra}}</p>
+
           </div>
         </div>
       </div>
@@ -156,43 +176,105 @@
 
 
   <!--=======================================================================-->
-  <div class="row">
-    <div class="col" >
-      Contactos
-    </div>
-    <div class="col" style="text-align: right;">
-      Ver todas
-    </div>
-    <div class="col">
-      Horario de basura
-    </div>
-    <div class="col" style="text-align: right;">
-      Ver todas
-    </div>
-  </div>
+  
   <div style="margin-top: 10px;">
 
     <div class="row">
       <!---->
 
       <div class="col-sm-6">
+        <div class="row">
+          <div class="col">
+            Contactos
+          </div>
+          <div class="col" style="text-align: right;">
+            Ver todas
+          </div>
+        </div>
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title"> No hay Cuota de mes Pasado</h5>
+            
+            <nav style="--bs-breadcrumb-divider: 'none';" aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Library</li>
+              </ol>
+            </nav>
           </div>
         </div>
       </div>
 
       <!---->
 
-
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"> No hay Cuota de mes actual</h5>
+      
+        <div class="col-sm-6" *ngIf="collectionTrasScheduleLenght > 0">
+          <div class="row">
+            <div class="col">
+              Horario de basura
+            </div>
+            <div class="col" style="text-align: right;">
+              Ver todas
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body" *ngFor="let item of collectionTrashSchedule">
+              <h6 class="card-title"> {{item.Dia}}</h6>
+              <p class="card-text" id="textCuota"> Descripción: {{item.Descripcion}}</p>
+              <p class="card-text" id="textCuota"> Descripción: {{item.Hora}}</p>
+            </div>
           </div>
         </div>
-      </div>
+
+        <div class="col-sm-6" *ngIf="collectionTrasScheduleLenght == 0 && dia == 'Martes'">
+          <div class="row">
+            <div class="col">
+              Horario de basura
+            </div>
+            <div class="col" style="text-align: right;">
+              Ver todas
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> Proximo dia de basura - Miercoles</h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6" *ngIf="collectionTrasScheduleLenght == 0 && dia == 'Jueves'">
+          <div class="row">
+            <div class="col">
+              Horario de basura
+            </div>
+            <div class="col" style="text-align: right;">
+              Ver todas
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> Proximo dia de basura - Viernes</h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6" *ngIf="collectionTrasScheduleLenght == 0 && (dia == 'Sabado' || dia == 'Domingo')">
+          <div class="row">
+            <div class="col">
+              Horario de basura
+            </div>
+            <div class="col" style="text-align: right;">
+              Ver todas
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> Proximo dia de basura - Lunes</h5>
+            </div>
+          </div>
+        </div>
+      
+
+
       <!---->
     </div>
   </div>
@@ -200,14 +282,14 @@
 
   <!--=======================================================================-->
 
-    <div class="row">
-      <div class="col" >
-        Eventos
-      </div>
-      <div class="col" style="text-align: right;">
-        Ver todas
-      </div>
+  <div class="row">
+    <div class="col">
+      Eventos
     </div>
+    <div class="col" style="text-align: right;">
+      Ver todas
+    </div>
+  </div>
 
   <div style="margin-top: 10px;">
 

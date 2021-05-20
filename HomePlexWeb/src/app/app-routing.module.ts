@@ -95,13 +95,13 @@ const routes: Routes = [
   {
     path: 'registro',
     component: RegisterComponent,
-      canActivate : [AuthGuard, SecurityGuard],
+    canActivate : [AuthGuard, SecurityGuard],
   },
 
   {
     path: 'schedule-trash',
     component: ScheduleTrasComponent,
-      canActivate : [AuthGuard, SecurityGuard],
+    canActivate : [AuthGuard,SecurityGuard],
   },
   
 ];

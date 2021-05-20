@@ -26,6 +26,7 @@ export class EventPage implements OnInit {
   collectionEventsBooking;
   collectionEventsBookingLength;
   // variables para establecer id y uid de reservas
+  collectionEventsBookingDelete;
 
   uidEventEdit;
 
@@ -83,7 +84,7 @@ export class EventPage implements OnInit {
           Descripcion: e.payload.doc.data().Reserva.Descripcion,
           Personas: e.payload.doc.data().Reserva.Personas,
           Img: e.payload.doc.data().Img,
-          UidEventBooking: e.payload.doc.data().idEventBooking,
+          UidEventBooking: e.payload.doc.data().idBookingBooking,
           uidEvent: e.payload.doc.id
         }
       })
@@ -111,7 +112,7 @@ export class EventPage implements OnInit {
           Descripcion: e.payload.doc.data().Reserva.Descripcion,
           Personas: e.payload.doc.data().Reserva.Personas,
           Img: e.payload.doc.data().Img,
-          UidEventBooking: e.payload.doc.data().idEventBooking,
+          UidEventBooking: e.payload.doc.data().idBookingBooking,
           uidEvent: e.payload.doc.id
         }
       })
@@ -124,6 +125,7 @@ export class EventPage implements OnInit {
     //--------------------------------------------------------
     this.bookingService.getBookingServices().subscribe(resp => {
       //console.log('respuesta 1: ', resp)
+      this.collectionEventsBookingLength = resp.length
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionEventsBooking = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -132,7 +134,7 @@ export class EventPage implements OnInit {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          UidEventBooking: e.payload.doc.data().idEventBooking
+          UidEventBooking: e.payload.doc.data().idBookingBooking
         }
       })
 
@@ -218,20 +220,26 @@ export class EventPage implements OnInit {
   }
 
   deleteEvent(item: any) {
-    this.config.currentPage = 1,
+    this.config.currentPage = 1;
     // llamado al servicio de eliminacion de eventos 
-    this.eventsService.deleteEventsServices(item.uidEvent);
+    console.log(item)
+    console.log(item.uidEvent);
+    console.log(item.UidEventBooking);
 
-    this.collectionEventsBooking.map(res => {
-      const a = res.id
-      const b = res.UidEventBooking
-      //console.log("a: ", a, "b", b)
-      // llamado al servico de eliminacion de reservas 
-      if (item.UidEventBooking == b) {
-        this.bookingService.deleteBookingServices(a)
+    for (let index = 0; index < this.collectionEventsBookingLength; index++) {
+      if (this.collectionEventsBooking[index]['UidEventBooking'] == item.UidEventBooking) {
+        console.log('reserva')
+        this.collectionEventsBookingDelete = this.collectionEventsBooking[index];
+        console.log(this.collectionEventsBookingDelete.id)
+        console.log(this.collectionEventsBookingDelete.UidEventBooking)
+
+        this.bookingService.deleteBookingServices(this.collectionEventsBookingDelete.id);
       }
-    })
 
+
+    }
+
+    this.eventsService.deleteEventsServices(item.uidEvent);
 
     // llamado al servicio de eliminacion de imagenes
     this.storage.refFromURL(item.Img).delete()

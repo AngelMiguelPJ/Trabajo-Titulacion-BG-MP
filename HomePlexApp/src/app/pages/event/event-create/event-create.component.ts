@@ -96,7 +96,7 @@ export class EventCreateComponent implements OnInit {
     this.uidAdmin = localStorage.getItem('userId');
     this.eventsFormCreate = this.formBuilder.group({
       idUser: this.uidAdmin,
-      idEventBooking: '',
+      idBookingBooking: '',
       Img: '',
       Nombre: ['', Validators.required],
       EventoAN: ['', Validators.required],
@@ -113,10 +113,8 @@ export class EventCreateComponent implements OnInit {
       Img: ''
     })
     this.eventsBookingFormCreate = this.formBuilder.group({
-      idEventBooking: '',
       idBookingBooking: '',
       BookingAN: ['', Validators.required],
-      Ocupado: ['', Validators.required],
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
         Lugar: ['', Validators.required],
@@ -135,13 +133,11 @@ export class EventCreateComponent implements OnInit {
   guardar() {
     this.uidAdmin = localStorage.getItem('userId');
     this.idAleatorio = Math.random().toString(36).substring(2);
-    this.eventsFormCreate.value.idEventBooking = this.idAleatorio;
+    this.eventsFormCreate.value.idBookingBooking = this.idAleatorio;
     this.eventsFormCreate.value.Reserva.Fecha = this.eventsFormCreate.value.Reserva.Fecha.split('T')[0];
     this.eventsBookingFormCreate.setValue({
-      idEventBooking: this.idAleatorio,
       idBookingBooking : this.idAleatorio,
       BookingAN : this.eventsFormCreate.value.EventoAN,
-      Ocupado: 'Si',
       Reserva: ({
         Descripcion: this.eventsFormCreate.value.Reserva.Descripcion,
         Lugar: this.eventsFormCreate.value.Reserva.Lugar,

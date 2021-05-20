@@ -26,7 +26,7 @@ export class TrashService {
       'Domingo',
       'Lunes',
       'Martes',
-      'Miércoles',
+      'Miercoles',
       'Jueves',
       'Viernes',
       'Sábado',

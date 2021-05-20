@@ -11,7 +11,7 @@ export class SecurityGuard implements CanActivate {
     if (!this.user.isAdmin && !this.user.isAccountant) //Obtenemos en nuestro servicio el rol y nos fijamos si es igual o no al de 'Admin 
     {
       console.log('2:' + this.user.isAdmin)
-      alert('Usted no posee permisos para acceder a esta ruta');
+      //alert('Usted no posee permisos para acceder a esta ruta');
       this.router.navigate(['/']); //Lo enviamos a la página que queramos
       return false;
     } console.log('3:' + this.user.isAdmin)

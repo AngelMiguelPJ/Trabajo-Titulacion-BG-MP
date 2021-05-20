@@ -106,7 +106,7 @@ export class BookingEditComponent implements OnInit {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          UidEventBooking: e.payload.doc.data().idEventBooking,
+          UidEventBooking: e.payload.doc.data().idBookingBooking,
           Img: e.payload.doc.data().Img
 
         }

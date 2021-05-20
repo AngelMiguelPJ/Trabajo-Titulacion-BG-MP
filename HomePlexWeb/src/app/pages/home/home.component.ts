@@ -9,7 +9,8 @@ import { AliquotService } from 'src/app/services/aliquot/aliquot.service';
 
 // servicios de eventos
 import { EventsService } from 'src/app/services/events/events.service';
-
+import { TrashService } from 'src/app/services/trash/trash.service';
+import { UsersService } from 'src/app/services/users/users.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -31,16 +32,34 @@ export class HomeComponent implements OnInit {
   aliquotCurrentMonthLenght;
   aliquotLastMonth;
   aliquotLastMonthLenght;
+  collectionTrashSchedule;
+  collectionTrasScheduleLenght;
+  dia;
+  usersList = [];
 
   // iniciar servicios
   constructor(private eventsService: EventsService,
-              private aliquotService: AliquotService) { }
+    private aliquotService: AliquotService,
+    private trashService: TrashService,
+    private usersService: UsersService) { }
 
   ngOnInit(): void {
-
+    const fechaComoCadena = new Date(); // día lunes
+    const dias = [
+      'Domingo',
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+    ];
+    const numeroDia = new Date(fechaComoCadena).getDay();
+    this.dia = dias[numeroDia];
+    console.log(this.dia)
     //cargando todos los eventos de firebase-firestore
     this.eventsService.getEventsServices().subscribe(resp => {
-      console.log('respuesta 1: ', resp)
+      //console.log('respuesta 1: ', resp)
       this.collectionEventsLenght = resp.length;
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collection.data = resp.map((e: any) => {
@@ -69,17 +88,30 @@ export class HomeComponent implements OnInit {
     }
     );
 
-     this.aliquotService.getAliquotUserCurrentMonth().subscribe(res => {
+    this.aliquotService.getAliquotUserCurrentMonth().subscribe(res => {
       //console.log(res.length);
       this.aliquotCurrentMonth = res;
       this.aliquotCurrentMonthLenght = res.length;
       //console.log(this.aliquotCurrentMonth.lenght)
     })
- this.aliquotService.getAliquotUserLastMonth().subscribe(res => {
+    this.aliquotService.getAliquotUserLastMonth().subscribe(res => {
       //console.log(res);
       this.aliquotLastMonth = res;
       this.aliquotLastMonthLenght = res.length;
       //console.log(this.aliquotCurrentMonth)
+    })
+
+    this.trashService.getTrashScheduleServicesNow().subscribe(resp=>{
+      //console.log(resp)
+      this.collectionTrashSchedule = resp;
+      this.collectionTrasScheduleLenght = resp.length;
+      console.log(this.collectionTrasScheduleLenght)
+    })
+
+    this.usersService.getUsersService().subscribe(users => {
+      // seteo de los datos en el arreglo usuarios
+      this.usersList = users.slice(0, 5);
+
     })
 
   }

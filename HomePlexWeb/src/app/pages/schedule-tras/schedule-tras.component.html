@@ -1,1 +1,88 @@
-<p>schedule-tras works!</p>
+<!-- Contenedor principal del login -->
+<div class="content" role="main">
+
+    <!--===========================================================================-->
+    <!--Titulo-->
+    <h2 style="text-align: center;">Horarios de basura</h2>
+  
+    <!--===========================================================================-->
+  
+    <div class="card" *ngFor="let item of collectionTrashSchedule" style="margin-top: 10px;">
+        <div class="card-header">
+          <div class="row">
+            <div class="col">
+              {{item.dia}}
+            </div>
+            <div class="col" style="text-align: right;">
+              <button type="button" class="btn btn-primary" (click)="openEditar(contentEdit,item)" *ngIf="usersService.isAdmin">Editar</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{item.descripcion}}</h5>
+          <p class="card-text">Hora: {{item.hora}}</p>
+        </div>
+      </div>
+    
+    <!--===========================================================================-->
+      <!--Ng Template de edicion-->
+  <ng-template #contentEdit let-modal>
+
+    <!--Header del modal-->
+    <div class="modal-header">
+
+      <!--titulo-->
+      <h4 class="modal-title" id="modal-basic-title">Actualizar horario</h4>
+
+      <!--boton de cerrado-->
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <!-- cuerpo del modal-->
+    <div class="modal-body">
+
+      <!--formulario-->
+      <form>
+        <div class="form-group">
+
+          <!--Form group de edicion-->
+          <form [formGroup]="scheduleTrasFormEdit">
+
+            <!--form de hora-->
+            <div class="form-group">
+              <label>Hora</label>
+              <input type="time"formControlName="Hora" class="form-control"min="09:00" max="18:00" required>
+            </div>
+
+            <!--form de descripcion-->
+            <div class="form-group">
+              <label>Descripcion</label>
+              <input type="text" formControlName="Descripcion" class="form-control" maxlength="100">
+            </div>
+
+          </form>
+
+        </div>
+      </form>
+
+    </div>
+
+    <!--botones de paginacion-->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="updateSchedule()">Guardar</button>
+    </div>
+
+  </ng-template>
+    <!--===========================================================================-->
+  
+    
+  
+    <!--===========================================================================-->
+    <br>
+    <!--===========================================================================-->
+    
+  
+  </div>

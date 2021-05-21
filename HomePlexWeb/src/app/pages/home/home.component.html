@@ -92,12 +92,14 @@
 
 
   <!--=======================================================================-->
-  <div class="row">
+  <div class="row" style="margin-bottom: 2px; margin-top: 5px;">
     <div class="col">
       Alicuotas
     </div>
     <div class="col" style="text-align: right;">
-      Ver todas
+      <button type="button" class="btn btn-primary" routerLink="/alicuotas" style="padding: 0 5px;">
+        Ver todas
+      </button>
     </div>
   </div>
   <div>
@@ -183,23 +185,22 @@
       <!---->
 
       <div class="col-sm-6">
-        <div class="row">
+        <div class="row" style="margin-bottom: 2px; margin-top: 5px;">
           <div class="col">
             Contactos
           </div>
           <div class="col" style="text-align: right;">
-            Ver todas
+            <button type="button" class="btn btn-primary" routerLink="/chat" style="padding: 0 5px;">
+              Ver todos
+            </button>
           </div>
         </div>
         <div class="card">
-          <div class="card-body">
+          <div class="card-body" id="cardContactos">
+              <nav *ngFor="let users of usersList">
+                <img src="{{users.Img}}" alt="" id="contactos">
+          </nav>
             
-            <nav style="--bs-breadcrumb-divider: 'none';" aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Library</li>
-              </ol>
-            </nav>
           </div>
         </div>
       </div>
@@ -208,12 +209,14 @@
 
       
         <div class="col-sm-6" *ngIf="collectionTrasScheduleLenght > 0">
-          <div class="row">
+          <div class="row" style="margin-bottom: 2px; margin-top: 5px;">
             <div class="col">
               Horario de basura
             </div>
             <div class="col" style="text-align: right;">
-              Ver todas
+              <button type="button" class="btn btn-primary" routerLink="/schedule-trash" style="padding: 0 5px;">
+                Ver todos
+              </button>
             </div>
           </div>
           <div class="card">
@@ -226,12 +229,14 @@
         </div>
 
         <div class="col-sm-6" *ngIf="collectionTrasScheduleLenght == 0 && dia == 'Martes'">
-          <div class="row">
+          <div class="row" style="margin-bottom: 2px; margin-top: 5px;">
             <div class="col">
               Horario de basura
             </div>
             <div class="col" style="text-align: right;">
-              Ver todas
+              <button type="button" class="btn btn-primary" routerLink="/schedule-trash" style="padding: 0 5px;">
+                Ver todos
+              </button>
             </div>
           </div>
           <div class="card">
@@ -242,12 +247,14 @@
         </div>
 
         <div class="col-sm-6" *ngIf="collectionTrasScheduleLenght == 0 && dia == 'Jueves'">
-          <div class="row">
+          <div class="row" style="margin-bottom: 2px; margin-top: 5px;">
             <div class="col">
               Horario de basura
             </div>
             <div class="col" style="text-align: right;">
-              Ver todas
+              <button type="button" class="btn btn-primary" routerLink="/schedule-trash" style="padding: 0 5px;">
+                Ver todos
+              </button>
             </div>
           </div>
           <div class="card">
@@ -258,12 +265,14 @@
         </div>
 
         <div class="col-sm-6" *ngIf="collectionTrasScheduleLenght == 0 && (dia == 'Sabado' || dia == 'Domingo')">
-          <div class="row">
+          <div class="row" style="margin-bottom: 2px; margin-top: 5px;">
             <div class="col">
               Horario de basura
             </div>
             <div class="col" style="text-align: right;">
-              Ver todas
+              <button type="button" class="btn btn-primary" routerLink="/schedule-trash" style="padding: 0 5px;">
+                Ver todos
+              </button>
             </div>
           </div>
           <div class="card">
@@ -282,12 +291,14 @@
 
   <!--=======================================================================-->
 
-  <div class="row">
+  <div class="row" style="margin-bottom: 2px; margin-top: 5px;">
     <div class="col">
       Eventos
     </div>
     <div class="col" style="text-align: right;">
-      Ver todas
+      <button type="button" class="btn btn-primary" routerLink="/eventos" style="padding: 0 5px;">
+        Ver todos
+      </button>
     </div>
   </div>
 

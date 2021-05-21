@@ -110,6 +110,7 @@ export class HomeComponent implements OnInit {
 
     this.usersService.getUsersService().subscribe(users => {
       // seteo de los datos en el arreglo usuarios
+      console.log(users)
       this.usersList = users.slice(0, 5);
 
     })

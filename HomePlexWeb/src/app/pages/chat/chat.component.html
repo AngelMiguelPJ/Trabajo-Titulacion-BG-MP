@@ -70,7 +70,7 @@
                     </div>
 
                     <!-- Historial de mensajes-->
-                    <div class="msg_history">
+                    <div class="msg_history" #scrollMe [scrollTop]="scrollMe.scrollHeight">
 
 
                         <ul class="list-group" *ngFor="let chat of chats" style="padding: 10px;">
@@ -119,7 +119,7 @@
                             <!-- input de introduccion de mensajes y envio mediante la tecla enter-->
 
                             <input type="text" class="form-control" placeholder="Escriba un mensaje...."
-                                name="newMessage" #textMsg (keyup.enter)="send(textMsg.value)" />
+                                name="newMessage" #textMsg (keyup.enter)="send(textMsg.value)" (keypress)="validarTecla($event,textMsg.value)" maxlength="20" />
                             <!--Boton para el envio de mensajes mediante el evento click -->
                             <button class="msg_send_btn" type="button" (click)="send(textMsg.value)">
                                 <i class="fa fa-paper-plane" aria-hidden="true"></i>

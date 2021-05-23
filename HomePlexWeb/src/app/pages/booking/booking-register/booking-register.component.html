@@ -49,7 +49,7 @@
                     <td>
 
                         <!--Botones para eliminar y editar el respectivo usuario-->
-                        <button type="button" class="btn btn-primary" (click)="openEditar(content,item)"
+                        <button type="button" style="margin-right: 5px;" class="btn btn-primary" (click)="openEditar(content,item)"
                             *ngIf="usersService.isAdmin">Editar</button>
                         <button type="button" class="btn btn-danger" (click)="deleteBooking(item)"
                             *ngIf="usersService.isAdmin">Borrar</button>

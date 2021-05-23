@@ -94,36 +94,48 @@ export class ChatroomPage implements OnInit {
 
   send(textMsg: any) {
 
-
+    if (textMsg != '') {
+      this.angularFirestore.collection("chats").doc(this.uid).collection(this.ouid).add({
+        time: Date.now(),
+        fecha: new Date().toLocaleDateString(),
+        hora: new Date().toLocaleTimeString(navigator.language, {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        uid: this.uid,
+        msg: textMsg,
+      }).then(() => {
+        this.letras = '';
+      })
+  
+      // agregar mensajes por medio del servicio de firestore de otro usuario al actual
+      this.angularFirestore.collection("chats").doc(this.ouid).collection(this.uid).add({
+        time: Date.now(),
+        fecha: new Date().toLocaleDateString(),
+        hora: new Date().toLocaleTimeString(navigator.language, {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        uid: this.uid,
+        msg: textMsg,
+      }).then(() => {
+        this.letras = '';
+      })
+      this.scrollToBottom();
+    }
     // agregar mensajes por medio del servicio de firestore del usuario actual a otro
-    this.angularFirestore.collection("chats").doc(this.uid).collection(this.ouid).add({
-      time: Date.now(),
-      fecha: new Date().toLocaleDateString(),
-      hora: new Date().toLocaleTimeString(navigator.language, {
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
-      uid: this.uid,
-      msg: textMsg,
-    }).then(() => {
-      this.letras = '';
-    })
 
-    // agregar mensajes por medio del servicio de firestore de otro usuario al actual
-    this.angularFirestore.collection("chats").doc(this.ouid).collection(this.uid).add({
-      time: Date.now(),
-      fecha: new Date().toLocaleDateString(),
-      hora: new Date().toLocaleTimeString(navigator.language, {
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
-      uid: this.uid,
-      msg: textMsg,
-    }).then(() => {
-      this.letras = '';
-    })
-    this.scrollToBottom();
 
+  }
+
+  validarTecla(e, textMsg: any){
+    //console.log(e);
+    //console.log(textMsg.length)
+    if (textMsg.length == 0) {
+      var key = e.keyCode ? e.keyCode : e.which;
+		if (key == 32) {return false;}
+    }
+    
   }
 
   chatTabPage() {

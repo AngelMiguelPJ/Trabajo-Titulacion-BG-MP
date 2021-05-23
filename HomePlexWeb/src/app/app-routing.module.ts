@@ -20,6 +20,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { SecurityGuard } from './guards/security/security.guard';
 import { ScheduleTrasComponent } from './pages/schedule-tras/schedule-tras.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 // rutas
 const routes: Routes = [
@@ -102,6 +103,11 @@ const routes: Routes = [
     path: 'schedule-trash',
     component: ScheduleTrasComponent,
     canActivate : [AuthGuard,SecurityGuard],
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    //canActivate : [AuthGuard,SecurityGuard],
   },
   
 ];

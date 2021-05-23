@@ -51,7 +51,7 @@ export class LoginPage implements OnInit {
       
     }).catch(err => {
       // mensaje de error en consola
-      console.log("Error: ", err)
+      //console.log("Error: ", err.code)
     }).then(()=>{
       this.router.navigateByUrl('/home')
     })

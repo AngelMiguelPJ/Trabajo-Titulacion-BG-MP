@@ -108,7 +108,7 @@ export class AliquotRegisterComponent implements OnInit {
           IdAliquot: e.payload.doc.data().IdAliquot
         }
       })
-      console.log(this.collectionAliquots.data)
+      //console.log(this.collectionAliquots.data)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
@@ -158,7 +158,7 @@ export class AliquotRegisterComponent implements OnInit {
     const idAliquotRandom = Math.random().toString(36).substring(2);
     this.aliquotFormCreate.value.IdAliquot = idAliquotRandom;
     this.aliquotFormCreate.value.NumeroMes = this.aliquotFormCreate.value.Fecha.split('-')[1];
-    console.table(this.aliquotFormCreate.value)
+    //console.table(this.aliquotFormCreate.value)
     // llamado al servicio de creacion de alicuotas
     this.aliquotService.createAliquotServices(this.aliquotFormCreate.value).then(resp => {
 
@@ -167,7 +167,7 @@ export class AliquotRegisterComponent implements OnInit {
       this.ngbModal.dismissAll();
 
     }).catch(error => {
-      console.error(error)
+      //console.error(error)
     })
 
   }
@@ -266,7 +266,7 @@ export class AliquotRegisterComponent implements OnInit {
         this.ngbModal.dismissAll();
         
       }).catch(error => {
-        console.error(error);
+        //console.error(error);
       });
     }
   }

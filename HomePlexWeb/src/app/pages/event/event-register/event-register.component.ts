@@ -227,7 +227,7 @@ export class EventRegisterComponent implements OnInit {
       //console.log(this.collection.data)
     }, error => {
       // imprimir en caso de que de algun error
-      console.error(error);
+      //console.error(error);
     }
     );
 
@@ -250,7 +250,7 @@ export class EventRegisterComponent implements OnInit {
       //console.log(this.collectionBooking.data)
     }, error => {
       // imprimir en caso de que de algun error
-      console.error(error);
+      //console.error(error);
     }
     );
 
@@ -278,21 +278,21 @@ export class EventRegisterComponent implements OnInit {
   // funcion - metodo para el cambio de pagina segun la pagina actual
   pageChanged(event) {
     this.config.currentPage = event;
-    console.log(this.config.totalItems)
+    //console.log(this.config.totalItems)
   }
 
   // funcion - metodo para borrar cualquier evento
   deleteEvent(item: any) {
-    console.log(item)
-    console.log(item.uidEvent);
-    console.log(item.UidEventBooking);
+    //console.log(item)
+    //console.log(item.uidEvent);
+    //console.log(item.UidEventBooking);
     // llamado al servicio de eliminacion de eventos 
     for (let index = 0; index < this.collectionEventsBookingLength; index++) {
       if (this.collectionBooking.data[index]['UidEventBooking'] == item.UidEventBooking) {
-        console.log('reserva')
+        //console.log('reserva')
         this.collectionEventsBookingDelete = this.collectionBooking.data[index];
-        console.log(this.collectionEventsBookingDelete.id)
-        console.log(this.collectionEventsBookingDelete.UidEventBooking)
+        //console.log(this.collectionEventsBookingDelete.id)
+        //console.log(this.collectionEventsBookingDelete.UidEventBooking)
 
         this.bookingService.deleteBookingServices(this.collectionEventsBookingDelete.id);
       }
@@ -343,7 +343,7 @@ export class EventRegisterComponent implements OnInit {
 
     }).catch(err => {
       // impirmir error si es que diera alguno
-      console.log(err)
+      //console.log(err)
     })
 
   }
@@ -467,7 +467,7 @@ export class EventRegisterComponent implements OnInit {
     this.collectionBooking.data.map(res => {
       const a = res.id
       const b = res.UidEventBooking
-      console.log("a: ", a, "b", b)
+      //console.log("a: ", a, "b", b)
       if (this.eventFormEdit.value.idBookingBooking == b) {
         this.bookingService.updateBookingServices(a, this.eventBookingFormEdit.value)
       }

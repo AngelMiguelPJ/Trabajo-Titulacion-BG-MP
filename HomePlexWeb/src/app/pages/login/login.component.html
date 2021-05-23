@@ -9,7 +9,7 @@
         <!-- Div para el login-->
         <div class="signin-signup">
             <div class="form-sing">
-
+                
                 <!-- titulo -->
                 <h2 class="title">Iniciar sesion</h2>
 
@@ -27,11 +27,43 @@
 
                 <!-- Boton para iniciar sesion que recoge los valores del email y contraseña-->
                 <button class="btn solid" (click)="login(userMail.value, userPassword.value)">Entrar</button>
+                <div *ngIf="loginFailedEmail == true">
+                    <div class="align-items-center text-white bg-danger border-0" id="failed" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                          <div class="toast-body">
+                            Correo electronico incorrecto, pruebe nuevamente
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                <div *ngIf="loginFailedPassword == true">
+                    <div class="align-items-center text-white bg-danger border-0" id="failed" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                          <div class="toast-body">
+                            Contraseña incorrecta, pruebe nuevamente
+                          </div>
+                        </div>
+                      </div>
+                </div>
+
+                <div *ngIf="loginFailedRequest == true" >
+                    <div class="align-items-center text-white bg-danger border-0" id="failed" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                          <div class="toast-body">
+                            Demasiados intentos, pruebe nuevamente dentro de unos minutos.
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                
 
             </div>
         </div>
 
     </div>
+
+
+    
 
     <!--=====================================================================================================================-->
 

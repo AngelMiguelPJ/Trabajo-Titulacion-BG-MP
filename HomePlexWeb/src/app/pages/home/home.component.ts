@@ -56,14 +56,14 @@ export class HomeComponent implements OnInit {
     ];
     const numeroDia = new Date(fechaComoCadena).getDay();
     this.dia = dias[numeroDia];
-    console.log(this.dia)
+    //console.log(this.dia)
     //cargando todos los eventos de firebase-firestore
     this.eventsService.getEventsServices().subscribe(resp => {
       //console.log('respuesta 1: ', resp)
       this.collectionEventsLenght = resp.length;
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collection.data = resp.map((e: any) => {
-        console.log('respuesta 2: ', e)
+        //console.log('respuesta 2: ', e)
         // return que devolvera los datos a collection
         return {
           // seteo de los principales datos que se obtendran de los usuarios
@@ -105,12 +105,12 @@ export class HomeComponent implements OnInit {
       //console.log(resp)
       this.collectionTrashSchedule = resp;
       this.collectionTrasScheduleLenght = resp.length;
-      console.log(this.collectionTrasScheduleLenght)
+      //console.log(this.collectionTrasScheduleLenght)
     })
 
     this.usersService.getUsersService().subscribe(users => {
       // seteo de los datos en el arreglo usuarios
-      console.log(users)
+      //console.log(users)
       this.usersList = users.slice(0, 5);
 
     })

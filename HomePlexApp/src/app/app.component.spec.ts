@@ -1,12 +1,20 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 
-import { Platform } from '@ionic/angular';
+import { Platform, NavParams } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
-
+import { CommonModule } from '@angular/common';
+// importaciones angular
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { firebaseConfig } from 'src/app/services/firebase/firebase.service';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { RouterTestingModule } from '@angular/router/testing';
 describe('AppComponent', () => {
 
   let statusBarSpy;
@@ -22,12 +30,22 @@ describe('AppComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      imports: [IonicModule.forRoot(),
+        AngularFireModule.initializeApp(firebaseConfig),
+          AngularFireModule,
+          CommonModule,
+        AngularFirestoreModule.enablePersistence(),
+        RouterTestingModule 
+        ],
+  
       providers: [
         { provide: StatusBar, useValue: statusBarSpy },
         { provide: SplashScreen, useValue: splashScreenSpy },
         { provide: Platform, useValue: platformSpy },
+        NavParams
       ],
+      
     }).compileComponents();
   }));
 

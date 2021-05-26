@@ -2,7 +2,7 @@ import { formatCurrency } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonRouterOutlet, LoadingController, ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { BookingService } from 'src/app/services/booking/booking.service';
 import { EventsService } from 'src/app/services/events/events.service';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -49,7 +49,6 @@ export class BookingPage implements OnInit {
     private storage: AngularFireStorage,
     public usersService: UsersService,
     public modalController: ModalController,
-    private routerOutlet: IonRouterOutlet,
     private eventsService: EventsService) { }
 
   ngOnInit() {

@@ -111,7 +111,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.obtenerScheduleTrash();
 
   }
 
@@ -136,7 +136,7 @@ export class HomePage implements OnInit {
       //console.log(resp)
       this.collectionTrashSchedule = resp;
       this.collectionTrasScheduleLenght = resp.length;
-      console.log(this.collectionTrashSchedule)
+      console.log(this.collectionTrasScheduleLenght)
     })
 
 

@@ -177,10 +177,14 @@
         <button type="button" [disabled]="usersFormCreate.invalid" class="btn btn-outline-dark"
           (click)="registerUsers(Email.value, Password.value, Name.value, TipoUsuario.value)">Guardar</button>
       </div>
+      <div>
+        <label *ngIf="usuarioExist == true" style="color: red;">Un usuario ya existe con ese correo</label>
+      </div>
 
     </ng-template>
 
     <!-- ============================================================================ -->
+
 
   </div>
 

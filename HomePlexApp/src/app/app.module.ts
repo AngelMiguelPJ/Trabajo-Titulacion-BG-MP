@@ -18,7 +18,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import { RouterTestingModule } from '@angular/router/testing';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -29,6 +29,7 @@ import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
             AngularFireModule,
             CommonModule,
             AngularFirestoreModule.enablePersistence(),
+            RouterTestingModule 
             ],
   providers: [
     StatusBar,

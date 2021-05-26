@@ -55,7 +55,7 @@
 
 
     <ion-item class="itemsend" >
-      <ion-input maxlength="25" [(ngModel)]="letras" placeholder="Escribir..." #textMsg (keyup.enter)="send(textMsg.value)" (keypress)="validarTecla($event,textMsg.value)" maxlength="20"></ion-input>
+      <ion-input maxlength="25" [(ngModel)]="letras" placeholder="Escribir..." #textMsg (keyup.enter)="send(textMsg.value)"></ion-input>
       <ion-buttons slot="end">
         <ion-tab-button (click)="send(textMsg.value)">
           <ion-icon class="iconSend" name="paper-plane"></ion-icon>

@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { firebaseConfig } from './services/database/firebase.service';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFireAuthModule,
       ],
       declarations: [
         AppComponent
@@ -27,6 +31,7 @@ describe('AppComponent', () => {
   });
 
   it('should render title', () => {
+    
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;

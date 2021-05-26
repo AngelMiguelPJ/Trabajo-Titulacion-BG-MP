@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonRouterOutlet, LoadingController, ModalController, PopoverController } from '@ionic/angular';
+import { LoadingController, ModalController, PopoverController } from '@ionic/angular';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateUserComponent } from './create-user/create-user.component';
@@ -37,8 +37,7 @@ export class RegisterPage implements OnInit {
     private router: Router,
     public fb: FormBuilder,
     public popoverController: PopoverController,
-    private loadingController: LoadingController,
-    private routerOutlet: IonRouterOutlet) { }
+    private loadingController: LoadingController) { }
 
   ngOnInit() {
 

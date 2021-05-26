@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
     'Vecino',
     'Arrendatario'
   ]
+  usuarioExist = false;
 
   // variable para cerrar modal-form
   closeResult = '';
@@ -105,13 +106,15 @@ export class RegisterComponent implements OnInit {
       // funciones de reseteo del formulario y cerrar modal al igual que el formulario
       this.usersFormCreate.reset();
       this.modalService.dismissAll();
+      this.usuarioExist = false;
 
     }).catch(error => {
 
       // comprobacion de errores  y reseteo del formulario create en caso de error
       console.error(error)
       this.usersFormCreate.reset();
-
+      this.usuarioExist = true;
+      this.modalService.dismissAll();
     })
   }
 
@@ -133,10 +136,13 @@ export class RegisterComponent implements OnInit {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
       .result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
+        this.usersFormCreate.reset();
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        this.usersFormCreate.reset();
       }
       );
+      this.usersFormCreate.reset();
 
   }
 
@@ -150,8 +156,10 @@ export class RegisterComponent implements OnInit {
     // Apertura del modal para el formulario
     this.modalService.open(contentCreate, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.usersFormCreate.reset();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.usersFormCreate.reset();
     });
 
   }
@@ -159,10 +167,16 @@ export class RegisterComponent implements OnInit {
   //funcion que otorga la funcion de cerrar el modal 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
+      this.usersFormCreate.reset();
+      this.usuarioExist = false;
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      this.usersFormCreate.reset();
+      this.usuarioExist = false;
       return 'by clicking on a backdrop';
     } else {
+      this.usuarioExist = true;
+      this.usersFormCreate.reset();
       return `with: ${reason}`;
     }
   }

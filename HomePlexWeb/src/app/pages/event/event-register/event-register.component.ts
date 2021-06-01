@@ -12,6 +12,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { last, switchMap } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-event-register',
@@ -103,6 +104,7 @@ export class EventRegisterComponent implements OnInit {
   fileRef;
   task;
   uploadPercent;
+  validImg;
 
   usersList = [];
   nameUserInfor;
@@ -419,11 +421,17 @@ export class EventRegisterComponent implements OnInit {
   // funcion - metodo para la subida de imagenes a firestone
   uploadFile(event) {
 
-    // variable random para id de las imagenes
+
+    this.file = event.target.files[0];
+    this.validImg = (/\.(jpg|png)$/i).test(this.file.name)
+    console.log((/\.(jpg|png)$/i).test(this.file.name))
+    console.log(this.file.size);
+    if (this.file.size < 2500000 && this.validImg == true) {
+      // variable random para id de las imagenes
     const idRandom = Math.random().toString(36).substring(2);
 
     // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
-    this.file = event.target.files[0];
+    
 
     // establecimiento de la estructura de guardad en store
     this.filepath = 'events/' + idRandom;
@@ -448,6 +456,18 @@ export class EventRegisterComponent implements OnInit {
         Img: url
       })
     })
+    } else {
+      this.file = '';
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Imagen con tamaño mayor a 2.5MB o formato inadecuado, recuerde solo se admite jpg o png',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+
+    
 
   }
 

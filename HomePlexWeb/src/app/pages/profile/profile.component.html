@@ -17,7 +17,7 @@
         <div class="twPc-avatarLinkEdit">
             <label class="custom-file-upload">
                 <img src="../../../assets/lapiz.svg" style="width: 24px; height: 24px;" alt="">
-                <input type="file" (change)="uploadFile($event)" />
+                <input accept="image/png,image/jpeg" type="file" (input)="uploadFile($event)" required/>
             </label>
         </div>
 
@@ -84,6 +84,8 @@
                     contenido</button>
             </div>
         </div>
+
+
 
     </div>
 
@@ -154,6 +156,8 @@
         </div>
 
     </ng-template>
+
+   
 
     <!--============================================================================-->
 

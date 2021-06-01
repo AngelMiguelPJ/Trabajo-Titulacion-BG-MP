@@ -13,6 +13,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { last, switchMap } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -48,6 +49,7 @@ export class ProfileComponent implements OnInit {
   file;
   fileRef;
   task;
+  validImg;
 
   // Variables para la carga
   uploadPercent;
@@ -172,10 +174,14 @@ export class ProfileComponent implements OnInit {
 
   // Actualizacion de imagen mediante subida del archivo en store de firebase
   uploadFile(event) {
-
+    console.log(event)
     // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
     this.file = event.target.files[0];
-    // establecimiento de la estructura de guardad en store
+    this.validImg = (/\.(jpg|png)$/i).test(this.file.name)
+    console.log((/\.(jpg|png)$/i).test(this.file.name))
+    console.log(this.file.size);
+    if (this.file.size < 2500000 && this.validImg == true) {
+        // establecimiento de la estructura de guardad en store
     this.filepath = 'usersImgProfile/' + this.nameUserInfor + '/' + 'photoPerfil';
 
     // tareas y referencia del path 
@@ -204,6 +210,17 @@ export class ProfileComponent implements OnInit {
       this.usersService.updateUsersServicesImg(this.idFirabaseActualizar, this.userImgEdit.value)
 
     })
+    } else{
+      this.file = '';
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Imagen con tamaño mayor a 2.5MB o formato inadecuado, recuerde solo se admite jpg o png',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+    
 
   }
 

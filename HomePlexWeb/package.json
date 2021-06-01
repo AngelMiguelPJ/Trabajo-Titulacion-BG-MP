@@ -27,6 +27,7 @@
     "jwt-decode": "^3.1.2",
     "ngx-pagination": "^5.0.0",
     "rxjs": "~6.6.0",
+    "sweetalert2": "^11.0.16",
     "tslib": "^2.0.0",
     "url-polyfill": "^1.1.12",
     "zone.js": "~0.10.2"

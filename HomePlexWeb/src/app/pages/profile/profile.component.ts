@@ -178,8 +178,8 @@ export class ProfileComponent implements OnInit {
     // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
     this.file = event.target.files[0];
     this.validImg = (/\.(jpg|png)$/i).test(this.file.name)
-    console.log((/\.(jpg|png)$/i).test(this.file.name))
-    console.log(this.file.size);
+    //console.log((/\.(jpg|png)$/i).test(this.file.name))
+    //console.log(this.file.size);
     if (this.file.size < 2500000 && this.validImg == true) {
         // establecimiento de la estructura de guardad en store
     this.filepath = 'usersImgProfile/' + this.nameUserInfor + '/' + 'photoPerfil';
@@ -211,7 +211,7 @@ export class ProfileComponent implements OnInit {
 
     })
     } else{
-      this.file = '';
+      event.srcElement.value = '';
       Swal.fire({
         position: 'center',
         icon: 'error',

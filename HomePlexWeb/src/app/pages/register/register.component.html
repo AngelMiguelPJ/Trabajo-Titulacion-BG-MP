@@ -154,6 +154,14 @@
               </div>
               </div>
 
+              <div class="form-group">
+                <label>Casa</label>
+                <input type="text" formControlName="Casa" class="form-control" #Casa>
+                <div *ngIf="usersFormCreate.get('Casa').errors && usersFormCreate.get('Casa').dirty">
+                  <p *ngIf="usersFormCreate.get('Casa').hasError('required')" style="color: red;">Campo Obligatorio</p>
+              </div>
+              </div>
+
               <!-- Campo Tipo de usuario-->
               <div class="form-group">
                 <label>Tipo Usuario</label>
@@ -175,7 +183,7 @@
       <!-- Boton de creacion a partir de los datos del formulario-->
       <div class="modal-footer">
         <button type="button" [disabled]="usersFormCreate.invalid" class="btn btn-outline-dark"
-          (click)="registerUsers(Email.value, Password.value, Name.value, TipoUsuario.value)">Guardar</button>
+          (click)="registerUsers(Email.value, Password.value, Name.value, Casa.value, TipoUsuario.value)">Guardar</button>
       </div>
       <div>
         <label *ngIf="usuarioExist == true" style="color: red;">Un usuario ya existe con ese correo</label>

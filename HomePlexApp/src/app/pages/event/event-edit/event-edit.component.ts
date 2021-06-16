@@ -52,6 +52,7 @@ export class EventEditComponent implements OnInit {
   task;
   uploadPercent;
   eventImgForm: FormGroup;
+  validImg;
 
 
 
@@ -79,7 +80,7 @@ export class EventEditComponent implements OnInit {
     this.modalController.dismiss(this.eventBookingDataCreate)
   }
 
-  cancelar(){
+  cancelar() {
     this.modalController.dismiss();
   }
 
@@ -88,36 +89,57 @@ export class EventEditComponent implements OnInit {
   uploadFile(event) {
 
     // variable random para id de las imagenes
-    const idRandom = Math.random().toString(36).substring(2);
+
 
     // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
     this.file = event.target.files[0];
+    this.validImg = (/\.(jpg|png)$/i).test(this.file.name)
+    if (this.file.size < 2500000 && this.validImg == true) {
+      const idRandom = Math.random().toString(36).substring(2);
+      // establecimiento de la estructura de guardad en store
+      this.filepath = 'events/' + idRandom;
 
-    // establecimiento de la estructura de guardad en store
-    this.filepath = 'events/' + idRandom;
+      // tareas y referencia del path 
+      this.fileRef = this.storage.ref(this.filepath);
+      this.task = this.storage.upload(this.filepath, this.file);
 
-    // tareas y referencia del path 
-    this.fileRef = this.storage.ref(this.filepath);
-    this.task = this.storage.upload(this.filepath, this.file);
+      // Observador para ver el porcentaje de subida o tiempo que tarda en subir
+      this.uploadPercent = this.task.percentageChanges();
 
-    // Observador para ver el porcentaje de subida o tiempo que tarda en subir
-    this.uploadPercent = this.task.percentageChanges();
-
-    // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
-    this.task.snapshotChanges().pipe(
-      last(),
-      switchMap(() =>
-        this.fileRef.getDownloadURL()
-      )
-    ).subscribe(url => {
-      // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
-      this.imgEdit = url
-      this.eventBookingDataCreate.Img = url
-      this.eventImgForm.setValue({
-        Img: url
+      // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
+      this.task.snapshotChanges().pipe(
+        last(),
+        switchMap(() =>
+          this.fileRef.getDownloadURL()
+        )
+      ).subscribe(url => {
+        // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
+        this.imgEdit = url
+        this.eventBookingDataCreate.Img = url
+        this.eventImgForm.setValue({
+          Img: url
+        })
       })
-    })
+    } else {
 
+      console.log('No imagen');
+      this.badImage();
+      //console.log(event.srcElement.value)
+      event.srcElement.value = '';
+
+    }
+
+
+  }
+
+  async badImage() {
+    const toast = await this.toastController.create({
+      message: ' <b style="text-align:center">Imagen con tamaño mayor a 2.5MB o formato inadecuado, recuerde solo se admite jpg o png</b>',
+      duration: 1000,
+      color: 'danger',
+
+    });
+    toast.present();
   }
 
 

@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ModalController, NavController, PopoverController } from '@ionic/angular';
+import { ModalController, NavController, PopoverController, ToastController } from '@ionic/angular';
 import { last, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -34,6 +34,7 @@ export class ProfilePage implements OnInit {
   fileRef;
   task;
   userUid;
+  validImg;
 
 
   usersFormEdit: FormGroup;
@@ -46,7 +47,8 @@ export class ProfilePage implements OnInit {
     private storage: AngularFireStorage,
     public modalController: ModalController,
     public authService: AuthService,
-    private angularFireAuth: AngularFireAuth,) { }
+    private angularFireAuth: AngularFireAuth,
+    private toastController: ToastController) { }
 
   ngOnInit() {
 
@@ -70,7 +72,7 @@ export class ProfilePage implements OnInit {
 
   }
 
-  changePass(){
+  changePass() {
     this.angularFireAuth.updateCurrentUser
   }
 
@@ -87,7 +89,7 @@ export class ProfilePage implements OnInit {
     //console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: EditProfileComponent,
-      
+
       componentProps: this.usersList,
     }).then(modalres => {
       modalres.present();
@@ -99,34 +101,54 @@ export class ProfilePage implements OnInit {
   uploadFile(event) {
 
     // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
+
     this.file = event.target.files[0];
-    // establecimiento de la estructura de guardad en store
-    this.filepath = 'usersImgProfile/' + this.nameUser + '/' + 'photoPerfil';
+    this.validImg = (/\.(jpg|png)$/i).test(this.file.name)
+    if (this.file.size < 2500000 && this.validImg == true) {
+      // establecimiento de la estructura de guardad en store
+      this.filepath = 'usersImgProfile/' + this.nameUser + '/' + 'photoPerfil';
 
-    // tareas y referencia del path 
-    this.fileRef = this.storage.ref(this.filepath);
-    this.task = this.storage.upload(this.filepath, this.file);
+      // tareas y referencia del path 
+      this.fileRef = this.storage.ref(this.filepath);
+      this.task = this.storage.upload(this.filepath, this.file);
 
-    // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
-    this.task.snapshotChanges().pipe(
-      last(),
-      switchMap(() =>
-        this.fileRef.getDownloadURL()
-      )
-    ).subscribe(url => {
+      // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
+      this.task.snapshotChanges().pipe(
+        last(),
+        switchMap(() =>
+          this.fileRef.getDownloadURL()
+        )
+      ).subscribe(url => {
 
-      // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
-      this.userImgEdit.setValue({
-        Img: url
+        // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
+        this.userImgEdit.setValue({
+          Img: url
+        })
+
+        //console.log(this.userImgEdit.value)
+        // igualacion de variables y llamado a la funcion o metodo para actuializar la imagen setenado el uid de usuario actual y el url de la imagen que subio
+        this.userUid = localStorage.getItem('userId')
+        this.usersService.updateUsersServicesImg(this.userUid, this.userImgEdit.value)
+
       })
+    } else {
+      console.log('No imagen');
+      this.badImage();
+      //console.log(event.srcElement.value)
+      event.srcElement.value = '';
+    }
 
-      //console.log(this.userImgEdit.value)
-      // igualacion de variables y llamado a la funcion o metodo para actuializar la imagen setenado el uid de usuario actual y el url de la imagen que subio
-      this.userUid = localStorage.getItem('userId')
-      this.usersService.updateUsersServicesImg(this.userUid, this.userImgEdit.value)
 
-    })
+  }
 
+  async badImage() {
+    const toast = await this.toastController.create({
+      message: ' <b style="text-align:center">Imagen con tamaño mayor a 2.5MB o formato inadecuado, recuerde solo se admite jpg o png</b>',
+      duration: 1000,
+      color: 'danger',
+
+    });
+    toast.present();
   }
 
 

@@ -394,7 +394,7 @@ export class EventRegisterComponent implements OnInit {
 
     // cambio de estado de actualizarion
     this.actualizar = false;
-
+    this.imgEdit = '';
     // apertura del modelform de crear
     this.ngbModal.open(contentCreate, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -457,6 +457,7 @@ export class EventRegisterComponent implements OnInit {
       })
     })
     } else {
+      event.srcElement.value = '';
       this.file = '';
       Swal.fire({
         position: 'center',

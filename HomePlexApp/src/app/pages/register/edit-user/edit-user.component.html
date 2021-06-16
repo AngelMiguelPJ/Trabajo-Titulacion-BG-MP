@@ -5,11 +5,6 @@
 <ion-content fullscreen>
 
   <ion-item class="items" lines="none">
-    <ion-icon name="home" slot="start"></ion-icon>
-    <ion-input type='text' [(ngModel)]="usersFormEdit.value.Casa" placeholder="Casa" required></ion-input>
-  </ion-item>
-
-  <ion-item class="items" lines="none">
     <ion-icon name="accessibility" slot="start"></ion-icon>
     <ion-select interface="popover" mode="ios" placeholder="Tipo Usuario" [(ngModel)]="usersFormEdit.value.TipoUsuario" required>
       <ion-select-option *ngFor="let tipo of typeUsers">{{tipo}}</ion-select-option>

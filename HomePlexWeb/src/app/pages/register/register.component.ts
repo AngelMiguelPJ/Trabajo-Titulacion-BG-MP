@@ -47,12 +47,13 @@ export class RegisterComponent implements OnInit {
     //iniciar variables de id de usuario y actualizacion
     this.idFirabaseActualizar = "";
     this.actualizar = false;
-
+    this.usuarioExist = false;
     //inicializando formulario para guardar datos los usuarios
     this.usersFormCreate = this.fb.group({
       Name: ['', [Validators.required,Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]+$/)]],
       Email: ['', [Validators.required, Validators.pattern(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)]],
       Password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12), Validators.pattern(/^[a-zA-Z0-9_-]{6,12}$/)]],
+      Casa:['', Validators.required],
       TipoUsuario: ['', Validators.required]
     });
 
@@ -98,10 +99,10 @@ export class RegisterComponent implements OnInit {
   }
 
   // funcion-metodo de registro de usuarios por medio de variables
-  registerUsers(Email, Password, Name, TipoUsuario) {
+  registerUsers(Email, Password, Name, Casa, TipoUsuario) {
 
     // llamado al servicio de registro de usuarios seteando dichas variables por medio del formulario
-    this.usersService.registerUsersService(Email, Password, Name, TipoUsuario).then(resp => {
+    this.usersService.registerUsersService(Email, Password, Name, Casa, TipoUsuario).then(resp => {
 
       // funciones de reseteo del formulario y cerrar modal al igual que el formulario
       this.usersFormCreate.reset();

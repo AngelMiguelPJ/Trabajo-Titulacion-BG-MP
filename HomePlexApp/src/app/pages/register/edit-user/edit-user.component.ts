@@ -33,8 +33,7 @@ export class EditUserComponent implements OnInit {
     this.userUid = this.navParams.data.idFirebase
 
     this.usersFormEdit = this.formBuilder.group({
-      TipoUsuario: this.navParams.data.TipoUsuario,
-      Casa: this.navParams.data.Casa
+      TipoUsuario: this.navParams.data.TipoUsuario
     });
 
     //console.log('b', this.usersFormEdit.value)
@@ -44,8 +43,7 @@ export class EditUserComponent implements OnInit {
     //console.log('c', this.usersFormEdit.value)
     // condicionamiento para que el id de la alicuota no se nulla ni indefinida
     if (this.userUid !== null || this.userUid !== undefined) {
-      if (this.usersFormEdit.value.TipoUsuario != '' && this.usersFormEdit.value.Casa != ''
-      ) {
+      if (this.usersFormEdit.value.TipoUsuario != '') {
 
         // llamado al servicio de actualizacion de alicuotas
         this.usersService.updateUsersServices(this.userUid, this.usersFormEdit.value).then(() => {

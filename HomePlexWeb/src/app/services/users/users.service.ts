@@ -81,7 +81,7 @@ export class UsersService {
 
 
   // Metodo -funcion -servicio para el registro de usuarios mediante correo y contraseña, ademas de los demas datos en firestore
-  registerUsersService(email: string, password: string, name: string, tipoUsuario: string) {
+  registerUsersService(email: string, password: string, name: string, casa: string, tipoUsuario: string) {
     return new Promise((resolve, reject) => {
 
       // respectivo servicio de creacion de usuarios de firestore
@@ -99,8 +99,8 @@ export class UsersService {
               Uid: uid,
               Email: email,
               Name: name,
-              Img: '',
-              Casa: '',
+              Img: 'https://us.123rf.com/450wm/thesomeday123/thesomeday1231712/thesomeday123171200009/91087331-icono-de-perfil-de-avatar-predeterminado-para-hombre-marcador-de-posici%C3%B3n-de-foto-gris-vector-de-ilustr.jpg?ver=6',
+              Casa: casa,
               Telefono: '',
               TipoUsuario: tipoUsuario
             })

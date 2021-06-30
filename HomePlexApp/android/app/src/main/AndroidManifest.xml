@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="devplusec.homeplex">
 
-    <application
+    <application android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -55,10 +55,9 @@
     <!-- Network API -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Navigator.getUserMedia -->
-    <!-- Video
+    <!-- Video -->
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <!-- Audio -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 </manifest>

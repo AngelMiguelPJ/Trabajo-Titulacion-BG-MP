@@ -15,8 +15,9 @@ export interface UsersExport {
   TipoUsuario: string,
   Telefono: string,
   Password: string,
-  Casa: string
-  Img: string
+  Casa: string,
+  Img: string,
+  token: string
 }
 
 @Injectable({
@@ -33,7 +34,8 @@ export class UsersService {
   isAccountant = false;
 
   // contructor para iniciar los servicios
-  constructor(private angularFirestore: AngularFirestore,
+  constructor(
+    private angularFirestore: AngularFirestore,
     private angularFireAuth: AngularFireAuth) { }
 
   // Metodo -funcion -servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
@@ -103,7 +105,8 @@ export class UsersService {
               Img: 'https://us.123rf.com/450wm/thesomeday123/thesomeday1231712/thesomeday123171200009/91087331-icono-de-perfil-de-avatar-predeterminado-para-hombre-marcador-de-posici%C3%B3n-de-foto-gris-vector-de-ilustr.jpg?ver=6',
               Casa: casa,
               Telefono: '',
-              TipoUsuario: tipoUsuario
+              TipoUsuario: tipoUsuario,
+              token: ''
             })
             resolve(res)
           }
@@ -114,6 +117,10 @@ export class UsersService {
 
     })
 
+  }
+
+  getId(){
+    return this.userUid = localStorage.getItem('userId');
   }
 
   getOnlyThisUser(){
@@ -183,6 +190,11 @@ export class UsersService {
   // Metodo -funcion -servicio de actualizacion de datos de un usuario por id y el campo a actualizar
   updateUsersServices(id: any, users: any) {
     return this.angularFirestore.collection("users").doc(id).update(users);
+
+  }
+
+  updateToken(id: any, token: any) {
+    return this.angularFirestore.collection("users").doc(id).update(token);
 
   }
 

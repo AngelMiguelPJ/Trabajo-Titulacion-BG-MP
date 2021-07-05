@@ -6,6 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Capacitor } from '@capacitor/core';
 
+import { UsersService } from './services/users/users.service';
+
 import {
   Plugins,
   PushNotification,
@@ -23,7 +25,9 @@ const {PushNotifications, Modals} = Plugins;
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor() {}
+  constructor(
+    public userService : UsersService
+  ) {}
 
   ngOnInit(){
     console.log("Inicio Aplicacion");
@@ -35,6 +39,7 @@ export class AppComponent implements OnInit {
       (token: PushNotificationToken) => {
         alert("Push registro exitoso, token: " + token.value);
         console.log("Push registro exitoso, token: " + token.value);
+        this.guardarToken(token.value);
       }
       );
     
@@ -68,7 +73,20 @@ export class AppComponent implements OnInit {
 
       
     }
-    
+   
   }
 
+  async guardarToken(token:any) {
+    const Uid =  await this.userService.getId();
+    console.log('ID usuario:', Uid);
+    if(Uid){
+      console.log('Guardar token: ', token );
+      //const path : '/users/';
+      const userUpdate = {
+        token : token,
+      };
+      console.log(userUpdate);
+      this.userService.updateToken(Uid, userUpdate);
+    }
+  }
 }

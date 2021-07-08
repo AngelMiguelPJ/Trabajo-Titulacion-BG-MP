@@ -1,292 +1,248 @@
 <!-- Contenedor principal del login -->
 <div class="content" role="main">
 
-    <!--====================================================================================-->
-    
-    <!-- titulo de la pagina - componente-->
-    <h2 style="text-align: center;">Alicuotas</h2>
-  
-    <!--====================================================================================-->
-  
-    <!-- boton para abri el ngmodel - form para la creacion de allicuotas-->
-    <div style="text-align: center; margin-bottom: 10px;">
-      <button type="button" class="btn btn-success" (click)="open(contentCreate)" *ngIf="usersService.isAccountant">Agregar
-        alicuota
+  <!--====================================================================================-->
+
+  <!-- titulo de la pagina - componente-->
+  <h2 style="text-align: center;">Seguimiento de alicuotas</h2>
+
+  <!--====================================================================================-->
+
+  <!-- boton para abri el ngmodel - form para la creacion de allicuotas-->
+  <div style="text-align: center; margin-bottom: 10px;">
+    <button type="button" class="btn btn-success" (click)="openFormCreate(contentCreate)"
+      *ngIf="usersService.isAccountant">agregar seguimiento
+    </button>
+  </div>
+
+  <!--====================================================================================-->
+
+  <!--Tabla para visualizacion de alicuotas-->
+  <div class="table-responsive">
+
+    <!--tabla-->
+    <table class="table">
+
+      <!--Cabecera de la tabla-->
+      <thead class="table-dark">
+        <tr>
+          <th>Descripcion</th>
+          <th>Valor cuota</th>
+          <th>Total mensual</th>
+          <th>Mes</th>
+          <th>Año</th>
+          <th>Estado de gastos mensuales</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+
+      <!-- Cuerpo de la tabla-->
+      <tbody>
+        <tr *ngFor="let item of collectionAliquotSeguimiento.data | paginate: config">
+          <td>{{item.Descripcion}}</td>
+          <td>{{item.ValorCuota}}</td>
+          <td>{{item.Total}}</td>
+          <td>{{item.Mes}}</td>
+          <td>{{item.Anio}}</td>
+          <td>{{item.Estado}}</td>
+          <td>
+
+            <!--Boton para poder editar y abrir el ngModel form de edicion-->
+            <button type="button" class="btn btn-primary">
+              Editar
+            </button>
+
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+
+    <!-- boton para la paginacion de la tabla-->
+    <pagination-controls previousLabel="Anterior" nextLabel="siguiente" (pageChange)="pageChanged($event)">
+    </pagination-controls>
+
+  </div>
+
+
+  <!--====================================================================================-->
+
+  <!-- modal de creacion-->
+  <ng-template #contentCreate let-modal>
+
+    <!--Cabecera del modal-->
+    <div class="modal-header">
+
+      <!--tITULO-->
+      <h4 class="modal-title" id="modal-basic-title">Alicuota Crear</h4>
+
+      <!--boton de cerrar-->
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
       </button>
+
     </div>
-  
-    <!--====================================================================================-->
-  
-    <!--Tabla para visualizacion de alicuotas-->
-    <div class="table-responsive">
-  
-      <!--tabla-->
-      <table class="table">
-  
-        <!--Cabecera de la tabla-->
-        <thead class="table-dark">
-          <tr>
-            <th>Nombre</th>
-            <th>Valor cuota</th>
-            <th>Valor extra</th>
-            <th>Fecha</th>
-            <th>Fecha de vencimiento</th>
-            <th>Estado</th>
-            <th>Descripcion</th>
-            <th>Opciones</th>
-          </tr>
-        </thead>
-  
-        <!-- Cuerpo de la tabla-->
-        <tbody>
-          <tr *ngFor="let item of collectionAliquots.data | paginate: config">
-            <td>{{item.DatosVecinoNombre}}</td>
-            <td>{{item.ValorCuota}}</td>
-            <td>{{item.ValorExtra}}</td>
-            <td>{{item.Fecha.split('T')[0]}}</td>
-            <td>{{item.FechaVencimiento.split('T')[0]}}</td>
-            <td>{{item.EstadoCuota}}</td>
-            <td>{{item.Descripcion}}</td>
-            <td>
-  
-              <!--Boton para poder editar y abrir el ngModel form de edicion-->
-              <button type="button" class="btn btn-primary" (click)="openEditar(contentEdit,item)"
-                *ngIf="usersService.isAccountant">
-                Editar
-              </button>
-  
-            </td>
-  
-          </tr>
-        </tbody>
-  
-      </table>
-  
-      <!-- boton para la paginacion de la tabla-->
-      <pagination-controls previousLabel="Anterior" nextLabel="siguiente" (pageChange)="pageChanged($event)">
-      </pagination-controls>
-  
+
+    <!--Cuerpo del modal-->
+    <div class="modal-body">
+
+      <!--formulario de creacion-->
+      <form>
+        <div class="form-group">
+          <!--group form-->
+          <form [formGroup]="alicuotaSeguimientoFormCreate">
+            <!--group form de nombre-->
+            <div class="form-group">
+              <label>Descripcion</label>
+              <input type="text" formControlName="Descripcion" class="form-control" maxlength='100'>
+            </div>
+            <!--group form del valor de la cuota-->
+            <div class="form-group">
+              <label>Valor cuota</label>
+              <!--input con delimitacion de longitud-->
+              <input type="number" maxlength="2"
+                oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                formControlName="ValorCuota" class="form-control">
+            </div>
+             <!--form group de estado-->
+             <div class="form-group">
+              <label>Estado de gastos mensuales</label>
+              <select type="'text" formControlName="Estado" class="form-control" placeholder="Elija un estado">
+                <option *ngFor="let status of statusEvent" [ngValue]="status">{{status}}</option>
+              </select>
+            </div>
+
+            <!--form de fecha establecida con limitaciones a la fecha actual-->
+            <div class="form-group">
+              <label>Mes - Año</label>
+
+              <!--limitacion de la fecha actual-->
+              <input type="month" formControlName="Fecha" class="form-control">
+
+            </div>
+
+          </form>
+
+        </div>
+      </form>
+
     </div>
-  
-  
-    <!--====================================================================================-->
-  
-    <!-- modal de creacion-->
-    <ng-template #contentCreate let-modal>
-  
-      <!--Cabecera del modal-->
-      <div class="modal-header">
-  
-        <!--tITULO-->
-        <h4 class="modal-title" id="modal-basic-title">Alicuota Crear-Actualizar</h4>
-  
-        <!--boton de cerrar-->
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-  
-      </div>
-  
-      <!--Cuerpo del modal-->
-      <div class="modal-body">
-  
-        <!--formulario de creacion-->
-        <form>
-          <div class="form-group">
-  
-            <!--group form-->
-            <form [formGroup]="aliquotFormCreate">
-  
-              <!--group form de nombre-->
+
+    <!--Botones para la paginacion-->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="createAliquotSeguimiento()" *ngIf="!actualizar">Guardar</button>
+    </div>
+
+  </ng-template>
+
+  <!--====================================================================================-->
+
+  <!--Ng Template de edicion-->
+  <ng-template #contentEdit let-modal>
+
+    <!--Header del modal-->
+    <div class="modal-header">
+
+      <!--titulo-->
+      <h4 class="modal-title" id="modal-basic-title">Alicuota Actualizar</h4>
+
+      <!--boton de cerrado-->
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <!-- cuerpo del modal-->
+    <div class="modal-body">
+
+      <!--formulario-->
+      <form>
+        <div class="form-group">
+
+          <!--Form group de edicion-->
+          <form [formGroup]="aliquotFormEdit">
+
+            <!--form de nombre-->
+            <div formGroupName="DatosVecino">
               <div class="form-group">
                 <label>Nombre</label>
-  
-                <!--select de usuarios por medio de obtencion del servicio de usuarios-->
-                <select type="'text" formControlName="DatosVecino" class="form-control" placeholder="Elija un estado">
-                  <option *ngFor="let users of collectionUsers.data" [ngValue]="users">{{users.Nombre}}</option>
-                </select>
-  
+                <input type="text" formControlName="Nombre" class="form-control">
               </div>
-  
-              <!--group form del valor de la cuota-->
-              <div class="form-group">
-                <label>Valor cuota</label>
-  
-                <!--input con delimitacion de longitud-->
-                <input type="number" maxlength="2"
-                  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  formControlName="ValorCuota" class="form-control">
-  
-              </div>
-  
-              <!--Form group de valor extra-->
-              <div class="form-group">
-                <label>Valor extra</label>
-                <!--input con delimitacion de longitud-->
-                <input type="number" maxlength="4"
-                  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  formControlName="ValorExtra" class="form-control">
-  
-              </div>
-  
-              <!--form de fecha establecida con limitaciones a la fecha actual-->
-              <div class="form-group">
-                <label>Fecha</label>
-  
-                <!--limitacion de la fecha actual-->
-                <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
-                  min="{{fechaActual|date:'yyyy-MM-dd'}}" #FechaForm (input)="cambio(FechaForm.value)">
-  
-              </div>
-  
-              <!--form de fecha establecida con limitaciones de acuerdo a la fecha actual un mes despues-->
-              <div class="form-group">
-                <label>Fecha vencimiento</label>
-  
-                <!--limitacion de la fecha de vencimiento-->
-                <input type="date" formControlName="FechaVencimiento" class="form-control" (disabled)="!fechaVencimiento"
-                  min="{{fechaVencimiento|date:'yyyy-MM-dd'}}">
-  
-              </div>
-  
-              <!--form group de estado-->
-              <div class="form-group">
-                <label>Estado</label>
-  
-                <!--select de estado apartir de un array-->
-                <select type="'text" formControlName="EstadoCuota" class="form-control" placeholder="Elija un estado">
-                  <option *ngFor="let estado of estadoCuotaList" [ngValue]="estado">{{estado}}</option>
-                </select>
-  
-              </div>
-  
-              <!--form group de descripcion-->
-              <div class="form-group">
-                <label>Descripcion</label>
-                <input type="text" formControlName="Descripcion" class="form-control" maxlength='100'>
-              </div>
-  
-            </form>
-  
-          </div>
-        </form>
-  
-      </div>
-  
-      <!--Botones para la paginacion-->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="createAliquot()" *ngIf="!actualizar">Guardar</button>
-      </div>
-  
-    </ng-template>
-  
-    <!--====================================================================================-->
-  
-    <!--Ng Template de edicion-->
-    <ng-template #contentEdit let-modal>
-  
-      <!--Header del modal-->
-      <div class="modal-header">
-  
-        <!--titulo-->
-        <h4 class="modal-title" id="modal-basic-title">Alicuota Actualizar</h4>
-  
-        <!--boton de cerrado-->
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-  
-      </div>
-  
-      <!-- cuerpo del modal-->
-      <div class="modal-body">
-  
-        <!--formulario-->
-        <form>
-          <div class="form-group">
-  
-            <!--Form group de edicion-->
-            <form [formGroup]="aliquotFormEdit">
-  
-              <!--form de nombre-->
-              <div formGroupName="DatosVecino">
-                <div class="form-group">
-                  <label>Nombre</label>
-                  <input type="text" formControlName="Nombre" class="form-control">
-                </div>
-              </div>
-  
-              <!--Form de valor de la cuota-->
-              <div class="form-group">
-                <label>Valor cuota</label>
-  
-                <!--establecimiento de longitud maxima del valor de la cuota-->
-                <input type="number" maxlength="2"
-                  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  formControlName="ValorCuota" class="form-control">
-              </div>
-  
-              <!--Form de valor extra-->
-              <div class="form-group">
-                <label>Valor extra</label>
-  
-                <!--establecimiento de longitud maxima del valor extra -->
-                <input type="text" maxlength="4"
-                  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                  formControlName="ValorExtra" class="form-control">
-              </div>
-  
-              <!--form de fecha establecida con limitaciones a la fecha actual-->
-              <div class="form-group">
-                <label>Fecha</label>
-  
-                <!--limitacion de la fecha actual-->
-                <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
-                  min="{{fechaActual|date:'yyyy-MM-dd'}}" #FechaForm (input)="cambio(FechaForm.value)">
-  
-              </div>
-  
-              <!--form de fecha establecida con limitaciones a la fecha de vencimiento-->
-              <div class="form-group">
-                <label>Fecha vencimiento</label>
-  
-                <!--limitacion de la fecha de vencimiento de acuerdo a la actual y seleeccionada-->
-                <input type="date" formControlName="FechaVencimiento" class="form-control" (disabled)="!fechaVencimiento"
-                  min="{{fechaVencimiento|date:'yyyy-MM-dd'}}">
-  
-              </div>
-  
-              <!--form de estado -->
-              <div class="form-group">
-                <label>Estado</label>
-  
-                <!--select para modificar el estado-->
-                <select type="'text" formControlName="EstadoCuota" class="form-control" placeholder="Elija un estado">
-                  <option *ngFor="let estado of estadoCuotaList" [ngValue]="estado">{{estado}}</option>
-                </select>
-  
-              </div>
-  
-              <!--form de descripcion-->
-              <div class="form-group">
-                <label>Descripcion</label>
-                <input type="text" formControlName="Descripcion" class="form-control" maxlength="100">
-              </div>
-  
-            </form>
-  
-          </div>
-        </form>
-  
-      </div>
-  
-      <!--botones de paginacion-->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="updateAliquot()">Guardar</button>
-      </div>
-  
-    </ng-template>
-  
-    <!--====================================================================================-->
-  
-  </div>
+            </div>
+
+            <!--Form de valor de la cuota-->
+            <div class="form-group">
+              <label>Valor cuota</label>
+
+              <!--establecimiento de longitud maxima del valor de la cuota-->
+              <input type="number" maxlength="2"
+                oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                formControlName="ValorCuota" class="form-control">
+            </div>
+
+            <!--Form de valor extra-->
+            <div class="form-group">
+              <label>Valor extra</label>
+
+              <!--establecimiento de longitud maxima del valor extra -->
+              <input type="text" maxlength="4"
+                oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                formControlName="ValorExtra" class="form-control">
+            </div>
+
+            <!--form de fecha establecida con limitaciones a la fecha actual-->
+            <div class="form-group">
+              <label>Fecha</label>
+
+              <!--limitacion de la fecha actual-->
+              <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
+                min="{{fechaActual|date:'yyyy-MM-dd'}}" #FechaForm (input)="cambio(FechaForm.value)">
+
+            </div>
+
+            <!--form de fecha establecida con limitaciones a la fecha de vencimiento-->
+            <div class="form-group">
+              <label>Fecha vencimiento</label>
+
+              <!--limitacion de la fecha de vencimiento de acuerdo a la actual y seleeccionada-->
+              <input type="date" formControlName="FechaVencimiento" class="form-control" (disabled)="!fechaVencimiento"
+                min="{{fechaVencimiento|date:'yyyy-MM-dd'}}">
+
+            </div>
+
+            <!--form de estado -->
+            <div class="form-group">
+              <label>Estado</label>
+
+              <!--select para modificar el estado-->
+              <select type="'text" formControlName="EstadoCuota" class="form-control" placeholder="Elija un estado">
+                <option *ngFor="let estado of estadoCuotaList" [ngValue]="estado">{{estado}}</option>
+              </select>
+
+            </div>
+
+            <!--form de descripcion-->
+            <div class="form-group">
+              <label>Descripcion</label>
+              <input type="text" formControlName="Descripcion" class="form-control" maxlength="100">
+            </div>
+
+          </form>
+
+        </div>
+      </form>
+
+    </div>
+
+    <!--botones de paginacion-->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="updateAliquot()">Guardar</button>
+    </div>
+
+  </ng-template>
+
+  <!--====================================================================================-->
+
+</div>

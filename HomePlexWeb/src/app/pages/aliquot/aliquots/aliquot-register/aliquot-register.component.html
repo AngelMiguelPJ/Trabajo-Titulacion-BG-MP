@@ -29,8 +29,8 @@
           <th>Nombre</th>
           <th>Valor cuota</th>
           <th>Valor extra</th>
-          <th>Fecha</th>
-          <th>Fecha de vencimiento</th>
+          <th>Mes</th>
+          <th>Año</th>
           <th>Estado</th>
           <th>Descripcion</th>
           <th>Opciones</th>
@@ -43,8 +43,8 @@
           <td>{{item.DatosVecinoNombre}}</td>
           <td>{{item.ValorCuota}}</td>
           <td>{{item.ValorExtra}}</td>
-          <td>{{item.Fecha.split('T')[0]}}</td>
-          <td>{{item.FechaVencimiento.split('T')[0]}}</td>
+          <td>{{item.Mes}}</td>
+          <td>{{item.Anio}}</td>
           <td>{{item.EstadoCuota}}</td>
           <td>{{item.Descripcion}}</td>
           <td>
@@ -231,7 +231,7 @@
               <label>Valor extra</label>
 
               <!--establecimiento de longitud maxima del valor extra -->
-              <input type="text" maxlength="4"
+              <input type="number" maxlength="4"
                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 formControlName="ValorExtra" class="form-control">
             </div>
@@ -241,20 +241,12 @@
               <label>Fecha</label>
 
               <!--limitacion de la fecha actual-->
-              <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
-                min="{{fechaActual|date:'yyyy-MM-dd'}}" #FechaForm (input)="cambio(FechaForm.value)">
+              <input type="month" formControlName="Fecha" class="form-control">
 
             </div>
 
             <!--form de fecha establecida con limitaciones a la fecha de vencimiento-->
-            <div class="form-group">
-              <label>Fecha vencimiento</label>
-
-              <!--limitacion de la fecha de vencimiento de acuerdo a la actual y seleeccionada-->
-              <input type="date" formControlName="FechaVencimiento" class="form-control" (disabled)="!fechaVencimiento"
-                min="{{fechaVencimiento|date:'yyyy-MM-dd'}}">
-
-            </div>
+           
 
             <!--form de estado -->
             <div class="form-group">

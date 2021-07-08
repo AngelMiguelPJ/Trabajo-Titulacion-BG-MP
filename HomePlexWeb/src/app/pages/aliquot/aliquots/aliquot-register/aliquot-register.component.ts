@@ -5,6 +5,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { AliquotService } from '../../../../services/aliquot/aliquot.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AliquotSeguimientoService } from 'src/app/services/aliquot-seguimiento/aliquot-seguimiento.service';
 
 @Component({
   selector: 'app-aliquot-register',
@@ -22,6 +23,9 @@ export class AliquotRegisterComponent implements OnInit {
   // coleccion de aliquotas
   collectionAliquots = { count: 0, data: [] }
 
+  collectionAliquotSeguimiento = { count: 0, data: [] };
+  collectionAliquotSeguimientoLength;
+
   // arreglo de estado "Pagado o no"
   estadoCuotaList = [
     'Pagada',
@@ -38,20 +42,26 @@ export class AliquotRegisterComponent implements OnInit {
   // formulario para la edicion de alicuotas
   aliquotFormEdit: FormGroup;
 
+  aliquotSeguimientoUpdate: FormGroup;
+
   // variables de estado
   closeResult = '';
   actualizar: boolean;
+  totalSeguimiento = 0;
+  ValorExtraAntiguo = 0;
 
   // fecha actual
   fechaActual;
   fechaVencimiento;
   fechaSelect;
+  IdSeguimientoUpdateTotal;
 
   // iniciar servicios
   constructor(private aliquotService: AliquotService,
     public usersService: UsersService,
     private ngbModal: NgbModal,
-    public formBuilder: FormBuilder,) { }
+    public formBuilder: FormBuilder,
+    private aliquotSeguimientoService: AliquotSeguimientoService,) { }
 
   ngOnInit(): void {
 
@@ -102,10 +112,13 @@ export class AliquotRegisterComponent implements OnInit {
           ValorCuota: e.payload.doc.data().ValorCuota,
           ValorExtra: e.payload.doc.data().ValorExtra,
           Fecha: e.payload.doc.data().Fecha,
-          FechaVencimiento: e.payload.doc.data().FechaVencimiento,
+          Mes: e.payload.doc.data().Mes,
+          Anio: e.payload.doc.data().Anio,
           EstadoCuota: e.payload.doc.data().EstadoCuota,
           Descripcion: e.payload.doc.data().Descripcion,
-          IdAliquot: e.payload.doc.data().IdAliquot
+          IdAliquot: e.payload.doc.data().IdAliquot,
+          NumeroMes: e.payload.doc.data().NumeroMes,
+          IdSeguimiento: e.payload.doc.data().IdSeguimiento,
         }
       })
       //console.log(this.collectionAliquots.data)
@@ -116,18 +129,19 @@ export class AliquotRegisterComponent implements OnInit {
     );
 
     // aleatorio para la alicuota
-    
+
     //iniciar formulario para la creacion de alicuotas
     this.aliquotFormCreate = this.formBuilder.group({
       IdAliquot: '',
       DatosVecino: '',
       ValorCuota: '',
       ValorExtra: '',
-      Fecha: Date.toString,
-      FechaVencimiento: Date.toString,
+      Fecha: '',
+      Mes: '',
+      Anio: '',
       EstadoCuota: '',
       Descripcion: '',
-      NumeroMes: '',
+
     })
 
     // formulario para la edicion de alicuotas
@@ -137,11 +151,16 @@ export class AliquotRegisterComponent implements OnInit {
       }),
       ValorCuota: '',
       ValorExtra: '',
-      Fecha: Date.toString,
-      FechaVencimiento: Date.toString,
+      Fecha: '',
       EstadoCuota: '',
       Descripcion: ''
     })
+
+    this.aliquotSeguimientoUpdate = this.formBuilder.group({
+      Total: '',
+    })
+
+
 
   }
 
@@ -157,7 +176,7 @@ export class AliquotRegisterComponent implements OnInit {
   createAliquot() {
     const idAliquotRandom = Math.random().toString(36).substring(2);
     this.aliquotFormCreate.value.IdAliquot = idAliquotRandom;
-    this.aliquotFormCreate.value.NumeroMes = this.aliquotFormCreate.value.Fecha.split('-')[1];
+
     //console.table(this.aliquotFormCreate.value)
     // llamado al servicio de creacion de alicuotas
     this.aliquotService.createAliquotServices(this.aliquotFormCreate.value).then(resp => {
@@ -171,7 +190,7 @@ export class AliquotRegisterComponent implements OnInit {
     })
 
   }
-  
+
   // apertura del modal para la creacion de alicuotas
   open(content) {
 
@@ -219,7 +238,8 @@ export class AliquotRegisterComponent implements OnInit {
   // funcion para abri el ng model y cambiar los datos
   openEditar(content, item: any) {
 
-    //llenar form para editar con los datos seteados a partir del formulario
+    //console.log(item.ValorExtra)
+    this.ValorExtraAntiguo = item.ValorExtra;
     this.aliquotFormEdit.setValue({
       DatosVecino: ({
         Nombre: item.DatosVecinoNombre
@@ -227,17 +247,18 @@ export class AliquotRegisterComponent implements OnInit {
       ValorCuota: item.ValorCuota,
       ValorExtra: item.ValorExtra,
       Fecha: item.Fecha,
-      FechaVencimiento: item.FechaVencimiento,
       EstadoCuota: item.EstadoCuota,
       Descripcion: item.Descripcion
     })
 
     // seteo de que no sea editable la variable de nombre en la alicuota
-    this.aliquotFormEdit.controls['DatosVecino'].disable()
+    this.aliquotFormEdit.controls['DatosVecino'].disable();
+    this.aliquotFormEdit.controls['ValorCuota'].disable();
+    this.aliquotFormEdit.controls['Fecha'].disable()
 
     // igualancion del uid del usuario actual a la variable id firebase
     this.IdAliquotUpdate = item.id;
-
+    this.IdSeguimientoUpdateTotal = item.IdSeguimiento;
     // cambiar el estado de la variable booleana a true
     this.actualizar = true;
 
@@ -254,17 +275,39 @@ export class AliquotRegisterComponent implements OnInit {
 
   // funcio - metodo para la actualizacion de un alicuota
   updateAliquot() {
+    console.log(this.aliquotFormEdit.value.ValorExtra)
+    console.log(this.ValorExtraAntiguo)
+    if (this.aliquotFormEdit.value.ValorExtra > this.ValorExtraAntiguo) {
+      this.aliquotSeguimientoService.getPaymentTrackingUnic(this.IdSeguimientoUpdateTotal).subscribe(resp => {
+        //console.log(resp)
+        this.aliquotSeguimientoUpdate.value.Total = (resp + this.aliquotFormEdit.value.ValorExtra)
+        console.log(this.aliquotSeguimientoUpdate.value.Total)
+      })
+      
+    } else if (this.aliquotFormEdit.value.ValorExtra < this.ValorExtraAntiguo) {
+      this.aliquotSeguimientoService.getPaymentTrackingUnic(this.IdSeguimientoUpdateTotal).subscribe(resp => {
+        //console.log(resp)
+        this.aliquotSeguimientoUpdate.value.Total = (resp - this.aliquotFormEdit.value.ValorExtra)
+        console.log(this.aliquotSeguimientoUpdate.value.Total)
+      })
+    }else{
+      console.log('valor queda igual');
+    }
+
+    
 
     // condicionamiento para que el id de la alicuota no se nulla ni indefinida
     if (this.IdAliquotUpdate !== null || this.IdAliquotUpdate !== undefined) {
 
       // llamado al servicio de actualizacion de alicuotas
       this.aliquotService.updateAliquotServices(this.IdAliquotUpdate, this.aliquotFormEdit.value).then(resp => {
-        
+
         // llamado a las funciones de reseteo y cerrado de ngforms
+        
+
         this.aliquotFormEdit.reset();
         this.ngbModal.dismissAll();
-        
+
       }).catch(error => {
         //console.error(error);
       });

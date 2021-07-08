@@ -6,66 +6,68 @@
   <!--====================================================================================-->
 
   <!--boton que rediceccionaa para registrar alicuotas-->
-  <a class="item" routerLink="/alicuotas/seguimiento/registrar" *ngIf="usersService.isAccountant">
+  <a class="item" routerLink="/alicuotas/seguimiento/registrar">
     <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
     Registrar Seguimiento general de alicuotas
   </a>
 
-  <!--====================================================================================-->
+  <!--===========================================================================-->
 
-  <!--div que muestra los datos de la alicuotas-->
-  <div *ngFor="let item of collectionAliquotSeguimiento | paginate: config">
+  <!-- Div card grid que incluye los datos de cada evento-->
+  <div >
 
-    <!--Grid de informacion-->
+    <!--Grid de eventos-->
     <div class="grid-container responsive">
 
-      <!--Primer item del grid-->
-      <div class="item1"></div>
+      <!--Imagen del evento primer div en el grid-->
+      <div class="item1" style="background-image: url();"></div>
 
-      <!--Segundo item del grid-->
+      <!--segundo div del grid-->
       <div class="item2">
 
-        <!--Nombre de a quien va la alicuota-->
+        <!--Nombre del evento-->
         <div>
-          <h5>{{item.DatosVecino.Nombre}}</h5>
+          <h5>MES - AÑO</h5>
         </div>
-        
-        <!--Descripcion de la alicuota-->
+
+        <!--Descripcion del evento-->
         <div>
-          <p style="font-size: 12px;">{{item.Descripcion}} </p>
+          <p style="font-size: 12px;">
+            Descripcion
+          </p>
         </div>
 
       </div>
 
-      <!-- tercer item del grid-->
+      <!--tercer div del grid-->
       <div class="item3">
 
-        <!--Valor de cuota-->
-        <div style="font-size: 12px;">Valor: <b>{{item.ValorCuota}}</b></div>
-
-        <!--Valores extra-->
-        <div style="font-size: 12px;">Valor extra: <b>{{item.ValorExtra}}</b></div>
-
-        <!--Estado de la cuota-->
-        <div style="font-size: 12px;">Estado:
-          <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'" [class.redClass]="item.EstadoCuota =='No pagada'">
-            {{item.EstadoCuota}}
+        <!--Estado del evento-->
+        <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;" >
+          Estado:
+          <b >
+            Completa / incompleta
           </b>
         </div>
 
-        <!--Fecha de la cuota-->
-        <div style="font-size: 12px;">Fecha: <b>{{item.Fecha.split('T')[0]}}</b></div>
+        <!--Lugar del evento-->
+        <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;">
+          Cuota: <b>Cuota</b>
+        </div>
 
-        <!--Fecha de vencimiento de la cuota-->
-        <div style="font-size: 12px;">Fecha Venc. : <b>{{item.FechaVencimiento.split('T')[0]}}</b></div>
+        <!--Numero de personas del evento-->
+        <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;">
+          Total: <b>Total</b>
+        </div>
+
 
       </div>
 
     </div>
 
   </div>
-
-  <!--====================================================================================-->
+  
+  <!--===========================================================================-->
   
   <!--Botones de paginacion-->
   <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"

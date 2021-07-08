@@ -15,6 +15,12 @@ export class AliquotSeguimientoService {
   getPaymentTracking() {
     return this.angularFirestore.collection('paymentTracking').snapshotChanges()
   }
+  getPaymentTrackingUnic(id) {
+    return this.angularFirestore.collection('paymentTracking').doc(id).snapshotChanges().pipe(map(res=>{
+      //console.log(res)  
+      return res.payload.data()['Total']
+    }))
+  }
   // Metodo -funcion -servicio de actualizacion de datos de alicuotas por id y datos
   updatePaymentTracking(idAliquot: any, aliquots: any) {
     return this.angularFirestore.collection("paymentTracking").doc(idAliquot).update(aliquots);

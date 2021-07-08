@@ -15,19 +15,8 @@ describe('AliquotComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AliquotComponent ],
-      imports: [
-        RouterTestingModule,
-        AngularFireModule.initializeApp(firebaseConfig),
-        AngularFireAuthModule,
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        NgxPaginationModule
-      ],
-      providers: [
-        FormBuilder
-        ]
+      declarations: [ AliquotComponent ]
+      
     })
     .compileComponents();
   });

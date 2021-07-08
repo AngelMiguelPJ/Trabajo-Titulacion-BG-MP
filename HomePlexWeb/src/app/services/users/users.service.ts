@@ -124,13 +124,11 @@ export class UsersService {
   // Metodo -funcion -servicio de actualizacion de datos de un usuario por id y el campo a actualizar
   updateUsersServices(id: any, users: any) {
     return this.angularFirestore.collection("users").doc(id).update(users);
-
   }
 
   // Metodo -funcion -servicio de actualizacion de foto de perfil de un usuario por id y el campo a actualizar
   updateUsersServicesImg(id: any, users: any) {
     return this.angularFirestore.collection("users").doc(id).update(users);
-
   }
 
   // Metodo -funcion -servicio de borrarado de datos de un usuario por id

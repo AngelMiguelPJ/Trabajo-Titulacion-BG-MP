@@ -2,79 +2,35 @@
 <div class="content" role="main">
 
   <!--====================================================================================-->
-
-  <!--Titulo de la pagina-->
-  <h2 style="text-align: center;">Mis alicuotas</h2>
-
-  <!--====================================================================================-->
-
-  <!--boton que rediceccionaa para registrar alicuotas-->
-  <a class="item" routerLink="/alicuotas/registrar" *ngIf="usersService.isAccountant">
-    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
-    Registrar Alicuotas
-  </a>
+  <!--Titulo-->
+  <h2 style="text-align: center; margin-bottom: 2 rem;">Alicuotas</h2>
 
   <!--====================================================================================-->
 
-  <!--div que muestra los datos de la alicuotas-->
-  <div *ngFor="let item of collectionAliquot | paginate: config">
+  <div class="card text-center" style="margin-top: 2rem;">
+    <div class="card-header">
+      <h5 class="card-title">Seguimiento general de alicuotas</h5>
+    </div>
+    <div class="card-body">
+      <p class="card-text">
+        En esta seccion podras vizualizar una descripcion mas detallada de los gasto total del conjunto
+        mes a mes de acuerdo a tus pagos de alicuotas y extras.
+      </p>
+      <a routerLink="/alicuotas/seguimiento"class="btn btn-primary" id="b1">Ver todo</a>
+    </div>
+  </div>
+  
 
-    <!--Grid de informacion-->
-    <div class="grid-container responsive">
-
-      <!--Primer item del grid-->
-      <div class="item1"></div>
-
-      <!--Segundo item del grid-->
-      <div class="item2">
-
-        <!--Nombre de a quien va la alicuota-->
-        <div>
-          <h5>{{item.DatosVecino.Nombre}}</h5>
-        </div>
-        
-        <!--Descripcion de la alicuota-->
-        <div>
-          <p style="font-size: 12px;">{{item.Descripcion}} </p>
-        </div>
-
-      </div>
-
-      <!-- tercer item del grid-->
-      <div class="item3">
-
-        <!--Valor de cuota-->
-        <div style="font-size: 12px;">Valor: <b>{{item.ValorCuota}}</b></div>
-
-        <!--Valores extra-->
-        <div style="font-size: 12px;">Valor extra: <b>{{item.ValorExtra}}</b></div>
-
-        <!--Estado de la cuota-->
-        <div style="font-size: 12px;">Estado:
-          <b [class.greenClass]="item.EstadoCuota =='Pagada'" [class.orangeClass]="item.EstadoCuota =='Pendiente'" [class.redClass]="item.EstadoCuota =='No pagada'">
-            {{item.EstadoCuota}}
-          </b>
-        </div>
-
-        <!--Fecha de la cuota-->
-        <div style="font-size: 12px;">Fecha: <b>{{item.Fecha.split('T')[0]}}</b></div>
-
-        <!--Fecha de vencimiento de la cuota-->
-        <div style="font-size: 12px;">Fecha Venc. : <b>{{item.FechaVencimiento.split('T')[0]}}</b></div>
-
-      </div>
-
+  <!--====================================================================================-->
+  <div class="card text-center" style="margin-top: 2rem;">
+    <div class="card-header">
+      <h5 class="card-title">Seguimiento mensual de alicutoas</h5>
+    </div>
+    <div class="card-body">
+      <p class="card-text">
+        En esta seccion podras vizualizar una descripcion mas detallada de los pagos de tus alicuotas mes a mes.
+      </p>
+      <a routerLink="/alicuotas/usuarios" class="btn btn-primary" id="b1">Ver todo</a>
     </div>
 
   </div>
-
-  <!--====================================================================================-->
-  
-  <!--Botones de paginacion-->
-  <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
-    (pageChange)="pageChanged($event)">
-  </pagination-controls>
-
-  <!--====================================================================================-->
-
-</div>

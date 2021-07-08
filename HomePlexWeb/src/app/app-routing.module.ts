@@ -7,7 +7,7 @@ import { AuthGuard } from './guards/auth/auth.guard';
 import { LogoutGuard } from './guards/logout/logout.guard';
 
 //Componentes
-import { AliquotRegisterComponent } from './pages/aliquot/aliquot-register/aliquot-register.component';
+import { AliquotRegisterComponent } from './pages/aliquot/aliquots/aliquot-register/aliquot-register.component';
 import { BookingRegisterComponent } from './pages/booking/booking-register/booking-register.component';
 import { AliquotComponent } from './pages/aliquot/aliquot.component';
 import { BookingComponent } from './pages/booking/booking.component';
@@ -21,6 +21,9 @@ import { RegisterComponent } from './pages/register/register.component';
 import { SecurityGuard } from './guards/security/security.guard';
 import { ScheduleTrasComponent } from './pages/schedule-tras/schedule-tras.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { AliquotsComponent } from './pages/aliquot/aliquots/aliquots.component';
+import { SeguimientoComponent } from './pages/aliquot/seguimiento/seguimiento.component';
+import { SeguimientoRegisterComponent } from './pages/aliquot/seguimiento/seguimiento-register/seguimiento-register.component';
 
 // rutas
 const routes: Routes = [
@@ -79,11 +82,27 @@ const routes: Routes = [
     component: AliquotComponent,
     canActivate : [AuthGuard],
   },
+  {
+    path: 'alicuotas/usuarios',
+    component: AliquotsComponent,
+    canActivate : [AuthGuard],
+  },
+  {
+    path: 'alicuotas/seguimiento',
+    component: SeguimientoComponent,
+    canActivate : [AuthGuard],
+  },
 
   {
-    path: 'alicuotas/registrar',
+    path: 'alicuotas/usuarios/registrar',
     component: AliquotRegisterComponent,
-    canActivate : [AuthGuard, SecurityGuard],
+    canActivate : [AuthGuard],
+  },
+
+  {
+    path: 'alicuotas/seguimiento/registrar',
+    component: SeguimientoRegisterComponent,
+    canActivate : [AuthGuard],
   },
 
   {

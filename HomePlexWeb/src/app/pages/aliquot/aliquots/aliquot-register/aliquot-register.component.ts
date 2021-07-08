@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 
 // servicios de alicuotas
-import { AliquotService } from '../../../services/aliquot/aliquot.service';
+import { AliquotService } from '../../../../services/aliquot/aliquot.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 

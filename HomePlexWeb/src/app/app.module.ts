@@ -15,7 +15,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { EventRegisterComponent } from './pages/event/event-register/event-register.component';
-import { AliquotRegisterComponent } from './pages/aliquot/aliquot-register/aliquot-register.component';
+import { AliquotRegisterComponent } from './pages/aliquot/aliquots/aliquot-register/aliquot-register.component';
 
 // importar servicio de firebase
 import { firebaseConfig } from './services/database/firebase.service';
@@ -34,6 +34,9 @@ import { SecurityGuard } from './guards/security/security.guard';
 import { ScheduleTrasComponent } from './pages/schedule-tras/schedule-tras.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ScrollToBottomDirective } from './directives/scroll-to-bottom.directive';
+import { SeguimientoComponent } from './pages/aliquot/seguimiento/seguimiento.component';
+import { AliquotsComponent } from './pages/aliquot/aliquots/aliquots.component';
+import { SeguimientoRegisterComponent } from './pages/aliquot/seguimiento/seguimiento-register/seguimiento-register.component';
 
 
 @NgModule({
@@ -53,7 +56,10 @@ import { ScrollToBottomDirective } from './directives/scroll-to-bottom.directive
     BookingRegisterComponent,
     ScheduleTrasComponent,
     ResetPasswordComponent,
-    ScrollToBottomDirective
+    ScrollToBottomDirective,
+    SeguimientoComponent,
+    AliquotsComponent,
+    SeguimientoRegisterComponent
   ],
   imports: [
     BrowserModule,

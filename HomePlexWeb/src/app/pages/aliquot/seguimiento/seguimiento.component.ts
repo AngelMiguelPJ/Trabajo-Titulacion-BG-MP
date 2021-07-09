@@ -26,11 +26,27 @@ export class SeguimientoComponent implements OnInit {
     totalItems: this.collectionAliquotSeguimientoLength
   };
 
-  this.collectionAliquotSeguimiento.getAllAliquotServicesOnlyThisUser().subscribe(resp=>{
-    this.collectionAliquotSeguimiento = resp
+  this.aliquotSeguimientoService.getPaymentTracking().subscribe(resp => {
+
     this.collectionAliquotSeguimientoLength = resp.length
-    //console.log(resp.length)
-    //console.log(this.collectionAliquot)
+
+    this.collectionAliquotSeguimiento = resp.map((e: any) => {
+      //console.log('respuesta 2: ', e.payload.doc.data())
+      // return que devolvera los datos a collection
+      return {
+        // seteo de los principales datos que se obtendran de los usuarios
+        // y que se reflejaran para el administrador
+        Anio: e.payload.doc.data().Anio,
+        ValorCuota: e.payload.doc.data().ValorCuota,
+        Descripcion: e.payload.doc.data().Descripcion,
+        Estado: e.payload.doc.data().Estado,
+        Fecha: e.payload.doc.data().Fecha,
+        Mes: e.payload.doc.data().Mes,
+        Total: e.payload.doc.data().Total,
+        id: e.payload.doc.id,
+
+      }
+    })
   })
     
   }

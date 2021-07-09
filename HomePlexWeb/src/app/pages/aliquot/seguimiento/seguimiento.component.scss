@@ -1,151 +1,86 @@
+
+
+
+
+.item {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #3a3b45;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}
+
 .grid-container {
-    display: grid;
-    grid-template-columns: 10rem 15rem auto ;
-    grid-gap: 1px;
-    background-color: none;
-    padding: 10px;
+  display: grid;
+  grid-template-columns: 0.5rem 15rem auto ;
+  grid-gap: 1px;
+  background-color: none;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-size: 30px;
+}
+
+.grid-container .item1 {
+  background-color: #4e73df;
+  padding: 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.grid-container .item3 {
+  padding: 10px;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto auto auto;
+}
+
+.grid-container .item2 {
+  display: grid;
+  grid-template-rows: auto auto;
+  vertical-align: center;
+  padding: 5px;
+ 
+}
+
+@media (max-width: 870px) {
+  .grid-container{
+    display: block;
   }
-  
-  .grid-container > div {
-    background-color: rgba(255, 255, 255, 0.8);
-    text-align: center;
-    font-size: 30px;
-  }
-  
   .grid-container .item1 {
-  
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    background-position: bottom center;
-    background-size: cover;
+    background-color: #4e73df;
+    padding: 5px;
+    border-radius: 10px 0;
   }
-  
+}
+
+@media (max-width: 420px) {
   .grid-container .item3 {
-    text-align: center;
-    padding: 5px;
-    display: grid;
-    grid-template-rows: auto;
-    grid-template-columns: auto auto auto;
-    
-  }
-  
-  .grid-container .item2 {
-    text-align: center;
-    display: grid;
-    grid-template-rows: auto auto;
-    vertical-align: center;
-    padding: 5px;
-   
-  }
-  
-  @media (max-width: 1060px) {
-    .grid-container{
-      display: block;
-    }
-    .grid-container .item1 {
-      padding: 10%;
-      display: grid;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      border-bottom-left-radius: 0px;
-      background-position: bottom center;
-      background-size: cover;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .grid-container .item1 {
-      padding: 10%;
-      display: grid;
-      grid-template-rows: auto auto;
-      grid-template-columns: auto auto;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-    }
-  
-    .grid-container .item3 {
-      
-      display: grid;
-      grid-template-rows: auto auto;
-      grid-template-columns: auto auto;
-      
-    }
-  }
-  
-  .greenClass{
-    color: green;
-  }
-  
-  .orangeClass{
-    color:orange
-  }
-  
-  .redClass{
-    color: red;
-  }
-  
-  .item {
-      display: block;
-      width: 100%;
-      padding: 0.25rem 1.5rem;
-      clear: both;
-      font-weight: 400;
-      color: #3a3b45;
-      text-align: inherit;
-      white-space: nowrap;
-      background-color: transparent;
-      border: 0;
-    }
-  
-  .grid-container2 {
-    display: grid;
-    grid-template-columns: auto auto ;
-    grid-gap: 1px;
-    background-color: none;
-    padding: 10px;
-    height: 200px;
-  }
-    
-  .grid-container2 > div {
-    background-color: rgba(255, 255, 255, 0.8);
-    text-align: center;
-    font-size: 30px;
-  }
-    
-  .grid-container2 .item12 {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    background-position: bottom center;
-    background-size: cover;
-  }
-    
-  .grid-container2 .item32 {
-    text-align: center;
     padding: 5px;
     display: grid;
     grid-template-rows: auto auto;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
   }
-    
-  .grid-container2 .item22 {
-    text-align: center;
-    display: grid;
-    grid-template-rows: auto auto;
-    vertical-align: center;
-    padding: 5px; 
-  }
-      
-  @media (max-width: 480px) {
-    .grid-container2{
-      display: block;
-    }
-    .grid-container2 .item12 {
-      padding: 10%;
-      display: grid;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      border-bottom-left-radius: 0px;
-      background-position: bottom center;
-      background-size: cover;
-    }
-  }
+}
+
+
+
+.greenClass{
+  color: green;
+}
+
+.orangeClass{
+  color:orange
+}
+
+.redClass{
+  color: red;
+}

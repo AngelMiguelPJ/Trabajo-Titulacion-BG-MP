@@ -48,7 +48,7 @@
           <td>
 
             <!--Boton para poder editar y abrir el ngModel form de edicion-->
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-primary" (click)="openEditar(contentEdit,item)">
               Editar
             </button>
 
@@ -105,8 +105,8 @@
                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 formControlName="ValorCuota" class="form-control">
             </div>
-             <!--form group de estado-->
-             <div class="form-group">
+            <!--form group de estado-->
+            <div class="form-group">
               <label>Estado de gastos mensuales</label>
               <select type="'text" formControlName="Estado" class="form-control" placeholder="Elija un estado">
                 <option *ngFor="let status of statusEvent" [ngValue]="status">{{status}}</option>
@@ -131,7 +131,8 @@
 
     <!--Botones para la paginacion-->
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="createAliquotSeguimiento()" *ngIf="!actualizar">Guardar</button>
+      <button type="button" class="btn btn-outline-dark" (click)="createAliquotSeguimiento()"
+        *ngIf="!actualizar">Guardar</button>
     </div>
 
   </ng-template>
@@ -162,72 +163,20 @@
         <div class="form-group">
 
           <!--Form group de edicion-->
-          <form [formGroup]="aliquotFormEdit">
-
-            <!--form de nombre-->
-            <div formGroupName="DatosVecino">
-              <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" formControlName="Nombre" class="form-control">
-              </div>
-            </div>
-
-            <!--Form de valor de la cuota-->
-            <div class="form-group">
-              <label>Valor cuota</label>
-
-              <!--establecimiento de longitud maxima del valor de la cuota-->
-              <input type="number" maxlength="2"
-                oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                formControlName="ValorCuota" class="form-control">
-            </div>
-
-            <!--Form de valor extra-->
-            <div class="form-group">
-              <label>Valor extra</label>
-
-              <!--establecimiento de longitud maxima del valor extra -->
-              <input type="text" maxlength="4"
-                oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                formControlName="ValorExtra" class="form-control">
-            </div>
-
-            <!--form de fecha establecida con limitaciones a la fecha actual-->
-            <div class="form-group">
-              <label>Fecha</label>
-
-              <!--limitacion de la fecha actual-->
-              <input type="date" formControlName="Fecha" class="form-control" (disabled)="!fechaActual"
-                min="{{fechaActual|date:'yyyy-MM-dd'}}" #FechaForm (input)="cambio(FechaForm.value)">
-
-            </div>
-
-            <!--form de fecha establecida con limitaciones a la fecha de vencimiento-->
-            <div class="form-group">
-              <label>Fecha vencimiento</label>
-
-              <!--limitacion de la fecha de vencimiento de acuerdo a la actual y seleeccionada-->
-              <input type="date" formControlName="FechaVencimiento" class="form-control" (disabled)="!fechaVencimiento"
-                min="{{fechaVencimiento|date:'yyyy-MM-dd'}}">
-
-            </div>
+          <form [formGroup]="alicuotaSeguimientoFormEdit">
 
             <!--form de estado -->
-            <div class="form-group">
-              <label>Estado</label>
-
-              <!--select para modificar el estado-->
-              <select type="'text" formControlName="EstadoCuota" class="form-control" placeholder="Elija un estado">
-                <option *ngFor="let estado of estadoCuotaList" [ngValue]="estado">{{estado}}</option>
-              </select>
-
-            </div>
-
-            <!--form de descripcion-->
-            <div class="form-group">
-              <label>Descripcion</label>
-              <input type="text" formControlName="Descripcion" class="form-control" maxlength="100">
-            </div>
+            <!--group form de nombre-->
+              <div class="form-group">
+                <label>Descripcion</label>
+                <input type="text" formControlName="Descripcion" class="form-control" maxlength='100'>
+              </div>
+              <div class="form-group">
+                <label>Estado de gastos mensuales</label>
+                <select type="'text" formControlName="Estado" class="form-control" placeholder="Elija un estado">
+                  <option *ngFor="let status of statusEvent" [ngValue]="status">{{status}}</option>
+                </select>
+              </div>
 
           </form>
 
@@ -238,7 +187,7 @@
 
     <!--botones de paginacion-->
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="updateAliquot()">Guardar</button>
+      <button type="button" class="btn btn-outline-dark" (click)="updateSeguimiento()">Guardar</button>
     </div>
 
   </ng-template>

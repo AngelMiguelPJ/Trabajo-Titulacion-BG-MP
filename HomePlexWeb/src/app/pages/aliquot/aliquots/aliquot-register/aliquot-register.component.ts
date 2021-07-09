@@ -55,6 +55,7 @@ export class AliquotRegisterComponent implements OnInit {
   fechaVencimiento;
   fechaSelect;
   IdSeguimientoUpdateTotal;
+  totalSeguimientoUpdate = 0;
 
   // iniciar servicios
   constructor(private aliquotService: AliquotService,
@@ -259,6 +260,11 @@ export class AliquotRegisterComponent implements OnInit {
     // igualancion del uid del usuario actual a la variable id firebase
     this.IdAliquotUpdate = item.id;
     this.IdSeguimientoUpdateTotal = item.IdSeguimiento;
+    this.aliquotSeguimientoService.getPaymentTrackingUnic(this.IdSeguimientoUpdateTotal).subscribe(resp => {
+      //console.log(resp)
+
+      this.totalSeguimientoUpdate = resp
+    })
     // cambiar el estado de la variable booleana a true
     this.actualizar = true;
 
@@ -275,27 +281,26 @@ export class AliquotRegisterComponent implements OnInit {
 
   // funcio - metodo para la actualizacion de un alicuota
   updateAliquot() {
-    console.log(this.aliquotFormEdit.value.ValorExtra)
-    console.log(this.ValorExtraAntiguo)
+    //console.log('valor nuevo ' + this.aliquotFormEdit.value.ValorExtra)
+    //console.log('Valor antiguo ' + this.ValorExtraAntiguo)
+    //console.log('Total: ' + this.totalSeguimientoUpdate)
     if (this.aliquotFormEdit.value.ValorExtra > this.ValorExtraAntiguo) {
-      this.aliquotSeguimientoService.getPaymentTrackingUnic(this.IdSeguimientoUpdateTotal).subscribe(resp => {
+      //console.log('Mayor')
+      this.aliquotSeguimientoUpdate.value.Total = (this.totalSeguimientoUpdate + (this.aliquotFormEdit.value.ValorExtra - this.ValorExtraAntiguo));
+      this.aliquotSeguimientoService.updatePaymentTracking(this.IdSeguimientoUpdateTotal, this.aliquotSeguimientoUpdate.value).then(resp=>{
         //console.log(resp)
-        this.aliquotSeguimientoUpdate.value.Total = (resp + this.aliquotFormEdit.value.ValorExtra)
-        console.log(this.aliquotSeguimientoUpdate.value.Total)
       })
-      
     } else if (this.aliquotFormEdit.value.ValorExtra < this.ValorExtraAntiguo) {
-      this.aliquotSeguimientoService.getPaymentTrackingUnic(this.IdSeguimientoUpdateTotal).subscribe(resp => {
+      this.aliquotSeguimientoUpdate.value.Total = (this.totalSeguimientoUpdate - (this.ValorExtraAntiguo - this.aliquotFormEdit.value.ValorExtra));
+      this.aliquotSeguimientoService.updatePaymentTracking(this.IdSeguimientoUpdateTotal, this.aliquotSeguimientoUpdate.value).then(resp=>{
         //console.log(resp)
-        this.aliquotSeguimientoUpdate.value.Total = (resp - this.aliquotFormEdit.value.ValorExtra)
-        console.log(this.aliquotSeguimientoUpdate.value.Total)
       })
-    }else{
-      console.log('valor queda igual');
+    } else {
+      console.log('valor queda igual');  
     }
 
     
-
+    
     // condicionamiento para que el id de la alicuota no se nulla ni indefinida
     if (this.IdAliquotUpdate !== null || this.IdAliquotUpdate !== undefined) {
 
@@ -303,7 +308,6 @@ export class AliquotRegisterComponent implements OnInit {
       this.aliquotService.updateAliquotServices(this.IdAliquotUpdate, this.aliquotFormEdit.value).then(resp => {
 
         // llamado a las funciones de reseteo y cerrado de ngforms
-        
 
         this.aliquotFormEdit.reset();
         this.ngbModal.dismissAll();

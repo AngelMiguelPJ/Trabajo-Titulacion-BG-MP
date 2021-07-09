@@ -1,6 +1,6 @@
 <!-- Contenedor principal del login -->
 <div class="content" role="main">
-    <!--Titulo de la pagina-->
+  <!--Titulo de la pagina-->
   <h2 style="text-align: center;">Seguimiento general de alicuotas</h2>
 
   <!--====================================================================================-->
@@ -14,63 +14,65 @@
   <!--===========================================================================-->
 
   <!-- Div card grid que incluye los datos de cada evento-->
-  <div >
+  <div *ngFor="let item of collectionAliquotSeguimiento| paginate: config">
 
     <!--Grid de eventos-->
     <div class="grid-container responsive">
 
-      <!--Imagen del evento primer div en el grid-->
-      <div class="item1" style="background-image: url();"></div>
+      
 
-      <!--segundo div del grid-->
-      <div class="item2">
+        <!--Primer item del grid-->
+        <div class="item1"></div>
 
-        <!--Nombre del evento-->
-        <div>
-          <h5>MES - AÑO</h5>
+        <!--segundo div del grid-->
+        <div class="item2">
+
+          <!--Nombre del evento-->
+          <div>
+            <h5>{{item.Mes}} - {{item.Anio}}</h5>
+          </div>
+
+          <!--Descripcion del evento-->
+          <div>
+            <p style="font-size: 12px;">
+              {{item.Descripcion}}
+            </p>
+          </div>
+
         </div>
 
-        <!--Descripcion del evento-->
-        <div>
-          <p style="font-size: 12px;">
-            Descripcion
-          </p>
+        <!--tercer div del grid-->
+        <div class="item3">
+
+          <!--Estado del evento-->
+          <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;">
+            Estado:
+            <b>
+              {{item.Estado}}
+            </b>
+          </div>
+
+          <!--Lugar del evento-->
+          <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;">
+            Cuota: <b>{{item.ValorCuota}}</b>
+          </div>
+
+          <!--Numero de personas del evento-->
+          <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;">
+            Total: <b>{{item.Total}}</b>
+          </div>
+
+
         </div>
-
-      </div>
-
-      <!--tercer div del grid-->
-      <div class="item3">
-
-        <!--Estado del evento-->
-        <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;" >
-          Estado:
-          <b >
-            Completa / incompleta
-          </b>
-        </div>
-
-        <!--Lugar del evento-->
-        <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;">
-          Cuota: <b>Cuota</b>
-        </div>
-
-        <!--Numero de personas del evento-->
-        <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;">
-          Total: <b>Total</b>
-        </div>
-
 
       </div>
 
     </div>
 
+    <!--===========================================================================-->
+
+    <!--Botones de paginacion-->
+    <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+      (pageChange)="pageChanged($event)">
+    </pagination-controls>
   </div>
-  
-  <!--===========================================================================-->
-  
-  <!--Botones de paginacion-->
-  <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
-    (pageChange)="pageChanged($event)">
-  </pagination-controls>
-</div>

@@ -36,6 +36,7 @@ export class SeguimientoRegisterComponent implements OnInit {
 
   seguimiento: boolean;
   seguimientoId;
+  idSeguimientoUpdate;
   // formulario para crear alicuotas
   aliquotFormCreate: FormGroup;
 
@@ -104,7 +105,6 @@ export class SeguimientoRegisterComponent implements OnInit {
     })
     this.alicuotaSeguimientoFormEdit = this.formBuilder.group({
       Descripcion: '',
-      Cuota: '',
       Estado: ''
     })
 
@@ -154,11 +154,6 @@ export class SeguimientoRegisterComponent implements OnInit {
 
   //funcion - metodo guardar o crear un evento
   createAliquotSeguimiento() {
-
-
-
-
-
 
     this.fechaRepetida = false;
     console.log(this.numUser)
@@ -286,10 +281,13 @@ export class SeguimientoRegisterComponent implements OnInit {
   // Abri form para editar un evento
   // funcion para abri el ng model y cambiar los datos
   openEditar(content, item: any) {
-
+    console.log(item)
     //llenar form para editar con los datos seteados a partir del formulario
-
-
+    this.alicuotaSeguimientoFormEdit.setValue({
+      Descripcion: item.Descripcion,
+      Estado: item.Estado
+    })
+    this.idSeguimientoUpdate = item.id;
     // Apertura del modal para el formulario
     this.ngbModal.open(content, { ariaLabelledBy: 'modal-basic-title' })
       .result.then((result) => {
@@ -312,6 +310,13 @@ export class SeguimientoRegisterComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
 
+  }
+
+  updateSeguimiento(){
+    this.aliquotSeguimientoService.updatePaymentTracking(this.idSeguimientoUpdate, this.alicuotaSeguimientoFormEdit.value).then(resp=>{
+      this.alicuotaSeguimientoFormEdit.reset();
+        this.ngbModal.dismissAll();
+    })
   }
 
   // metodo para cerrar y eliminar datos seteados sino se envian

@@ -27,8 +27,8 @@
       <thead class="table-dark">
         <tr>
           <th>Nombre</th>
-          <th>Valor cuota</th>
-          <th>Valor extra</th>
+          <th>Valor alicuota</th>
+          <th>Valor alicuota extra</th>
           <th>Mes</th>
           <th>Año</th>
           <th>Estado</th>
@@ -78,7 +78,7 @@
     <div class="modal-header">
 
       <!--tITULO-->
-      <h4 class="modal-title" id="modal-basic-title">Alicuota Crear-Actualizar</h4>
+      <h4 class="modal-title" id="modal-basic-title">Crear alicuota</h4>
 
       <!--boton de cerrar-->
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -110,7 +110,7 @@
 
             <!--group form del valor de la cuota-->
             <div class="form-group">
-              <label>Valor cuota</label>
+              <label>Valor alicuota</label>
 
               <!--input con delimitacion de longitud-->
               <input type="number" maxlength="2"
@@ -121,7 +121,7 @@
 
             <!--Form group de valor extra-->
             <div class="form-group">
-              <label>Valor extra</label>
+              <label>Valor alicuota extra</label>
               <!--input con delimitacion de longitud-->
               <input type="number" maxlength="4"
                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
@@ -189,7 +189,7 @@
     <div class="modal-header">
 
       <!--titulo-->
-      <h4 class="modal-title" id="modal-basic-title">Alicuota Actualizar</h4>
+      <h4 class="modal-title" id="modal-basic-title">Actualizar alicuota</h4>
 
       <!--boton de cerrado-->
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -218,7 +218,7 @@
 
             <!--Form de valor de la cuota-->
             <div class="form-group">
-              <label>Valor cuota</label>
+              <label>Valor alicuota</label>
 
               <!--establecimiento de longitud maxima del valor de la cuota-->
               <input type="number" maxlength="2"
@@ -228,7 +228,7 @@
 
             <!--Form de valor extra-->
             <div class="form-group">
-              <label>Valor extra</label>
+              <label>Valor alicuota extra</label>
 
               <!--establecimiento de longitud maxima del valor extra -->
               <input type="number" maxlength="4"

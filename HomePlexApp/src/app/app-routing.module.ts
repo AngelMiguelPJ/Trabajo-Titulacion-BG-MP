@@ -59,10 +59,24 @@ const routes: Routes = [
     path: 'chatroom',
     loadChildren: () => import('./pages/chatroom/chatroom.module').then( m => m.ChatroomPageModule),
     canActivate : [AuthGuard]
-  },  {
+  },
+  {
     path: 'schedule-trash',
-    loadChildren: () => import('./pages/schedule-trash/schedule-trash.module').then( m => m.ScheduleTrashPageModule)
-  }
+    loadChildren: () => import('./pages/schedule-trash/schedule-trash.module').then( m => m.ScheduleTrashPageModule),
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'aliquot-seguimiento',
+    loadChildren: () => import('./pages/aliquot-seguimiento/aliquot-seguimiento.module').then( m => m.AliquotSeguimientoPageModule),
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'aliquot-menu',
+    loadChildren: () => import('./pages/aliquot-menu/aliquot-menu.module').then( m => m.AliquotMenuPageModule),
+    canActivate : [AuthGuard]
+  },
+
+
 
 
 

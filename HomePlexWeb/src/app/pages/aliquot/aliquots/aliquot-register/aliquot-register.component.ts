@@ -247,7 +247,7 @@ export class AliquotRegisterComponent implements OnInit {
       }),
       ValorCuota: item.ValorCuota,
       ValorExtra: item.ValorExtra,
-      Fecha: item.Fecha,
+      Fecha: item.Fecha.split('T')[0],
       EstadoCuota: item.EstadoCuota,
       Descripcion: item.Descripcion
     })
@@ -256,7 +256,15 @@ export class AliquotRegisterComponent implements OnInit {
     this.aliquotFormEdit.controls['DatosVecino'].disable();
     this.aliquotFormEdit.controls['ValorCuota'].disable();
     this.aliquotFormEdit.controls['Fecha'].disable()
-
+    if (item.EstadoCuota == 'Pagada') {
+      this.aliquotFormEdit.controls['ValorExtra'].disable();
+      this.aliquotFormEdit.controls['EstadoCuota'].disable();
+      this.aliquotFormEdit.controls['Descripcion'].disable()
+    }else{
+      this.aliquotFormEdit.controls['ValorExtra'].enable();
+      this.aliquotFormEdit.controls['EstadoCuota'].enable();
+      this.aliquotFormEdit.controls['Descripcion'].enable()
+    }
     // igualancion del uid del usuario actual a la variable id firebase
     this.IdAliquotUpdate = item.id;
     this.IdSeguimientoUpdateTotal = item.IdSeguimiento;

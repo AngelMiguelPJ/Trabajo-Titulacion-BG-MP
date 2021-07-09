@@ -6,8 +6,8 @@
   <!--====================================================================================-->
 
   <!--boton que rediceccionaa para registrar alicuotas-->
-  <a class="item" routerLink="/alicuotas/seguimiento/registrar">
-    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
+  <a class="item" routerLink="/alicuotas/seguimiento/registrar" *ngIf="usersService.isAccountant">
+    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400" ></i>
     Registrar Seguimiento general de alicuotas
   </a>
 
@@ -54,7 +54,7 @@
 
           <!--Lugar del evento-->
           <div style="font-size: 12px;align-items: center; display: flex; justify-content: center;">
-            Cuota: <b>{{item.ValorCuota}}</b>
+            Alicuota: <b>{{item.ValorCuota}}</b>
           </div>
 
           <!--Numero de personas del evento-->

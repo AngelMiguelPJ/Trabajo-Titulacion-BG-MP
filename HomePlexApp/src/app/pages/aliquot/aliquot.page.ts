@@ -74,11 +74,13 @@ export class AliquotPage implements OnInit {
           DatosVecinoNombre: e.payload.doc.data().DatosVecino.Nombre,
           ValorCuota: e.payload.doc.data().ValorCuota,
           ValorExtra: e.payload.doc.data().ValorExtra,
-          Fecha: e.payload.doc.data().Fecha.split('T')[0],
-          FechaVencimiento: e.payload.doc.data().FechaVencimiento.split('T')[0],
+          Fecha: e.payload.doc.data().Fecha,
+          Mes: e.payload.doc.data().Mes,
+          Anio: e.payload.doc.data().Anio,
           EstadoCuota: e.payload.doc.data().EstadoCuota,
           Descripcion: e.payload.doc.data().Descripcion,
-          IdAliquot: e.payload.doc.data().IdAliquot
+          IdAliquot: e.payload.doc.data().IdAliquot,
+          IdSeguimiento: e.payload.doc.data().IdSeguimiento
         }
       })
       this.collectionAliquotsAllBackUp.data = resp.map((e: any) => {
@@ -92,11 +94,13 @@ export class AliquotPage implements OnInit {
           DatosVecinoNombre: e.payload.doc.data().DatosVecino.Nombre,
           ValorCuota: e.payload.doc.data().ValorCuota,
           ValorExtra: e.payload.doc.data().ValorExtra,
-          Fecha: e.payload.doc.data().Fecha.split('T')[0],
-          FechaVencimiento: e.payload.doc.data().FechaVencimiento.split('T')[0],
+          Fecha: e.payload.doc.data().Fecha,
+          Mes: e.payload.doc.data().Mes,
+          Anio: e.payload.doc.data().Anio,
           EstadoCuota: e.payload.doc.data().EstadoCuota,
           Descripcion: e.payload.doc.data().Descripcion,
-          IdAliquot: e.payload.doc.data().IdAliquot
+          IdAliquot: e.payload.doc.data().IdAliquot,
+          IdSeguimiento: e.payload.doc.data().IdSeguimiento
         }
       })
       //console.log(this.collectionAliquotsAllBackUp.data)

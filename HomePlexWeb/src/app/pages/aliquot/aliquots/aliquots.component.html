@@ -11,7 +11,7 @@
   <!--boton que rediceccionaa para registrar alicuotas-->
   <a class="item" routerLink="/alicuotas/usuarios/registrar" *ngIf="usersService.isAccountant">
     <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
-    Registrar Alicuotas
+    historial de Alicuotas
   </a>
 
   <!--====================================================================================-->
@@ -44,10 +44,10 @@
       <div class="item3">
 
         <!--Valor de cuota-->
-        <div style="font-size: 12px;">Valor: <b>{{item.ValorCuota}}</b></div>
+        <div style="font-size: 12px;">Valor alicuota: <b>{{item.ValorCuota}}</b></div>
 
         <!--Valores extra-->
-        <div style="font-size: 12px;">Valor extra: <b>{{item.ValorExtra}}</b></div>
+        <div style="font-size: 12px;">Valor alicuota extra: <b>{{item.ValorExtra}}</b></div>
 
         <!--Estado de la cuota-->
         <div style="font-size: 12px;">Estado:

@@ -27,7 +27,7 @@
       <thead class="table-dark">
         <tr>
           <th>Descripcion</th>
-          <th>Valor cuota</th>
+          <th>Valor alicuota</th>
           <th>Total mensual</th>
           <th>Mes</th>
           <th>Año</th>
@@ -75,7 +75,7 @@
     <div class="modal-header">
 
       <!--tITULO-->
-      <h4 class="modal-title" id="modal-basic-title">Alicuota Crear</h4>
+      <h4 class="modal-title" id="modal-basic-title">Crear seguimiento</h4>
 
       <!--boton de cerrar-->
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -99,7 +99,7 @@
             </div>
             <!--group form del valor de la cuota-->
             <div class="form-group">
-              <label>Valor cuota</label>
+              <label>Valor alicuota</label>
               <!--input con delimitacion de longitud-->
               <input type="number" maxlength="2"
                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
@@ -146,7 +146,7 @@
     <div class="modal-header">
 
       <!--titulo-->
-      <h4 class="modal-title" id="modal-basic-title">Alicuota Actualizar</h4>
+      <h4 class="modal-title" id="modal-basic-title">Actualizar seguimiento</h4>
 
       <!--boton de cerrado-->
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">

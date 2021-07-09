@@ -217,7 +217,7 @@ export class SeguimientoRegisterComponent implements OnInit {
       this.aliquotSeguimientoService.createPaymentTracking(this.alicuotaSeguimientoFormCreate.value).then(resp => {
 
         // llaamado al servicio de creacion de copia de seguridad de alicuotas
-        // this.aliquotService.createAliquotBackupServices(this.aliquotFormCreate.value)
+        this.aliquotSeguimientoService.createPaymentTrackingBackUp(this.alicuotaSeguimientoFormCreate.value);
         console.log(resp.id);
         this.seguimientoId = resp.id;
         for (let index = 0; index < this.collectionUsers.data.length; index++) {

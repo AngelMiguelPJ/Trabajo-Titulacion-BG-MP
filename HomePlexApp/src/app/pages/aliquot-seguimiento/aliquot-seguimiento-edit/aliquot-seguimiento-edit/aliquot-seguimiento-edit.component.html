@@ -1,0 +1,29 @@
+<ion-toolbar>
+  <ion-title style="text-align: center;">Actualizar seguimiento</ion-title>
+</ion-toolbar>
+
+<ion-content fullscreen>
+
+  <ion-item class="items" lines="none" style="text-align: center;">
+    <ion-label>{{text}}</ion-label>
+  </ion-item>
+  <ion-item class="items" lines="none">
+    <ion-icon name="thumbs-up" slot="start"></ion-icon>
+    <ion-select mode="ios" placeholder="Estado" [(ngModel)]="aliquotSeguimientoFormEdit.value.Estado" required>
+      <ion-select-option *ngFor="let status of estadoCuotaList">{{status}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item class="items" lines="none">
+    <ion-icon name="text-outline" slot="start"></ion-icon>
+    <ion-input type='text' placeholder="Descripcion" [(ngModel)]="aliquotSeguimientoFormEdit.value.Descripcion" required>
+    </ion-input>
+  </ion-item>
+
+  <!-- Round -->
+  <ion-item lines='none'>
+    <ion-button color="danger" size="smaller" style="margin: auto;" shape="round" (click)="cancelar()">Cancelar
+    </ion-button>
+    <ion-button size="smaller" style="margin: auto;" shape="round" (click)="updateSeguimiento()">Guardar</ion-button>
+  </ion-item>
+</ion-content>

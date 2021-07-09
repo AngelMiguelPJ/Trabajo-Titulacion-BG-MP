@@ -79,8 +79,6 @@ export class BookingCreateComponent implements OnInit {
     //console.log(diaDespues);
     this.fechaActual = fecha + diaDespues;
     //console.log(this.fechaActual)
-    this.uidAdmin = localStorage.getItem('userId');
-    console.log(this.userService.isAdmin)
     if (this.userService.isAdmin == true) {
       this.bookingFormCreate = this.formBuilder.group({
         BookingAN: ['', Validators.required],

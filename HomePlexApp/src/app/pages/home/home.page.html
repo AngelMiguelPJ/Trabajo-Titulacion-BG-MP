@@ -66,7 +66,7 @@
             <ion-grid>
               <ion-row>
                 <ion-col>
-                  {{item.Dia}}
+                  {{item.Dia}} - {{item.Hora}}
                 </ion-col>
               </ion-row>
               <ion-row>
@@ -193,7 +193,7 @@
             </ion-row>
             <ion-row>
               <ion-col style="font-size: 12px;">
-                Del {{item.Fecha.split('T')[0]}} al {{item.FechaVencimiento.split('T')[0]}}
+                {{item.Fecha}}
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -234,7 +234,7 @@
             </ion-row>
             <ion-row>
               <ion-col style="font-size: 12px;">
-                Del {{item.Fecha}} al {{item.FechaVencimiento}}
+                {{item.Fecha}} 
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -288,7 +288,7 @@
     <ion-label>Chat</ion-label>
   </ion-tab-button>
 
-  <ion-tab-button routerLink='/aliquot'>
+  <ion-tab-button routerLink='/aliquot-menu'>
     <ion-icon   name="wallet"></ion-icon>
     <ion-label>Cuotas</ion-label>
   </ion-tab-button>

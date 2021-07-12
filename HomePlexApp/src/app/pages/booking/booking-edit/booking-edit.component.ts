@@ -15,14 +15,14 @@ export class BookingEditComponent implements OnInit {
   peopleBooking = [
     '1 - 5 personas',
     '5 - 10 personas'
-  ]
+  ];
 
   // Lugar de los Booking
   placeBooking = [
     'Casa comunal',
     'Canchas deportivas',
     'Parqueadero'
-  ]
+  ];
 
   // Duracion de Booking con intervalo de 3 horas
   durationBooking = [
@@ -31,14 +31,14 @@ export class BookingEditComponent implements OnInit {
     '13 p.m - 16 p.m',
     '16 p.m - 19 p.m',
     '19 p.m - 22 p.m'
-  ]
+  ];
 
   // Estado Booking
   statusBooking = [
     'Aprobado',
     'En espera',
     'Desaprobado'
-  ]
+  ];
 
   // fecha actual
   fechaActual;
@@ -56,23 +56,23 @@ export class BookingEditComponent implements OnInit {
 
 
   constructor(private navParams: NavParams,
-    public modalController: ModalController,
-    private storage: AngularFireStorage,
-    public formBuilder: FormBuilder,
-    public toastController: ToastController) { }
+              public modalController: ModalController,
+              private storage: AngularFireStorage,
+              public formBuilder: FormBuilder,
+              public toastController: ToastController) { }
 
   ngOnInit() {
 
     // seteo de la fecha actual
-    this.fechaActual = Date.now()
-    //console.log(this.navParams.data)
-    this.bookingBookingDataCreate = this.navParams.data
+    this.fechaActual = Date.now();
+    // console.log(this.navParams.data)
+    this.bookingBookingDataCreate = this.navParams.data;
     // iniciar formulario para la subida de imagenes
   }
 
   guardar() {
-    console.log(this.bookingBookingDataCreate)
-    this.modalController.dismiss(this.bookingBookingDataCreate)
+    console.log(this.bookingBookingDataCreate);
+    this.modalController.dismiss(this.bookingBookingDataCreate);
   }
 
   cancelar(){

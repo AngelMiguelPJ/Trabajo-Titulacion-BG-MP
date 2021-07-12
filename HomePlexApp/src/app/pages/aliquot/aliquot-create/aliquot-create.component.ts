@@ -16,25 +16,25 @@ export class AliquotCreateComponent implements OnInit {
     'Pagada',
     'Pendiente',
     'No pagada'
-  ]
+  ];
 
   // fecha actual
   fechaActual;
   fechaVencimiento;
   fechaSelect;
 
-  //forms
+  // forms
   aliquotFormCreate: FormGroup;
 
 
   // coleccion de usuarios
-  collectionUsers = { count: 0, data: [] }
+  collectionUsers = { count: 0, data: [] };
 
   constructor(private aliquotService: AliquotService,
-    public formBuilder: FormBuilder,
-    public usersService: UsersService,
-    public modalController: ModalController,
-    public toastController: ToastController) { }
+              public formBuilder: FormBuilder,
+              public usersService: UsersService,
+              public modalController: ModalController,
+              public toastController: ToastController) { }
 
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class AliquotCreateComponent implements OnInit {
     // seteo de la fecha actual
     this.fechaActual = Date.now();
 
-    //iniciar formulario para la creacion de alicuotas
+    // iniciar formulario para la creacion de alicuotas
     this.aliquotFormCreate = this.formBuilder.group({
       IdAliquot: '',
       DatosVecino: '',
@@ -54,15 +54,15 @@ export class AliquotCreateComponent implements OnInit {
       Descripcion: '',
       NumeroMes: '',
 
-    })
-    //console.log('a', this.aliquotFormCreate.value)
+    });
+    // console.log('a', this.aliquotFormCreate.value)
 
 
-    //console.log('b', this.aliquotDataCreate)
+    // console.log('b', this.aliquotDataCreate)
 
-    //cargando todos los usuarios de firebase-firestore
+    // cargando todos los usuarios de firebase-firestore
     this.usersService.getUsersServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      // console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionUsers.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -73,9 +73,9 @@ export class AliquotCreateComponent implements OnInit {
           id: e.payload.doc.id,
           Nombre: e.payload.doc.data().Name,
           uidUser: e.payload.doc.id
-        }
-      })
-      //console.log(this.collectionUsers.data)
+        };
+      });
+      // console.log(this.collectionUsers.data)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
@@ -88,7 +88,7 @@ export class AliquotCreateComponent implements OnInit {
     const idAliquotRandom = Math.random().toString(36).substring(2);
     this.aliquotFormCreate.value.IdAliquot = idAliquotRandom;
     this.aliquotFormCreate.value.NumeroMes = this.aliquotFormCreate.value.Fecha.split('-')[1];
-    
+
     if (this.aliquotFormCreate.value.DatosVecino != ''
       && this.aliquotFormCreate.value.Descripcion != ''
       && this.aliquotFormCreate.value.EstadoCuota != ''
@@ -96,20 +96,20 @@ export class AliquotCreateComponent implements OnInit {
       && this.aliquotFormCreate.value.FechaVencimiento != ''
       && this.aliquotFormCreate.value.ValorCuota != ''
       && this.aliquotFormCreate.value.ValorExtra != '') {
-      console.log(this.aliquotFormCreate.value)
+      console.log(this.aliquotFormCreate.value);
       this.aliquotService.createAliquotServices(this.aliquotFormCreate.value).then(resp => {
 
         // llaamado al servicio de creacion de copia de seguridad de alicuotas
         this.aliquotService.createAliquotBackupServices(this.aliquotFormCreate.value).then(() => {
           this.modalController.dismiss({
-            'dismissed': true
+            dismissed: true
           });
-        })
+        });
 
 
       }).catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
 
     } else {
       console.log('no recibe nada');
@@ -124,12 +124,12 @@ export class AliquotCreateComponent implements OnInit {
   }
 
 
-  // Funcion - metodo para setear la fecha de vencimiento 1 mes despues o mas 
+  // Funcion - metodo para setear la fecha de vencimiento 1 mes despues o mas
   // de acuerdo a la fecha designada primera
   cambio(fechaEnviada) {
 
-    this.fechaSelect = Date.parse(fechaEnviada)
-    var mesDespues = 30 * 24 * 60 * 60 * 1000
+    this.fechaSelect = Date.parse(fechaEnviada);
+    const mesDespues = 30 * 24 * 60 * 60 * 1000;
     this.fechaVencimiento = this.fechaSelect + mesDespues;
 
   }
@@ -147,7 +147,7 @@ export class AliquotCreateComponent implements OnInit {
   /** Validacion de campos **/
   soloNumeros(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
+    const inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {
       // invalid character, prevent input

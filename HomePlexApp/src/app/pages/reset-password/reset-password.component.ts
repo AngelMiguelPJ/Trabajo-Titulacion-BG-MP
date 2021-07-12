@@ -10,16 +10,16 @@ import { ModalController } from '@ionic/angular';
 export class ResetPasswordComponent implements OnInit {
 
   constructor(private angularFireAuth: AngularFireAuth,
-    private modalController: ModalController) { }
+              private modalController: ModalController) { }
 
   ngOnInit() {}
 
   resetPassword(mail){
-    this.angularFireAuth.sendPasswordResetEmail(mail).then(()=>{
+    this.angularFireAuth.sendPasswordResetEmail(mail).then(() => {
       this.modalController.dismiss();
-    }).catch(err=>{
-      console.log(err)
-    })
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   cancelar() {

@@ -9,15 +9,15 @@ import { map } from 'rxjs/operators';
 
 // modelo para exportacion
 export interface UsersExport {
-  id: string,
-  Name: string,
-  Email: string,
-  TipoUsuario: string,
-  Telefono: string,
-  Password: string,
-  Casa: string,
-  Img: string,
-  token: string
+  id: string;
+  Name: string;
+  Email: string;
+  TipoUsuario: string;
+  Telefono: string;
+  Password: string;
+  Casa: string;
+  Img: string;
+  token: string;
 }
 
 @Injectable({
@@ -28,7 +28,7 @@ export class UsersService {
 
   // Variable userUid del usuario actual
   userUid;
-    
+
   // variable bandera para establecer si es admin, contador o no
   isAdmin = false;
   isAccountant = false;
@@ -41,43 +41,43 @@ export class UsersService {
   // Metodo -funcion -servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
   getUsersService() {
 
-    //userUid del usuario actual obtenido en el inicio de sesion
-    this.userUid = localStorage.getItem('userId')
+    // userUid del usuario actual obtenido en el inicio de sesion
+    this.userUid = localStorage.getItem('userId');
 
     // respectivo servicio de firestore para la obtencion de los usuarios
     return this.angularFirestore.collection('users').snapshotChanges().pipe(map(users => {
-      
+
       // return del mapeo de los usuarios
       return users.map(res => {
 
-        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
-        if (res.payload.doc.data()['Uid'] === this.userUid) {
-          const adminVar = res.payload.doc.data()['TipoUsuario']
+        // Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (res.payload.doc.data().Uid === this.userUid) {
+          const adminVar = res.payload.doc.data().TipoUsuario;
           if (adminVar == 'Administrador') {
-            this.isAdmin = true
+            this.isAdmin = true;
           } else {
-            this.isAdmin = false
+            this.isAdmin = false;
           }
         }
 
-        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
-        if (res.payload.doc.data()['Uid'] === this.userUid) {
-          const accountVar = res.payload.doc.data()['TipoUsuario']
+        // Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (res.payload.doc.data().Uid === this.userUid) {
+          const accountVar = res.payload.doc.data().TipoUsuario;
           if (accountVar == 'Contador') {
-            this.isAccountant = true
+            this.isAccountant = true;
           } else {
-            this.isAccountant = false
+            this.isAccountant = false;
           }
         }
 
           // seteo de los datos en el modelo UsersExport para su exportacion
-        const data = res.payload.doc.data() as UsersExport
+        const data = res.payload.doc.data() as UsersExport;
         data.id = res.payload.doc.id;
         return data;
 
-      })
+      });
 
-    }))
+    }));
 
   }
 
@@ -92,7 +92,7 @@ export class UsersService {
         .then(
           res => {
 
-            //console.log(res.user.uid)
+            // console.log(res.user.uid)
             // uid del usuario creado
             const uid = res.user.uid;
 
@@ -107,15 +107,15 @@ export class UsersService {
               Telefono: '',
               TipoUsuario: tipoUsuario,
               token: ''
-            })
-            resolve(res)
+            });
+            resolve(res);
           }
         ).catch(
           err =>
             reject(err)
-        )
+        );
 
-    })
+    });
 
   }
 
@@ -124,89 +124,89 @@ export class UsersService {
   }
 
   getOnlyThisUser(){
-    
-    //userUid del usuario actual obtenido en el inicio de sesion
-    this.userUid = localStorage.getItem('userId')
-    return this.angularFirestore.collection('users', ref => ref.where('Uid', '==', this.userUid)).snapshotChanges().pipe(map(res=>{
-      //console.log(res)
-     
-      return res.map(a=>{
 
-        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
-        if (a.payload.doc.data()['Uid'] === this.userUid) {
-          const adminVar = a.payload.doc.data()['TipoUsuario']
+    // userUid del usuario actual obtenido en el inicio de sesion
+    this.userUid = localStorage.getItem('userId');
+    return this.angularFirestore.collection('users', ref => ref.where('Uid', '==', this.userUid)).snapshotChanges().pipe(map(res => {
+      // console.log(res)
+
+      return res.map(a => {
+
+        // Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (a.payload.doc.data().Uid === this.userUid) {
+          const adminVar = a.payload.doc.data().TipoUsuario;
           if (adminVar == 'Administrador') {
-            this.isAdmin = true
+            this.isAdmin = true;
           } else {
-            this.isAdmin = false
+            this.isAdmin = false;
           }
         }
 
-        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
-        if (a.payload.doc.data()['Uid'] === this.userUid) {
-          const accountVar = a.payload.doc.data()['TipoUsuario']
+        // Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (a.payload.doc.data().Uid === this.userUid) {
+          const accountVar = a.payload.doc.data().TipoUsuario;
           if (accountVar == 'Contador') {
-            this.isAccountant = true
+            this.isAccountant = true;
           } else {
-            this.isAccountant = false
+            this.isAccountant = false;
           }
         }
-        const data = a.payload.doc.data()
-        return data
-      })
-      
-    }))
+        const data = a.payload.doc.data();
+        return data;
+      });
+
+    }));
   }
-  
+
 
 
   getAllUsersWithoutThisUser(){
 
-    //userUid del usuario actual obtenido en el inicio de sesion
-    this.userUid = localStorage.getItem('userId')
+    // userUid del usuario actual obtenido en el inicio de sesion
+    this.userUid = localStorage.getItem('userId');
 
-    return this.angularFirestore.collection('users', ref => ref.where('Uid', '!=', this.userUid)).snapshotChanges().pipe(map(res=>{
-      //console.log(res)
-     
-      return res.map(a=>{
-        const data = a.payload.doc.data()
-        return data
-      })
-      
-    }))
+    return this.angularFirestore.collection('users', ref => ref.where('Uid', '!=', this.userUid)).snapshotChanges().pipe(map(res => {
+      // console.log(res)
+
+      return res.map(a => {
+        const data = a.payload.doc.data();
+        return data;
+      });
+
+    }));
   }
-  
+
   // Metodo -funcion -servicio para la optencion de usuarios mediante snapshotchanges
   // para luego por setear estos datos en un arreglo
   getUsersServices() {
-    return this.angularFirestore.collection("users").snapshotChanges();
+    return this.angularFirestore.collection('users').snapshotChanges();
   }
 
   getDataForId(id: string){
-    return this.angularFirestore.collection('users').doc(id).valueChanges()
+    return this.angularFirestore.collection('users').doc(id).valueChanges();
 
   }
 
   // Metodo -funcion -servicio de actualizacion de datos de un usuario por id y el campo a actualizar
   updateUsersServices(id: any, users: any) {
-    return this.angularFirestore.collection("users").doc(id).update(users);
+    return this.angularFirestore.collection('users').doc(id).update(users);
 
   }
 
   updateToken(id: any, token: any) {
-    return this.angularFirestore.collection("users").doc(id).update(token);
+    return this.angularFirestore.collection('users').doc(id).update(token);
 
   }
 
   // Metodo -funcion -servicio de actualizacion de foto de perfil de un usuario por id y el campo a actualizar
   updateUsersServicesImg(id: any, users: any) {
-    return this.angularFirestore.collection("users").doc(id).update(users);
+    return this.angularFirestore.collection('users').doc(id).update(users);
 
   }
 
   // Metodo -funcion -servicio de borrarado de datos de un usuario por id
   deleteUsersServices(id: any) {
-    return this.angularFirestore.collection("users").doc(id).delete();
+    return this.angularFirestore.collection('users').doc(id).delete();
   }
 
 }

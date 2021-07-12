@@ -21,7 +21,7 @@ export class AliquotPage implements OnInit {
   collectionAliquotLength;
 
   //
-  selectedSegment: string = 'Mias';
+  selectedSegment = 'Mias';
   // coleccion de aliquotas
   collectionAliquotsAll = { count: 0, data: [] };
   collectionAliquotsAllBackUp = { count: 0, data: [] };
@@ -32,9 +32,9 @@ export class AliquotPage implements OnInit {
 
   // iniciar servicios
   constructor(private aliquotService: AliquotService,
-    private loadingController: LoadingController,
-    public modalController: ModalController,
-    public usersService: UsersService) {}
+              private loadingController: LoadingController,
+              public modalController: ModalController,
+              public usersService: UsersService) {}
 
   ngOnInit() {
 
@@ -55,13 +55,13 @@ export class AliquotPage implements OnInit {
       this.collectionAliquot = resp;
       this.collectionAliquotBackUp = resp;
       this.collectionAliquotLength = resp.length;
-      //console.log(resp.length)
-     //console.log(this.collectionAliquot)
-    })
+      // console.log(resp.length)
+     // console.log(this.collectionAliquot)
+    });
 
-    //cargando todos los usuarios de firebase-firestore
+    // cargando todos los usuarios de firebase-firestore
     this.aliquotService.getAllAliquotServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      // console.log('respuesta 1: ', resp)
       // mapeo de los datos de las alicuotas en el arreglo collectionAliquots
       this.collectionAliquotsAll.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -79,8 +79,8 @@ export class AliquotPage implements OnInit {
           EstadoCuota: e.payload.doc.data().EstadoCuota,
           Descripcion: e.payload.doc.data().Descripcion,
           IdAliquot: e.payload.doc.data().IdAliquot
-        }
-      })
+        };
+      });
       this.collectionAliquotsAllBackUp.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
         // return que devolvera los datos a collection
@@ -97,9 +97,9 @@ export class AliquotPage implements OnInit {
           EstadoCuota: e.payload.doc.data().EstadoCuota,
           Descripcion: e.payload.doc.data().Descripcion,
           IdAliquot: e.payload.doc.data().IdAliquot
-        }
-      })
-      //console.log(this.collectionAliquotsAllBackUp.data)
+        };
+      });
+      // console.log(this.collectionAliquotsAllBackUp.data)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
@@ -111,30 +111,30 @@ export class AliquotPage implements OnInit {
   async filterListAliquot(evt) {
     this.collectionAliquot = this.collectionAliquotBackUp;
     const searchTerm = evt.srcElement.value;
-  
+
     if (!searchTerm) {
       return;
     }
-  
-    this.collectionAliquot = this.collectionAliquot.filter(currentFood => { 
+
+    this.collectionAliquot = this.collectionAliquot.filter(currentFood => {
       if (currentFood.DatosVecino.Nombre && searchTerm) {
         return (currentFood.DatosVecino.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
-      } 
+      }
     });
   }
 
   async filterListAliquotAll(evt) {
     this.collectionAliquotsAll.data = this.collectionAliquotsAllBackUp.data;
     const searchTerm = evt.srcElement.value;
-  
+
     if (!searchTerm) {
       return;
     }
-  
-    this.collectionAliquotsAll.data = this.collectionAliquotsAll.data.filter(currentFood => { 
+
+    this.collectionAliquotsAll.data = this.collectionAliquotsAll.data.filter(currentFood => {
       if (currentFood.DatosVecinoNombre && searchTerm) {
         return (currentFood.DatosVecinoNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
-      } 
+      }
     });
   }
 
@@ -143,7 +143,7 @@ export class AliquotPage implements OnInit {
 
     this.modalController.create({
       component: AliquotCreateComponent,
-      //cssClass: 'modal-create-aliquot'
+      // cssClass: 'modal-create-aliquot'
 
     }).then(modalres => {
       modalres.present();
@@ -156,7 +156,7 @@ export class AliquotPage implements OnInit {
 
     this.modalController.create({
       component: AliquotEditComponent,
-      //cssClass: 'modal-edit-aliquot',
+      // cssClass: 'modal-edit-aliquot',
       componentProps: item,
 
     }).then(modalres => {
@@ -171,7 +171,7 @@ export class AliquotPage implements OnInit {
 
     // configurar establecida segun el evento
     this.config.currentPage = event;
-    //console.log(this.config.totalItems)
+    // console.log(this.config.totalItems)
 
   }
 
@@ -179,7 +179,7 @@ export class AliquotPage implements OnInit {
 
     // configurar establecida segun el evento
     this.config2.currentPage = event;
-    //console.log(this.config.totalItems)
+    // console.log(this.config.totalItems)
 
   }
 
@@ -195,7 +195,7 @@ export class AliquotPage implements OnInit {
   }
 
   segmentChanged(ev: any) {
-    //console.log('Segment changed', ev);
+    // console.log('Segment changed', ev);
     this.selectedSegment = ev.target.value;
   }
 

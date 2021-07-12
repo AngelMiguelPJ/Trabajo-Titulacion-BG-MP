@@ -11,20 +11,20 @@ import { UsersService } from 'src/app/services/users/users.service';
 })
 export class BookingCreateComponent implements OnInit {
 
-  collectionUsers = { count: 0, data: [] }
+  collectionUsers = { count: 0, data: [] };
 
   //  numero de personas posibles
   peopleBooking = [
     '1 - 5 personas',
     '5 - 10 personas'
-  ]
+  ];
 
   // Lugar de los Booking
   placeBooking = [
     'Casa comunal',
     'Canchas deportivas',
     'Parqueadero'
-  ]
+  ];
 
   // Duracion de Bookingo con intervalo de 3 horas
   durationBooking = [
@@ -33,14 +33,14 @@ export class BookingCreateComponent implements OnInit {
     '13 p.m - 16 p.m',
     '16 p.m - 19 p.m',
     '19 p.m - 22 p.m'
-  ]
+  ];
 
   // Estado Booking
   statusBooking = [
     'Aprobado',
     'En espera',
     'Desaprobado'
-  ]
+  ];
 
   // fecha actual
   fechaActual;
@@ -55,26 +55,26 @@ export class BookingCreateComponent implements OnInit {
   usersList = [];
   nameUser;
   constructor(private bookingService: BookingService,
-    public formBuilder: FormBuilder,
-    public usersService: UsersService,
-    public modalController: ModalController,
-    public toastController: ToastController) { }
+              public formBuilder: FormBuilder,
+              public usersService: UsersService,
+              public modalController: ModalController,
+              public toastController: ToastController) { }
 
 
   ngOnInit() {
     this.usersService.getOnlyThisUser().subscribe(res => {
-      //console.log(res)
-      this.usersList = res
+      // console.log(res)
+      this.usersList = res;
       res.map(resp => {
-        this.nameUser = resp['Name']
-      })
-      //console.log(this.usersList)
-    })
+        this.nameUser = resp.Name;
+      });
+      // console.log(this.usersList)
+    });
 
     // seteo de la fecha actual
     this.fechaActual = Date.now();
     this.uidAdmin = localStorage.getItem('userId');
-        //iniciar formulario para la creacion de reservas
+        // iniciar formulario para la creacion de reservas
     this.bookingFormCreate = this.formBuilder.group({
       BookingAN: ['', Validators.required],
       Reserva: this.formBuilder.group({
@@ -82,21 +82,21 @@ export class BookingCreateComponent implements OnInit {
         Duracion: ['', Validators.required],
         Fecha: ['', Validators.required],
         Lugar: ['', Validators.required],
-        Personas: ['', Validators.required],      
+        Personas: ['', Validators.required],
       }),
       UserInfo: ({
         userNameReserv: '',
         idUserReserv: '',
       })
     });
-    //console.log('a', this.bookingFormCreate.value)
+    // console.log('a', this.bookingFormCreate.value)
 
 
-    //console.log('b', this.bookingDataCreate)
+    // console.log('b', this.bookingDataCreate)
 
-    //cargando todos los usuarios de firebase-firestore
+    // cargando todos los usuarios de firebase-firestore
     this.usersService.getUsersServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      // console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionUsers.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -105,11 +105,11 @@ export class BookingCreateComponent implements OnInit {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          //Nombre: e.payload.doc.data().Name,
+          // Nombre: e.payload.doc.data().Name,
           uidUser: e.payload.doc.id
-        }
-      })
-      //console.log(this.collectionUsers.data)
+        };
+      });
+      // console.log(this.collectionUsers.data)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
@@ -132,21 +132,21 @@ export class BookingCreateComponent implements OnInit {
       && this.bookingFormCreate.value.Reserva.Fecha != ''
       && this.bookingFormCreate.value.Reserva.Lugar != ''
       && this.bookingFormCreate.value.Reserva.Personas != '') {
-      console.log(this.bookingFormCreate.value)
+      console.log(this.bookingFormCreate.value);
 
-      //llaamado al servicio de creacion  de reservas
+      // llaamado al servicio de creacion  de reservas
       this.bookingService.createBookingServices(this.bookingFormCreate.value).then(() => {
         this.modalController.dismiss({
-          'dismissed': true
+          dismissed: true
         });
       }).catch(error => {
-        console.log(this.bookingFormCreate)
-        console.error(error)
-      })
+        console.log(this.bookingFormCreate);
+        console.error(error);
+      });
 
     } else {
       console.log('no recibe nada');
-      console.log(this.bookingFormCreate)
+      console.log(this.bookingFormCreate);
       this.presentToast();
     }
 

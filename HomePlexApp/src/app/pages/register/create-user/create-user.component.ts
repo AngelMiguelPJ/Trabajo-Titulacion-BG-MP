@@ -15,7 +15,7 @@ export class CreateUserComponent implements OnInit {
     'Administrador',
     'Vecino',
     'Arrendatario'
-  ]
+  ];
 
   usersFormCreate: FormGroup;
 
@@ -25,11 +25,11 @@ export class CreateUserComponent implements OnInit {
 
 
   constructor(private popover: PopoverController,
-    private navParams: NavParams,
-    public modalController: ModalController,
-    public toastController: ToastController,
-    public formBuilder: FormBuilder,
-    private usersService: UsersService,) { }
+              private navParams: NavParams,
+              public modalController: ModalController,
+              public toastController: ToastController,
+              public formBuilder: FormBuilder,
+              private usersService: UsersService, ) { }
 
   ngOnInit() {
 
@@ -40,7 +40,7 @@ export class CreateUserComponent implements OnInit {
       TipoUsuario: ['', Validators.required],
       Casa: ['', Validators.required]
     });
-    //console.log(this.usersFormCreate.value)
+    // console.log(this.usersFormCreate.value)
   }
 
   registerUser() {
@@ -48,21 +48,21 @@ export class CreateUserComponent implements OnInit {
     if (this.usersFormCreate.value.Name != '' && this.usersFormCreate.value.Email != ''
       && this.usersFormCreate.value.TipoUsuario != '' && this.usersFormCreate.value.Password != ''
       && this.usersFormCreate.value.Casa != '' && this.emailValido == true) {
-      console.log(this.usersFormCreate.value)
+      console.log(this.usersFormCreate.value);
       // llamado al servicio de registro de usuarios seteando dichas variables por medio del formulario
       this.usersService.registerUsersService(this.usersFormCreate.value.Email,
         this.usersFormCreate.value.Password, this.usersFormCreate.value.Name,
         this.usersFormCreate.value.TipoUsuario,
         this.usersFormCreate.value.Casa).then(() => {
           this.modalController.dismiss({
-            'dismissed': true
+            dismissed: true
           });
         }).catch(error => {
           // comprobacion de errores  y reseteo del formulario create en caso de error
-          console.error(error)
-        })
+          console.error(error);
+        });
     } else {
-      this.presentToast()
+      this.presentToast();
     }
 
   }
@@ -91,11 +91,11 @@ export class CreateUserComponent implements OnInit {
     // algoritmo de comprobacion de email
     const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     if (email.length >= 1) {
-      this.emailValido = regexp.test(email)
+      this.emailValido = regexp.test(email);
 
-      //console.log('Email es:', this.emailValido)
-    } else if(email.length == 0){
-      this.emailValido = null
+      // console.log('Email es:', this.emailValido)
+    } else if (email.length == 0){
+      this.emailValido = null;
     }
 
 
@@ -104,8 +104,8 @@ export class CreateUserComponent implements OnInit {
 
 
   sololetras(event: any) {
-    var regex = new RegExp("^[a-zA-Z ]+$");
-    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    let regex = new RegExp('^[a-zA-Z ]+$');
+    let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
     if (!regex.test(key)) {
       event.preventDefault();
       return false;

@@ -18,14 +18,14 @@ export class EventCreateComponent implements OnInit {
   peopleEvent = [
     '1 - 6 personas',
     '5 - 10 personas'
-  ]
+  ];
 
   // Lugar de los eventos
   placeEvent = [
     'Casa comunal',
     'Canchas deportivas',
     'Parqueadero'
-  ]
+  ];
 
   // Duracion de eventos con intervalo de 3 horas
   durationEvent = [
@@ -34,14 +34,14 @@ export class EventCreateComponent implements OnInit {
     '13 p.m - 16 p.m',
     '16 p.m - 19 p.m',
     '19 p.m - 22 p.m'
-  ]
+  ];
 
   // Estado evento
   statusEvent = [
     'Aprobado',
     'En espera',
     'Desaprobado'
-  ]
+  ];
 
   // fecha actual
   fechaActual;
@@ -67,24 +67,24 @@ export class EventCreateComponent implements OnInit {
 
 
   constructor(private navParams: NavParams,
-    public modalController: ModalController,
-    private storage: AngularFireStorage,
-    public formBuilder: FormBuilder,
-    public toastController: ToastController,
-    private usersService: UsersService,
-    private eventsService: EventsService,
-    private bookingService: BookingService,) { }
+              public modalController: ModalController,
+              private storage: AngularFireStorage,
+              public formBuilder: FormBuilder,
+              public toastController: ToastController,
+              private usersService: UsersService,
+              private eventsService: EventsService,
+              private bookingService: BookingService, ) { }
 
   ngOnInit() {
-    this.fechaActual = Date.now()
+    this.fechaActual = Date.now();
     this.usersService.getOnlyThisUser().subscribe(res => {
-      //console.log(res)
-      this.usersList = res
+      // console.log(res)
+      this.usersList = res;
       res.map(resp => {
-        this.nameUser = resp['Name']
-      })
-      //console.log(this.usersList)
-    })
+        this.nameUser = resp.Name;
+      });
+      // console.log(this.usersList)
+    });
 
 
     this.uidAdmin = localStorage.getItem('userId');
@@ -105,7 +105,7 @@ export class EventCreateComponent implements OnInit {
     // iniciar formulario para la subida de imagenes
     this.eventsImg = this.formBuilder.group({
       Img: ''
-    })
+    });
     this.eventsBookingFormCreate = this.formBuilder.group({
       idEventBooking: '',
       idBookingBooking: '',
@@ -122,7 +122,7 @@ export class EventCreateComponent implements OnInit {
         userNameReserv: '',
         idUserReserv: '',
       })
-    })
+    });
 
   }
 
@@ -147,10 +147,10 @@ export class EventCreateComponent implements OnInit {
         userNameReserv: this.nameUser,
         idUserReserv: this.uidAdmin,
       })
-    })
-    console.log(this.eventsFormCreate.value)
-    console.log(this.eventsBookingFormCreate.value)
-    
+    });
+    console.log(this.eventsFormCreate.value);
+    console.log(this.eventsBookingFormCreate.value);
+
     if (this.eventsFormCreate.value.Nombre != '' && this.eventsFormCreate.value.EventoAN != ''
       && this.eventsFormCreate.value.Reserva.Duracion != '' && this.eventsFormCreate.value.Reserva.Descripcion != ''
       && this.eventsFormCreate.value.Reserva.Fecha != '' && this.eventsFormCreate.value.Reserva.Lugar != ''
@@ -158,17 +158,17 @@ export class EventCreateComponent implements OnInit {
         this.eventsService.createEventsServices(this.eventsFormCreate.value).then(resp => {
 
             // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
-            this.bookingService.createBookingServices(this.eventsBookingFormCreate.value).then(()=>{
+            this.bookingService.createBookingServices(this.eventsBookingFormCreate.value).then(() => {
               this.modalController.dismiss({
-                'dismissed': true
+                dismissed: true
               });
-            })
+            });
           }).catch(err => {
             // impirmir error si es que diera alguno
-            console.log(err)
-          })
+            console.log(err);
+          });
     } else {
-      this.presentToast()
+      this.presentToast();
     }
 
   }
@@ -198,7 +198,7 @@ export class EventCreateComponent implements OnInit {
     // establecimiento de la estructura de guardad en store
     this.filepath = 'events/' + idRandom;
 
-    // tareas y referencia del path 
+    // tareas y referencia del path
     this.fileRef = this.storage.ref(this.filepath);
     this.task = this.storage.upload(this.filepath, this.file);
 
@@ -218,7 +218,7 @@ export class EventCreateComponent implements OnInit {
       this.eventsImg.setValue({
         Img: url
       });
-    })
+    });
 
   }
 

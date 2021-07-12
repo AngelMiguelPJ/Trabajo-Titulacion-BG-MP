@@ -37,16 +37,16 @@ export class HomePage implements OnInit {
 
 
   constructor(public usersService: UsersService,
-    public authService: AuthService,
-    private navController: NavController,
-    public alertController: AlertController,
-    private loadingController: LoadingController,
-    private eventsService: EventsService,
-    private aliquotService: AliquotService,
-    private router: Router,
-    private angularFireAuth: AngularFireAuth) {
+              public authService: AuthService,
+              private navController: NavController,
+              public alertController: AlertController,
+              private loadingController: LoadingController,
+              private eventsService: EventsService,
+              private aliquotService: AliquotService,
+              private router: Router,
+              private angularFireAuth: AngularFireAuth) {
 
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
 
@@ -62,7 +62,7 @@ export class HomePage implements OnInit {
           spaceBetween: 5,
           autoplay: true,
           initialSlide: 1.5,
-        }
+        };
 
         // inicializacion del sistema de carousel de contactos
         this.option2 = {
@@ -72,7 +72,7 @@ export class HomePage implements OnInit {
           spaceBetween: 1,
           autoplay: false,
           initialSlide: 2.5,
-        }
+        };
         this.obtenerDatosEventos();
         this.obtenerDatosUsuarios();
         this.obtenerDatosUsuarioActual();
@@ -91,22 +91,22 @@ export class HomePage implements OnInit {
 
     // servicio para traer los eventos
     await this.eventsService.getAllEventsFilterServices().subscribe(res => {
-      //console.log('eventos',res)
+      // console.log('eventos',res)
       this.eventos = res;
-      this.eventosLength = this.eventos.length
-      //console.log(this.eventos.length)
-    })
+      this.eventosLength = this.eventos.length;
+      // console.log(this.eventos.length)
+    });
 
-    
+
   }
   async obtenerDatosUsuarios() {
 
     // Servicio para traer los contactos sin el usuario actual como en chat
     await this.usersService.getAllUsersWithoutThisUser().subscribe(res => {
-      //console.log(res)
+      // console.log(res)
       this.users = res;
-      this.usersLength = this.users.length
-    })
+      this.usersLength = this.users.length;
+    });
 
   }
 
@@ -116,33 +116,33 @@ export class HomePage implements OnInit {
     await this.usersService.getOnlyThisUser().subscribe(res => {
       // console.log(res)
       res.map(resp => {
-        this.name = resp['Name'];
-        this.imgProfile = resp['Img']
-      })
+        this.name = resp.Name;
+        this.imgProfile = resp.Img;
+      });
       // console.log(this.name)
-    })
+    });
   }
 
   async obtenerDatosAlicuotaActual() {
-    
+
     // traer cuota del mes actual del usuario
     await this.aliquotService.getAliquotUserCurrentMonth().subscribe(res => {
-      //console.log(res.length);
+      // console.log(res.length);
       this.aliquotCurrentMonth = res;
-      this.aliquotCurrentMonthLenght= res.length;
-      //console.log(this.aliquotCurrentMonth.lenght)
-    })
+      this.aliquotCurrentMonthLenght = res.length;
+      // console.log(this.aliquotCurrentMonth.lenght)
+    });
   }
 
   async obtenerDatosAlicuotaUltima() {
-    
+
     // traer cuota del mes actual del usuario
     await this.aliquotService.getAliquotUserLastMonth().subscribe(res => {
-      //console.log(res);
-      this.aliquotLastMonth= res;
+      // console.log(res);
+      this.aliquotLastMonth = res;
       this.aliquotLastMonthLenght = res.length;
-      //console.log(this.aliquotCurrentMonth)
-    })
+      // console.log(this.aliquotCurrentMonth)
+    });
   }
 
   ngOnDestroy() {
@@ -167,15 +167,15 @@ export class HomePage implements OnInit {
           this.angularFireAuth.signOut().then(() => {
 
             // cambio del estado de si esta logeado o no
-            //this.isAuthenticated = false;
+            // this.isAuthenticated = false;
             localStorage.removeItem('userId');
             localStorage.clear();
             // redirreccion de rutas para cuando cierra sesion
-            //this.router.navigate(['/tabs/tabhome'])
-            
-          }).then(()=>{
-            this.router.navigateByUrl('/login')
-          })
+            // this.router.navigate(['/tabs/tabhome'])
+
+          }).then(() => {
+            this.router.navigateByUrl('/login');
+          });
         }
       }
     ];
@@ -195,14 +195,14 @@ export class HomePage implements OnInit {
   }
 
   gotoChatRoom(uid, name, img) {
-    sessionStorage.setItem('uidContact', uid)
-    sessionStorage.setItem('nameContact', name)
-    sessionStorage.setItem('imgContact', img)
-    this.navController.navigateForward("/chatroom");
+    sessionStorage.setItem('uidContact', uid);
+    sessionStorage.setItem('nameContact', name);
+    sessionStorage.setItem('imgContact', img);
+    this.navController.navigateForward('/chatroom');
   }
 
   gotoCreateBooking() {
-    this.navController.navigateForward("/booking");
+    this.navController.navigateForward('/booking');
   }
 
 

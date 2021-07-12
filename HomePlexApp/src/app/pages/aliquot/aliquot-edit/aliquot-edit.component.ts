@@ -15,14 +15,14 @@ export class AliquotEditComponent implements OnInit {
     'Pagada',
     'Pendiente',
     'No pagada'
-  ]
+  ];
 
   // fecha actual
   fechaActual;
   fechaVencimiento;
   fechaSelect;
 
-  //forms
+  // forms
   aliquotFormEdit: FormGroup;
   IdAliquotUpdate;
   NameAliquotUser;
@@ -30,11 +30,11 @@ export class AliquotEditComponent implements OnInit {
   // coleccion de usuarios
 
   constructor(private navParams: NavParams,
-    private aliquotService: AliquotService,
-    public formBuilder: FormBuilder,
-    public usersService: UsersService,
-    public modalController: ModalController,
-    public toastController: ToastController) { }
+              private aliquotService: AliquotService,
+              public formBuilder: FormBuilder,
+              public usersService: UsersService,
+              public modalController: ModalController,
+              public toastController: ToastController) { }
 
   ngOnInit() {
     // seteo de la fecha actual
@@ -42,8 +42,8 @@ export class AliquotEditComponent implements OnInit {
 
     this.IdAliquotUpdate = this.navParams.data.id;
     this.NameAliquotUser = this.navParams.data.DatosVecinoNombre;
-    //console.log('a', this.IdAliquotUpdate);
-    //console.log('b',this.navParams.data)
+    // console.log('a', this.IdAliquotUpdate);
+    // console.log('b',this.navParams.data)
 
     this.aliquotFormEdit = this.formBuilder.group({
       ValorCuota: this.navParams.data.ValorCuota,
@@ -52,9 +52,9 @@ export class AliquotEditComponent implements OnInit {
       FechaVencimiento: this.navParams.data.FechaVencimiento,
       EstadoCuota: this.navParams.data.EstadoCuota,
       Descripcion: this.navParams.data.Descripcion
-    })
+    });
 
-    //console.log('c',this.aliquotFormEdit.value)
+    // console.log('c',this.aliquotFormEdit.value)
 
 
   }
@@ -72,7 +72,7 @@ export class AliquotEditComponent implements OnInit {
         // llamado al servicio de actualizacion de alicuotas
         this.aliquotService.updateAliquotServices(this.IdAliquotUpdate, this.aliquotFormEdit.value).then(() => {
           this.modalController.dismiss({
-            'dismissed': true
+            dismissed: true
           });
         }).catch(error => {
           console.error(error);
@@ -90,8 +90,8 @@ export class AliquotEditComponent implements OnInit {
 
 
   cambio(fechaEnviada) {
-    this.fechaSelect = Date.parse(fechaEnviada)
-    var mesDespues = 30 * 24 * 60 * 60 * 1000
+    this.fechaSelect = Date.parse(fechaEnviada);
+    const mesDespues = 30 * 24 * 60 * 60 * 1000;
     this.fechaVencimiento = this.fechaSelect + mesDespues;
   }
 
@@ -107,7 +107,7 @@ export class AliquotEditComponent implements OnInit {
 
   soloNumeros(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
+    const inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {
       // invalid character, prevent input

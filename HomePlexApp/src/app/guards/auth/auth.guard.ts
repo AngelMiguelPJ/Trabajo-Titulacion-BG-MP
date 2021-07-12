@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
 
   // contructor
   constructor(private angularFireAuth: AngularFireAuth,
-    private router: Router) { }
+              private router: Router) { }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -23,13 +23,13 @@ export class AuthGuard implements CanActivate {
       // condicional
       if (isNullOrUndefined(auth)) {
         this.router.navigateByUrl('/login');
-        return false
+        return false;
       } else {
-        return true
+        return true;
       }
-      //console.log(auth);
-      //return false;
-    }))
+      // console.log(auth);
+      // return false;
+    }));
   }
 
 }

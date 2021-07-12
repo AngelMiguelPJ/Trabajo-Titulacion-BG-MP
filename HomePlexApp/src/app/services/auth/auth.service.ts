@@ -16,8 +16,8 @@ export class AuthService {
 
   // Contructor para iniciar los respectivos servicios
   constructor(private angularFireAuth: AngularFireAuth, private router: Router,
-    private angularFirestore: AngularFirestore,
-    public location: Location) { }
+              private angularFirestore: AngularFirestore,
+              public location: Location) { }
 
   // Metodo -Funcion -servicio de iniciar sesion mediante correo y contraseña
   loginService(email: string, password: string) {
@@ -35,9 +35,9 @@ export class AuthService {
 
     }).catch(err => {
 
-      this.isAuthenticated = false
-      alert('datos incorrectos o  no existe el usuario')
-    })
+      this.isAuthenticated = false;
+      alert('datos incorrectos o  no existe el usuario');
+    });
 
 
   }

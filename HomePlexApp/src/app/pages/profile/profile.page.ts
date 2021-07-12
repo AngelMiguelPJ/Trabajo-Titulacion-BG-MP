@@ -39,59 +39,59 @@ export class ProfilePage implements OnInit {
   usersFormEdit: FormGroup;
 
   constructor(public usersService: UsersService,
-    private navController: NavController,
-    private router: Router,
-    public popoverController: PopoverController,
-    public fb: FormBuilder,
-    private storage: AngularFireStorage,
-    public modalController: ModalController,
-    public authService: AuthService,
-    private angularFireAuth: AngularFireAuth,) { }
+              private navController: NavController,
+              private router: Router,
+              public popoverController: PopoverController,
+              public fb: FormBuilder,
+              private storage: AngularFireStorage,
+              public modalController: ModalController,
+              public authService: AuthService,
+              private angularFireAuth: AngularFireAuth, ) { }
 
   ngOnInit() {
 
     this.usersService.getOnlyThisUser().subscribe(res => {
-      //console.log(res)
-      this.usersList = res
+      // console.log(res)
+      this.usersList = res;
       res.map(resp => {
-        this.imgProfile = resp['Img'],
-          this.emailUser = resp['Email'],
-          this.nameUser = resp['Name'],
-          this.phoneUser = resp['Telefono'],
-          this.houseUser = resp['Casa'],
-          this.typeUser = resp['TipoUsuario']
-      })
-      //console.log(this.usersList)
-    })
+        this.imgProfile = resp.Img,
+          this.emailUser = resp.Email,
+          this.nameUser = resp.Name,
+          this.phoneUser = resp.Telefono,
+          this.houseUser = resp.Casa,
+          this.typeUser = resp.TipoUsuario;
+      });
+      // console.log(this.usersList)
+    });
 
     this.userImgEdit = this.fb.group({
       Img: ['']
-    })
+    });
 
   }
 
   changePass(){
-    this.angularFireAuth.updateCurrentUser
+    this.angularFireAuth.updateCurrentUser;
   }
 
   goHome() {
-    this.router.navigateByUrl('/home')
+    this.router.navigateByUrl('/home');
   }
 
   goRegister() {
-    this.router.navigateByUrl('/register')
+    this.router.navigateByUrl('/register');
   }
 
   async presentPopover() {
 
-    //console.log(this.usersFormEdit.value)
+    // console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: EditProfileComponent,
-      
+
       componentProps: this.usersList,
     }).then(modalres => {
       modalres.present();
-      modalres.onDidDismiss()
+      modalres.onDidDismiss();
     });
 
   }
@@ -103,7 +103,7 @@ export class ProfilePage implements OnInit {
     // establecimiento de la estructura de guardad en store
     this.filepath = 'usersImgProfile/' + this.nameUser + '/' + 'photoPerfil';
 
-    // tareas y referencia del path 
+    // tareas y referencia del path
     this.fileRef = this.storage.ref(this.filepath);
     this.task = this.storage.upload(this.filepath, this.file);
 
@@ -118,14 +118,14 @@ export class ProfilePage implements OnInit {
       // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
       this.userImgEdit.setValue({
         Img: url
-      })
+      });
 
-      //console.log(this.userImgEdit.value)
+      // console.log(this.userImgEdit.value)
       // igualacion de variables y llamado a la funcion o metodo para actuializar la imagen setenado el uid de usuario actual y el url de la imagen que subio
-      this.userUid = localStorage.getItem('userId')
-      this.usersService.updateUsersServicesImg(this.userUid, this.userImgEdit.value)
+      this.userUid = localStorage.getItem('userId');
+      this.usersService.updateUsersServicesImg(this.userUid, this.userImgEdit.value);
 
-    })
+    });
 
   }
 

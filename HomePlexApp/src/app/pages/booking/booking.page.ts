@@ -39,31 +39,31 @@ export class BookingPage implements OnInit {
   searchBarOpen = false;
   searchValue = false;
 
-  selectedSegment: string = '';
+  selectedSegment = '';
 
 
   constructor(private bookingService: BookingService,
-    private loadingController: LoadingController,
-    public formBuilder: FormBuilder,
-    private storage: AngularFireStorage,
-    public usersService: UsersService,
-    public modalController: ModalController,
-    private routerOutlet: IonRouterOutlet) {}
+              private loadingController: LoadingController,
+              public formBuilder: FormBuilder,
+              private storage: AngularFireStorage,
+              public usersService: UsersService,
+              public modalController: ModalController,
+              private routerOutlet: IonRouterOutlet) {}
 
   ngOnInit() {
 
-    //--------------------------------------------------------
-    this.selectedSegment = sessionStorage.getItem('Parking')
+    // --------------------------------------------------------
+    this.selectedSegment = sessionStorage.getItem('Parking');
     // configuracion de la paginacion
     this.config = {
       itemsPerPage: 3,
       currentPage: 1,
       totalItems: this.collectionBookingLength
     };
-    //--------------------------------------------------------
-    //cargando todos los Bookings de firebase-firestore
+    // --------------------------------------------------------
+    // cargando todos los Bookings de firebase-firestore
     this.bookingService.getBookingServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      // console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionBooking = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -80,16 +80,16 @@ export class BookingPage implements OnInit {
           Personas: e.payload.doc.data().Reserva.Personas,
           UidBookingBooking: e.payload.doc.data().idBookingBooking,
           uidBooking: e.payload.doc.id
-        }
-      })
-      //console.log(this.collectionBooking)
+        };
+      });
+      // console.log(this.collectionBooking)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
     }
     );
     this.bookingService.getBookingServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      // console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionBookingBackUp = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -106,17 +106,17 @@ export class BookingPage implements OnInit {
           Personas: e.payload.doc.data().Reserva.Personas,
           UidBookingBooking: e.payload.doc.data().idBookingBooking,
           uidBooking: e.payload.doc.id
-        }
-      })  
-      //console.log(this.collectionBooking)
+        };
+      });
+      // console.log(this.collectionBooking)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
     }
     );
-    //--------------------------------------------------------
+    // --------------------------------------------------------
     this.bookingService.getBookingServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      // console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionBookingBooking = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -126,16 +126,16 @@ export class BookingPage implements OnInit {
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
           UidBookingBooking: e.payload.doc.data().idBookingBooking
-        }
-      })
+        };
+      });
 
-      //console.log(this.collectionBooking.data)
+      // console.log(this.collectionBooking.data)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
     }
     );
-    //--------------------------------------------------------
+    // --------------------------------------------------------
 
     // inicializacion de formulario para la edicion de un Booking
     this.bookingFormEdit = this.formBuilder.group({
@@ -159,24 +159,24 @@ export class BookingPage implements OnInit {
         Duracion: ['', Validators.required],
         Personas: ['', Validators.required]
       })
-    })
+    });
 
   }
 
   async filterList(evt) {
     this.collectionBooking = this.collectionBookingBackUp;
     const searchTerm = evt.srcElement.value;
-  
+
     if (!searchTerm) {
       return;
     }
-  
-    this.collectionBooking = this.collectionBooking.filter(currentFood => { 
+
+    this.collectionBooking = this.collectionBooking.filter(currentFood => {
       if (currentFood.Lugar && searchTerm) {
-        return (currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 
+        return (currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
                 || currentFood.Fecha.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
                 || currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
-      } 
+      }
     });
   }
 
@@ -186,7 +186,7 @@ export class BookingPage implements OnInit {
 
     // configurar establecida segun el Booking
     this.config.currentPage = event;
-    //console.log(this.config.totalItems)
+    // console.log(this.config.totalItems)
 
   }
 
@@ -204,18 +204,18 @@ export class BookingPage implements OnInit {
 
   deleteBooking(item: any) {
     this.config.currentPage = 1,
-    // llamado al servicio de eliminacion de Bookings 
+    // llamado al servicio de eliminacion de Bookings
     this.bookingService.deleteBookingServices(item.uidBooking);
 
     this.collectionBookingBooking.map(res => {
-      const a = res.id
-      const b = res.UidBookingBooking
-      //console.log("a: ", a, "b", b)
-      // llamado al servico de eliminacion de reservas 
+      const a = res.id;
+      const b = res.UidBookingBooking;
+      // console.log("a: ", a, "b", b)
+      // llamado al servico de eliminacion de reservas
       if (item.UidBookingBooking == b) {
-        this.bookingService.deleteBookingServices(a)
+        this.bookingService.deleteBookingServices(a);
       }
-    })
+    });
 
 
 
@@ -226,7 +226,7 @@ export class BookingPage implements OnInit {
 
     this.modalController.create({
       component: BookingCreateComponent,
-      //cssClass: 'style-modal-create-booking'
+      // cssClass: 'style-modal-create-booking'
 
     }).then(modalres => {
       modalres.present();
@@ -238,9 +238,9 @@ export class BookingPage implements OnInit {
   async editBookingModal(item: any) {
 
 
-    //seteo de variables en el form editar
+    // seteo de variables en el form editar
     this.bookingFormEdit.setValue({
-      
+
       BookingAN: item.BookingAN,
       idBookingBooking: item.UidBookingBooking,
       Reserva: ({
@@ -254,19 +254,19 @@ export class BookingPage implements OnInit {
     // igualancion del uid del usuario actual a la variable id firebase
     this.uidBookingEdit = item.uidBooking;
 
-    //console.log(this.usersFormEdit.value)
+    // console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: BookingEditComponent,
       componentProps: this.bookingFormEdit.value,
-      //cssClass: 'style-modal-edite-booking'
+      // cssClass: 'style-modal-edite-booking'
 
     }).then(modalres => {
       modalres.present();
       modalres.onDidDismiss().then(res => {
-        //console.log(res.data)
-        //console.log('a', this.bookingFormEdit.value)
+        // console.log(res.data)
+        // console.log('a', this.bookingFormEdit.value)
         if (res.data != null || res.data != undefined) {
-          this.presentLoading()
+          this.presentLoading();
           this.bookingFormEdit.setValue({
 
             BookingAN: res.data.BookingAN,
@@ -288,27 +288,27 @@ export class BookingPage implements OnInit {
               Lugar: res.data.Reserva.Lugar,
               Personas: res.data.Reserva.Personas
             })
-          })
+          });
 
-          //------------
+          // ------------
           // console.log('b', this.bookingFormEdit.value.Reserva.Duracion)
           // console.log('c', this.bookingBookingFormEdit.value.Reserva.Duracion)
-          //console.log(this.bVar)
-          //console.log(this.aVar)
-          console.log(this.bookingFormEdit.value.idBookingBooking)
+          // console.log(this.bVar)
+          // console.log(this.aVar)
+          console.log(this.bookingFormEdit.value.idBookingBooking);
 
-          //----------------------
+          // ----------------------
           this.collectionBookingBooking.map(res => {
-            const a = res.id
-            const b = res.UidBookingBooking
-            console.log("a: ", a, "b", b)
+            const a = res.id;
+            const b = res.UidBookingBooking;
+            console.log('a: ', a, 'b', b);
             // condicion para actualizar reserva segun el Booking
             if (this.bookingFormEdit.value.idBookingBooking == b) {
-              console.log(b)
-              console.log(a)
-              this.bookingService.updateBookingServices(a, this.bookingBookingFormEdit.value)
+              console.log(b);
+              console.log(a);
+              this.bookingService.updateBookingServices(a, this.bookingBookingFormEdit.value);
             }
-          })
+          });
 
 
           // llamado a la variable uid del usuario y verificacion de si es nula o no
@@ -319,21 +319,21 @@ export class BookingPage implements OnInit {
             // servicio de acutalizacion de ventos
             this.bookingService.updateBookingServices(this.uidBookingEdit, this.bookingFormEdit.value).then(resp => {
               // funciones de reseteo del formulario y cerrar modal al igual que el formulario
-              //this.bookingFormEdit.reset();
+              // this.bookingFormEdit.reset();
 
             }).catch(error => {
-              // comprobacion de errores 
+              // comprobacion de errores
               console.error(error);
             });
           }
         }
-      })
+      });
     });
 
   }
 
   segmentChanged(ev: any) {
-    //console.log('Segment changed', ev);
+    // console.log('Segment changed', ev);
     this.selectedSegment = ev.target.value;
   }
 }

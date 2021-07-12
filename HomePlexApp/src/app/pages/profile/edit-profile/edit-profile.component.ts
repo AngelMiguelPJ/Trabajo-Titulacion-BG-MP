@@ -29,7 +29,7 @@ export class EditProfileComponent implements OnInit {
     'Administrador',
     'Vecino',
     'Arrendatario'
-  ]
+  ];
   //  variables para establecer la subia de imagenes
   filepath;
   file;
@@ -54,30 +54,30 @@ export class EditProfileComponent implements OnInit {
   ngOnInit() {
 
     this.usersService.getOnlyThisUser().subscribe(res => {
-      this.usersList = res
+      this.usersList = res;
       res.map(resp => {
-        this.nameUser = resp['Name']
+        this.nameUser = resp.Name;
 
-      })
-      //console.log(this.usersList)
+      });
+      // console.log(this.usersList)
     }),
 
       this.userProfileFormEdit = this.formBuilder.group({
         Name: this.navParams.data[0].Name,
         Telefono: this.navParams.data[0].Telefono,
-      })
+      });
 
-    //console.log(this.navParams.data[0].Uid)
-    this.uidUser = this.navParams.data[0].Uid
+    // console.log(this.navParams.data[0].Uid)
+    this.uidUser = this.navParams.data[0].Uid;
 
   }
 
   async message(message: string) {
     const alert = await this.alertCtrl.create({
       header: 'Cambio contraseña',
-      message: message,
+      message,
       buttons: ['OK']
-    })
+    });
     await alert.present();
   }
 
@@ -107,14 +107,14 @@ export class EditProfileComponent implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           handler: data => {
-            //console.log('Cancel clicked');
+            // console.log('Cancel clicked');
           }
         },
         {
           text: 'Guardar',
           handler: data => {
 
-            //First you get the current logged in user
+            // First you get the current logged in user
             const cpUser = firebase.auth().currentUser;
 
             /*Then you set credentials to be the current logged in user's email
@@ -123,21 +123,21 @@ export class EditProfileComponent implements OnInit {
             const credentials = firebase.auth.EmailAuthProvider.credential(
               cpUser.email, data.oldPassword);
 
-            //Reauthenticating here with the data above
+            // Reauthenticating here with the data above
             cpUser.reauthenticateWithCredential(credentials).then(
               success => {
-                if (data.Name !== null && data.Name !== "") {
+                if (data.Name !== null && data.Name !== '') {
                   cpUser.updateProfile({
                     displayName: data.Name
                   })
                     .then((data) => {
-                      //console.log(data);
-                      //this.presentToast();
+                      // console.log(data);
+                      // this.presentToast();
                     })
                     .catch(err => {
-                      //console.log(` failed ${err}`);
+                      // console.log(` failed ${err}`);
                     });
-                  //console.log('Funciona');
+                  // console.log('Funciona');
                 }
                 if (data.newPassword != data.newPasswordConfirm) {
                   this.message('No cinciden las contraseñas');
@@ -151,31 +151,31 @@ export class EditProfileComponent implements OnInit {
 
                   /* Update the password to the password the user typed into the
                     new password input field */
-                  cpUser.updatePassword(data.newPassword).then(function () {
-                    //Success
-                  }).catch(function (error) {
-                    //Failed
+                  cpUser.updatePassword(data.newPassword).then(function() {
+                    // Success
+                  }).catch(function(error) {
+                    // Failed
                   });
                 }
               },
               error => {
-                //console.log(error);
-                if (error.code === "auth/wrong-password") {
+                // console.log(error);
+                if (error.code === 'auth/wrong-password') {
                   this.message('La contraseña antigua no es correcta');
 
                 }
               }
-            )
-            //console.log(credentials); 
+            );
+            // console.log(credentials);
           }
         }
       ]
-    })
+    });
     await alert.present();
   }
 
   async updateUser() {
-    //console.log(this.userProfileFormEdit.value)
+    // console.log(this.userProfileFormEdit.value)
     // llamado a la variable uid del usuario y verificacion de si es nula o no
     if (this.uidUser !== null || this.uidUser !== undefined) {
       if (this.userProfileFormEdit.value.Name !== '' && this.userProfileFormEdit.value.Telefono !== '' && this.telefonoValido === true) {
@@ -184,11 +184,11 @@ export class EditProfileComponent implements OnInit {
 
           // funciones de reseteo del formulario y cerrar modal al igual que el formulario
           this.modalController.dismiss({
-            'dismissed': true
+            dismissed: true
           });
 
         }).catch(error => {
-          // comprobacion de errores 
+          // comprobacion de errores
           console.error(error);
         });
       } else {
@@ -212,38 +212,38 @@ export class EditProfileComponent implements OnInit {
 
   goBack() {
     this.modalController.dismiss({
-      'dismissed': true
+      dismissed: true
     });
   }
 
   // validaciones de campos
-  //funcion para la validacion de numero de telefono fijo o movil
+  // funcion para la validacion de numero de telefono fijo o movil
   validarTelefono(telefono: string) {
     const digitoTelefono = telefono.substring(0, 2);
-    //console.log(digitoTelefono)
+    // console.log(digitoTelefono)
 
     if (telefono.length === 10 && digitoTelefono === '09') {
-      //console.log('true')
-      this.telefonoValido = true
+      // console.log('true')
+      this.telefonoValido = true;
       return true;
 
     } else if (telefono.length === 9 && digitoTelefono === '02') {
-      this.telefonoValido = true
-      //console.log('true')
+      this.telefonoValido = true;
+      // console.log('true')
       return true;
     } else if (telefono.length === 0) {
-      this.telefonoValido = null
-      return null
+      this.telefonoValido = null;
+      return null;
 
     } else {
-      //console.log('false')
-      this.telefonoValido = false
+      // console.log('false')
+      this.telefonoValido = false;
       return false;
     }
   }
   soloNumeros(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
+    const inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {
       // invalid character, prevent input
@@ -252,8 +252,8 @@ export class EditProfileComponent implements OnInit {
   }
 
   sololetras(event: any) {
-    var regex = new RegExp("^[a-zA-Z ]+$");
-    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    const regex = new RegExp('^[a-zA-Z ]+$');
+    const key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
     if (!regex.test(key)) {
       event.preventDefault();
       return false;

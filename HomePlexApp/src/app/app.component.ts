@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     console.log();
     if (isPushNotificationsAvailable) {
       PushNotifications.register();
-    
+
       PushNotifications.addListener('registration',
       (token: PushNotificationToken) => {
         alert("Push registro exitoso, token: " + token.value);
@@ -42,28 +42,28 @@ export class AppComponent implements OnInit {
         this.guardarToken(token.value);
       }
       );
-    
+
       PushNotifications.addListener('registrationError',
       (error : any) => {
         alert("Error de registro: " + JSON.stringify(error));
       }
       );
-    
+
       PushNotifications.addListener('pushNotificationReceived',
       (notification : PushNotification) => {
-        var audio1 = new Audio('assets/test.mp3');
+        let audio1 = new Audio('assets/test.mp3');
         console.log('Audio');
         audio1.play();
-    
+
         console.log('Push recibido: ', notification);
-    
+
         let alertRet = Modals.alert({
           title : notification.title,
           message : notification.body
         });
       }
       );
-    
+
       PushNotifications.addListener('pushNotificationActionPerformed',
       (notification : PushNotificationActionPerformed) => {
         alert('Push  action performed: ' + JSON.stringify(notification));
@@ -71,9 +71,9 @@ export class AppComponent implements OnInit {
       }
       );
 
-      
+
     }
-   
+
   }
 
   async guardarToken(token:any) {
@@ -81,9 +81,9 @@ export class AppComponent implements OnInit {
     console.log('ID usuario:', Uid);
     if(Uid){
       console.log('Guardar token: ', token );
-      //const path : '/users/';
+      // const path : '/users/';
       const userUpdate = {
-        token : token,
+        token,
       };
       console.log(userUpdate);
       this.userService.updateToken(Uid, userUpdate);

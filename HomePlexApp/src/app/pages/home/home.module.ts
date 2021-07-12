@@ -16,11 +16,11 @@ import { HomePage } from './home.page';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    
+
   ],
   declarations: [HomePage],
   exports: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
-  
+
 })
 export class HomePageModule {}

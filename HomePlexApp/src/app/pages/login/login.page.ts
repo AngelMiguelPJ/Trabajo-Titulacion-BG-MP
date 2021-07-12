@@ -23,13 +23,13 @@ export class LoginPage implements OnInit {
   recargaPagina;
 
   constructor(private authService: AuthService,
-    private router: Router,
-    private modalController: ModalController,
-    public location: Location) {
-      this.router.routeReuseStrategy.shouldReuseRoute = function () {
+              private router: Router,
+              private modalController: ModalController,
+              public location: Location) {
+      this.router.routeReuseStrategy.shouldReuseRoute = function() {
         return false;
       };
-      
+
       this.recargaPagina = this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
           // Trick the Router into believing it's last link wasn't previously loaded
@@ -46,26 +46,26 @@ export class LoginPage implements OnInit {
 
     // llamado al servicio de authenticacion para logearse
     await this.authService.loginService(email, password).then(res => {
-      //console.log("Respuesta: ", res)
+      // console.log("Respuesta: ", res)
       // redireccion a la pagina home si se logea correctamente
-      
+
     }).catch(err => {
       // mensaje de error en consola
-      console.log("Error: ", err)
-    }).then(()=>{
-      this.router.navigateByUrl('/home')
-    })
+      console.log('Error: ', err);
+    }).then(() => {
+      this.router.navigateByUrl('/home');
+    });
 
   }
 
   async resetPasswordByEmail() {
 
-    //console.log(this.usersFormEdit.value)
+    // console.log(this.usersFormEdit.value)
     await this.modalController.create({
       component: ResetPasswordComponent
     }).then(modalres => {
       modalres.present();
-      modalres.onDidDismiss()
+      modalres.onDidDismiss();
     });
 
   }

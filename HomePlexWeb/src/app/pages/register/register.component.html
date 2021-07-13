@@ -32,8 +32,8 @@
           <td>
 
             <!--Botones para eliminar y editar el respectivo usuario-->
-            <button type="button" class="btn btn-primary" (click)="openEditar(content,item)">Editar</button>
-            <button type="button" class="btn btn-danger" (click)="eliminar(item)">Borrar</button>
+            <button type="button" class="btn btn-primary" (click)="openEditar(content,item)" *ngIf="item.TipoUsuario !='Administrador Principal' && item.TipoUsuario !='Administrador'">Editar</button>
+            <button type="button" class="btn btn-danger" (click)="eliminar(item)" *ngIf="item.TipoUsuario !='Administrador Principal' && item.TipoUsuario !='Administrador'">Borrar</button>
 
           </td>
         </tr>
@@ -75,7 +75,7 @@
                 <!-- Select de tipo de usuario apartir del arreglo en el ts-->
                 <select type="'text" formControlName="TipoUsuario" class="form-control">
 
-                  <option *ngFor="let listTypes of typeUsers" [ngValue]="listTypes">{{listTypes}}</option>
+                  <option *ngFor="let listTypes of typeUsersEdit" [ngValue]="listTypes">{{listTypes}}</option>
                 </select>
 
               </div>
@@ -168,7 +168,7 @@
 
                 <!-- Select de tipo de usuario apartir del arreglo en el ts-->
                 <select type="'text" formControlName="TipoUsuario" class="form-control" #TipoUsuario>
-                  <option *ngFor="let listTypes of typeUsers">{{listTypes}}</option>
+                  <option *ngFor="let listTypes of typeUsersCreate">{{listTypes}}</option>
                 </select>
 
               </div>

@@ -312,41 +312,56 @@ export class EventRegisterComponent implements OnInit {
   createEvent() {
 
     //console.log(this.eventImgForm.value)
-    // seteo de datos de reservas por medio de datos de eventos
-    const idRandomEvent = Math.random().toString(36).substring(2);
-    this.eventsForm.value.idBookingBooking = idRandomEvent
-    this.eventsBookingForm.setValue({
-      idBookingBooking: this.eventsForm.value.idBookingBooking,
-      BookingAN: this.eventsForm.value.EventoAN,
-      Reserva: ({
-        Descripcion: this.eventsForm.value.Reserva.Descripcion,
-        Lugar: this.eventsForm.value.Reserva.Lugar,
-        Fecha: this.eventsForm.value.Reserva.Fecha,
-        Duracion: this.eventsForm.value.Reserva.Duracion,
-        Personas: this.eventsForm.value.Reserva.Personas
-      }),
-      UserInfo: ({
-        userNameReserv: this.nameUserInfor,
-        idUserReserv: this.uidAdmin,
+
+    if (this.eventsForm.value.EventoAN !== '' && this.eventsForm.value.Reserva.Descripcion !== '' && this.eventsForm.value.Reserva.Lugar !== '' &&
+      this.eventsForm.value.Reserva.Fecha !== '' && this.eventsForm.value.Reserva.Duracion !== '' && this.eventsForm.value.Reserva.Personas !== '' &&
+      this.eventImgForm.value.Img !== '') {
+      const idRandomEvent = Math.random().toString(36).substring(2);
+      this.eventsForm.value.idBookingBooking = idRandomEvent
+      this.eventsBookingForm.setValue({
+        idBookingBooking: this.eventsForm.value.idBookingBooking,
+        BookingAN: this.eventsForm.value.EventoAN,
+        Reserva: ({
+          Descripcion: this.eventsForm.value.Reserva.Descripcion,
+          Lugar: this.eventsForm.value.Reserva.Lugar,
+          Fecha: this.eventsForm.value.Reserva.Fecha,
+          Duracion: this.eventsForm.value.Reserva.Duracion,
+          Personas: this.eventsForm.value.Reserva.Personas
+        }),
+        UserInfo: ({
+          userNameReserv: this.nameUserInfor,
+          idUserReserv: this.uidAdmin,
+        })
       })
-    })
-    // seteo de variables de images
-    this.eventsForm.value.Img = this.eventImgForm.value.Img
+      // seteo de variables de images
+      this.eventsForm.value.Img = this.eventImgForm.value.Img
 
-    // llamado al servicio de creacion de eventosde acuerdo a los datos del form
-    this.eventsService.createEventsServices(this.eventsForm.value).then(resp => {
+      // llamado al servicio de creacion de eventosde acuerdo a los datos del form
+      this.eventsService.createEventsServices(this.eventsForm.value).then(resp => {
 
-      // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
-      this.bookingService.createBookingServices(this.eventsBookingForm.value)
+        // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
+        this.bookingService.createBookingServices(this.eventsBookingForm.value)
 
-      // resetea el form y lo cierra
-      this.eventsForm.reset();
-      this.ngbModal.dismissAll();
+        // resetea el form y lo cierra
+        this.eventsForm.reset();
+        this.ngbModal.dismissAll();
 
-    }).catch(err => {
-      // impirmir error si es que diera alguno
-      //console.log(err)
-    })
+      }).catch(err => {
+        // impirmir error si es que diera alguno
+        //console.log(err)
+      })
+
+    } else {
+      console.log('No se puede');
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Debe llenar todos los campos para crear un evento',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+    // seteo de datos de reservas por medio de datos de eventos
 
   }
 
@@ -409,10 +424,13 @@ export class EventRegisterComponent implements OnInit {
 
     // por tecla esc, dar click fuera del form o en la x
     if (reason === ModalDismissReasons.ESC) {
+      this.eventsForm.reset();
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      this.eventsForm.reset();
       return 'by clicking on a backdrop';
     } else {
+      this.eventsForm.reset();
       return `with: ${reason}`;
     }
 
@@ -421,41 +439,40 @@ export class EventRegisterComponent implements OnInit {
   // funcion - metodo para la subida de imagenes a firestone
   uploadFile(event) {
 
-
     this.file = event.target.files[0];
     this.validImg = (/\.(jpg|png)$/i).test(this.file.name)
     console.log((/\.(jpg|png)$/i).test(this.file.name))
     console.log(this.file.size);
     if (this.file.size < 2500000 && this.validImg == true) {
       // variable random para id de las imagenes
-    const idRandom = Math.random().toString(36).substring(2);
+      const idRandom = Math.random().toString(36).substring(2);
 
-    // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
-    
+      // seteo de las variables que sirven para subir y descargar el url de la imagen subida a store
 
-    // establecimiento de la estructura de guardad en store
-    this.filepath = 'events/' + idRandom;
 
-    // tareas y referencia del path 
-    this.fileRef = this.storage.ref(this.filepath);
-    this.task = this.storage.upload(this.filepath, this.file);
+      // establecimiento de la estructura de guardad en store
+      this.filepath = 'events/' + idRandom;
 
-    // Observador para ver el porcentaje de subida o tiempo que tarda en subir
-    this.uploadPercent = this.task.percentageChanges();
+      // tareas y referencia del path 
+      this.fileRef = this.storage.ref(this.filepath);
+      this.task = this.storage.upload(this.filepath, this.file);
 
-    // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
-    this.task.snapshotChanges().pipe(
-      last(),
-      switchMap(() =>
-        this.fileRef.getDownloadURL()
-      )
-    ).subscribe(url => {
-      // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
-      this.imgEdit = url
-      this.eventImgForm.setValue({
-        Img: url
+      // Observador para ver el porcentaje de subida o tiempo que tarda en subir
+      this.uploadPercent = this.task.percentageChanges();
+
+      // obtenr noticicacion de que la url del archivo subido esta diponible y su pertinente obtencion mediante mapeo
+      this.task.snapshotChanges().pipe(
+        last(),
+        switchMap(() =>
+          this.fileRef.getDownloadURL()
+        )
+      ).subscribe(url => {
+        // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
+        this.imgEdit = url
+        this.eventImgForm.setValue({
+          Img: url
+        })
       })
-    })
     } else {
       event.srcElement.value = '';
       this.file = '';
@@ -468,7 +485,7 @@ export class EventRegisterComponent implements OnInit {
       });
     }
 
-    
+
 
   }
 
@@ -476,41 +493,58 @@ export class EventRegisterComponent implements OnInit {
   updateEvent() {
 
     // seteo de valires en el form de editar de reservas
-    this.eventBookingFormEdit.setValue({
-      Reserva: ({
-        Descripcion: this.eventFormEdit.value.Reserva.Descripcion,
-        Duracion: this.eventFormEdit.value.Reserva.Duracion,
-        Fecha: this.eventFormEdit.value.Reserva.Fecha,
-        Lugar: this.eventFormEdit.value.Reserva.Lugar,
-        Personas: this.eventFormEdit.value.Reserva.Personas
+    if (this.eventFormEdit.value.Reserva.Descripcion !== '' &&
+      this.eventFormEdit.value.Reserva.Duracion !== '' &&
+      this.eventFormEdit.value.Reserva.Fecha !== '' &&
+      this.eventFormEdit.value.Reserva.Lugar !== '' &&
+      this.eventFormEdit.value.Reserva.Personas) {
+
+      this.eventBookingFormEdit.setValue({
+        Reserva: ({
+          Descripcion: this.eventFormEdit.value.Reserva.Descripcion,
+          Duracion: this.eventFormEdit.value.Reserva.Duracion,
+          Fecha: this.eventFormEdit.value.Reserva.Fecha,
+          Lugar: this.eventFormEdit.value.Reserva.Lugar,
+          Personas: this.eventFormEdit.value.Reserva.Personas
+        })
       })
-    })
-    this.collectionBooking.data.map(res => {
-      const a = res.id
-      const b = res.UidEventBooking
-      //console.log("a: ", a, "b", b)
-      if (this.eventFormEdit.value.idBookingBooking == b) {
-        this.bookingService.updateBookingServices(a, this.eventBookingFormEdit.value)
+      this.collectionBooking.data.map(res => {
+        const a = res.id
+        const b = res.UidEventBooking
+        //console.log("a: ", a, "b", b)
+        if (this.eventFormEdit.value.idBookingBooking == b) {
+          this.bookingService.updateBookingServices(a, this.eventBookingFormEdit.value)
+        }
+      })
+
+
+      // llamado a la variable uid del usuario y verificacion de si es nula o no
+      if (this.uidEventEdit !== null || this.uidEventEdit !== undefined) {
+
+        // igualacion de variables de imagenes
+        this.eventFormEdit.value.Img = this.imgEdit
+
+        // servicio de acutalizacion de ventos
+        this.eventsService.updateEventsServices(this.uidEventEdit, this.eventFormEdit.value).then(resp => {
+          // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+          this.eventFormEdit.reset();
+          this.ngbModal.dismissAll();
+        }).catch(error => {
+          // comprobacion de errores 
+          console.error(error);
+        });
       }
-    })
 
-
-    // llamado a la variable uid del usuario y verificacion de si es nula o no
-    if (this.uidEventEdit !== null || this.uidEventEdit !== undefined) {
-
-      // igualacion de variables de imagenes
-      this.eventFormEdit.value.Img = this.imgEdit
-
-      // servicio de acutalizacion de ventos
-      this.eventsService.updateEventsServices(this.uidEventEdit, this.eventFormEdit.value).then(resp => {
-        // funciones de reseteo del formulario y cerrar modal al igual que el formulario
-        this.eventFormEdit.reset();
-        this.ngbModal.dismissAll();
-      }).catch(error => {
-        // comprobacion de errores 
-        console.error(error);
+    } else {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Debe llenar todos los campos para crear un evento',
+        showConfirmButton: false,
+        timer: 2000
       });
     }
+
 
   }
 

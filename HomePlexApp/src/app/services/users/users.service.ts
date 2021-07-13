@@ -31,6 +31,9 @@ export class UsersService {
   // variable bandera para establecer si es admin, contador o no
   isAdmin = false;
   isAccountant = false;
+  isNeighbour = false;
+  isAdminMain = false;
+  uidAdmin;
 
   // contructor para iniciar los servicios
   constructor(private angularFirestore: AngularFirestore,
@@ -52,9 +55,11 @@ export class UsersService {
         if (res.payload.doc.data()['Uid'] === this.userUid) {
           const adminVar = res.payload.doc.data()['TipoUsuario']
           if (adminVar == 'Administrador') {
-            this.isAdmin = true
+            this.isAdmin = true;
+            this.uidAdmin = localStorage.setItem('uidAdmin', res.payload.doc.data()['Uid']);
           } else {
-            this.isAdmin = false
+            this.isAdmin = false;
+            this.uidAdmin = '';
           }
         }
 
@@ -65,6 +70,24 @@ export class UsersService {
             this.isAccountant = true
           } else {
             this.isAccountant = false
+          }
+        }
+
+        if (res.payload.doc.data()['Uid'] === this.userUid) {
+          const accountVar = res.payload.doc.data()['TipoUsuario']
+          if (accountVar == 'Vecino') {
+            this.isNeighbour = true
+          } else {
+            this.isNeighbour = false
+          }
+        }
+
+        if (res.payload.doc.data()['Uid'] === this.userUid) {
+          const accountVar = res.payload.doc.data()['TipoUsuario']
+          if (accountVar == 'Administrador Principal') {
+            this.isAdminMain = true
+          } else {
+            this.isAdminMain = false
           }
         }
 

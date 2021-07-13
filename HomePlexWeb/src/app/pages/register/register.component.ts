@@ -4,7 +4,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // servicio de usuarios
-import { UsersService} from 'src/app/services/users/users.service';
+import { UsersService } from 'src/app/services/users/users.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -15,11 +16,14 @@ import { UsersService} from 'src/app/services/users/users.service';
 export class RegisterComponent implements OnInit {
 
   // lista de los tipos de usuarios que pueden existir
-  typeUsers = [
+  typeUsersEdit = [
     'Contador',
     'Administrador',
-    'Vecino',
-    'Arrendatario'
+    'Vecino'
+  ]
+  typeUsersCreate = [
+    'Contador',
+    'Vecino'
   ]
   usuarioExist = false;
 
@@ -28,18 +32,20 @@ export class RegisterComponent implements OnInit {
 
   // variable de inicio de los formularios de crear y editar
   usersFormEdit: FormGroup;
+  usersFormEditAdmin: FormGroup;
   usersFormCreate: FormGroup;
 
   // variables de uso de actualizacion y seteo de las Uids de firebase
   idFirabaseActualizar: string;
   actualizar: boolean;
+  uidAdminFirebase;
 
   // variable para introducir datos y respectivo conteo
   collection = { count: 0, data: [] }
 
   // constructor que inicia lso servicios o funciones
   constructor(private usersService: UsersService, private modalService: NgbModal,
-    public fb: FormBuilder) { }
+    public fb: FormBuilder,public authService: AuthService,) { }
 
 
   ngOnInit(): void {
@@ -48,12 +54,14 @@ export class RegisterComponent implements OnInit {
     this.idFirabaseActualizar = "";
     this.actualizar = false;
     this.usuarioExist = false;
+    this.uidAdminFirebase = localStorage.getItem('uidAdmin')
+    //console.log(this.uidAdminFirebase)
     //inicializando formulario para guardar datos los usuarios
     this.usersFormCreate = this.fb.group({
-      Name: ['', [Validators.required,Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]+$/)]],
+      Name: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]+$/)]],
       Email: ['', [Validators.required, Validators.pattern(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)]],
       Password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12), Validators.pattern(/^[a-zA-Z0-9_-]{6,12}$/)]],
-      Casa:['', Validators.required],
+      Casa: ['', Validators.required],
       TipoUsuario: ['', Validators.required]
     });
 
@@ -62,6 +70,9 @@ export class RegisterComponent implements OnInit {
       TipoUsuario: ['', Validators.required],
     });
 
+    this.usersFormEditAdmin = this.fb.group({
+      TipoUsuario: ['', Validators.required],
+    });
 
     //cargando todos los usuarios de firebase-firestore
     this.usersService.getUsersServices().subscribe(resp => {
@@ -117,6 +128,7 @@ export class RegisterComponent implements OnInit {
       this.usuarioExist = true;
       this.modalService.dismissAll();
     })
+
   }
 
   // funcion para abri el ng model y cambiar los datos
@@ -143,7 +155,7 @@ export class RegisterComponent implements OnInit {
         this.usersFormCreate.reset();
       }
       );
-      this.usersFormCreate.reset();
+    this.usersFormCreate.reset();
 
   }
 
@@ -176,7 +188,7 @@ export class RegisterComponent implements OnInit {
       this.usuarioExist = false;
       return 'by clicking on a backdrop';
     } else {
-      this.usuarioExist = true;
+      this.usuarioExist = false;
       this.usersFormCreate.reset();
       return `with: ${reason}`;
     }
@@ -184,22 +196,54 @@ export class RegisterComponent implements OnInit {
 
   // funcion o metodo actualizar usuario
   actualizarUsuario() {
+    if (this.usersFormEdit.value.TipoUsuario == 'Administrador' && this.idFirabaseActualizar != this.uidAdminFirebase) {
+      console.log('Nuevo administrador');
+      this.usersFormEditAdmin.value.TipoUsuario = 'Vecino';
+      if (this.idFirabaseActualizar !== null || this.idFirabaseActualizar !== undefined) {
 
-    // llamado a la variable uid del usuario y verificacion de si es nula o no
-    if (this.idFirabaseActualizar !== null || this.idFirabaseActualizar !== undefined) {
+        // llamado al servicio de actualizacion de usuarios setenado el uid y los valores del usuario actual
+        this.usersService.updateUsersServices(this.idFirabaseActualizar, this.usersFormEdit.value).then(resp => {
 
-      // llamado al servicio de actualizacion de usuarios setenado el uid y los valores del usuario actual
-      this.usersService.updateUsersServices(this.idFirabaseActualizar, this.usersFormEdit.value).then(resp => {
+          // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+          this.usersFormEdit.reset();
+          
 
-        // funciones de reseteo del formulario y cerrar modal al igual que el formulario
-        this.usersFormEdit.reset();
-        this.modalService.dismissAll();
+        }).catch(error => {
+          // comprobacion de errores 
+          console.error(error);
+        });
+        this.usersService.updateUsersServices(this.uidAdminFirebase, this.usersFormEditAdmin.value).then(resp => {
 
-      }).catch(error => {
-        // comprobacion de errores 
-        console.error(error);
-      });
+          // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+          this.usersFormEditAdmin.reset();
+          this.modalService.dismissAll();
+          this.authService.logoutService();
+
+        }).catch(error => {
+          // comprobacion de errores 
+          console.error(error);
+        });
+      }
+    } else {
+      console.log('Cambio de rol')
+
+      // llamado a la variable uid del usuario y verificacion de si es nula o no
+      if (this.idFirabaseActualizar !== null || this.idFirabaseActualizar !== undefined) {
+
+        // llamado al servicio de actualizacion de usuarios setenado el uid y los valores del usuario actual
+        this.usersService.updateUsersServices(this.idFirabaseActualizar, this.usersFormEdit.value).then(resp => {
+
+          // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+          this.usersFormEdit.reset();
+          this.modalService.dismissAll();
+
+        }).catch(error => {
+          // comprobacion de errores 
+          console.error(error);
+        });
+      }
     }
+
 
   }
 

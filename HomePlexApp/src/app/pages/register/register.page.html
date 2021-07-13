@@ -41,8 +41,8 @@
         <img src="{{item.Img}}" style="border-radius: 50%;">
       </ion-thumbnail>
       <ion-label style="text-align: center;">{{item.Name}}</ion-label>
-        <ion-icon slot="end" class='Edit' name="create" (click)="editUserModal(item)"></ion-icon>
-        <ion-icon slot="end" class='Delete' name="trash" (click)="deleteUser(item)"></ion-icon>
+        <ion-icon slot="end" class='Edit' name="create" (click)="editUserModal(item)" *ngIf="item.TipoUsuario !='Administrador Principal' && item.TipoUsuario !='Administrador'"></ion-icon>
+        <ion-icon slot="end" class='Delete' name="trash" (click)="deleteUser(item)" *ngIf="item.TipoUsuario !='Administrador Principal' && item.TipoUsuario !='Administrador'"></ion-icon>
     </ion-item>
     <ion-card-content style="padding: 0px;">
       <ion-item>

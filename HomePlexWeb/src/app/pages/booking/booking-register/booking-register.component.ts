@@ -12,6 +12,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { last, switchMap } from 'rxjs/operators';
 import { EventsService } from 'src/app/services/events/events.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-booking-register',
@@ -72,7 +74,7 @@ export class BookingRegisterComponent implements OnInit {
 
   // uid firestore reserva
   idBookingEdit;
-uidBookingEdit;
+  uidBookingEdit;
 
   // variable de bandera de actualizacion
   actualizar: boolean;
@@ -144,7 +146,7 @@ uidBookingEdit;
           idUserReserv: '',
         })
       })
-    } else{
+    } else {
       this.bookingsForm = this.formBuilder.group({
         idBookingBooking: '',
         BookingAN: ['Aprobado', Validators.required],
@@ -161,7 +163,7 @@ uidBookingEdit;
         })
       })
     }
-    
+
 
     // inicializacion de formulario para la edicion de un reserva
     this.bookingFormEdit = this.formBuilder.group({
@@ -289,38 +291,50 @@ uidBookingEdit;
 
   //funcion - metodo guardar o crear un reserva
   createBooking() {
-
-    // seteo de datos de reservas por medio de datos de reservas
-    const idRandomBooking = Math.random().toString(36).substring(2);
-    this.bookingsForm.value.idBookingBooking = idRandomBooking
-    this.bookingsForm.setValue({
-      idBookingBooking: this.bookingsForm.value.idBookingBooking,
-      BookingAN: this.bookingsForm.value.BookingAN,
-      Reserva: ({
-        Descripcion: this.bookingsForm.value.Reserva.Descripcion,
-        Lugar: this.bookingsForm.value.Reserva.Lugar,
-        Fecha: this.bookingsForm.value.Reserva.Fecha,
-        Duracion: this.bookingsForm.value.Reserva.Duracion,
-        Personas: this.bookingsForm.value.Reserva.Personas
-      }),
-      UserInfo: ({
-        userNameReserv: this.nameUserInfor,
-        idUserReserv: this.uidAdmin,
+    if (this.bookingsForm.value.BookingAN != '' && this.bookingsForm.value.Reserva.Descripcion != '' &&
+      this.bookingsForm.value.Reserva.Lugar != '' && this.bookingsForm.value.Reserva.Fecha != '' &&
+      this.bookingsForm.value.Reserva.Duracion != '' && this.bookingsForm.value.Reserva.Personas != '') {
+      // seteo de datos de reservas por medio de datos de reservas
+      const idRandomBooking = Math.random().toString(36).substring(2);
+      this.bookingsForm.value.idBookingBooking = idRandomBooking
+      this.bookingsForm.setValue({
+        idBookingBooking: this.bookingsForm.value.idBookingBooking,
+        BookingAN: this.bookingsForm.value.BookingAN,
+        Reserva: ({
+          Descripcion: this.bookingsForm.value.Reserva.Descripcion,
+          Lugar: this.bookingsForm.value.Reserva.Lugar,
+          Fecha: this.bookingsForm.value.Reserva.Fecha,
+          Duracion: this.bookingsForm.value.Reserva.Duracion,
+          Personas: this.bookingsForm.value.Reserva.Personas
+        }),
+        UserInfo: ({
+          userNameReserv: this.nameUserInfor,
+          idUserReserv: this.uidAdmin,
+        })
       })
-    })
-    
 
-    // llamado al servicio de creacion de reservasde acuerdo a los datos del form
-    this.bookingService.createBookingServices(this.bookingsForm.value).then(resp => {
 
-      // resetea el form y lo cierra
-      this.bookingsForm.reset();
-      this.ngbModal.dismissAll();
+      // llamado al servicio de creacion de reservasde acuerdo a los datos del form
+      this.bookingService.createBookingServices(this.bookingsForm.value).then(resp => {
 
-    }).catch(err => {
-      // impirmir error si es que diera alguno
-      console.log(err)
-    }) 
+        // resetea el form y lo cierra
+        this.bookingsForm.reset();
+        this.ngbModal.dismissAll();
+
+      }).catch(err => {
+        // impirmir error si es que diera alguno
+        console.log(err)
+      })
+    } else {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Debe llenar todos los campos para crear una reserva',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+
 
   }
 
@@ -393,60 +407,75 @@ uidBookingEdit;
     console.log(this.collection.data);
     // seteo de valires en el form de editar de reservas
     console.log(this.bookingFormEdit.value)
-    if (this.bookingFormEdit.value.Reserva.Descripcion !== '') {
-      this.eventsFormEdit.setValue({
-        EventoAN: this.bookingFormEdit.value.BookingAN,
-        Reserva: ({
-          Descripcion: this.bookingFormEdit.value.Reserva.Descripcion,
-          Lugar: this.bookingFormEdit.value.Reserva.Lugar,
-          Fecha: this.bookingFormEdit.value.Reserva.Fecha,
-          Duracion: this.bookingFormEdit.value.Reserva.Duracion,
-          Personas: this.bookingFormEdit.value.Reserva.Personas
+
+    if (this.bookingFormEdit.value.BookingAN != '' && this.bookingFormEdit.value.Reserva.Descripcion != '' &&
+    this.bookingFormEdit.value.Reserva.Lugar != '' && this.bookingFormEdit.value.Reserva.Fecha != '' &&
+    this.bookingFormEdit.value.Reserva.Duracion != '' && this.bookingFormEdit.value.Reserva.Personas != ''){
+      if (this.bookingFormEdit.value.Reserva.Descripcion !== '') {
+        this.eventsFormEdit.setValue({
+          EventoAN: this.bookingFormEdit.value.BookingAN,
+          Reserva: ({
+            Descripcion: this.bookingFormEdit.value.Reserva.Descripcion,
+            Lugar: this.bookingFormEdit.value.Reserva.Lugar,
+            Fecha: this.bookingFormEdit.value.Reserva.Fecha,
+            Duracion: this.bookingFormEdit.value.Reserva.Duracion,
+            Personas: this.bookingFormEdit.value.Reserva.Personas
+          })
         })
-      })
-      console.log('eventos', this.eventsFormEdit.value)
-      //-------------------
-      for (let index = 0; index < this.eventosLength; index++) {
-        if (this.collectionEvents.data[index]['UidBookingBooking'] == this.uidBookingEdit) {
-          console.log('evento')
-          this.collectionEventsEdit = this.collectionEvents.data[index];
-          console.log(this.collectionEventsEdit.id);
-          console.log(this.collectionEventsEdit.UidBookingBooking);
-          //this.bookingService.deleteBookingServices(item.id);
-          //this.eventsService.deleteEventsServices(this.collectionEventsDelete.id);
-          this.bookingService.updateBookingServices(this.idBookingEdit, this.bookingFormEdit.value).then(resp => {
-            // funciones de reseteo del formulario y cerrar modal al igual que el formulario
-            //this.eventsFormEdit.reset();
-
-          }).catch(error => {
-            // comprobacion de errores 
-            console.error(error);
-          });
-          this.eventsService.updateEventsServices(this.collectionEventsEdit.id, this.eventsFormEdit.value).then(resp => {
-            // funciones de reseteo del formulario y cerrar modal al igual que el formulario
-            //this.eventsFormEdit.reset();
-
-          }).catch(error => {
-            // comprobacion de errores 
-            console.error(error);
-          });
-          this.ngbModal.dismissAll();
-        }else{
-          this.bookingService.updateBookingServices(this.idBookingEdit, this.bookingFormEdit.value).then(resp => {
-            // funciones de reseteo del formulario y cerrar modal al igual que el formulario
-            //this.eventsFormEdit.reset();
+        console.log('eventos', this.eventsFormEdit.value)
+        //-------------------
+        for (let index = 0; index < this.eventosLength; index++) {
+          if (this.collectionEvents.data[index]['UidBookingBooking'] == this.uidBookingEdit) {
+            console.log('evento')
+            this.collectionEventsEdit = this.collectionEvents.data[index];
+            console.log(this.collectionEventsEdit.id);
+            console.log(this.collectionEventsEdit.UidBookingBooking);
+            //this.bookingService.deleteBookingServices(item.id);
+            //this.eventsService.deleteEventsServices(this.collectionEventsDelete.id);
+            this.bookingService.updateBookingServices(this.idBookingEdit, this.bookingFormEdit.value).then(resp => {
+              // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+              //this.eventsFormEdit.reset();
+  
+            }).catch(error => {
+              // comprobacion de errores 
+              console.error(error);
+            });
+            this.eventsService.updateEventsServices(this.collectionEventsEdit.id, this.eventsFormEdit.value).then(resp => {
+              // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+              //this.eventsFormEdit.reset();
+  
+            }).catch(error => {
+              // comprobacion de errores 
+              console.error(error);
+            });
             this.ngbModal.dismissAll();
-          }).catch(error => {
-            // comprobacion de errores 
-            console.error(error);
-          });
+          } else {
+            this.bookingService.updateBookingServices(this.idBookingEdit, this.bookingFormEdit.value).then(resp => {
+              // funciones de reseteo del formulario y cerrar modal al igual que el formulario
+              //this.eventsFormEdit.reset();
+              this.ngbModal.dismissAll();
+            }).catch(error => {
+              // comprobacion de errores 
+              console.error(error);
+            });
+          }
+  
+  
         }
-        
-        
+        //---------------
+  
       }
-      //---------------
-      
+    }else{
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Debe llenar todos los campos para crear una reserva',
+        showConfirmButton: false,
+        timer: 2000
+      });
     }
+
+
 
   }
 

@@ -8,7 +8,11 @@ buildscript {
     }
     dependencies {
 <<<<<<< HEAD
+<<<<<<< HEAD
         classpath 'com.android.tools.build:gradle:4.1.2'
+=======
+        classpath 'com.android.tools.build:gradle:3.6.1'
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
 =======
         classpath 'com.android.tools.build:gradle:3.6.1'
 >>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35

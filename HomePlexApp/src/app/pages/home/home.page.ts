@@ -45,6 +45,7 @@ export class HomePage implements OnInit {
   // variable de recarga de pagina
   recargaPagina;
 
+<<<<<<< HEAD
 
   
 
@@ -158,6 +159,72 @@ export class HomePage implements OnInit {
 
 
   }
+=======
+
+  constructor(public usersService: UsersService,
+              public authService: AuthService,
+              private navController: NavController,
+              public alertController: AlertController,
+              private loadingController: LoadingController,
+              private eventsService: EventsService,
+              private aliquotService: AliquotService,
+              private router: Router,
+              private angularFireAuth: AngularFireAuth) {
+
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
+
+    this.recargaPagina = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+        // inicializacion del sistema de carousel de eventos
+        this.option = {
+          slidesPerView: 1.2,
+          centeredSlides: true,
+          loop: true,
+          spaceBetween: 5,
+          autoplay: true,
+          initialSlide: 1.5,
+        };
+
+        // inicializacion del sistema de carousel de contactos
+        this.option2 = {
+          slidesPerView: 5,
+          centeredSlides: true,
+          loop: true,
+          spaceBetween: 1,
+          autoplay: false,
+          initialSlide: 2.5,
+        };
+        this.obtenerDatosEventos();
+        this.obtenerDatosUsuarios();
+        this.obtenerDatosUsuarioActual();
+        this.obtenerDatosAlicuotaActual();
+        this.obtenerDatosAlicuotaUltima();
+      }
+    });
+
+  }
+
+  ngOnInit() {
+
+  }
+
+  async obtenerDatosEventos() {
+
+    // servicio para traer los eventos
+    await this.eventsService.getAllEventsFilterServices().subscribe(res => {
+      // console.log('eventos',res)
+      this.eventos = res;
+      this.eventosLength = this.eventos.length;
+      // console.log(this.eventos.length)
+    });
+
+
+  }
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
   async obtenerDatosUsuarios() {
 
     // Servicio para traer los contactos sin el usuario actual como en chat
@@ -252,6 +319,7 @@ export class HomePage implements OnInit {
     await loading.present();
     const { role, data } = await loading.onDidDismiss();
   }
+<<<<<<< HEAD
 
   gotoChatRoom(uid, name, img) {
     sessionStorage.setItem('uidContact', uid);
@@ -264,6 +332,20 @@ export class HomePage implements OnInit {
     this.navController.navigateForward('/booking');
   }
 
+=======
+
+  gotoChatRoom(uid, name, img) {
+    sessionStorage.setItem('uidContact', uid);
+    sessionStorage.setItem('nameContact', name);
+    sessionStorage.setItem('imgContact', img);
+    this.navController.navigateForward('/chatroom');
+  }
+
+  gotoCreateBooking() {
+    this.navController.navigateForward('/booking');
+  }
+
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
 
 
 }

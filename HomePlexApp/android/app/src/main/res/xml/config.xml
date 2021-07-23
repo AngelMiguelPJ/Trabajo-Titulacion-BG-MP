@@ -11,7 +11,10 @@
   </feature>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
   <feature name="StatusBar">
     <param name="android-package" value="org.apache.cordova.statusbar.StatusBar"/>
     <param name="onload" value="true"/>
@@ -22,6 +25,9 @@
     <param name="onload" value="true"/>
   </feature>
 
+<<<<<<< HEAD
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
+=======
 >>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
   
 </widget>

@@ -1,6 +1,7 @@
 {
   "appId": "com.esfot.roble2",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "appName": "HomePlexApp",
   "bundledWebRuntime": false,
   "npmClient": "npm",
@@ -18,10 +19,15 @@
 
 
 =======
+=======
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
   "appName": "HomePlex",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
   "cordova": {}
 }
+<<<<<<< HEAD
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
+=======
 >>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35

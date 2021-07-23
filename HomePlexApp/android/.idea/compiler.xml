@@ -2,7 +2,11 @@
 <project version="4">
   <component name="CompilerConfiguration">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <bytecodeTargetLevel target="1.8" />
+=======
+    <bytecodeTargetLevel target="11" />
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
 =======
     <bytecodeTargetLevel target="11" />
 >>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35

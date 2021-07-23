@@ -68,47 +68,47 @@ const routes: Routes = [
   {
     path: 'reservas/registrar',
     component: BookingRegisterComponent,
-    canActivate : [AuthGuard]
+    canActivate : [AuthGuard, SecurityGuard]
   },
 
   {
     path: 'reservas',
     component: BookingComponent,
-    canActivate : [AuthGuard]
+    canActivate : [AuthGuard, SecurityGuard]
   },
 
   {
     path: 'alicuotas',
     component: AliquotComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, SecurityGuard]
   },
   {
     path: 'alicuotas/usuarios',
     component: AliquotsComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, SecurityGuard]
   },
   {
     path: 'alicuotas/seguimiento',
     component: SeguimientoComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, SecurityGuard]
   },
 
   {
     path: 'alicuotas/usuarios/registrar',
     component: AliquotRegisterComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, SecurityGuard]
   },
 
   {
     path: 'alicuotas/seguimiento/registrar',
     component: SeguimientoRegisterComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, SecurityGuard]
   },
 
   {
     path: 'perfil',
     component: ProfileComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, SecurityGuard]
 
   },
   
@@ -126,7 +126,7 @@ const routes: Routes = [
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
-    //canActivate : [AuthGuard,SecurityGuard],
+    canActivate : [AuthGuard,SecurityGuard],
   },
   
 ];

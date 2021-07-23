@@ -1,0 +1,56 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Alicuotas Menu</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Seguimiento general de alicuotas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      En esta seccion podras vizualizar una descripcion mas detallada de los gasto total del conjunto mes a mes de acuerdo a tus pagos de alicuotas y extras.
+    </ion-card-content>
+    <ion-button expand="block" style="margin: auto;" shape="round" routerLink='/aliquot-seguimiento'>Ver todo</ion-button>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Seguimiento mensual de alicuotas</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      En esta seccion podras vizualizar una descripcion mas detallada de los pagos de tus alicuotas mes a mes.
+    </ion-card-content>
+    <ion-button expand="block" style="margin: auto;" shape="round" routerLink='/aliquot'>Ver todo</ion-button>
+  </ion-card>
+
+</ion-content>
+<ion-tab-bar slot="bottom">
+  <!--Home tab-->
+  <ion-tab-button routerLink='/home'>
+    <ion-icon name="home"></ion-icon>
+    <ion-label >Inicio</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/event'>
+    <ion-icon  name="calendar"></ion-icon>
+    <ion-label>Eventos</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/chat'>
+    <ion-icon name="chatbubbles"></ion-icon>
+    <ion-label>Chat</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/aliquot-menu'>
+    <ion-icon  id="cuota" name="wallet"></ion-icon>
+    <ion-label>Cuotas</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/booking'>
+    <ion-icon  name="bookmarks"></ion-icon>
+    <ion-label>Reserva</ion-label>
+  </ion-tab-button>
+
+
+</ion-tab-bar>

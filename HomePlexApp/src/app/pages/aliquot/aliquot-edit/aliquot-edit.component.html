@@ -1,5 +1,5 @@
 <ion-toolbar>
-  <ion-title style="text-align: center;">Editar Alicuota</ion-title>
+  <ion-title style="text-align: center;">Actualizar alicuota</ion-title>
 </ion-toolbar>
 
 <ion-content fullscreen>
@@ -13,7 +13,7 @@
   <ion-item class="items" lines="none">
     <ion-icon name="cash" slot="start"></ion-icon>
     <ion-input placeholder="Valor cuota" type="tel" min="0" inputmode="numeric" maxlength="3"
-      [(ngModel)]="aliquotFormEdit.value.ValorCuota" (keypress)="soloNumeros($event)" required>
+      [(ngModel)]="aliquotFormEdit.value.ValorCuota" (keypress)="soloNumeros($event)" required disabled>
     </ion-input>
   </ion-item>
 
@@ -27,17 +27,11 @@
   <ion-item class="items" lines="none">
     <ion-icon name="calendar" slot="start"></ion-icon>
 
-    <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" [(ngModel)]="aliquotFormEdit.value.Fecha"
-      min="{{fechaActual|date:'yyyy-MM-dd'}}" (ionChange)="cambio(abcd.value)" #abcd  required>
+    <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" [(ngModel)]="aliquotFormEdit.value.Fecha" required disabled>
     </ion-datetime>
   </ion-item>
 
-  <ion-item class="items" lines="none">
-    <ion-icon name="calendar" slot="start"></ion-icon>
-    <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" [(ngModel)]="aliquotFormEdit.value.FechaVencimiento"
-      min="{{fechaVencimiento|date:'yyyy-MM-dd'}}" required>
-    </ion-datetime>
-  </ion-item>
+  
 
   <ion-item class="items" lines="none">
     <ion-icon name="thumbs-up" slot="start"></ion-icon>

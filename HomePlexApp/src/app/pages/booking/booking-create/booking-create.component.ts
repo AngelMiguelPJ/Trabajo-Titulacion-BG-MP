@@ -66,7 +66,7 @@ export class BookingCreateComponent implements OnInit {
       // console.log(res)
       this.usersList = res;
       res.map(resp => {
-        this.nameUser = resp.Name;
+        this.nameUser = resp['Name'];
       });
       // console.log(this.usersList)
     });

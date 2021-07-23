@@ -56,7 +56,7 @@ export class EditProfileComponent implements OnInit {
     this.usersService.getOnlyThisUser().subscribe(res => {
       this.usersList = res;
       res.map(resp => {
-        this.nameUser = resp.Name;
+        this.nameUser = resp['Name'];
 
       });
       // console.log(this.usersList)

@@ -12,9 +12,7 @@ export class CreateUserComponent implements OnInit {
 
   typeUsers = [
     'Contador',
-    'Administrador',
-    'Vecino',
-    'Arrendatario'
+    'Vecino'
   ];
 
   usersFormCreate: FormGroup;

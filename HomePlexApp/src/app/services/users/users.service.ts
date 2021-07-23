@@ -32,6 +32,9 @@ export class UsersService {
   // variable bandera para establecer si es admin, contador o no
   isAdmin = false;
   isAccountant = false;
+  isNeighbour = false;
+  isAdminMain = false;
+  uidAdmin;
 
   // contructor para iniciar los servicios
   constructor(
@@ -50,28 +53,48 @@ export class UsersService {
       // return del mapeo de los usuarios
       return users.map(res => {
 
-        // Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
-        if (res.payload.doc.data().Uid === this.userUid) {
-          const adminVar = res.payload.doc.data().TipoUsuario;
+        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (res.payload.doc.data()['Uid'] === this.userUid) {
+          const adminVar = res.payload.doc.data()['TipoUsuario']
           if (adminVar == 'Administrador') {
             this.isAdmin = true;
+            this.uidAdmin = localStorage.setItem('uidAdmin', res.payload.doc.data()['Uid']);
           } else {
             this.isAdmin = false;
+            this.uidAdmin = '';
           }
         }
 
-        // Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
-        if (res.payload.doc.data().Uid === this.userUid) {
-          const accountVar = res.payload.doc.data().TipoUsuario;
+        //Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
+        if (res.payload.doc.data()['Uid'] === this.userUid) {
+          const accountVar = res.payload.doc.data()['TipoUsuario']
           if (accountVar == 'Contador') {
-            this.isAccountant = true;
+            this.isAccountant = true
           } else {
-            this.isAccountant = false;
+            this.isAccountant = false
+          }
+        }
+
+        if (res.payload.doc.data()['Uid'] === this.userUid) {
+          const accountVar = res.payload.doc.data()['TipoUsuario']
+          if (accountVar == 'Vecino') {
+            this.isNeighbour = true
+          } else {
+            this.isNeighbour = false
+          }
+        }
+
+        if (res.payload.doc.data()['Uid'] === this.userUid) {
+          const accountVar = res.payload.doc.data()['TipoUsuario']
+          if (accountVar == 'Administrador Principal') {
+            this.isAdminMain = true
+          } else {
+            this.isAdminMain = false
           }
         }
 
           // seteo de los datos en el modelo UsersExport para su exportacion
-        const data = res.payload.doc.data() as UsersExport;
+        const data = res.payload.doc.data() as UsersExport
         data.id = res.payload.doc.id;
         return data;
 
@@ -133,8 +156,8 @@ export class UsersService {
       return res.map(a => {
 
         // Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
-        if (a.payload.doc.data().Uid === this.userUid) {
-          const adminVar = a.payload.doc.data().TipoUsuario;
+        if (a.payload.doc.data()['Uid'] === this.userUid) {
+          const adminVar = a.payload.doc.data()['TipoUsuario'];
           if (adminVar == 'Administrador') {
             this.isAdmin = true;
           } else {
@@ -143,8 +166,8 @@ export class UsersService {
         }
 
         // Condicional para verificar el tipo de usuario es cambiar el estado de bandera de acuerdo al usuario actual
-        if (a.payload.doc.data().Uid === this.userUid) {
-          const accountVar = a.payload.doc.data().TipoUsuario;
+        if (a.payload.doc.data()['Uid'] === this.userUid) {
+          const accountVar = a.payload.doc.data()['TipoUsuario'];
           if (accountVar == 'Contador') {
             this.isAccountant = true;
           } else {

@@ -32,9 +32,9 @@ export class AliquotPage implements OnInit {
 
   // iniciar servicios
   constructor(private aliquotService: AliquotService,
-              private loadingController: LoadingController,
-              public modalController: ModalController,
-              public usersService: UsersService) {}
+    private loadingController: LoadingController,
+    public modalController: ModalController,
+    public usersService: UsersService) { }
 
   ngOnInit() {
 
@@ -55,13 +55,13 @@ export class AliquotPage implements OnInit {
       this.collectionAliquot = resp;
       this.collectionAliquotBackUp = resp;
       this.collectionAliquotLength = resp.length;
-      // console.log(resp.length)
-     // console.log(this.collectionAliquot)
-    });
+      //console.log(resp.length)
+      //console.log(this.collectionAliquot)
+    })
 
-    // cargando todos los usuarios de firebase-firestore
+    //cargando todos los usuarios de firebase-firestore
     this.aliquotService.getAllAliquotServices().subscribe(resp => {
-      // console.log('respuesta 1: ', resp)
+      //console.log('respuesta 1: ', resp)
       // mapeo de los datos de las alicuotas en el arreglo collectionAliquots
       this.collectionAliquotsAll.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -74,13 +74,15 @@ export class AliquotPage implements OnInit {
           DatosVecinoNombre: e.payload.doc.data().DatosVecino.Nombre,
           ValorCuota: e.payload.doc.data().ValorCuota,
           ValorExtra: e.payload.doc.data().ValorExtra,
-          Fecha: e.payload.doc.data().Fecha.split('T')[0],
-          FechaVencimiento: e.payload.doc.data().FechaVencimiento.split('T')[0],
+          Fecha: e.payload.doc.data().Fecha,
+          Mes: e.payload.doc.data().Mes,
+          Anio: e.payload.doc.data().Anio,
           EstadoCuota: e.payload.doc.data().EstadoCuota,
           Descripcion: e.payload.doc.data().Descripcion,
-          IdAliquot: e.payload.doc.data().IdAliquot
-        };
-      });
+          IdAliquot: e.payload.doc.data().IdAliquot,
+          IdSeguimiento: e.payload.doc.data().IdSeguimiento
+        }
+      })
       this.collectionAliquotsAllBackUp.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
         // return que devolvera los datos a collection
@@ -92,14 +94,16 @@ export class AliquotPage implements OnInit {
           DatosVecinoNombre: e.payload.doc.data().DatosVecino.Nombre,
           ValorCuota: e.payload.doc.data().ValorCuota,
           ValorExtra: e.payload.doc.data().ValorExtra,
-          Fecha: e.payload.doc.data().Fecha.split('T')[0],
-          FechaVencimiento: e.payload.doc.data().FechaVencimiento.split('T')[0],
+          Fecha: e.payload.doc.data().Fecha,
+          Mes: e.payload.doc.data().Mes,
+          Anio: e.payload.doc.data().Anio,
           EstadoCuota: e.payload.doc.data().EstadoCuota,
           Descripcion: e.payload.doc.data().Descripcion,
-          IdAliquot: e.payload.doc.data().IdAliquot
-        };
-      });
-      // console.log(this.collectionAliquotsAllBackUp.data)
+          IdAliquot: e.payload.doc.data().IdAliquot,
+          IdSeguimiento: e.payload.doc.data().IdSeguimiento
+        }
+      })
+      //console.log(this.collectionAliquotsAllBackUp.data)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
@@ -107,6 +111,7 @@ export class AliquotPage implements OnInit {
     );
 
   }
+
 
   async filterListAliquot(evt) {
     this.collectionAliquot = this.collectionAliquotBackUp;

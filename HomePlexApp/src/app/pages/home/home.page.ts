@@ -14,6 +14,7 @@ import {
   PushNotificationToken,
   PushNotificationActionPerformed,
 } from '@capacitor/core';
+import { TrashService } from 'src/app/services/trash/trash.service';
 
 const { PushNotifications } = Plugins;
 
@@ -41,21 +42,71 @@ export class HomePage implements OnInit {
   aliquotCurrentMonthLenght;
   aliquotLastMonth;
   aliquotLastMonthLenght;
+  collectionTrashSchedule;
+  collectionTrasScheduleLenght;
 
   // variable de recarga de pagina
   recargaPagina;
-
-<<<<<<< HEAD
-
-  
-
+  dia;
   constructor(public usersService: UsersService,
-<<<<<<< HEAD
     public authService: AuthService,
     private navController: NavController,
     public alertController: AlertController,
-    private loadingController: LoadingController,){
-       this.presentLoading()
+    private loadingController: LoadingController,
+    private eventsService: EventsService,
+    private aliquotService: AliquotService,
+    private router: Router,
+    private angularFireAuth: AngularFireAuth,
+    private trashService: TrashService){
+       this.presentLoading();
+       this.router.routeReuseStrategy.shouldReuseRoute = function() {
+        return false;
+      };
+      const fechaComoCadena = new Date(); // día lunes
+    const dias = [
+      'Domingo',
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+    ];
+    const numeroDia = new Date(fechaComoCadena).getDay();
+    this.dia = dias[numeroDia];
+    
+    console.log("Nombre de día de la semana: ", this.dia);
+  
+      this.recargaPagina = this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          // Trick the Router into believing it's last link wasn't previously loaded
+          this.router.navigated = false;
+          // inicializacion del sistema de carousel de eventos
+          this.option = {
+            slidesPerView: 1.2,
+            centeredSlides: true,
+            loop: true,
+            spaceBetween: 5,
+            autoplay: true,
+            initialSlide: 1.5,
+          };
+  
+          // inicializacion del sistema de carousel de contactos
+          this.option2 = {
+            slidesPerView: 5,
+            centeredSlides: true,
+            loop: true,
+            spaceBetween: 1,
+            autoplay: false,
+            initialSlide: 2.5,
+          };
+          this.obtenerDatosEventos();
+          this.obtenerDatosUsuarios();
+          this.obtenerDatosUsuarioActual();
+          this.obtenerDatosAlicuotaActual();
+          this.obtenerDatosAlicuotaUltima();
+        }
+      });
     }
   
 
@@ -95,55 +146,7 @@ export class HomePage implements OnInit {
         alert('Push action performed: ' + JSON.stringify(notification));
       },
     );
-=======
-              public authService: AuthService,
-              private navController: NavController,
-              public alertController: AlertController,
-              private loadingController: LoadingController,
-              private eventsService: EventsService,
-              private aliquotService: AliquotService,
-              private router: Router,
-              private angularFireAuth: AngularFireAuth) {
-
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
-      return false;
-    };
-
-    this.recargaPagina = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        // Trick the Router into believing it's last link wasn't previously loaded
-        this.router.navigated = false;
-        // inicializacion del sistema de carousel de eventos
-        this.option = {
-          slidesPerView: 1.2,
-          centeredSlides: true,
-          loop: true,
-          spaceBetween: 5,
-          autoplay: true,
-          initialSlide: 1.5,
-        };
-
-        // inicializacion del sistema de carousel de contactos
-        this.option2 = {
-          slidesPerView: 5,
-          centeredSlides: true,
-          loop: true,
-          spaceBetween: 1,
-          autoplay: false,
-          initialSlide: 2.5,
-        };
-        this.obtenerDatosEventos();
-        this.obtenerDatosUsuarios();
-        this.obtenerDatosUsuarioActual();
-        this.obtenerDatosAlicuotaActual();
-        this.obtenerDatosAlicuotaUltima();
-      }
-    });
-
-  }
-
-  ngOnInit() {
->>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
+    this.obtenerScheduleTrash();
 
   }
 
@@ -159,72 +162,20 @@ export class HomePage implements OnInit {
 
 
   }
-=======
+  async obtenerScheduleTrash() {
 
-  constructor(public usersService: UsersService,
-              public authService: AuthService,
-              private navController: NavController,
-              public alertController: AlertController,
-              private loadingController: LoadingController,
-              private eventsService: EventsService,
-              private aliquotService: AliquotService,
-              private router: Router,
-              private angularFireAuth: AngularFireAuth) {
 
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
-      return false;
-    };
-
-    this.recargaPagina = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        // Trick the Router into believing it's last link wasn't previously loaded
-        this.router.navigated = false;
-        // inicializacion del sistema de carousel de eventos
-        this.option = {
-          slidesPerView: 1.2,
-          centeredSlides: true,
-          loop: true,
-          spaceBetween: 5,
-          autoplay: true,
-          initialSlide: 1.5,
-        };
-
-        // inicializacion del sistema de carousel de contactos
-        this.option2 = {
-          slidesPerView: 5,
-          centeredSlides: true,
-          loop: true,
-          spaceBetween: 1,
-          autoplay: false,
-          initialSlide: 2.5,
-        };
-        this.obtenerDatosEventos();
-        this.obtenerDatosUsuarios();
-        this.obtenerDatosUsuarioActual();
-        this.obtenerDatosAlicuotaActual();
-        this.obtenerDatosAlicuotaUltima();
-      }
-    });
-
-  }
-
-  ngOnInit() {
-
-  }
-
-  async obtenerDatosEventos() {
-
-    // servicio para traer los eventos
-    await this.eventsService.getAllEventsFilterServices().subscribe(res => {
-      // console.log('eventos',res)
-      this.eventos = res;
-      this.eventosLength = this.eventos.length;
-      // console.log(this.eventos.length)
-    });
+    //---
+    this.trashService.getTrashScheduleServicesNow().subscribe(resp=>{
+      //console.log(resp)
+      this.collectionTrashSchedule = resp;
+      this.collectionTrasScheduleLenght = resp.length;
+      console.log(this.collectionTrasScheduleLenght)
+    })
 
 
   }
->>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
+  
   async obtenerDatosUsuarios() {
 
     // Servicio para traer los contactos sin el usuario actual como en chat
@@ -242,8 +193,8 @@ export class HomePage implements OnInit {
     await this.usersService.getOnlyThisUser().subscribe(res => {
       // console.log(res)
       res.map(resp => {
-        this.name = resp.Name;
-        this.imgProfile = resp.Img;
+        this.name = resp['Name'];
+        this.imgProfile = resp['Img'];
       });
       // console.log(this.name)
     });
@@ -319,7 +270,7 @@ export class HomePage implements OnInit {
     await loading.present();
     const { role, data } = await loading.onDidDismiss();
   }
-<<<<<<< HEAD
+
 
   gotoChatRoom(uid, name, img) {
     sessionStorage.setItem('uidContact', uid);
@@ -332,20 +283,6 @@ export class HomePage implements OnInit {
     this.navController.navigateForward('/booking');
   }
 
-=======
-
-  gotoChatRoom(uid, name, img) {
-    sessionStorage.setItem('uidContact', uid);
-    sessionStorage.setItem('nameContact', name);
-    sessionStorage.setItem('imgContact', img);
-    this.navController.navigateForward('/chatroom');
-  }
-
-  gotoCreateBooking() {
-    this.navController.navigateForward('/booking');
-  }
-
->>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
 
 
 }

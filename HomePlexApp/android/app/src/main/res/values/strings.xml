@@ -1,17 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     <string name="app_name">HomePlexApp</string>
     <string name="title_activity_main">HomePlexApp</string>
-=======
-    <string name="app_name">HomePlex</string>
-    <string name="title_activity_main">HomePlex</string>
->>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
-=======
-    <string name="app_name">HomePlex</string>
-    <string name="title_activity_main">HomePlex</string>
->>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
+
     <string name="package_name">com.esfot.roble2</string>
     <string name="custom_url_scheme">com.esfot.roble2</string>
 </resources>

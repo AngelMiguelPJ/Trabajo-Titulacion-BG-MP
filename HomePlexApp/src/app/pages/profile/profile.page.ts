@@ -51,22 +51,22 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
 
     this.usersService.getOnlyThisUser().subscribe(res => {
-      // console.log(res)
-      this.usersList = res;
+      //console.log(res)
+      this.usersList = res
       res.map(resp => {
-        this.imgProfile = resp.Img,
-          this.emailUser = resp.Email,
-          this.nameUser = resp.Name,
-          this.phoneUser = resp.Telefono,
-          this.houseUser = resp.Casa,
-          this.typeUser = resp.TipoUsuario;
-      });
-      // console.log(this.usersList)
-    });
+        this.imgProfile = resp['Img'],
+          this.emailUser = resp['Email'],
+          this.nameUser = resp['Name'],
+          this.phoneUser = resp['Telefono'],
+          this.houseUser = resp['Casa'],
+          this.typeUser = resp['TipoUsuario']
+      })
+      //console.log(this.usersList)
+    })
 
     this.userImgEdit = this.fb.group({
       Img: ['']
-    });
+    })
 
   }
 

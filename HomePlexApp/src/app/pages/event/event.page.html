@@ -6,7 +6,7 @@
         <ion-icon name="search"></ion-icon>
       </ion-tab-button>
     </ion-buttons>
-
+    <!--*ngIf="usersService.isAdmin"-->
     <ion-buttons slot="end" (click)="createUserModal()" *ngIf="usersService.isAdmin">
       <ion-tab-button>
         <ion-icon name="add-circle"></ion-icon>
@@ -32,7 +32,7 @@
         <ion-label>
           <ion-card-title style="font-size: 20px;">{{item.Nombre}}</ion-card-title>
         </ion-label>
-
+        <!--*ngIf="usersService.isAdmin"-->
         <ion-icon slot="end" class='Edit' name="create" (click)="editEventModal(item)" *ngIf="usersService.isAdmin"></ion-icon>
         <ion-icon slot="end" class='Delete' name="trash" (click)="deleteEvent(item)" *ngIf="usersService.isAdmin"></ion-icon>
       </ion-item>
@@ -102,4 +102,41 @@
     </pagination-controls>
   </ion-item>
 
+
+
+ 
+  
+
+
 </ion-content>
+<ion-tab-bar slot="bottom">
+  <!--Home tab-->
+  <ion-tab-button routerLink='/home'>
+    <ion-icon name="home"></ion-icon>
+    <ion-label >Inicio</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/event'>
+    <ion-icon  name="calendar"></ion-icon>
+    <ion-label>Eventos</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/chat'>
+    <ion-icon name="chatbubbles"></ion-icon>
+    <ion-label>Chat</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/aliquot'>
+    <ion-icon   name="wallet"></ion-icon>
+    <ion-label>Cuotas</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink='/booking'>
+    <ion-icon  name="bookmarks"></ion-icon>
+    <ion-label>Reserva</ion-label>
+  </ion-tab-button>
+
+
+</ion-tab-bar>
+
+  

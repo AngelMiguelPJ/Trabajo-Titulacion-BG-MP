@@ -8,6 +8,7 @@ import { LogoutGuard } from './guards/logout/logout.guard';
 
 //Componentes
 import { AliquotRegisterComponent } from './pages/aliquot/aliquot-register/aliquot-register.component';
+import { BookingRegisterComponent } from './pages/booking/booking-register/booking-register.component';
 import { AliquotComponent } from './pages/aliquot/aliquot.component';
 import { BookingComponent } from './pages/booking/booking.component';
 import { ChatComponent } from './pages/chat/chat.component';
@@ -17,6 +18,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { SecurityGuard } from './guards/security/security.guard';
 
 // rutas
 const routes: Routes = [
@@ -55,7 +57,13 @@ const routes: Routes = [
   {
     path: 'eventos/registrar',
     component: EventRegisterComponent,
-    canActivate : [AuthGuard]
+    canActivate : [AuthGuard, SecurityGuard]
+  },
+
+  {
+    path: 'reservas/registrar',
+    component: BookingRegisterComponent,
+    canActivate : [AuthGuard, SecurityGuard]
   },
 
   {
@@ -73,20 +81,20 @@ const routes: Routes = [
   {
     path: 'alicuotas/registrar',
     component: AliquotRegisterComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, SecurityGuard],
   },
 
   {
     path: 'perfil',
     component: ProfileComponent,
     canActivate : [AuthGuard],
+
   },
   
   {
     path: 'registro',
     component: RegisterComponent,
-    canActivate : [AuthGuard],
-
+      canActivate : [AuthGuard],
   },
   
 ];

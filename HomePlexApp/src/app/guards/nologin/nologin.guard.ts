@@ -10,7 +10,7 @@ import { isNullOrUndefined } from 'util';
 export class NologinGuard implements CanActivate {
 
   constructor(private angularFireAuth: AngularFireAuth,
-    private router: Router) { }
+              private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -20,14 +20,14 @@ export class NologinGuard implements CanActivate {
 
       // condicional
       if (isNullOrUndefined(auth)) {
-        return true
+        return true;
       } else {
-        this.router.navigate((['/tabs/tabhome']));
-        return false
+        this.router.navigateByUrl('/home');
+        return false;
       }
-      //console.log(auth);
+      // console.log(auth);
       return false;
-    }))
+    }));
   }
-  
+
 }

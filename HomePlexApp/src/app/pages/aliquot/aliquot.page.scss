@@ -24,3 +24,17 @@ ion-icon.Edit{
 ion-icon.Delete{
   color: red;
 }
+ion-tab-bar{
+  border: none;
+  bottom: 0;
+  width: 98%;
+  --background: rgba(0,0,0,0.468);
+  align-self: center;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  ion-tab-button{
+      --background: rgba(0,0,0,0.468);
+      --color:white;
+     
+  }
+}

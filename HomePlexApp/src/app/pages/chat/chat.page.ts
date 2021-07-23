@@ -26,21 +26,18 @@ export class ChatPage implements OnInit {
   collection;
 
   constructor(private usersService: UsersService,
-    private navController: NavController,
-    private loadingController: LoadingController,
-    private chatService: ChatService,) {
-    this.presentLoading();
-
-  }
+              private navController: NavController,
+              private loadingController: LoadingController,
+              private chatService: ChatService, ) {}
 
   ngOnInit() {
 
     this.usersService.getAllUsersWithoutThisUser().subscribe(res => {
-      //console.log(res)
+      // console.log(res)
       this.users = res;
       this.usersBackUp = res;
 
-    })
+    });
 
 
   }
@@ -75,10 +72,10 @@ export class ChatPage implements OnInit {
   gotoChatRoom(uid, name, img) {
 
     this.searchValue = true;
-    sessionStorage.setItem('uidContact', uid)
-    sessionStorage.setItem('nameContact', name)
-    sessionStorage.setItem('imgContact', img)
-    this.navController.navigateForward("/chatroom");
+    sessionStorage.setItem('uidContact', uid);
+    sessionStorage.setItem('nameContact', name);
+    sessionStorage.setItem('imgContact', img);
+    this.navController.navigateForward('/chatroom');
 
   }
 

@@ -14,34 +14,34 @@ export class EditUserComponent implements OnInit {
     'Administrador',
     'Vecino',
     'Arrendatario'
-  ]
+  ];
 
   usersFormEdit: FormGroup;
   nameUser;
   userUid;
 
   constructor(public formBuilder: FormBuilder,
-    private navParams: NavParams,
-    private usersService: UsersService,
-    public modalController: ModalController,
-    public toastController: ToastController) { }
+              private navParams: NavParams,
+              private usersService: UsersService,
+              public modalController: ModalController,
+              public toastController: ToastController) { }
 
   ngOnInit() {
 
    // console.log('a', this.navParams.data)
-    this.nameUser = this.navParams.data.Name
-    this.userUid = this.navParams.data.idFirebase
+    this.nameUser = this.navParams.data.Name;
+    this.userUid = this.navParams.data.idFirebase;
 
     this.usersFormEdit = this.formBuilder.group({
       TipoUsuario: this.navParams.data.TipoUsuario,
       Casa: this.navParams.data.Casa
     });
 
-    //console.log('b', this.usersFormEdit.value)
+    // console.log('b', this.usersFormEdit.value)
   }
 
   updateUser() {
-    //console.log('c', this.usersFormEdit.value)
+    // console.log('c', this.usersFormEdit.value)
     // condicionamiento para que el id de la alicuota no se nulla ni indefinida
     if (this.userUid !== null || this.userUid !== undefined) {
       if (this.usersFormEdit.value.TipoUsuario != '' && this.usersFormEdit.value.Casa != ''
@@ -50,7 +50,7 @@ export class EditUserComponent implements OnInit {
         // llamado al servicio de actualizacion de alicuotas
         this.usersService.updateUsersServices(this.userUid, this.usersFormEdit.value).then(() => {
           this.modalController.dismiss({
-            'dismissed': true
+            dismissed: true
           });
         }).catch(error => {
           console.error(error);

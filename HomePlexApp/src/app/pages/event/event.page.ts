@@ -43,27 +43,27 @@ export class EventPage implements OnInit {
 
 
   constructor(private eventsService: EventsService,
-    private bookingService: BookingService,
-    private loadingController: LoadingController,
-    public formBuilder: FormBuilder,
-    private storage: AngularFireStorage,
-    public usersService: UsersService,
-    public modalController: ModalController,
-    private routerOutlet: IonRouterOutlet) { this.presentLoading() }
+              private bookingService: BookingService,
+              private loadingController: LoadingController,
+              public formBuilder: FormBuilder,
+              private storage: AngularFireStorage,
+              public usersService: UsersService,
+              public modalController: ModalController,
+              private routerOutlet: IonRouterOutlet) { }
 
   ngOnInit() {
 
-    //--------------------------------------------------------
+    // --------------------------------------------------------
     // configuracion de la paginacion
     this.config = {
       itemsPerPage: 2,
       currentPage: 1,
       totalItems: this.collectionEventsLength
     };
-    //--------------------------------------------------------
-    //cargando todos los eventos de firebase-firestore
+    // --------------------------------------------------------
+    // cargando todos los eventos de firebase-firestore
     this.eventsService.getEventsServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      // console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionEvents = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -82,16 +82,16 @@ export class EventPage implements OnInit {
           Img: e.payload.doc.data().Img,
           UidEventBooking: e.payload.doc.data().idEventBooking,
           uidEvent: e.payload.doc.id
-        }
-      })
-      //console.log(this.collectionEvents)
+        };
+      });
+      // console.log(this.collectionEvents)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
     }
     );
     this.eventsService.getEventsServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      // console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionEventsBackUp = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -110,17 +110,17 @@ export class EventPage implements OnInit {
           Img: e.payload.doc.data().Img,
           UidEventBooking: e.payload.doc.data().idEventBooking,
           uidEvent: e.payload.doc.id
-        }
-      })
-      //console.log(this.collectionEvents)
+        };
+      });
+      // console.log(this.collectionEvents)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
     }
     );
-    //--------------------------------------------------------
+    // --------------------------------------------------------
     this.bookingService.getBookingServices().subscribe(resp => {
-      //console.log('respuesta 1: ', resp)
+      // console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionEventsBooking = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
@@ -130,31 +130,17 @@ export class EventPage implements OnInit {
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
           UidEventBooking: e.payload.doc.data().idEventBooking
-        }
-      })
+        };
+      });
 
-      //console.log(this.collectionBooking.data)
+      // console.log(this.collectionBooking.data)
     }, error => {
       // imprimir en caso de que de algun error
       console.error(error);
     }
     );
-    //--------------------------------------------------------
-    this.uidAdmin = localStorage.getItem('userId');
-    this.eventsFormCreate = this.formBuilder.group({
-      idUser: this.uidAdmin,
-      idEventBooking: '',
-      Img: '',
-      Nombre: ['', Validators.required],
-      EventoAN: ['', Validators.required],
-      Reserva: this.formBuilder.group({
-        Descripcion: ['', Validators.required],
-        Duracion: ['', Validators.required],
-        Fecha: ['', Validators.required],
-        Lugar: ['', Validators.required],
-        Personas: ['', Validators.required]
-      })
-    });
+    // --------------------------------------------------------
+
 
     // inicializacion de formulario para la edicion de un evento
     this.eventsFormEdit = this.formBuilder.group({
@@ -171,24 +157,10 @@ export class EventPage implements OnInit {
       })
     });
 
-    // iniciar formulario para la subida de imagenes
-    this.eventsImg = this.formBuilder.group({
-      Img: ''
-    })
+
 
     // Iniciar formulario para la creacion de reservas a partir de datos de un evento
-    this.eventsBookingFormCreate = this.formBuilder.group({
-      idUserReserv: '',
-      idEventBooking: '',
-      Ocupado: ['', Validators.required],
-      Reserva: this.formBuilder.group({
-        Descripcion: ['', Validators.required],
-        Lugar: ['', Validators.required],
-        Fecha: ['', Validators.required],
-        Duracion: ['', Validators.required],
-        Personas: ['', Validators.required]
-      })
-    })
+
 
     ///
     this.eventsBookingFormEdit = this.formBuilder.group({
@@ -199,24 +171,24 @@ export class EventPage implements OnInit {
         Duracion: ['', Validators.required],
         Personas: ['', Validators.required]
       })
-    })
+    });
 
   }
 
   async filterList(evt) {
     this.collectionEvents = this.collectionEventsBackUp;
     const searchTerm = evt.srcElement.value;
-  
+
     if (!searchTerm) {
       return;
     }
-  
-    this.collectionEvents = this.collectionEvents.filter(currentFood => { 
+
+    this.collectionEvents = this.collectionEvents.filter(currentFood => {
       if (currentFood.Nombre && searchTerm) {
-        return (currentFood.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 
+        return (currentFood.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
                 || currentFood.Fecha.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
                 || currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
-      } 
+      }
     });
   }
 
@@ -226,7 +198,7 @@ export class EventPage implements OnInit {
 
     // configurar establecida segun el evento
     this.config.currentPage = event;
-    //console.log(this.config.totalItems)
+    // console.log(this.config.totalItems)
 
   }
 
@@ -244,22 +216,22 @@ export class EventPage implements OnInit {
 
   deleteEvent(item: any) {
     this.config.currentPage = 1,
-    // llamado al servicio de eliminacion de eventos 
+    // llamado al servicio de eliminacion de eventos
     this.eventsService.deleteEventsServices(item.uidEvent);
 
     this.collectionEventsBooking.map(res => {
-      const a = res.id
-      const b = res.UidEventBooking
-      //console.log("a: ", a, "b", b)
-      // llamado al servico de eliminacion de reservas 
+      const a = res.id;
+      const b = res.UidEventBooking;
+      // console.log("a: ", a, "b", b)
+      // llamado al servico de eliminacion de reservas
       if (item.UidEventBooking == b) {
-        this.bookingService.deleteBookingServices(a)
+        this.bookingService.deleteBookingServices(a);
       }
-    })
+    });
 
 
     // llamado al servicio de eliminacion de imagenes
-    this.storage.refFromURL(item.Img).delete()
+    this.storage.refFromURL(item.Img).delete();
 
   }
 
@@ -268,48 +240,11 @@ export class EventPage implements OnInit {
 
     this.modalController.create({
       component: EventCreateComponent,
-      componentProps: this.eventsFormCreate.value,
-      //cssClass: 'style-modal-create-event'
+      // cssClass: 'style-modal-create-event'
 
     }).then(modalres => {
       modalres.present();
-      modalres.onDidDismiss().then(res => {
-        //console.log(res.data)
-
-        if (res.data != null || res.data != undefined) {
-          this.presentLoading();
-
-          this.eventsFormCreate.value.Img = res.data.Img;
-          this.eventsFormCreate.value.Nombre = res.data.Nombre;
-          this.eventsFormCreate.value.EventoAN = res.data.EventoAN;
-          this.eventsFormCreate.value.idEventBooking = res.data.idEventBooking
-          this.eventsBookingFormCreate.setValue({
-            idUserReserv: res.data.idUser,
-            Ocupado: 'si',
-            idEventBooking: res.data.idEventBooking,
-            Reserva: ({
-              Descripcion: res.data.Reserva.Descripcion,
-              Lugar: res.data.Reserva.Lugar,
-              Fecha: res.data.Reserva.Fecha,
-              Duracion: res.data.Reserva.Duracion,
-              Personas: res.data.Reserva.Personas
-            })
-          })
-          //console.log(this.eventsBookingFormCreate.value)
-          //console.log(this.eventsFormCreate.value)
-          // llamado al servicio de creacion de eventosde acuerdo a los datos del form
-          this.eventsService.createEventsServices(this.eventsFormCreate.value).then(resp => {
-
-            // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
-            this.bookingService.createBookingServices(this.eventsBookingFormCreate.value)
-
-
-          }).catch(err => {
-            // impirmir error si es que diera alguno
-            console.log(err)
-          })
-        }
-      })
+      modalres.onDidDismiss();
     });
 
   }
@@ -317,7 +252,7 @@ export class EventPage implements OnInit {
   async editEventModal(item: any) {
 
 
-    //seteo de variables en el form editar
+    // seteo de variables en el form editar
     this.eventsFormEdit.setValue({
       Img: item.Img,
       Nombre: item.Nombre,
@@ -334,19 +269,19 @@ export class EventPage implements OnInit {
     // igualancion del uid del usuario actual a la variable id firebase
     this.uidEventEdit = item.uidEvent;
 
-    //console.log(this.usersFormEdit.value)
+    // console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: EventEditComponent,
       componentProps: this.eventsFormEdit.value,
-      //cssClass: 'style-modal-edite-event'
+      // cssClass: 'style-modal-edite-event'
 
     }).then(modalres => {
       modalres.present();
       modalres.onDidDismiss().then(res => {
-        //console.log(res.data)
-        //console.log('a', this.eventsFormEdit.value)
+        // console.log(res.data)
+        // console.log('a', this.eventsFormEdit.value)
         if (res.data != null || res.data != undefined) {
-          this.presentLoading()
+          this.presentLoading();
           this.eventsFormEdit.setValue({
             Img: res.data.Img,
             Nombre: res.data.Nombre,
@@ -369,27 +304,27 @@ export class EventPage implements OnInit {
               Lugar: res.data.Reserva.Lugar,
               Personas: res.data.Reserva.Personas
             })
-          })
+          });
 
-          //------------
+          // ------------
           // console.log('b', this.eventsFormEdit.value.Reserva.Duracion)
           // console.log('c', this.eventsBookingFormEdit.value.Reserva.Duracion)
-          //console.log(this.bVar)
-          //console.log(this.aVar)
-          console.log(this.eventsFormEdit.value.idEventBooking)
+          // console.log(this.bVar)
+          // console.log(this.aVar)
+          // console.log(this.eventsFormEdit.value.idEventBooking)
 
-          //----------------------
+          // ----------------------
           this.collectionEventsBooking.map(res => {
-            const a = res.id
-            const b = res.UidEventBooking
-            console.log("a: ", a, "b", b)
+            const a = res.id;
+            const b = res.UidEventBooking;
+            // console.log("a: ", a, "b", b)
             // condicion para actualizar reserva segun el evento
             if (this.eventsFormEdit.value.idEventBooking == b) {
-              console.log(b)
-              console.log(a)
-              this.bookingService.updateBookingServices(a, this.eventsBookingFormEdit.value)
+              // console.log(b)
+              // console.log(a)
+              this.bookingService.updateBookingServices(a, this.eventsBookingFormEdit.value);
             }
-          })
+          });
 
 
           // llamado a la variable uid del usuario y verificacion de si es nula o no
@@ -400,15 +335,15 @@ export class EventPage implements OnInit {
             // servicio de acutalizacion de ventos
             this.eventsService.updateEventsServices(this.uidEventEdit, this.eventsFormEdit.value).then(resp => {
               // funciones de reseteo del formulario y cerrar modal al igual que el formulario
-              //this.eventsFormEdit.reset();
+              // this.eventsFormEdit.reset();
 
             }).catch(error => {
-              // comprobacion de errores 
+              // comprobacion de errores
               console.error(error);
             });
           }
         }
-      })
+      });
     });
 
   }

@@ -29,6 +29,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
+import { BookingRegisterComponent } from './pages/booking/booking-register/booking-register.component';
+import { SecurityGuard } from './guards/security/security.guard';
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { DatePipe } from '@angular/common';
     RegisterComponent,
     NavbarComponent,
     AliquotRegisterComponent,
-    EventRegisterComponent
+    EventRegisterComponent,
+    BookingRegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,7 @@ import { DatePipe } from '@angular/common';
     FormsModule,
     NgxPaginationModule
   ],
-  providers: [FormBuilder, {provide: BUCKET, useValue: 'appchatfirebaseai.appspot.com'}, DatePipe],
+  providers: [SecurityGuard, FormBuilder, {provide: BUCKET, useValue: 'appchatfirebaseai.appspot.com'}, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

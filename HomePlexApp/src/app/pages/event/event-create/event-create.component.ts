@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavParams, ToastController } from '@ionic/angular';
 import { last, switchMap } from 'rxjs/operators';
+import { BookingService } from 'src/app/services/booking/booking.service';
+import { EventsService } from 'src/app/services/events/events.service';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-event-create',
@@ -13,16 +16,16 @@ export class EventCreateComponent implements OnInit {
 
   //  numero de personas posibles
   peopleEvent = [
-    '1 - 5 personas',
+    '1 - 6 personas',
     '5 - 10 personas'
-  ]
+  ];
 
   // Lugar de los eventos
   placeEvent = [
     'Casa comunal',
     'Canchas deportivas',
     'Parqueadero'
-  ]
+  ];
 
   // Duracion de eventos con intervalo de 3 horas
   durationEvent = [
@@ -31,14 +34,14 @@ export class EventCreateComponent implements OnInit {
     '13 p.m - 16 p.m',
     '16 p.m - 19 p.m',
     '19 p.m - 22 p.m'
-  ]
+  ];
 
   // Estado evento
   statusEvent = [
     'Aprobado',
     'En espera',
     'Desaprobado'
-  ]
+  ];
 
   // fecha actual
   fechaActual;
@@ -52,49 +55,125 @@ export class EventCreateComponent implements OnInit {
   fileRef;
   task;
   uploadPercent;
-  eventImgForm: FormGroup;
 
+  uidAdmin;
   idAleatorio;
+  eventsFormCreate: FormGroup;
+  eventsImg: FormGroup;
+  eventsBookingFormCreate: FormGroup;
 
+  usersList = [];
+  nameUser;
 
 
   constructor(private navParams: NavParams,
-    public modalController: ModalController,
-    private storage: AngularFireStorage,
-    public formBuilder: FormBuilder,
-    public toastController: ToastController) { }
+              public modalController: ModalController,
+              private storage: AngularFireStorage,
+              public formBuilder: FormBuilder,
+              public toastController: ToastController,
+              private usersService: UsersService,
+              private eventsService: EventsService,
+              private bookingService: BookingService, ) { }
 
   ngOnInit() {
-    this.eventImgForm = this.formBuilder.group({
-      Img: ['']
-    })
+    this.fechaActual = Date.now();
+    this.usersService.getOnlyThisUser().subscribe(res => {
+      // console.log(res)
+      this.usersList = res;
+      res.map(resp => {
+        this.nameUser = resp.Name;
+      });
+      // console.log(this.usersList)
+    });
 
-    // seteo de la fecha actual
-    this.fechaActual = Date.now()
-    //console.log(this.navParams.data)
-    this.eventBookingDataCreate = this.navParams.data
-   // console.log(this.eventBookingDataCreate)
+
+    this.uidAdmin = localStorage.getItem('userId');
+    this.eventsFormCreate = this.formBuilder.group({
+      idUser: this.uidAdmin,
+      idEventBooking: '',
+      Img: '',
+      Nombre: ['', Validators.required],
+      EventoAN: ['', Validators.required],
+      Reserva: this.formBuilder.group({
+        Descripcion: ['', Validators.required],
+        Duracion: ['', Validators.required],
+        Fecha: ['', Validators.required],
+        Lugar: ['', Validators.required],
+        Personas: ['', Validators.required]
+      })
+    });
     // iniciar formulario para la subida de imagenes
+    this.eventsImg = this.formBuilder.group({
+      Img: ''
+    });
+    this.eventsBookingFormCreate = this.formBuilder.group({
+      idEventBooking: '',
+      idBookingBooking: '',
+      BookingAN: ['', Validators.required],
+      Ocupado: ['', Validators.required],
+      Reserva: this.formBuilder.group({
+        Descripcion: ['', Validators.required],
+        Lugar: ['', Validators.required],
+        Fecha: ['', Validators.required],
+        Duracion: ['', Validators.required],
+        Personas: ['', Validators.required]
+      }),
+      UserInfo: this.formBuilder.group({
+        userNameReserv: '',
+        idUserReserv: '',
+      })
+    });
 
   }
 
   guardar() {
+    this.uidAdmin = localStorage.getItem('userId');
     this.idAleatorio = Math.random().toString(36).substring(2);
-    this.eventBookingDataCreate.idEventBooking = this.idAleatorio;
-    if (this.eventBookingDataCreate.Nombre != '' && this.eventBookingDataCreate.EventoAN != ''
-      && this.eventBookingDataCreate.Reserva.Duracion != '' && this.eventBookingDataCreate.Reserva.Descripcion != ''
-      && this.eventBookingDataCreate.Reserva.Fecha != '' && this.eventBookingDataCreate.Reserva.Lugar != ''
-      && this.eventBookingDataCreate.Reserva.Personas != '' && this.eventBookingDataCreate.Img != '') {
+    this.eventsFormCreate.value.idEventBooking = this.idAleatorio;
+    this.eventsFormCreate.value.Reserva.Fecha = this.eventsFormCreate.value.Reserva.Fecha.split('T')[0];
+    this.eventsBookingFormCreate.setValue({
+      idEventBooking: this.idAleatorio,
+      idBookingBooking : this.idAleatorio,
+      BookingAN : this.eventsFormCreate.value.EventoAN,
+      Ocupado: 'Si',
+      Reserva: ({
+        Descripcion: this.eventsFormCreate.value.Reserva.Descripcion,
+        Lugar: this.eventsFormCreate.value.Reserva.Lugar,
+        Fecha: this.eventsFormCreate.value.Reserva.Fecha,
+        Duracion: this.eventsFormCreate.value.Reserva.Duracion,
+        Personas: this.eventsFormCreate.value.Reserva.Personas
+      }),
+      UserInfo: ({
+        userNameReserv: this.nameUser,
+        idUserReserv: this.uidAdmin,
+      })
+    });
+    console.log(this.eventsFormCreate.value);
+    console.log(this.eventsBookingFormCreate.value);
 
-      this.modalController.dismiss(this.eventBookingDataCreate)
+    if (this.eventsFormCreate.value.Nombre != '' && this.eventsFormCreate.value.EventoAN != ''
+      && this.eventsFormCreate.value.Reserva.Duracion != '' && this.eventsFormCreate.value.Reserva.Descripcion != ''
+      && this.eventsFormCreate.value.Reserva.Fecha != '' && this.eventsFormCreate.value.Reserva.Lugar != ''
+      && this.eventsFormCreate.value.Reserva.Personas != '' && this.eventsFormCreate.value.Img != '') {
+        this.eventsService.createEventsServices(this.eventsFormCreate.value).then(resp => {
 
+            // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
+            this.bookingService.createBookingServices(this.eventsBookingFormCreate.value).then(() => {
+              this.modalController.dismiss({
+                dismissed: true
+              });
+            });
+          }).catch(err => {
+            // impirmir error si es que diera alguno
+            console.log(err);
+          });
     } else {
-      this.presentToast()
+      this.presentToast();
     }
 
   }
 
-  cancelar(){
+  cancelar() {
     this.modalController.dismiss();
   }
 
@@ -119,7 +198,7 @@ export class EventCreateComponent implements OnInit {
     // establecimiento de la estructura de guardad en store
     this.filepath = 'events/' + idRandom;
 
-    // tareas y referencia del path 
+    // tareas y referencia del path
     this.fileRef = this.storage.ref(this.filepath);
     this.task = this.storage.upload(this.filepath, this.file);
 
@@ -134,12 +213,12 @@ export class EventCreateComponent implements OnInit {
       )
     ).subscribe(url => {
       // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
-      this.imgEdit = url
-      this.eventBookingDataCreate.Img = url
-      this.eventImgForm.setValue({
+      this.imgEdit = url;
+      this.eventsFormCreate.value.Img = url;
+      this.eventsImg.setValue({
         Img: url
-      })
-    })
+      });
+    });
 
   }
 

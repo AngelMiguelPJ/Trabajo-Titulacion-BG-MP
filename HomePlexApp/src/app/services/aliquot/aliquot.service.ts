@@ -14,47 +14,84 @@ export class AliquotService {
 
   //
   userUid;
+  currentMonth;
+  lastMonth;
 
   // contructor para iniciar servicios
   constructor(private angularFirestore: AngularFirestore) { }
 
-   // Metodo -funcion -servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
-      // Motodo -funcion -servicio para la optencion de alicuotas
+  // Metodo -funcion -servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
+  // Motodo -funcion -servicio para la optencion de alicuotas
   getAllAliquotServices() {
-    return this.angularFirestore.collection('aliquot').snapshotChanges()
+    return this.angularFirestore.collection('aliquot').snapshotChanges();
   }
   // Motodo -funcion -servicio para la optencion de alicuotas
-  getAliquotServices(){
+  getAliquotServices() {
 
-    this.userUid = localStorage.getItem('userId')
-    //userUid del usuario actual obtenido en el inicio de sesion
-    return this.angularFirestore.collection('aliquot', ref => ref.where('DatosVecino.uidUser', '==', this.userUid)).snapshotChanges().pipe(map(res=>{
-      //console.log(res)  
-      return res.map(a=>{
-        const data = a.payload.doc.data()
-        return data
-      })  
-    }))
+    this.userUid = localStorage.getItem('userId');
+    // userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('aliquot', ref => ref.where('DatosVecino.uidUser', '==', this.userUid)).snapshotChanges().pipe(map(res => {
+      // console.log(res)
+      return res.map(a => {
+        const data = a.payload.doc.data();
+        return data;
+      });
+    }));
+  }
+
+  getAliquotUserCurrentMonth() {
+
+    this.currentMonth = new Date().toISOString().split('-')[1];
+    // console.log(this.currentMonth);
+
+    this.userUid = localStorage.getItem('userId');
+    // userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('aliquot', ref => ref.where('DatosVecino.uidUser', '==', this.userUid).where('NumeroMes', '==', this.currentMonth).limit(1)).snapshotChanges().pipe(map(res => {
+      // console.log(res)
+      return res.map(a => {
+        const data = a.payload.doc.data();
+        return data;
+      });
+    }));
+  }
+
+  getAliquotUserLastMonth() {
+    let abc = new Date();
+    abc.setMonth(abc.getMonth() - 1);
+    abc.getMonth() + 1;
+    this.lastMonth = new Date(abc).toISOString().split('-')[1];
+    // console.log(this.lastMonth)
+
+    // console.log(this.currentMonth)
+    this.userUid = localStorage.getItem('userId');
+    // userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('aliquot', ref => ref.where('DatosVecino.uidUser', '==', this.userUid).where('NumeroMes', '==', this.lastMonth).limit(1)).snapshotChanges().pipe(map(res => {
+      // console.log(res)
+      return res.map(a => {
+        const data = a.payload.doc.data();
+        return data;
+      });
+    }));
   }
 
   // Metodo -funcion -servicio de actualizacion de datos de alicuotas por id y datos
   updateAliquotServices(idAliquot: any, aliquots: any) {
-    return this.angularFirestore.collection("aliquot").doc(idAliquot).update(aliquots);
+    return this.angularFirestore.collection('aliquot').doc(idAliquot).update(aliquots);
   }
 
   // Metodo -funcion -servicio de creacion de alicuotas
   createAliquotServices(aliquots: any) {
-    return this.angularFirestore.collection("aliquot").add(aliquots)
+    return this.angularFirestore.collection('aliquot').add(aliquots);
   }
 
   // Metodo -funcion -servicio de creacion de respaldo de alicuotas
   createAliquotBackupServices(aliquots: any) {
-    return this.angularFirestore.collection("aliquotBackup").add(aliquots)
+    return this.angularFirestore.collection('aliquotBackup').add(aliquots);
   }
 
   // Metodo -funcion -servicio de eliminacion de alicuotas por id
   deleteAliquotServices(idAliquot: any) {
-    return this.angularFirestore.collection("aliquot").doc(idAliquot).delete();
+    return this.angularFirestore.collection('aliquot').doc(idAliquot).delete();
   }
 
 }

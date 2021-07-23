@@ -1,4 +1,89 @@
-<!-- Contenedor principal del login -->
-<div class="content" role="main">
-    <h1>Reservas</h1>
-</div>
+  <!-- Contenedor principal del login -->
+  <div class="content" role="main">
+
+      <!--===========================================================================-->
+      <!--Titulo-->
+      <h2 style="text-align: center;">Reservas</h2>
+    
+      <!--===========================================================================-->
+    
+      <!--Boton de rediccion a registro de eventos segun si es admin-->
+      <a class="item" routerLink="/reservas/registrar" *ngIf="usersService.isAdmin">
+        <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
+        Registrar Reservas
+      </a>
+    
+      <!--===========================================================================-->
+    
+      <!-- Div card grid que incluye los datos de cada evento-->
+      <div *ngFor="let item of collection.data | paginate: config">
+    
+        <!--Grid de eventos-->
+        <div class="grid-container responsive"> 
+          <!--segundo div del grid-->
+          <div class="item1">
+    
+            <!--Nombre del evento-->
+            <div>
+              <h5>{{item.Nombre}}</h5>
+            </div>
+    
+            <!--Descripcion del evento-->
+            <div>
+              <h6>
+                {{item.Descripcion}}
+              </h6>
+            </div>
+    
+          </div>
+
+          <div class="item2" style="background-image: url({{item.Img}});"></div>
+    
+          <!--tercer div del grid-->
+          <div class="item3">
+    
+            <!--Estado del evento-->
+            <div style="font-size: 12px;">
+              Estado:
+              <b [class.greenClass]="item.BookingAN =='Aprobado'" [class.orangeClass]="item.BookingAN =='En espera'"
+                [class.redClass]="item.BookingAN =='Desaprovado'">
+                {{item.BookingAN}}
+              </b>
+            </div>
+    
+            <!--Lugar del evento-->
+            <div style="font-size: 12px;">
+              Lugar: <b>{{item.Lugar}}</b>
+            </div>
+    
+            <!--Numero de personas del evento-->
+            <div style="font-size: 12px;">
+              Personas: <br><b>{{item.Personas}}</b>
+            </div>
+    
+            <!--fecha del evento-->
+            <div style="font-size: 12px;">
+              Fecha: <b>{{item.Fecha}}</b>
+            </div>
+    
+            <!--Hora del evento-->
+            <div style="font-size: 12px;">
+              Hora. : <b>{{item.Duracion}}</b>
+            </div>
+    
+          </div>
+    
+        </div>
+    
+      </div>
+      
+      <!--===========================================================================-->
+    
+      <!--Botones - controladores de la paginacion-->
+      <pagination-controls previousLabel="Anterior" nextLabel="siguiente" responsive="true"
+        (pageChange)="pageChanged($event)">
+      </pagination-controls>
+    
+      <!--===========================================================================-->
+    
+    </div>

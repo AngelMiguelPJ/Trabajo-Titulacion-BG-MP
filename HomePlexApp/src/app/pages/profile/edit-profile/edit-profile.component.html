@@ -1,21 +1,43 @@
 <!-- List of Text Items -->
-<ion-toolbar>
-  <ion-title style="text-align: center;">Editar perfil</ion-title>
-</ion-toolbar>
+<ion-header class="ion-no-border" class="background">
+
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-tab-button (click)="goBack()">
+        <ion-icon class="back" name="arrow-back-circle"></ion-icon>
+      </ion-tab-button>
+    </ion-buttons>
+
+    <ion-title style="text-align: center;">Editar Perfil</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
 <ion-content fullscreen>
 
+  <ion-list style="margin-top: 4rem;">
+    <ion-item class="items" lines="none">
+      <ion-icon name="text-outline" slot="start"></ion-icon>
+      <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Name" placeholder="Nombre"
+        (keypress)="sololetras($event)" required></ion-input>
+    </ion-item>
 
-  <ion-item class="items" lines="none">
-    <ion-icon name="text-outline" slot="start"></ion-icon>
-    <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Name" placeholder="Nombre" required></ion-input>
-  </ion-item>
-  <ion-item class="items" lines="none">
-    <ion-icon name="call" slot="start"></ion-icon>
-    <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Telefono" placeholder="Telefono" required></ion-input>
-  </ion-item>
-  <ion-item lines='none'>
-    <ion-button size="smaller" style="margin: auto;" shape="round" (click)="updateUser()">Guardar</ion-button>
-  </ion-item>
 
+    <ion-item class="items" lines="none">
+      <ion-icon name="call" slot="start"></ion-icon>
+      <ion-input type='text' [(ngModel)]="userProfileFormEdit.value.Telefono" placeholder="Telefono"
+        (keypress)="soloNumeros($event)" minlength="9" maxlength="10" (ngModelChange)="validarTelefono($event)"
+        [class.redClass]="telefonoValido == false" required>
+      </ion-input>
+    </ion-item>
+
+
+
+  </ion-list>
+
+
+  <ion-button expand="block" (click)="changePassword()" color="danger">Cambiar contraseña</ion-button>
+  <ion-button expand="block" (click)="updateUser()">Guardar</ion-button><br>
 
 </ion-content>

@@ -13,41 +13,59 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "~10.0.0",
-    "@angular/core": "~10.0.0",
+    "@angular/common": "~11.2.13",
+    "@angular/core": "~11.2.13",
     "@angular/fire": "^6.1.4",
-    "@angular/forms": "~10.0.0",
-    "@angular/platform-browser": "~10.0.0",
-    "@angular/platform-browser-dynamic": "~10.0.0",
-    "@angular/router": "~10.0.0",
+    "@angular/forms": "~11.2.13",
+    "@angular/platform-browser": "~11.2.13",
+    "@angular/platform-browser-dynamic": "~11.2.13",
+    "@angular/router": "~11.2.13",
     "@capacitor/android": "^2.4.6",
     "@capacitor/core": "2.4.6",
     "@capacitor/ios": "^2.4.6",
     "@ionic-native/core": "^5.0.0",
-    "@ionic-native/splash-screen": "^5.0.0",
+    "@ionic-native/splash-screen": "^5.31.1",
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
+    "cordova-android": "9.0.0",
     "cordova-plugin-badge": "^0.8.8",
     "cordova-plugin-device": "^2.0.3",
-    "firebase": "^8.2.3",
+    "cordova-plugin-splashscreen": "^6.0.0",
+    "firebase-tools": "^9.14.0",
     "ngx-pagination": "^5.0.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@angular-devkit/build-angular": "^0.1000.8",
     "@angular/cli": "~10.0.5",
     "@angular/compiler": "~10.0.0",
     "@angular/compiler-cli": "~10.0.0",
     "@angular/language-service": "~10.0.0",
     "@capacitor/cli": "^2.4.6",
+=======
+    "@angular-devkit/build-angular": "^0.1102.12",
+    "@angular/cli": "11.2.12",
+    "@angular/compiler": "~11.2.13",
+    "@angular/compiler-cli": "~11.2.13",
+    "@angular/language-service": "~11.2.13",
+    "@capacitor/cli": "2.4.6",
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
     "@ionic/angular-toolkit": "^2.3.0",
     "@ionic/lab": "3.2.10",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
+    "cordova-plugin-ionic-keyboard": "^2.2.0",
+    "cordova-plugin-ionic-webview": "^4.2.1",
+    "cordova-plugin-statusbar": "^2.4.2",
+    "cordova-plugin-whitelist": "^1.3.3",
+    "firebase": "^8.7.0",
+    "firebase-admin": "^9.10.0",
+    "firebase-functions": "^3.14.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.0.0",
@@ -58,7 +76,22 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~3.9.5"
+    "typescript": "~4.1.5"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
+      "cordova-plugin-ionic-keyboard": {}
+    },
+    "platforms": [
+      "android"
+    ]
+  }
 }

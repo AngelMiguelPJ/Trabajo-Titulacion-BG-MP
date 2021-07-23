@@ -15,14 +15,14 @@ export class EventEditComponent implements OnInit {
   peopleEvent = [
     '1 - 5 personas',
     '5 - 10 personas'
-  ]
+  ];
 
   // Lugar de los eventos
   placeEvent = [
     'Casa comunal',
     'Canchas deportivas',
     'Parqueadero'
-  ]
+  ];
 
   // Duracion de eventos con intervalo de 3 horas
   durationEvent = [
@@ -31,14 +31,14 @@ export class EventEditComponent implements OnInit {
     '13 p.m - 16 p.m',
     '16 p.m - 19 p.m',
     '19 p.m - 22 p.m'
-  ]
+  ];
 
   // Estado evento
   statusEvent = [
     'Aprobado',
     'En espera',
     'Desaprobado'
-  ]
+  ];
 
   // fecha actual
   fechaActual;
@@ -56,27 +56,27 @@ export class EventEditComponent implements OnInit {
 
 
   constructor(private navParams: NavParams,
-    public modalController: ModalController,
-    private storage: AngularFireStorage,
-    public formBuilder: FormBuilder,
-    public toastController: ToastController) { }
+              public modalController: ModalController,
+              private storage: AngularFireStorage,
+              public formBuilder: FormBuilder,
+              public toastController: ToastController) { }
 
   ngOnInit() {
     this.eventImgForm = this.formBuilder.group({
       Img: ['']
-    })
+    });
 
     // seteo de la fecha actual
-    this.fechaActual = Date.now()
-    //console.log(this.navParams.data)
-    this.eventBookingDataCreate = this.navParams.data
+    this.fechaActual = Date.now();
+    // console.log(this.navParams.data)
+    this.eventBookingDataCreate = this.navParams.data;
     this.imgEdit = this.eventBookingDataCreate.Img;
     // iniciar formulario para la subida de imagenes
   }
 
   guardar() {
-    console.log(this.eventBookingDataCreate)
-    this.modalController.dismiss(this.eventBookingDataCreate)
+    // console.log(this.eventBookingDataCreate)
+    this.modalController.dismiss(this.eventBookingDataCreate);
   }
 
   cancelar(){
@@ -96,7 +96,7 @@ export class EventEditComponent implements OnInit {
     // establecimiento de la estructura de guardad en store
     this.filepath = 'events/' + idRandom;
 
-    // tareas y referencia del path 
+    // tareas y referencia del path
     this.fileRef = this.storage.ref(this.filepath);
     this.task = this.storage.upload(this.filepath, this.file);
 
@@ -111,12 +111,12 @@ export class EventEditComponent implements OnInit {
       )
     ).subscribe(url => {
       // seteo de la variable Img de form para obtenecion la imagen en un arreglo y asi subirla al respectivo campo de Img ela firestore del usuario
-      this.imgEdit = url
-      this.eventBookingDataCreate.Img = url
+      this.imgEdit = url;
+      this.eventBookingDataCreate.Img = url;
       this.eventImgForm.setValue({
         Img: url
-      })
-    })
+      });
+    });
 
   }
 

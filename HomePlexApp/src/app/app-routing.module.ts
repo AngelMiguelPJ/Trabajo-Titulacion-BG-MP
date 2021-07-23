@@ -10,15 +10,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate : [AuthGuard]
-  },
-  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
     canActivate : [NologinGuard]
-  },  
+  },
   {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule),
@@ -57,6 +52,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
+    pathMatch: 'full',
     canActivate : [AuthGuard]
   },
   {
@@ -64,10 +60,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/chatroom/chatroom.module').then( m => m.ChatroomPageModule),
     canActivate : [AuthGuard]
   }
+
+
+
+
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })
   ],
   exports: [RouterModule]
 })

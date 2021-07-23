@@ -10,5 +10,18 @@
     <param name="android-package" value="org.apache.cordova.device.Device"/>
   </feature>
 
+<<<<<<< HEAD
+=======
+  <feature name="StatusBar">
+    <param name="android-package" value="org.apache.cordova.statusbar.StatusBar"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+  <feature name="Whitelist">
+    <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+>>>>>>> bf548c2973693248e7e5b7d82b0a236ddaf3ff35
   
 </widget>

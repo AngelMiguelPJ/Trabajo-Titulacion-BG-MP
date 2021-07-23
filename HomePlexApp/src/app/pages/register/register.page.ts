@@ -19,13 +19,13 @@ export class RegisterPage implements OnInit {
     'Administrador',
     'Vecino',
     'Arrendatario'
-  ]
+  ];
   searchBarOpen = false;
   searchValue = false;
 
   // variable para introducir datos y respectivo conteo
-  collection = { count: 0, data: [] }
-  collectionBackup = {count: 0, data: []}
+  collection = { count: 0, data: [] };
+  collectionBackup = {count: 0, data: []};
   // variable para paginacion
   config: any;
   usersFormEdit: FormGroup;
@@ -33,12 +33,12 @@ export class RegisterPage implements OnInit {
   userUid;
 
   constructor(private usersService: UsersService,
-    public modalController: ModalController,
-    private router: Router,
-    public fb: FormBuilder,
-    public popoverController: PopoverController,
-    private loadingController: LoadingController,
-    private routerOutlet: IonRouterOutlet) { }
+              public modalController: ModalController,
+              private router: Router,
+              public fb: FormBuilder,
+              public popoverController: PopoverController,
+              private loadingController: LoadingController,
+              private routerOutlet: IonRouterOutlet) { }
 
   ngOnInit() {
 
@@ -46,12 +46,12 @@ export class RegisterPage implements OnInit {
       itemsPerPage: 4,
       currentPage: 1,
       totalItems: this.collection.data.length,
-    }
+    };
 
 
-    //cargando todos los usuarios de firebase-firestore
+    // cargando todos los usuarios de firebase-firestore
     this.usersService.getUsersServices().subscribe(resp => {
-      //console.log(resp.length)
+      // console.log(resp.length)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collection.data = resp.map((e: any) => {
 
@@ -67,9 +67,9 @@ export class RegisterPage implements OnInit {
           TipoUsuario: e.payload.doc.data().TipoUsuario,
           Img: e.payload.doc.data().Img,
           idFirebase: e.payload.doc.id
-        }
+        };
 
-      })
+      });
 
     }, error => {
       // imprimir en caso de que de algun error
@@ -78,7 +78,7 @@ export class RegisterPage implements OnInit {
     );
 
     this.usersService.getUsersServices().subscribe(resp => {
-      //console.log(resp.length)
+      // console.log(resp.length)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collectionBackup.data = resp.map((e: any) => {
 
@@ -94,9 +94,9 @@ export class RegisterPage implements OnInit {
           TipoUsuario: e.payload.doc.data().TipoUsuario,
           Img: e.payload.doc.data().Img,
           idFirebase: e.payload.doc.id
-        }
+        };
 
-      })
+      });
 
     }, error => {
       // imprimir en caso de que de algun error
@@ -108,11 +108,11 @@ export class RegisterPage implements OnInit {
   async filterList(evt) {
     this.collection.data = this.collectionBackup.data;
     const searchTerm = evt.srcElement.value;
-  
+
     if (!searchTerm) {
       return;
     }
-  
+
     this.collection.data = this.collection.data.filter(currentFood => {
       if (currentFood.Name && searchTerm) {
         return (currentFood.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
@@ -125,12 +125,12 @@ export class RegisterPage implements OnInit {
 
     // configurar establecida segun el evento
     this.config.currentPage = event;
-    //console.log(this.config.totalItems)
+    // console.log(this.config.totalItems)
 
   }
 
   goProfile() {
-    this.router.navigate(['/profile']);
+    this.router.navigateByUrl('/profile');
     this.searchBarOpen = false;
     this.searchValue = false;
   }
@@ -148,12 +148,12 @@ export class RegisterPage implements OnInit {
     alert.buttons = [
       {
         text: 'No',
-        
+
       }, {
         text: 'Eliminar',
         handler: () => {
           this.usersService.deleteUsersServices(item.idFirebase);
-          console.log('Confirm Okay')
+          console.log('Confirm Okay');
         }
       }
     ];
@@ -161,38 +161,38 @@ export class RegisterPage implements OnInit {
     document.body.appendChild(alert);
     return alert.present();
     // llamado al servicio de eliminacion de usuarios
-   
+
   }
 
   async createUserModal() {
-    
-    //console.log(this.usersFormEdit.value)
+
+    // console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: CreateUserComponent,
-      //cssClass: 'modal-create-user'
-    }).then(modalres =>{
+      // cssClass: 'modal-create-user'
+    }).then(modalres => {
       modalres.present();
-      
-      modalres.onDidDismiss().then(()=>{
-        //this.presentLoading();
-      });;
+
+      modalres.onDidDismiss().then(() => {
+        // this.presentLoading();
+      });
     });
   }
 
   async editUserModal(item: any) {
-    
-    //console.log(this.usersFormEdit.value)
+
+    // console.log(this.usersFormEdit.value)
     this.modalController.create({
       component: EditUserComponent,
-      //cssClass: 'modal-edit-user',
+      // cssClass: 'modal-edit-user',
       componentProps: item
-    }).then(modalres =>{
+    }).then(modalres => {
       modalres.present();
-      
-      modalres.onDidDismiss().then(()=>{
-        //this.presentLoadingSave();
+
+      modalres.onDidDismiss().then(() => {
+        // this.presentLoadingSave();
       });
-      
+
     });
   }
 
@@ -205,7 +205,7 @@ export class RegisterPage implements OnInit {
     await loading.present();
 
     const { role, data } = await loading.onDidDismiss();
-    //console.log('Loading dismissed!');
+    // console.log('Loading dismissed!');
   }
   async presentLoadingSave() {
     const loading = await this.loadingController.create({
@@ -216,7 +216,7 @@ export class RegisterPage implements OnInit {
     await loading.present();
 
     const { role, data } = await loading.onDidDismiss();
-    //console.log('Loading dismissed!');
+    // console.log('Loading dismissed!');
   }
 
 

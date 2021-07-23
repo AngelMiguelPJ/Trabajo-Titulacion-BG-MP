@@ -49,9 +49,9 @@ export class RegisterComponent implements OnInit {
 
     //inicializando formulario para guardar datos los usuarios
     this.usersFormCreate = this.fb.group({
-      Name: ['', Validators.required],
-      Email: ['', Validators.required],
-      Password: ['', Validators.required],
+      Name: ['', [Validators.required,Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]+$/)]],
+      Email: ['', [Validators.required, Validators.pattern(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)]],
+      Password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12), Validators.pattern(/^[a-zA-Z0-9_-]{6,12}$/)]],
       TipoUsuario: ['', Validators.required]
     });
 

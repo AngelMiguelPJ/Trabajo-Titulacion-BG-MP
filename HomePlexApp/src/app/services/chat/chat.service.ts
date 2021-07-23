@@ -21,7 +21,7 @@ export class ChatService {
   getChatService() {
 
     // seteo de las variables principales de otro usuario
-    this.name = sessionStorage.getItem("nameContact");
+    this.name = sessionStorage.getItem('nameContact');
     this.ouid = sessionStorage.getItem('uidContact');
 
     // uid obtenida del usuario actual al loguearse
@@ -32,17 +32,17 @@ export class ChatService {
 
       // mapeo de datos
       return chats.map(a => {
-        const data = a.payload.doc.data()
-        data.id = a.payload.doc.id
+        const data = a.payload.doc.data();
+        data.id = a.payload.doc.id;
         return data;
-      })
+      });
 
-    }))
+    }));
 
   }
 
 
-  
+
 
 
 

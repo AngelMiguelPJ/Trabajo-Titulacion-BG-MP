@@ -119,12 +119,20 @@
                         <div class="form-group">
                             <label>Nombres Y apellidos</label>
                             <input type="text" formControlName="Name" class="form-control" #Name>
+                            <div *ngIf="usersFormEdit.get('Name').errors && usersFormEdit.get('Name').dirty">
+                                <p *ngIf="usersFormEdit.get('Name').hasError('required')" style="color: red;">Campo Obligatorio</p>
+                                <p *ngIf="usersFormEdit.get('Name').hasError('pattern')"  style="color: red;">Solo letras</p>
+                            </div>
                         </div>
 
                         <!-- Campo Telefono-->
                         <div class="form-group">
                             <label>Telefono</label>
                             <input type="text" formControlName="Telefono" class="form-control" #Telefono>
+                            <div *ngIf="usersFormEdit.get('Telefono').errors && usersFormEdit.get('Telefono').dirty">
+                                <p *ngIf="usersFormEdit.get('Telefono').hasError('required')" style="color: red;">Campo Obligatorio</p>
+                                <p *ngIf="usersFormEdit.get('Telefono').hasError('pattern')"  style="color: red;">Numero de telefono incorrecto</p>
+                            </div>
                         </div>
 
                         <!-- Campo Casa-->
@@ -142,7 +150,7 @@
 
         <!-- Boton de actualizacion aparatir de los datos del formulario-->
         <div class="modal-footer">
-            <button type="button" class="btn btn-outline-dark" (click)="actualizarUsuario()">Actualizar</button>
+            <button type="button" [disabled]="usersFormEdit.invalid" class="btn btn-outline-dark" (click)="actualizarUsuario()">Actualizar</button>
         </div>
 
     </ng-template>

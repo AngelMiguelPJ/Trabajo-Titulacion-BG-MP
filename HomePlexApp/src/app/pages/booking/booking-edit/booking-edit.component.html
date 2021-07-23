@@ -1,0 +1,56 @@
+
+<ion-toolbar>
+  <ion-title style="text-align: center;">Editar Reserva</ion-title>
+</ion-toolbar>
+<ion-content fullscreen>
+
+<ion-item class="items" lines="none">
+  <ion-icon name="thumbs-up" slot="start"></ion-icon>
+
+  <ion-select mode="ios" placeholder="Estado" [(ngModel)]="bookingBookingDataCreate.BookingAN" required>
+    <ion-select-option *ngFor="let status of statusBooking">{{status}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item class="items" lines="none">
+  <ion-icon name="time" slot="start"></ion-icon>
+
+  <ion-select mode="ios" placeholder="Duracion" [(ngModel)]="bookingBookingDataCreate.Reserva.Duracion" required>
+    <ion-select-option *ngFor="let duration of durationBooking">{{duration}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item class="items" lines="none">
+  <ion-icon name="text-outline" slot="start"></ion-icon>
+  <ion-input type='text' placeholder="Descripcion" [(ngModel)]="bookingBookingDataCreate.Reserva.Descripcion" required></ion-input>
+</ion-item>
+
+<ion-item class="items" lines="none">
+  <ion-icon name="calendar" slot="start"></ion-icon>
+  <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" min="{{fechaActual|date:'yyyy-MM-dd'}}"
+    placeholder="fecha" [(ngModel)]="bookingBookingDataCreate.Reserva.Fecha"></ion-datetime>
+</ion-item>
+
+<ion-item class="items" lines="none">
+  <ion-icon name="trail-sign" slot="start"></ion-icon>
+  <ion-select mode="ios" placeholder="Lugar" [(ngModel)]="bookingBookingDataCreate.Reserva.Lugar" required>
+    <ion-select-option *ngFor="let place of placeBooking" >{{place}}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item class="items" lines="none">
+  <ion-icon name="people" slot="start"></ion-icon>
+  <ion-select mode="ios" placeholder="Personas" [(ngModel)]="bookingBookingDataCreate.Reserva.Personas" required>
+    <ion-select-option *ngFor="let people of peopleBooking" >
+      {{people}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item lines='none'>
+  <ion-button color="danger" size="smaller" style="margin: auto;" shape="round" (click)="cancelar()">Cancelar</ion-button>
+  <ion-button size="smaller" style="margin: auto;" shape="round" (click)="guardar()">Actualizar</ion-button>
+</ion-item>
+
+
+</ion-content>

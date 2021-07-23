@@ -66,8 +66,8 @@ export class ProfileComponent implements OnInit {
 
     //inicializando formulario para guardar los datos del usuario
     this.usersFormEdit = this.fb.group({
-      Name: ['', Validators.required],
-      Telefono: ['', Validators.required],
+      Name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
+      Telefono: ['', [Validators.required, Validators.pattern(/^[0-9]\d{9}$/)]],
       Casa: ['', Validators.required],
     });
 
@@ -207,4 +207,5 @@ export class ProfileComponent implements OnInit {
 
   }
 
+  
 }

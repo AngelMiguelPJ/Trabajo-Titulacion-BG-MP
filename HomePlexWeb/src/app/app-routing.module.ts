@@ -85,7 +85,7 @@ const routes: Routes = [
   {
     path: 'alicuotas/usuarios',
     component: AliquotsComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard]
   },
   {
     path: 'alicuotas/seguimiento',
@@ -96,13 +96,13 @@ const routes: Routes = [
   {
     path: 'alicuotas/usuarios/registrar',
     component: AliquotRegisterComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard,SecurityGuard]
   },
 
   {
     path: 'alicuotas/seguimiento/registrar',
     component: SeguimientoRegisterComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, SecurityGuard]
   },
 
   {
@@ -119,14 +119,14 @@ const routes: Routes = [
   },
 
   {
-    path: 'schedule-trash',
+    path: 'trash',
     component: ScheduleTrasComponent,
-    canActivate : [AuthGuard,SecurityGuard],
+    canActivate : [AuthGuard],
   },
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
-    //canActivate : [AuthGuard,SecurityGuard],
+    
   },
   
 ];

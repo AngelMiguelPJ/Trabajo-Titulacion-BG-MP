@@ -11,6 +11,7 @@ import { UsersService } from '../../services/users/users.service';
 // librerias, servicios extras
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -33,7 +34,8 @@ export class NavbarComponent implements OnInit {
   // constructor que inicia lso servicios o funciones
   constructor(public authService: AuthService,
     public usersService: UsersService,
-    private angularFirestore: AngularFirestore,) { }
+    private angularFirestore: AngularFirestore,
+    private router: Router,) { }
 
   ngOnInit(): void {
 
@@ -66,6 +68,10 @@ export class NavbarComponent implements OnInit {
     // llamado al servio de cerrado de sesion
     this.authService.logoutService();
 
+  }
+
+  basura(){
+    this.router.navigate(['/schedule-trash']);
   }
 
 }

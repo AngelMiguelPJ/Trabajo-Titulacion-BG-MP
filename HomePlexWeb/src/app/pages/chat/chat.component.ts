@@ -82,11 +82,11 @@ export class ChatComponent implements OnInit {
 
   // funcion - metodo para el envio de mensajes
   send(textMsg: string) {
-    //const fechaActual = new Date().toLocaleTimeString();
-    ///const fechaActual2 = new Date().toLocaleDateString();
-    //const datelest = this.datepipe.transform(fechaActual, 'dd-MM-yyyy')
-    //console.log(fechaActual, '+', fechaActual2)
+    //console.log(textMsg)
+    //console.log(textMsg.length)
     // agregar mensajes por medio del servicio de firestore del usuario actual a otro
+    
+    
     if (textMsg != '' ) {
       this.angularFirestore.collection("chats").doc(this.uid).collection(this.ouid).add({
         time: Date.now(),
@@ -98,7 +98,7 @@ export class ChatComponent implements OnInit {
         uid: this.uid,
         msg: textMsg,
       }).then(() => {
-        this.inputName.nativeElement.value = ' ';
+        this.inputName.nativeElement.value = '';
       })
   
       // agregar mensajes por medio del servicio de firestore de otro usuario al actual
@@ -112,7 +112,7 @@ export class ChatComponent implements OnInit {
         uid: this.uid,
         msg: textMsg,
       }).then(() => {
-        this.inputName.nativeElement.value = ' ';
+        this.inputName.nativeElement.value = '';
       })
     }
    

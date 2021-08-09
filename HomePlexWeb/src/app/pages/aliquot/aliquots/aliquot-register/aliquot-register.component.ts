@@ -71,7 +71,7 @@ export class AliquotRegisterComponent implements OnInit {
 
     // seteo de las variables de configuracion de la paginacion
     this.config = {
-      itemsPerPage: 10,
+      itemsPerPage: 7,
       currentPage: 1,
       totalItems: this.collectionAliquots.data.length,
     };

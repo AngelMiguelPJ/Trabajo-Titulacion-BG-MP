@@ -98,7 +98,7 @@ export class HomeComponent implements OnInit {
       //console.log(res);
       this.aliquotLastMonth = res;
       this.aliquotLastMonthLenght = res.length;
-      //console.log(this.aliquotCurrentMonth)
+      console.log(this.aliquotLastMonth)
     })
 
     this.trashService.getTrashScheduleServicesNow().subscribe(resp=>{

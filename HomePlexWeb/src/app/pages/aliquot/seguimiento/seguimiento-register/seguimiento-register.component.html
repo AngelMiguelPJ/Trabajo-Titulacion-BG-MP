@@ -106,12 +106,7 @@
                 formControlName="ValorCuota" class="form-control">
             </div>
             <!--form group de estado-->
-            <div class="form-group">
-              <label>Estado de gastos mensuales</label>
-              <select type="'text" formControlName="Estado" class="form-control" placeholder="Elija un estado">
-                <option *ngFor="let status of statusEvent" [ngValue]="status">{{status}}</option>
-              </select>
-            </div>
+            
 
             <!--form de fecha establecida con limitaciones a la fecha actual-->
             <div class="form-group">

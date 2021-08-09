@@ -132,7 +132,7 @@ export class EventRegisterComponent implements OnInit {
     // configuracion de la paginacion
     // configuracion de la paginacion
     this.config = {
-      itemsPerPage: 3,
+      itemsPerPage: 4,
       currentPage: 1,
       totalItems: this.collection.data.length
     };

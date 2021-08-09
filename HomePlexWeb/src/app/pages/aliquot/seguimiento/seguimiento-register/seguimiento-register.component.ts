@@ -30,15 +30,19 @@ export class SeguimientoRegisterComponent implements OnInit {
   // Estado evento
   // arreglo de estado "Pagado o no"
   statusEvent = [
-    'Pagados',
-    'Pendientes'
+    'Pagada',
+    'Pendiente'
   ]
+
+  idAliquotSeguimiento;
+  idAliquotSeguimientoLenght;
 
   seguimiento: boolean;
   seguimientoId;
   idSeguimientoUpdate;
   // formulario para crear alicuotas
   aliquotFormCreate: FormGroup;
+  aliquotFormUpdate: FormGroup;
 
   // forms
   alicuotaSeguimientoFormCreate: FormGroup;
@@ -59,7 +63,7 @@ export class SeguimientoRegisterComponent implements OnInit {
     this.seguimiento = false;
     // seteo de las variables de configuracion de la paginacion
     this.config = {
-      itemsPerPage: 4,
+      itemsPerPage: 10,
       currentPage: 1,
       totalItems: this.collectionAliquotSeguimientoLength,
     };
@@ -101,13 +105,17 @@ export class SeguimientoRegisterComponent implements OnInit {
       Anio: '',
       ValorCuota: '',
       Total: '',
-      Estado: ''
+      Estado: 'Pendientes'
     })
     this.alicuotaSeguimientoFormEdit = this.formBuilder.group({
       Descripcion: '',
       Estado: ''
     })
 
+    this.aliquotFormUpdate = this.formBuilder.group({
+      EstadoCuota: '',
+      DescripcionMensual: ''
+    })
     this.aliquotFormCreate = this.formBuilder.group({
       IdAliquot: '',
       DatosVecino: '',
@@ -120,6 +128,7 @@ export class SeguimientoRegisterComponent implements OnInit {
       Anio: '',
       IdSeguimiento: '',
       NumeroMes: '',
+      DescripcionMensual: ''
     })
 
     //cargando todos los usuarios de firebase-firestore
@@ -166,65 +175,64 @@ export class SeguimientoRegisterComponent implements OnInit {
     } else {
       console.log('Si vale')
       if (this.alicuotaSeguimientoFormCreate.value.Descripcion !== '' && this.alicuotaSeguimientoFormCreate.value.Fecha !== '' &&
-      (this.alicuotaSeguimientoFormCreate.value.ValorCuota != '' || this.alicuotaSeguimientoFormCreate.value.ValorCuota != null) && 
-      this.alicuotaSeguimientoFormCreate.value.Estado !== '') {
+        (this.alicuotaSeguimientoFormCreate.value.ValorCuota != '' || this.alicuotaSeguimientoFormCreate.value.ValorCuota != null)) {
 
-      this.fechaRepetida = false;
-      console.log(this.numUser)
-      //console.log(this.collectionAliquotSeguimiento.data);
-      //console.log(this.alicuotaSeguimientoFormCreate.value);
-      for (let index = 0; index < this.collectionAliquotSeguimientoLength; index++) {
-        this.fechas.push(this.collectionAliquotSeguimiento.data[index]['Fecha']);
         this.fechaRepetida = false;
+        console.log(this.numUser)
+        //console.log(this.collectionAliquotSeguimiento.data);
+        //console.log(this.alicuotaSeguimientoFormCreate.value);
+        for (let index = 0; index < this.collectionAliquotSeguimientoLength; index++) {
+          this.fechas.push(this.collectionAliquotSeguimiento.data[index]['Fecha']);
+          this.fechaRepetida = false;
 
-      }
-
-      //console.log(this.fechas);
-      this.fechas.filter((fecha) => {
-        if (this.alicuotaSeguimientoFormCreate.value.Fecha == fecha) {
-          //console.log('repetida');
-          this.fechaRepetida = true;
-        }
-      })
-
-      //console.log(this.fechaRepetida)
-
-      if (this.fechaRepetida == false) {
-        //console.log('si se puede')
-        var mes = this.alicuotaSeguimientoFormCreate.value.Fecha.split('-')[1];
-        var anio = this.alicuotaSeguimientoFormCreate.value.Fecha.split('-')[0];
-        console.log(mes)
-        if (mes == '01') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Enero';
-        } else if (mes == '02') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Febrero';
-        } else if (mes == '03') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Marzo';
-        } else if (mes == '04') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Abril';
-        } else if (mes == '05') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Mayo';
-        } else if (mes == '06') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Junio';
-        } else if (mes == '07') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Julio';
-        } else if (mes == '08') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Agosto';
-        } else if (mes == '09') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Septiembre';
-        } else if (mes == '10') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Octubre';
-        } else if (mes == '11') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Noviembre';
-        } else if (mes == '12') {
-          this.alicuotaSeguimientoFormCreate.value.Mes = 'Diciembre';
         }
 
+        //console.log(this.fechas);
+        this.fechas.filter((fecha) => {
+          if (this.alicuotaSeguimientoFormCreate.value.Fecha == fecha) {
+            //console.log('repetida');
+            this.fechaRepetida = true;
+          }
+        })
+
+        //console.log(this.fechaRepetida)
+
+        if (this.fechaRepetida == false) {
+          //console.log('si se puede')
+          var mes = this.alicuotaSeguimientoFormCreate.value.Fecha.split('-')[1];
+          var anio = this.alicuotaSeguimientoFormCreate.value.Fecha.split('-')[0];
+          console.log(mes)
+          if (mes == '01') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Enero';
+          } else if (mes == '02') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Febrero';
+          } else if (mes == '03') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Marzo';
+          } else if (mes == '04') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Abril';
+          } else if (mes == '05') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Mayo';
+          } else if (mes == '06') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Junio';
+          } else if (mes == '07') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Julio';
+          } else if (mes == '08') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Agosto';
+          } else if (mes == '09') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Septiembre';
+          } else if (mes == '10') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Octubre';
+          } else if (mes == '11') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Noviembre';
+          } else if (mes == '12') {
+            this.alicuotaSeguimientoFormCreate.value.Mes = 'Diciembre';
+          }
 
 
-        //--
-        this.alicuotaSeguimientoFormCreate.value.Anio = anio;
 
+          //--
+          this.alicuotaSeguimientoFormCreate.value.Anio = anio;
+          this.alicuotaSeguimientoFormCreate.value.Estado = 'Pendientes';
           this.alicuotaSeguimientoFormCreate.value.Total = (this.alicuotaSeguimientoFormCreate.value.ValorCuota * this.numUser);
           console.log(this.alicuotaSeguimientoFormCreate.value);
           this.aliquotSeguimientoService.createPaymentTracking(this.alicuotaSeguimientoFormCreate.value).then(resp => {
@@ -248,7 +256,8 @@ export class SeguimientoRegisterComponent implements OnInit {
                 Mes: this.alicuotaSeguimientoFormCreate.value.Mes,
                 Anio: anio,
                 IdSeguimiento: this.seguimientoId,
-                NumeroMes: mes
+                NumeroMes: mes,
+                DescripcionMensual: this.alicuotaSeguimientoFormCreate.value.Descripcion
               })
 
               this.aliquotService.createAliquotServices(this.aliquotFormCreate.value).then(resp => {
@@ -268,30 +277,30 @@ export class SeguimientoRegisterComponent implements OnInit {
             //console.error(error)
           })
 
-        
 
-        // seteo de datos de reservas por medio de datos de eventos
-      } else if (this.fechaRepetida == true) {
-        //console.log('No se puede');
+
+          // seteo de datos de reservas por medio de datos de eventos
+        } else if (this.fechaRepetida == true) {
+          //console.log('No se puede');
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Fecha ya escogida elija otra fecha',
+            showConfirmButton: false,
+            timer: 2000
+          });
+        }
+      } else {
         Swal.fire({
           position: 'center',
           icon: 'error',
-          title: 'Fecha ya escogida elija otra fecha',
+          title: 'Debe llenar todos los campos para crear un evento',
           showConfirmButton: false,
           timer: 2000
         });
       }
-    } else {
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Debe llenar todos los campos para crear un evento',
-        showConfirmButton: false,
-        timer: 2000
-      });
     }
-    }
-    
+
 
 
 
@@ -303,13 +312,27 @@ export class SeguimientoRegisterComponent implements OnInit {
   // Abri form para editar un evento
   // funcion para abri el ng model y cambiar los datos
   openEditar(content, item: any) {
-    console.log(item)
+    //console.log(item)
     //llenar form para editar con los datos seteados a partir del formulario
     this.alicuotaSeguimientoFormEdit.setValue({
       Descripcion: item.Descripcion,
       Estado: item.Estado
     })
     this.idSeguimientoUpdate = item.id;
+    this.aliquotSeguimientoService.getAliquotOnlyThisPaymentTracking(this.idSeguimientoUpdate).subscribe(resp => {
+      //console.log(resp);
+      this.idAliquotSeguimiento = resp;
+      this.idAliquotSeguimientoLenght = resp.length;
+
+    })
+
+    if (item.Estado == 'Pagada') {
+      this.alicuotaSeguimientoFormEdit.controls['Estado'].disable();
+      this.alicuotaSeguimientoFormEdit.controls['Descripcion'].disable();
+    }else{
+      this.alicuotaSeguimientoFormEdit.controls['Estado'].enable();
+      this.alicuotaSeguimientoFormEdit.controls['Descripcion'].enable();
+    }
     // Apertura del modal para el formulario
     this.ngbModal.open(content, { ariaLabelledBy: 'modal-basic-title' })
       .result.then((result) => {
@@ -335,14 +358,23 @@ export class SeguimientoRegisterComponent implements OnInit {
   }
 
   updateSeguimiento() {
+
     if (this.alicuotaSeguimientoFormEdit.value.Descripcion != '' &&
       this.alicuotaSeguimientoFormEdit.value.Estado != '') {
+      this.aliquotFormUpdate.value.EstadoCuota = this.alicuotaSeguimientoFormEdit.value.Estado;
+      this.aliquotFormUpdate.value.DescripcionMensual = this.alicuotaSeguimientoFormEdit.value.Descripcion;
       this.aliquotSeguimientoService.updatePaymentTracking(this.idSeguimientoUpdate, this.alicuotaSeguimientoFormEdit.value).then(resp => {
         this.alicuotaSeguimientoFormEdit.reset();
         this.ngbModal.dismissAll();
       })
-    }
-    else {
+      for (let index = 0; index < this.idAliquotSeguimientoLenght; index++) {
+        const element = this.idAliquotSeguimiento[index];
+        //console.log(element)
+        //console.log(this.aliquotFormUpdate.value.EstadoCuota)
+        this.aliquotSeguimientoService.updateAliquotServicesPayment(element, this.aliquotFormUpdate.value)
+      }
+
+    } else {
       Swal.fire({
         position: 'center',
         icon: 'error',

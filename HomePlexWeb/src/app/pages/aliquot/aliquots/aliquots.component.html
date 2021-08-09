@@ -9,8 +9,8 @@
   <!--====================================================================================-->
 
   <!--boton que rediceccionaa para registrar alicuotas-->
-  <a class="item" routerLink="/alicuotas/usuarios/registrar" *ngIf="usersService.isAccountant">
-    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-gray-400"></i>
+  <a class="btn btn-primary" routerLink="/alicuotas/usuarios/registrar" *ngIf="usersService.isAccountant">
+    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-white"></i>
     historial de Alicuotas
   </a>
 
@@ -36,6 +36,9 @@
         <!--Descripcion de la alicuota-->
         <div>
           <p style="font-size: 12px;">{{item.Descripcion}} </p>
+        </div>
+        <div>
+          <p style="font-size: 12px;">{{item.DescripcionMensual}} </p>
         </div>
 
       </div>

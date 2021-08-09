@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
     'Vecino'
   ]
   usuarioExist = false;
-
+  urlWhatsApp;
   // variable para cerrar modal-form
   closeResult = '';
 
@@ -88,6 +88,7 @@ export class RegisterComponent implements OnInit {
           Name: e.payload.doc.data().Name,
           Email: e.payload.doc.data().Email,
           TipoUsuario: e.payload.doc.data().TipoUsuario,
+          Telefono: e.payload.doc.data().Telefono,
           idFirebase: e.payload.doc.id
         }
 
@@ -246,5 +247,12 @@ export class RegisterComponent implements OnInit {
 
 
   }
+  comunicar(datos){
+    //console.log(datos['Telefono']);
+    
+    this.urlWhatsApp = 'https://api.whatsapp.com/send?phone=593'+datos['Telefono']+'&text=Buenas,%20necesitar%C3%ADa%20de%20tu%20ayuda%20por%20favor.';
 
+    //console.log(this.urlWhatsApp);
+    window.open(this.urlWhatsApp, "_blank");
+  }
 }

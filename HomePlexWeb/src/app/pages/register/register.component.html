@@ -32,9 +32,9 @@
           <td>
 
             <!--Botones para eliminar y editar el respectivo usuario-->
-            <button type="button" class="btn btn-primary" (click)="openEditar(content,item)" *ngIf="item.TipoUsuario !='Administrador Principal' && item.TipoUsuario !='Administrador'">Editar</button>
-            <button type="button" class="btn btn-danger" (click)="eliminar(item)" *ngIf="item.TipoUsuario !='Administrador Principal' && item.TipoUsuario !='Administrador'">Borrar</button>
-
+            <button type="button" class="btn btn-primary" (click)="openEditar(content,item)" *ngIf="item.TipoUsuario !='Administrador de Sistemas' && item.TipoUsuario !='Administrador'">Editar</button>
+            <button type="button" class="btn btn-danger" (click)="eliminar(item)" *ngIf="item.TipoUsuario !='Administrador de Sistemas' && item.TipoUsuario !='Administrador'">Borrar</button>
+            <button type="button" class="btn btn-success" (click)="comunicar(item)" *ngIf="item.TipoUsuario =='Administrador de Sistemas'">Comunicarse</button>
           </td>
         </tr>
       </tbody>

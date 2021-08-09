@@ -27,7 +27,7 @@ export class BookingComponent implements OnInit {
 
     // configuracion de la paginacion
     this.config = {
-      itemsPerPage: 3,
+      itemsPerPage: 7,
       currentPage: 1,
       totalItems: this.collection.data.length
     };

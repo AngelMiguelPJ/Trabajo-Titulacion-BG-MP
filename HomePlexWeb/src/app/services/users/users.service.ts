@@ -85,7 +85,7 @@ export class UsersService {
 
         if (res.payload.doc.data()['Uid'] === this.userUid) {
           const accountVar = res.payload.doc.data()['TipoUsuario']
-          if (accountVar == 'Administrador Principal') {
+          if (accountVar == 'Administrador de Sistemas') {
             this.isAdminMain = true
           } else {
             this.isAdminMain = false

@@ -28,7 +28,7 @@ export class AliquotsComponent implements OnInit {
 
    // configuracion de la paginacion
    this.config = {
-     itemsPerPage: 2,
+     itemsPerPage: 8,
      currentPage: 1,
      totalItems: this.collectionAliquotLength
    };

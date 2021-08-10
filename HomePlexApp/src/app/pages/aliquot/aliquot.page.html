@@ -133,7 +133,7 @@
             </b>
             </ion-card-subtitle>
           </ion-label>
-          <ion-icon class='Edit' slot="end" name="create" (click)="editAliquotModal(item)"></ion-icon>
+          <ion-icon class='Edit' slot="end" name="create" (click)="editAliquotModal(item)" *ngIf="item.EstadoCuota != 'Pagada'"></ion-icon>
         </ion-item>
       </ion-card-header>
       <ion-card-content style="padding: 0 10px;">

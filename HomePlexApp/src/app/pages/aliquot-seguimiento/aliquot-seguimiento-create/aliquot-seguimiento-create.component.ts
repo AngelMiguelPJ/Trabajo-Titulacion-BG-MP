@@ -15,8 +15,8 @@ export class AliquotSeguimientoCreateComponent implements OnInit {
   //variables
   uidAdmin;
   estadoCuotaList = [
-    'Pagados',
-    'Pendientes'
+    'Pagada',
+    'Pendiente'
   ]
   numUser;
   collectionUsers = { count: 0, data: [] }

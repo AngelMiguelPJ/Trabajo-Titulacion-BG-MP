@@ -31,7 +31,7 @@ export class AliquotSeguimientoPage implements OnInit {
 
   ngOnInit() {
     this.config = {
-      itemsPerPage: 2,
+      itemsPerPage: 4,
       currentPage: 1,
       totalItems: this.collectionAliquotSeguimientoLength
     };

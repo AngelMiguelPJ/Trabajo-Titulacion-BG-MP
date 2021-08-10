@@ -64,6 +64,7 @@ export class EventCreateComponent implements OnInit {
 
   usersList = [];
   nameUser;
+  
 
 
   constructor(private navParams: NavParams,
@@ -76,7 +77,11 @@ export class EventCreateComponent implements OnInit {
               private bookingService: BookingService, ) { }
 
   ngOnInit() {
-    this.fechaActual = Date.now();
+    var fecha = Date.now();
+    //console.log(fecha)
+    var diaDespues = 1 * 24 * 60 * 60 * 1000;
+    //console.log(diaDespues);
+    this.fechaActual = fecha + diaDespues;
     this.usersService.getOnlyThisUser().subscribe(res => {
       // console.log(res)
       this.usersList = res;
@@ -93,7 +98,7 @@ export class EventCreateComponent implements OnInit {
       idEventBooking: '',
       Img: '',
       Nombre: ['', Validators.required],
-      EventoAN: ['', Validators.required],
+      EventoAN: 'En espera',
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
         Duracion: ['', Validators.required],
@@ -109,7 +114,7 @@ export class EventCreateComponent implements OnInit {
     this.eventsBookingFormCreate = this.formBuilder.group({
       idEventBooking: '',
       idBookingBooking: '',
-      BookingAN: ['', Validators.required],
+      BookingAN: 'En espera',
       Ocupado: ['', Validators.required],
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
@@ -151,7 +156,7 @@ export class EventCreateComponent implements OnInit {
     console.log(this.eventsFormCreate.value);
     console.log(this.eventsBookingFormCreate.value);
 
-    if (this.eventsFormCreate.value.Nombre != '' && this.eventsFormCreate.value.EventoAN != ''
+    if (this.eventsFormCreate.value.Nombre != '' 
       && this.eventsFormCreate.value.Reserva.Duracion != '' && this.eventsFormCreate.value.Reserva.Descripcion != ''
       && this.eventsFormCreate.value.Reserva.Fecha != '' && this.eventsFormCreate.value.Reserva.Lugar != ''
       && this.eventsFormCreate.value.Reserva.Personas != '' && this.eventsFormCreate.value.Img != '') {
@@ -221,5 +226,7 @@ export class EventCreateComponent implements OnInit {
     });
 
   }
+
+  
 
 }

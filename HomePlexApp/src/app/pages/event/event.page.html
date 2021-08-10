@@ -21,7 +21,7 @@
 <ion-content fullscreen>
 
   <ion-searchbar mode="ios" *ngIf="searchBarOpen" mode="ios" (ionInput)="filterList($event)" showCancelButton='true'
-    (ionCancel)="searchBarOpen=false" placeholder="Buscar por nombre......" cancelButtonText="Cancelar"
+     placeholder="Buscar por nombre, lugar o fecha......" cancelButtonText="Cancelar"
     (value)='searchValue=false' clearInput>
   </ion-searchbar>
 

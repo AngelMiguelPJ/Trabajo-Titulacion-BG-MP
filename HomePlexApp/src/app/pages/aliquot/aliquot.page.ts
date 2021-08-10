@@ -37,7 +37,7 @@ export class AliquotPage implements OnInit {
     public usersService: UsersService) { }
 
   ngOnInit() {
-
+    this.searchBarOpen = false;
     // configuracion de la paginacion
     this.config = {
       itemsPerPage: 4,
@@ -123,7 +123,9 @@ export class AliquotPage implements OnInit {
 
     this.collectionAliquot = this.collectionAliquot.filter(currentFood => {
       if (currentFood.DatosVecino.Nombre && searchTerm) {
-        return (currentFood.DatosVecino.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+        return (currentFood.DatosVecino.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+        || currentFood.Anio.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+        || currentFood.Mes.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
       }
     });
   }
@@ -138,7 +140,9 @@ export class AliquotPage implements OnInit {
 
     this.collectionAliquotsAll.data = this.collectionAliquotsAll.data.filter(currentFood => {
       if (currentFood.DatosVecinoNombre && searchTerm) {
-        return (currentFood.DatosVecinoNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+        return (currentFood.DatosVecinoNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+        || currentFood.Anio.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+        || currentFood.Mes.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
       }
     });
   }

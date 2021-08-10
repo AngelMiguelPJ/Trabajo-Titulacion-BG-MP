@@ -22,9 +22,9 @@
 <ion-content fullscreen #content>
 
 
-  <ion-searchbar mode="ios" *ngIf="searchBarOpen" mode="ios" (ionInput)="filterList($event)" showCancelButton='true'
-    (ionCancel)="searchBarOpen=false" placeholder="Buscar por nombre......" cancelButtonText="Cancelar"
-    (value)='searchValue=false' clearInput>
+  <ion-searchbar mode="ios" *ngIf="searchBarOpen == true" mode="ios" (ionInput)="filterList($event)" showCancelButton='true'
+    placeholder="Buscar por nombre, mes o año......" cancelButtonText="Cancelar"
+    (value)='searchValue=false'>
   </ion-searchbar>
 
   <ion-card class="action-card" style="margin: 5px 10px;" *ngFor="let item of collectionBooking | paginate: config">

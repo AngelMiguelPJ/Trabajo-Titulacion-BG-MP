@@ -34,11 +34,11 @@
     </ion-segment-button>
   </ion-segment>
 
-  <ion-searchbar mode="ios" *ngIf="searchBarOpen && selectedSegment == 'Mias'"  showCancelButton='true' (ionCancel)="searchBarOpen=false"
-    placeholder="Buscar por nombre......" cancelButtonText="Cancelar" (value)='searchValue=false' (ionInput)="filterListAliquot($event)">
+  <ion-searchbar mode="ios" *ngIf="searchBarOpen==true && selectedSegment == 'Mias'"  showCancelButton='true' 
+    placeholder="Buscar por nombre, mes o año......" cancelButtonText="Cancelar" (value)='searchValue=false' (ionInput)="filterListAliquot($event)">
   </ion-searchbar>
 
-  <ion-searchbar mode="ios" *ngIf="searchBarOpen && selectedSegment == 'todas'" showCancelButton='true' (ionCancel)="searchBarOpen=false"
+  <ion-searchbar mode="ios" *ngIf="searchBarOpen==true && selectedSegment == 'todas'" showCancelButton='true' 
   placeholder="Buscar por nombre o fecha" cancelButtonText="Cancelar" (value)='searchValue=false' (ionInput)="filterListAliquotAll($event)">
 </ion-searchbar>
 

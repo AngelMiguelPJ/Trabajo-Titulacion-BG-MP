@@ -58,7 +58,7 @@ export class HomePage implements OnInit {
     private router: Router,
     private angularFireAuth: AngularFireAuth,
     private trashService: TrashService){
-       this.presentLoading();
+       //this.presentLoading();
        this.router.routeReuseStrategy.shouldReuseRoute = function() {
         return false;
       };
@@ -204,7 +204,7 @@ export class HomePage implements OnInit {
 
     // traer cuota del mes actual del usuario
     await this.aliquotService.getAliquotUserCurrentMonth().subscribe(res => {
-      // console.log(res.length);
+      console.log(res);
       this.aliquotCurrentMonth = res;
       this.aliquotCurrentMonthLenght = res.length;
       // console.log(this.aliquotCurrentMonth.lenght)

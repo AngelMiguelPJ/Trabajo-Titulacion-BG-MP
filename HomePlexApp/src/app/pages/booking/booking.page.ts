@@ -48,10 +48,12 @@ export class BookingPage implements OnInit {
               private storage: AngularFireStorage,
               public usersService: UsersService,
               public modalController: ModalController,
-              private routerOutlet: IonRouterOutlet) {}
+              private routerOutlet: IonRouterOutlet) {
+                this.searchBarOpen = false;
+              }
 
   ngOnInit() {
-
+    this.searchBarOpen = false;
     // --------------------------------------------------------
     this.selectedSegment = sessionStorage.getItem('Parking');
     // configuracion de la paginacion
@@ -164,6 +166,7 @@ export class BookingPage implements OnInit {
   }
 
   async filterList(evt) {
+    console.log(evt)
     this.collectionBooking = this.collectionBookingBackUp;
     const searchTerm = evt.srcElement.value;
 
@@ -173,9 +176,14 @@ export class BookingPage implements OnInit {
 
     this.collectionBooking = this.collectionBooking.filter(currentFood => {
       if (currentFood.Lugar && searchTerm) {
+        this.config = {
+          itemsPerPage: 3,
+          currentPage: 1,
+          totalItems: this.collectionBookingLength
+        };
         return (currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
                 || currentFood.Fecha.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
-                || currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+                || currentFood.Descripcion.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
       }
     });
   }
@@ -336,4 +344,6 @@ export class BookingPage implements OnInit {
     // console.log('Segment changed', ev);
     this.selectedSegment = ev.target.value;
   }
+
+  
 }

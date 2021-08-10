@@ -72,11 +72,15 @@ export class BookingCreateComponent implements OnInit {
     });
 
     // seteo de la fecha actual
-    this.fechaActual = Date.now();
+    var fecha = Date.now();
+    //console.log(fecha)
+    var diaDespues = 1 * 24 * 60 * 60 * 1000;
+    //console.log(diaDespues);
+    this.fechaActual = fecha + diaDespues;
     this.uidAdmin = localStorage.getItem('userId');
         // iniciar formulario para la creacion de reservas
     this.bookingFormCreate = this.formBuilder.group({
-      BookingAN: ['', Validators.required],
+      BookingAN: 'En espera',
       Reserva: this.formBuilder.group({
         Descripcion: ['', Validators.required],
         Duracion: ['', Validators.required],
@@ -125,9 +129,7 @@ export class BookingCreateComponent implements OnInit {
     this.bookingFormCreate.value.UserInfo.userNameReserv = this.nameUser;
     this.bookingFormCreate.value.UserInfo.idUserReserv = this.uidAdmin;
     this.bookingFormCreate.value.Reserva.Fecha = this.bookingFormCreate.value.Reserva.Fecha.split('T')[0];
-    if (
-      this.bookingFormCreate.value.BookingAN != ''
-      && this.bookingFormCreate.value.Reserva.Duracion != ''
+    if ( this.bookingFormCreate.value.Reserva.Duracion != ''
       && this.bookingFormCreate.value.Reserva.Descripcion != ''
       && this.bookingFormCreate.value.Reserva.Fecha != ''
       && this.bookingFormCreate.value.Reserva.Lugar != ''

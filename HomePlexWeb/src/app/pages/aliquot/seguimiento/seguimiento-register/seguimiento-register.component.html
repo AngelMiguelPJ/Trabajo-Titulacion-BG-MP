@@ -53,7 +53,7 @@
           <td>
 
             <!--Boton para poder editar y abrir el ngModel form de edicion-->
-            <button type="button" class="btn btn-primary" (click)="openEditar(contentEdit,item)">
+            <button type="button" class="btn btn-primary" (click)="openEditar(contentEdit,item)" *ngIf="item.Estado != 'Pagada'">
               Editar
             </button>
 

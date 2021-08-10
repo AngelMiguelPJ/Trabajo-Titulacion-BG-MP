@@ -129,7 +129,7 @@ export class SeguimientoRegisterComponent implements OnInit {
       Anio: '',
       ValorCuota: '',
       Total: '',
-      Estado: 'Pendientes'
+      Estado: 'Pendiente'
     })
     this.alicuotaSeguimientoFormEdit = this.formBuilder.group({
       Descripcion: '',
@@ -336,7 +336,7 @@ export class SeguimientoRegisterComponent implements OnInit {
   // Abri form para editar un evento
   // funcion para abri el ng model y cambiar los datos
   openEditar(content, item: any) {
-    //console.log(item)
+    console.log(item)
     //llenar form para editar con los datos seteados a partir del formulario
     this.alicuotaSeguimientoFormEdit.setValue({
       Descripcion: item.Descripcion,

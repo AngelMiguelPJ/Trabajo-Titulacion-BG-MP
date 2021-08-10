@@ -24,6 +24,7 @@ export class AliquotRegisterComponent implements OnInit {
   collectionAliquots = { count: 0, data: [] }
 
   collectionAliquotSeguimiento = { count: 0, data: [] };
+  collectionAliquotBackUp = { count: 0, data: [] };
   collectionAliquotSeguimientoLength;
 
   // arreglo de estado "Pagado o no"
@@ -103,6 +104,37 @@ export class AliquotRegisterComponent implements OnInit {
       //console.log('respuesta 1: ', resp)
       // mapeo de los datos de las alicuotas en el arreglo collectionAliquots
       this.collectionAliquots.data = resp.map((e: any) => {
+        // console.log('respuesta 2: ', e)
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          id: e.payload.doc.id,
+          DatosVecinoNombre: e.payload.doc.data().DatosVecino.Nombre,
+          ValorCuota: e.payload.doc.data().ValorCuota,
+          ValorExtra: e.payload.doc.data().ValorExtra,
+          Fecha: e.payload.doc.data().Fecha,
+          Mes: e.payload.doc.data().Mes,
+          Anio: e.payload.doc.data().Anio,
+          EstadoCuota: e.payload.doc.data().EstadoCuota,
+          Descripcion: e.payload.doc.data().Descripcion,
+          IdAliquot: e.payload.doc.data().IdAliquot,
+          NumeroMes: e.payload.doc.data().NumeroMes,
+          IdSeguimiento: e.payload.doc.data().IdSeguimiento,
+          DescripcionMensual: e.payload.doc.data().DescripcionMensual,
+        }
+      })
+      //console.log(this.collectionAliquots.data)
+    }, error => {
+      // imprimir en caso de que de algun error
+      console.error(error);
+    }
+    );
+
+    this.aliquotService.getAliquotServices().subscribe(resp => {
+      //console.log('respuesta 1: ', resp)
+      // mapeo de los datos de las alicuotas en el arreglo collectionAliquots
+      this.collectionAliquotBackUp.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
         // return que devolvera los datos a collection
         return {
@@ -325,6 +357,24 @@ export class AliquotRegisterComponent implements OnInit {
         //console.error(error);
       });
     }
+  }
+
+  async filterList(evt) {
+    console.log(evt)
+    this.collectionAliquots.data = this.collectionAliquotBackUp.data;
+    const searchTerm = evt.srcElement.value;
+  
+    if (!searchTerm) {
+      return;
+    }
+  
+    this.collectionAliquots.data = this.collectionAliquots.data.filter(currentFood => {
+      if (currentFood.DatosVecinoNombre && searchTerm) {
+        return (currentFood.DatosVecinoNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Anio.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Mes.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 
 }

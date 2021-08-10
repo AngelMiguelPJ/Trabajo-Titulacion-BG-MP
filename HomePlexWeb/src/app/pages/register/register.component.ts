@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit {
 
   // variable para introducir datos y respectivo conteo
   collection = { count: 0, data: [] }
-
+  collectionBackUp = { count: 0, data: [] }
   // constructor que inicia lso servicios o funciones
   constructor(private usersService: UsersService, private modalService: NgbModal,
     public fb: FormBuilder,public authService: AuthService,) { }
@@ -99,6 +99,32 @@ export class RegisterComponent implements OnInit {
       console.error(error);
     }
     );
+
+        //cargando todos los usuarios de firebase-firestore
+        this.usersService.getUsersServices().subscribe(resp => {
+
+          // mapeo de los datos de los usuarios en el arreglo collection
+          this.collectionBackUp.data = resp.map((e: any) => {
+    
+            // return que devolvera los datos a collection
+            return {
+              // seteo de los principales datos que se obtendran de los usuarios
+              // y que se reflejaran para el administrador
+              Uid: e.payload.doc.data().Uid,
+              Name: e.payload.doc.data().Name,
+              Email: e.payload.doc.data().Email,
+              TipoUsuario: e.payload.doc.data().TipoUsuario,
+              Telefono: e.payload.doc.data().Telefono,
+              idFirebase: e.payload.doc.id
+            }
+    
+          })
+    
+        }, error => {
+          // imprimir en caso de que de algun error
+          console.error(error);
+        }
+        );
 
   }
 
@@ -254,5 +280,21 @@ export class RegisterComponent implements OnInit {
 
     //console.log(this.urlWhatsApp);
     window.open(this.urlWhatsApp, "_blank");
+  }
+
+  async filterList(evt) {
+    console.log(evt)
+    this.collection.data = this.collectionBackUp.data;
+    const searchTerm = evt.srcElement.value;
+  
+    if (!searchTerm) {
+      return;
+    }
+  
+    this.collection.data = this.collection.data.filter(currentFood => {
+      if (currentFood.Name && searchTerm) {
+        return (currentFood.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 }

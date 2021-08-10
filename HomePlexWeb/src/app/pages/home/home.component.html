@@ -118,7 +118,7 @@
             <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'No pagada'"><img
                 src="assets/img/alicuotNoPay.svg" alt="" width="30" height="24"
                 class="d-inline-block align-text-top">Cuota del ultimo Mes</h5>
-            <p class="card-text" id="textCuota"> Descripción: {{item.Descripcion}}</p>
+            <p class="card-text" id="textCuota"> Descripción: {{item.DescripcionMensual}}</p>
             <p class="card-text" id="textCuota"> Fecha: {{item.Fecha}} </p>
             <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pagada'" style="color: green;"> Costo: $
               {{item.ValorCuota + item.ValorExtra}}</p>
@@ -151,7 +151,7 @@
             <h5 class="card-title" id="titleCuota" *ngIf="item.EstadoCuota == 'No pagada'"><img
                 src="assets/img/alicuotNoPay.svg" alt="" width="30" height="24"
                 class="d-inline-block align-text-top">Cuota del Mes actual</h5>
-            <p class="card-text" id="textCuota"> Descripción: {{item.Descripcion}}</p>
+            <p class="card-text" id="textCuota"> Descripción: {{item.DescripcionMensual}}</p>
             <p class="card-text" id="textCuota"> Fecha: {{item.Fecha}}</p>
             <p class="card-text" id="textCuota" *ngIf="item.EstadoCuota == 'Pagada'" style="color: green;"> Costo: $
               {{item.ValorCuota + item.ValorExtra}}</p>

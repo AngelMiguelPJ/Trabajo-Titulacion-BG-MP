@@ -9,10 +9,18 @@
   <!--====================================================================================-->
 
   <!--boton que rediceccionaa para registrar alicuotas-->
-  <a class="btn btn-primary" routerLink="/alicuotas/usuarios/registrar" *ngIf="usersService.isAccountant">
-    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-white"></i>
-    historial de Alicuotas
-  </a>
+  <div style="text-align: center; margin-bottom: 10px">
+    <a class="btn btn-primary" routerLink="/alicuotas/usuarios/registrar" *ngIf="usersService.isAccountant">
+      <i class="fas fa-money-check fa-sm fa-fw mr-2 text-white"></i>
+      historial de Alicuotas
+    </a>
+  </div>
+
+
+  <div style="display: flex; margin-bottom: 10px; margin-top: 10px;">
+    <input class="form-control" type="search" placeholder="Buscar por nombre, mes o año..." aria-label="Search"
+    (input)="filterList($event)">
+  </div>
 
   <!--====================================================================================-->
 

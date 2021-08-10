@@ -8,11 +8,20 @@
     <!--======================================================================================-->
 
     <!--Boton para crear un nuevo evento-->
-    <div style="text-align: center; margin-bottom: 10px;">
-        <button type="button" class="btn btn-success" (click)="openFormCreate(contentCreate)"
+    <div style="text-align: center; margin-bottom: 10px">
+        <button type="button" class="btn btn-success" (click)="openFormCreate(contentCreate)" 
             *ngIf="usersService.isAdmin">Crear nuevo evento
         </button>
+
+
+
+
+
     </div>
+    <div style="display: flex; margin-bottom: 10px;">
+        <input class="form-control" type="search" placeholder="Buscar por nombre, lugar o fecha..." aria-label="Search" (input)="filterList($event)">
+    </div>
+
 
     <!--======================================================================================-->
 
@@ -53,8 +62,8 @@
                     <td>
 
                         <!--Botones para eliminar y editar el respectivo usuario-->
-                        <button style="margin-right: 5px;" type="button" class="btn btn-primary" (click)="openEditar(content,item)"
-                            *ngIf="usersService.isAdmin">Editar</button>
+                        <button style="margin-right: 5px;" type="button" class="btn btn-primary"
+                            (click)="openEditar(content,item)" *ngIf="usersService.isAdmin">Editar</button>
                         <button type="button" class="btn btn-danger" (click)="deleteEvent(item)"
                             *ngIf="usersService.isAdmin">Borrar</button>
 

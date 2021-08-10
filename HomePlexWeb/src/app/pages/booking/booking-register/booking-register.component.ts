@@ -84,7 +84,7 @@ export class BookingRegisterComponent implements OnInit {
 
   // arreglo de collecion de reservas
   collection = { count: 0, data: [] };
-
+  collectionBackUp = { count: 0, data: [] };
   // arreglo de colleccion de reservas
   collectionBooking = { count: 0, data: [] };
   collectionEvents = { count: 0, data: [] };
@@ -112,7 +112,12 @@ export class BookingRegisterComponent implements OnInit {
   ngOnInit(): void {
 
     // seteo de la fecha actual
-    this.fechaActual = Date.now()
+    // seteo de la fecha actual
+    var fecha = Date.now();
+    //console.log(fecha)
+    var diaDespues = 1 * 24 * 60 * 60 * 1000;
+    //console.log(diaDespues);
+    this.fechaActual = fecha + diaDespues;
 
 
     // iniciar variable de bander de actualizacion
@@ -215,6 +220,34 @@ export class BookingRegisterComponent implements OnInit {
       console.error(error);
     }
     );
+
+        //cargando todos los reservas de firebase-firestore
+        this.bookingService.getBookingServices().subscribe(resp => {
+          //console.log('respuesta 1: ', resp)
+          // mapeo de los datos de los usuarios en el arreglo collection
+          this.collectionBackUp.data = resp.map((e: any) => {
+            // console.log('respuesta 2: ', e)
+            // return que devolvera los datos a collection
+            return {
+              // seteo de los principales datos que se obtendran de los usuarios
+              // y que se reflejaran para el administrador
+              id: e.payload.doc.id,
+              BookingAN: e.payload.doc.data().BookingAN,
+              Fecha: e.payload.doc.data().Reserva.Fecha,
+              Duracion: e.payload.doc.data().Reserva.Duracion,
+              Lugar: e.payload.doc.data().Reserva.Lugar,
+              Descripcion: e.payload.doc.data().Reserva.Descripcion,
+              Personas: e.payload.doc.data().Reserva.Personas,
+              UidBookingBooking: e.payload.doc.data().idBookingBooking,
+              uidBooking: e.payload.doc.id
+            }
+          })
+          //console.log(this.collection.data)
+        }, error => {
+          // imprimir en caso de que de algun error
+          console.error(error);
+        }
+        );
 
     //cargando todos los usuarios de firebase-firestore
     this.eventsService.getEventsServices().subscribe(resp => {
@@ -409,8 +442,8 @@ export class BookingRegisterComponent implements OnInit {
     console.log(this.bookingFormEdit.value)
 
     if (this.bookingFormEdit.value.BookingAN != '' && this.bookingFormEdit.value.Reserva.Descripcion != '' &&
-    this.bookingFormEdit.value.Reserva.Lugar != '' && this.bookingFormEdit.value.Reserva.Fecha != '' &&
-    this.bookingFormEdit.value.Reserva.Duracion != '' && this.bookingFormEdit.value.Reserva.Personas != ''){
+      this.bookingFormEdit.value.Reserva.Lugar != '' && this.bookingFormEdit.value.Reserva.Fecha != '' &&
+      this.bookingFormEdit.value.Reserva.Duracion != '' && this.bookingFormEdit.value.Reserva.Personas != '') {
       if (this.bookingFormEdit.value.Reserva.Descripcion !== '') {
         this.eventsFormEdit.setValue({
           EventoAN: this.bookingFormEdit.value.BookingAN,
@@ -435,7 +468,7 @@ export class BookingRegisterComponent implements OnInit {
             this.bookingService.updateBookingServices(this.idBookingEdit, this.bookingFormEdit.value).then(resp => {
               // funciones de reseteo del formulario y cerrar modal al igual que el formulario
               //this.eventsFormEdit.reset();
-  
+
             }).catch(error => {
               // comprobacion de errores 
               console.error(error);
@@ -443,7 +476,7 @@ export class BookingRegisterComponent implements OnInit {
             this.eventsService.updateEventsServices(this.collectionEventsEdit.id, this.eventsFormEdit.value).then(resp => {
               // funciones de reseteo del formulario y cerrar modal al igual que el formulario
               //this.eventsFormEdit.reset();
-  
+
             }).catch(error => {
               // comprobacion de errores 
               console.error(error);
@@ -459,13 +492,13 @@ export class BookingRegisterComponent implements OnInit {
               console.error(error);
             });
           }
-  
-  
+
+
         }
         //---------------
-  
+
       }
-    }else{
+    } else {
       Swal.fire({
         position: 'center',
         icon: 'error',
@@ -477,6 +510,24 @@ export class BookingRegisterComponent implements OnInit {
 
 
 
+  }
+
+  async filterList(evt) {
+    console.log(evt)
+    this.collection.data = this.collectionBackUp.data;
+    const searchTerm = evt.srcElement.value;
+  
+    if (!searchTerm) {
+      return;
+    }
+  
+    this.collection.data = this.collection.data.filter(currentFood => {
+      if (currentFood.Descripcion && searchTerm) {
+        return (currentFood.Descripcion.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Fecha.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 
 }

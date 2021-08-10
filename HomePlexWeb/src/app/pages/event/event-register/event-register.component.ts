@@ -87,6 +87,7 @@ export class EventRegisterComponent implements OnInit {
 
   // arreglo de collecion de eventos
   collection = { count: 0, data: [] }
+  collectionEventsBackUp = { count: 0, data: [] };
 
   // arreglo de colleccion de reservas
   collectionBooking = { count: 0, data: [] }
@@ -132,7 +133,7 @@ export class EventRegisterComponent implements OnInit {
     // configuracion de la paginacion
     // configuracion de la paginacion
     this.config = {
-      itemsPerPage: 4,
+      itemsPerPage: 3,
       currentPage: 1,
       totalItems: this.collection.data.length
     };
@@ -208,6 +209,35 @@ export class EventRegisterComponent implements OnInit {
       //console.log('respuesta 1: ', resp)
       // mapeo de los datos de los usuarios en el arreglo collection
       this.collection.data = resp.map((e: any) => {
+        // console.log('respuesta 2: ', e)
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          id: e.payload.doc.id,
+          Nombre: e.payload.doc.data().Nombre,
+          EventoAN: e.payload.doc.data().EventoAN,
+          Fecha: e.payload.doc.data().Reserva.Fecha,
+          Duracion: e.payload.doc.data().Reserva.Duracion,
+          Lugar: e.payload.doc.data().Reserva.Lugar,
+          Descripcion: e.payload.doc.data().Reserva.Descripcion,
+          Personas: e.payload.doc.data().Reserva.Personas,
+          Img: e.payload.doc.data().Img,
+          UidEventBooking: e.payload.doc.data().idBookingBooking,
+          uidEvent: e.payload.doc.id
+        }
+      })
+      //console.log(this.collection.data)
+    }, error => {
+      // imprimir en caso de que de algun error
+      //console.error(error);
+    }
+    );
+    //cargando todos los eventos de firebase-firestore
+    this.eventsService.getEventsServices().subscribe(resp => {
+      //console.log('respuesta 1: ', resp)
+      // mapeo de los datos de los usuarios en el arreglo collection
+      this.collectionEventsBackUp.data = resp.map((e: any) => {
         // console.log('respuesta 2: ', e)
         // return que devolvera los datos a collection
         return {
@@ -546,6 +576,24 @@ export class EventRegisterComponent implements OnInit {
     }
 
 
+  }
+
+  async filterList(evt) {
+    console.log(evt)
+    this.collection.data = this.collectionEventsBackUp.data;
+    const searchTerm = evt.srcElement.value;
+
+    if (!searchTerm) {
+      return;
+    }
+
+    this.collection.data = this.collection.data.filter(currentFood => {
+      if (currentFood.Nombre && searchTerm) {
+        return (currentFood.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Fecha.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 
 }

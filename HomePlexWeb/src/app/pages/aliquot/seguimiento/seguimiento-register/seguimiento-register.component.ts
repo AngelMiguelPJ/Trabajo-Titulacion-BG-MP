@@ -18,6 +18,7 @@ export class SeguimientoRegisterComponent implements OnInit {
 
   // coleccion de aliquotas
   collectionAliquotSeguimiento = { count: 0, data: [] };
+  collectionAliquotSeguimientoBackUp = { count: 0, data: [] };
   collectionAliquotSeguimientoLength;
   numUser;
   // uid
@@ -77,6 +78,29 @@ export class SeguimientoRegisterComponent implements OnInit {
       this.collectionAliquotSeguimientoLength = resp.length
 
       this.collectionAliquotSeguimiento.data = resp.map((e: any) => {
+        //console.log('respuesta 2: ', e.payload.doc.data())
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          Anio: e.payload.doc.data().Anio,
+          ValorCuota: e.payload.doc.data().ValorCuota,
+          Descripcion: e.payload.doc.data().Descripcion,
+          Estado: e.payload.doc.data().Estado,
+          Fecha: e.payload.doc.data().Fecha,
+          Mes: e.payload.doc.data().Mes,
+          Total: e.payload.doc.data().Total,
+          id: e.payload.doc.id,
+
+        }
+      })
+    })
+
+    this.aliquotSeguimientoService.getPaymentTracking().subscribe(resp => {
+
+      //this.collectionAliquotSeguimientoLength = resp.length
+
+      this.collectionAliquotSeguimientoBackUp.data = resp.map((e: any) => {
         //console.log('respuesta 2: ', e.payload.doc.data())
         // return que devolvera los datos a collection
         return {
@@ -401,6 +425,24 @@ export class SeguimientoRegisterComponent implements OnInit {
       return `with: ${reason}`;
     }
 
+  }
+
+  async filterList(evt) {
+    console.log(evt)
+    this.collectionAliquotSeguimiento.data = this.collectionAliquotSeguimientoBackUp.data;
+    const searchTerm = evt.srcElement.value;
+  
+    if (!searchTerm) {
+      return;
+    }
+  
+    this.collectionAliquotSeguimiento.data = this.collectionAliquotSeguimiento.data.filter(currentFood => {
+      if (currentFood.Descripcion && searchTerm) {
+        return (currentFood.Descripcion.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Anio.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Mes.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 
 }

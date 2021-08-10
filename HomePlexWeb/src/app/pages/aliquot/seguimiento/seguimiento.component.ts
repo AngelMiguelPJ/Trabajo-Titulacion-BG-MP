@@ -8,10 +8,11 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./seguimiento.component.scss']
 })
 export class SeguimientoComponent implements OnInit {
-   // variable para paginacion
- config: any;
- collectionAliquotSeguimiento;
- collectionAliquotSeguimientoLength;
+  // variable para paginacion
+  config: any;
+  collectionAliquotSeguimiento;
+  collectionAliquotSeguimientoBackUp;
+  collectionAliquotSeguimientoLength;
 
 
   constructor(private aliquotSeguimientoService: AliquotSeguimientoService,
@@ -20,35 +21,58 @@ export class SeguimientoComponent implements OnInit {
   ngOnInit(): void {
 
     // configuracion de la paginacion
-   this.config = {
-    itemsPerPage: 7,
-    currentPage: 1,
-    totalItems: this.collectionAliquotSeguimientoLength
-  };
+    this.config = {
+      itemsPerPage: 7,
+      currentPage: 1,
+      totalItems: this.collectionAliquotSeguimientoLength
+    };
 
-  this.aliquotSeguimientoService.getPaymentTracking().subscribe(resp => {
+    this.aliquotSeguimientoService.getPaymentTracking().subscribe(resp => {
 
-    this.collectionAliquotSeguimientoLength = resp.length
+      this.collectionAliquotSeguimientoLength = resp.length
 
-    this.collectionAliquotSeguimiento = resp.map((e: any) => {
-      //console.log('respuesta 2: ', e.payload.doc.data())
-      // return que devolvera los datos a collection
-      return {
-        // seteo de los principales datos que se obtendran de los usuarios
-        // y que se reflejaran para el administrador
-        Anio: e.payload.doc.data().Anio,
-        ValorCuota: e.payload.doc.data().ValorCuota,
-        Descripcion: e.payload.doc.data().Descripcion,
-        Estado: e.payload.doc.data().Estado,
-        Fecha: e.payload.doc.data().Fecha,
-        Mes: e.payload.doc.data().Mes,
-        Total: e.payload.doc.data().Total,
-        id: e.payload.doc.id,
+      this.collectionAliquotSeguimiento = resp.map((e: any) => {
+        //console.log('respuesta 2: ', e.payload.doc.data())
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          Anio: e.payload.doc.data().Anio,
+          ValorCuota: e.payload.doc.data().ValorCuota,
+          Descripcion: e.payload.doc.data().Descripcion,
+          Estado: e.payload.doc.data().Estado,
+          Fecha: e.payload.doc.data().Fecha,
+          Mes: e.payload.doc.data().Mes,
+          Total: e.payload.doc.data().Total,
+          id: e.payload.doc.id,
 
-      }
+        }
+      })
     })
-  })
-    
+
+    this.aliquotSeguimientoService.getPaymentTracking().subscribe(resp => {
+
+      ///this.collectionAliquotSeguimientoLength = resp.length
+
+      this.collectionAliquotSeguimientoBackUp = resp.map((e: any) => {
+        //console.log('respuesta 2: ', e.payload.doc.data())
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          Anio: e.payload.doc.data().Anio,
+          ValorCuota: e.payload.doc.data().ValorCuota,
+          Descripcion: e.payload.doc.data().Descripcion,
+          Estado: e.payload.doc.data().Estado,
+          Fecha: e.payload.doc.data().Fecha,
+          Mes: e.payload.doc.data().Mes,
+          Total: e.payload.doc.data().Total,
+          id: e.payload.doc.id,
+
+        }
+      })
+    })
+
   }
 
   pageChanged(event) {
@@ -56,7 +80,25 @@ export class SeguimientoComponent implements OnInit {
     // seteo de la configuracion de la pagina actual
     this.config.currentPage = event;
     //console.log(this.config.totalItems)
- 
+
+  }
+
+  async filterList(evt) {
+    //console.log(evt)
+    this.collectionAliquotSeguimiento = this.collectionAliquotSeguimientoBackUp;
+    const searchTerm = evt.srcElement.value;
+
+    if (!searchTerm) {
+      return;
+    }
+
+    this.collectionAliquotSeguimiento = this.collectionAliquotSeguimiento.filter(currentFood => {
+      if (currentFood.Descripcion && searchTerm) {
+        return (currentFood.Descripcion.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Fecha.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+                || currentFood.Mes.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 
 }

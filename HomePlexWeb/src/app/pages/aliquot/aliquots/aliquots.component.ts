@@ -16,6 +16,7 @@ export class AliquotsComponent implements OnInit {
  // variable para paginacion
  config: any;
  collectionAliquot;
+ collectionAliquotBackUp;
  collectionAliquotLength;
 
  // iniciar servicios
@@ -40,6 +41,13 @@ export class AliquotsComponent implements OnInit {
      //console.log(this.collectionAliquot)
    })
 
+   this.aliquotService.getAllAliquotServicesOnlyThisUser().subscribe(resp=>{
+    this.collectionAliquotBackUp = resp
+    //this.collectionAliquotLength = resp.length
+    //console.log(resp.length)
+    //console.log(this.collectionAliquot)
+  })
+
  }
 
  // metodo funcion para el cambio de pagina
@@ -50,6 +58,23 @@ export class AliquotsComponent implements OnInit {
    //console.log(this.config.totalItems)
 
  }
+ async filterList(evt) {
+  //console.log(evt)
+  this.collectionAliquot = this.collectionAliquotBackUp;
+  const searchTerm = evt.srcElement.value;
+
+  if (!searchTerm) {
+    return;
+  }
+
+  this.collectionAliquot = this.collectionAliquot.filter(currentFood => {
+    if (currentFood.DatosVecino.Nombre && searchTerm) {
+      return (currentFood.DatosVecino.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+              || currentFood.Anio.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+              || currentFood.Mes.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+    }
+  });
+}
 
 
 }

@@ -62,7 +62,7 @@ const routes: Routes = [
   {
     path: 'eventos/registrar',
     component: EventRegisterComponent,
-    canActivate : [AuthGuard, SecurityGuard]
+    canActivate : [AuthGuard]
   },
 
   {
@@ -85,12 +85,12 @@ const routes: Routes = [
   {
     path: 'alicuotas/usuarios',
     component: AliquotsComponent,
-    canActivate : [AuthGuard, SecurityGuard]
+    canActivate : [AuthGuard]
   },
   {
     path: 'alicuotas/seguimiento',
     component: SeguimientoComponent,
-    canActivate : [AuthGuard, SecurityGuard]
+    canActivate : [AuthGuard]
   },
 
   {

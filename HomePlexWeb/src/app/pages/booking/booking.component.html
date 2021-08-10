@@ -6,13 +6,19 @@
       <h2 style="text-align: center;">Reservas</h2>
     
       <!--===========================================================================-->
-    
+      <div style="text-align: center; margin-bottom: 10px">
+        <a class="btn btn-primary" routerLink="/reservas/registrar">
+          <i class="fas fa-money-check fa-sm fa-fw mr-2 text-white"></i>
+          Registrar Reservas
+        </a>
+      </div>
       <!--Boton de rediccion a registro de eventos segun si es admin-->
-      <a class="btn btn-primary" routerLink="/reservas/registrar">
-        <i class="fas fa-money-check fa-sm fa-fw mr-2 text-white"></i>
-        Registrar Reservas
-      </a>
+      
     
+      <div style="display: flex; margin-bottom: 10px; margin-top: 10px;">
+        <input class="form-control" type="search" placeholder="Buscar por nombre, mes o año..." aria-label="Search"
+        (input)="filterList($event)">
+      </div>
       <!--===========================================================================-->
     
       <!-- Div card grid que incluye los datos de cada evento-->

@@ -8,10 +8,21 @@
   <!--===========================================================================-->
 
   <!--Boton de rediccion a registro de eventos segun si es admin-->
-  <a class="btn btn-primary" routerLink="/eventos/registrar" *ngIf="usersService.isAdmin">
-    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-white"></i>
-    Registrar Eventos
-  </a>
+  <div style="text-align: center; margin-bottom: 10px">
+    
+      <a class="btn btn-primary" routerLink="/eventos/registrar" *ngIf="usersService.isAdmin">
+        <i class="fas fa-money-check fa-sm fa-fw mr-2 text-white"></i>
+        Historial de Eventos
+      </a>
+    
+
+  </div>
+  
+
+  <div style="display: flex; margin-bottom: 10px; margin-top: 10px;">
+    <input class="form-control" type="search" placeholder="Buscar por nombre, lugar o fecha..." aria-label="Search"
+      (input)="filterList($event)">
+  </div>
 
   <!--===========================================================================-->
 
@@ -78,7 +89,7 @@
     </div>
 
   </div>
-  
+
   <!--===========================================================================-->
 
   <!--Botones - controladores de la paginacion-->

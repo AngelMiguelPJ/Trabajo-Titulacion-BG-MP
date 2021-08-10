@@ -6,6 +6,11 @@
   <!-- titulo de la pagina - componente-->
   <h2 style="text-align: center;">Alicuotas</h2>
 
+  
+  <div style="display: flex; margin-bottom: 10px; margin-top: 10px;">
+    <input class="form-control" type="search" placeholder="Buscar por nombre, mes o año..." aria-label="Search"
+    (input)="filterList($event)">
+  </div>
   <!--====================================================================================-->
 
   <!-- boton para abri el ngmodel - form para la creacion de allicuotas
@@ -53,10 +58,10 @@
 
             <!--Boton para poder editar y abrir el ngModel form de edicion-->
             <button type="button" class="btn btn-primary" (click)="openEditar(contentEdit,item)"
-              *ngIf="usersService.isAccountant">
+              *ngIf="usersService.isAccountant && item.EstadoCuota != 'Pagada'">
               Editar
             </button>
-
+            <p class="text-center" *ngIf="usersService.isAccountant && item.EstadoCuota == 'Pagada'">Aliquota ya pagada</p>
           </td>
 
         </tr>

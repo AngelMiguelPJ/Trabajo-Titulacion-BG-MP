@@ -6,10 +6,18 @@
   <!--====================================================================================-->
 
   <!--boton que rediceccionaa para registrar alicuotas-->
-  <a class="btn btn-primary" routerLink="/alicuotas/seguimiento/registrar" *ngIf="usersService.isAccountant">
-    <i class="fas fa-money-check fa-sm fa-fw mr-2 text-white" ></i>
-    Registrar Seguimiento general de alicuotas
-  </a>
+  <div style="text-align: center; margin-bottom: 10px">
+    <a class="btn btn-primary" routerLink="/alicuotas/seguimiento/registrar" *ngIf="usersService.isAccountant">
+      <i class="fas fa-money-check fa-sm fa-fw mr-2 text-white" ></i>
+      Registrar Seguimiento general de alicuotas
+    </a>
+  </div>
+
+
+  <div style="display: flex; margin-bottom: 10px; margin-top: 10px;">
+    <input class="form-control" type="search" placeholder="Buscar por nombre, lugar o fecha..." aria-label="Search"
+    (input)="filterList($event)">
+  </div>
 
   <!--===========================================================================-->
 

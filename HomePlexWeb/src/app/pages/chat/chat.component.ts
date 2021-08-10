@@ -18,6 +18,7 @@ export class ChatComponent implements OnInit {
   scroll: ScrollToBottomDirective;
   // arreglo de usuarios
   usersList = [];
+  usersListBackup = [];
   userUid;
   // variables para el seteo de datos principales
   name;
@@ -50,6 +51,12 @@ export class ChatComponent implements OnInit {
     this.usersService.getUsersService().subscribe(users => {
       // seteo de los datos en el arreglo usuarios
       this.usersList = users;
+
+    })
+
+    this.usersService.getUsersService().subscribe(users => {
+      // seteo de los datos en el arreglo usuarios
+      this.usersListBackup = users;
 
     })
 
@@ -127,6 +134,22 @@ export class ChatComponent implements OnInit {
 		if (key == 32) {return false;}
     }
     
+  }
+
+  async filterList(evt) {
+    //console.log(evt.srcElement.value)
+    this.usersList = this.usersListBackup;
+    const searchTerm = evt.srcElement.value;
+
+    if (!searchTerm) {
+      return;
+    }
+
+    this.usersList = this.usersList.filter(currentFood => {
+      if (currentFood.Name && searchTerm) {
+        return (currentFood.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 
 }

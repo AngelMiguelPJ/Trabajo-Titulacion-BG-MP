@@ -68,7 +68,7 @@ const routes: Routes = [
   {
     path: 'reservas/registrar',
     component: BookingRegisterComponent,
-    canActivate : [AuthGuard, SecurityGuard]
+    canActivate : [AuthGuard]
   },
 
   {

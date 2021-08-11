@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 // servicios de firebase
 import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +33,20 @@ export class BookingService {
     return this.angularFirestore.collection("booking").doc(idBooking).delete();
   }
   
+  getBookingRepeat(fecha: any,duracion: any, lugar: any) {
+
+    
+
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('booking').snapshotChanges().pipe(map(res => {
+      //console.log(res)
+      let notMyArticles = res.filter( (article) => 
+        
+        (article.payload.doc.data()['Reserva'].Duracion == duracion && article.payload.doc.data()['Reserva'].Fecha == fecha && article.payload.doc.data()['Reserva'].Lugar == lugar)
+        
+      )
+      return notMyArticles.length
+      
+    }))
+  }
 }

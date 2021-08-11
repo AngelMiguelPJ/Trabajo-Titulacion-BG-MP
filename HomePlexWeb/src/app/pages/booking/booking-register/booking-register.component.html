@@ -95,14 +95,8 @@
                     <!-- Form grupo para los datos-->
                     <form [formGroup]="bookingsForm">
 
-                        <!--Form grup del estado del reserva-->
-                        <div class="form-group" *ngIf="usersService.isAdmin">
-                            <label>Reserva Estado</label>
-                            <select type="'text" formControlName="BookingAN" class="form-control"
-                                placeholder="Elija un estado">
-                                <option *ngFor="let status of statusBooking" [ngValue]="status">{{status}}</option>
-                            </select>
-                        </div>
+                        
+
 
                         <!--Form grup interno-->
                         <div formGroupName="Reserva">
@@ -147,6 +141,8 @@
                                     <option *ngFor="let people of peopleBooking" [ngValue]="people">{{people}}</option>
                                 </select>
                             </div>
+
+                            <div *ngIf="repeatBooking == true" style="text-align: center;"><p style="color: red; font-size: 16px; text-align: center;">Fecha, lugar y duracion ya reservados</p></div>
 
                         </div>
 

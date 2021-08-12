@@ -62,7 +62,7 @@ const routes: Routes = [
   {
     path: 'eventos/registrar',
     component: EventRegisterComponent,
-    canActivate : [AuthGuard]
+    canActivate : [AuthGuard,SecurityGuard]
   },
 
   {
@@ -115,7 +115,7 @@ const routes: Routes = [
   {
     path: 'registro',
     component: RegisterComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard,SecurityGuard],
   },
 
   {

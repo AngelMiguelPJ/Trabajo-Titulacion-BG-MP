@@ -15,7 +15,7 @@
     </div>
 
     <div style="display: flex; margin-bottom: 10px; margin-top: 10px;">
-        <input class="form-control" type="search" placeholder="Buscar por nombre, mes o año..." aria-label="Search"
+        <input class="form-control" type="search" placeholder="Buscar por descripción, lugar o fecha" aria-label="Search"
         (input)="filterList($event)">
       </div>
 
@@ -29,8 +29,8 @@
             <thead class="table-dark">
                 <tr>
                     <th>Estado</th>
-                    <th>Descripcion</th>
-                    <th>Duracion</th>
+                    <th>Descripción</th>
+                    <th>Duración</th>
                     <th>Fecha</th>
                     <th>Lugar</th>
                     <th>Personas</th>
@@ -103,7 +103,7 @@
 
                             <!--from grup duracion-->
                             <div class="form-group">
-                                <label>Duracion</label>
+                                <label>Duración</label>
                                 <select type="'text" formControlName="Duracion" class="form-control"
                                     placeholder="Elija una duracion">
                                     <option *ngFor="let duration of durationBooking" [ngValue]="duration">{{duration}}
@@ -113,7 +113,7 @@
 
                             <!--Form grup de descripcion-->
                             <div class="form-group">
-                                <label>Descripcion</label>
+                                <label>Descripción</label>
                                 <input type="text" formControlName="Descripcion" class="form-control">
                             </div>
 
@@ -206,9 +206,9 @@
 
                             <!--form de duracion-->
                             <div class="form-group">
-                                <label>Duracion</label>
+                                <label>Duración</label>
                                 <select type="'text" formControlName="Duracion" class="form-control"
-                                    placeholder="Elija una duracion">
+                                    placeholder="Elija una duracion" disabled>
                                     <option *ngFor="let duration of durationBooking" [ngValue]="duration">{{duration}}
                                     </option>
                                 </select>
@@ -216,7 +216,7 @@
 
                             <!--form de descripcion-->
                             <div class="form-group">
-                                <label>Descripcion</label>
+                                <label>Descripción</label>
                                 <input type="text" formControlName="Descripcion" class="form-control">
                             </div>
 
@@ -224,14 +224,14 @@
                             <div class="form-group">
                                 <label>Fecha</label>
                                 <input type="date" formControlName="Fecha" class="form-control"
-                                    (disabled)="!fechaActual" min="{{fechaActual|date:'yyyy-MM-dd'}}">
+                                    (disabled)="!fechaActual" min="{{fechaActual|date:'yyyy-MM-dd'}}" disabled>
                             </div>
 
                             <!--form de lugar-->
                             <div class="form-group">
                                 <label>Lugar</label>
                                 <select type="'text" formControlName="Lugar" class="form-control"
-                                    placeholder="Elija una duracion">
+                                    placeholder="Elija una duracion" disabled>
                                     <option *ngFor="let place of placeBooking" [ngValue]="place">{{place}}</option>
                                 </select>
                             </div>

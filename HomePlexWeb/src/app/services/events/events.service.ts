@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 // firebase
 import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,23 @@ export class EventsService {
   // Metodo - funcion - servicio de actualizacion de la imagen de cada evento
   updateEventsServicesImg(id:any, users:any){
     return this.angularFirestore.collection("events").doc(id).update(users);
+  }
+
+  getEventRepeat(fecha: any,duracion: any, lugar: any) {
+
+    
+
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('booking').snapshotChanges().pipe(map(res => {
+      //console.log(res)
+      let notMyArticles = res.filter( (article) => 
+        
+        (article.payload.doc.data()['Reserva'].Duracion == duracion && article.payload.doc.data()['Reserva'].Fecha == fecha && article.payload.doc.data()['Reserva'].Lugar == lugar)
+        
+      )
+      return notMyArticles.length
+      
+    }))
   }
 
 }

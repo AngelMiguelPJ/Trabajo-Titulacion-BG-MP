@@ -109,6 +109,8 @@ export class EventRegisterComponent implements OnInit {
 
   usersList = [];
   nameUserInfor;
+  repeatBooking;
+  repeatEvent;
 
   // iniciar servicios
   constructor(private storage: AngularFireStorage, private ngbModal: NgbModal,
@@ -146,7 +148,7 @@ export class EventRegisterComponent implements OnInit {
       idBookingBooking: '',
       Img: '',
       Nombre: ['', Validators.required],
-      EventoAN: ['', Validators.required],
+      EventoAN: 'En espera',
       Reserva: this.formBuilder.group({
         Descripcion: '',
         Duracion: '',
@@ -179,7 +181,7 @@ export class EventRegisterComponent implements OnInit {
     // Iniciar formulario para la creacion de reservas a partir de datos de un evento
     this.eventsBookingForm = this.formBuilder.group({
       idBookingBooking: '',
-      BookingAN: '',
+      BookingAN: 'En espera',
       Reserva: this.formBuilder.group({
         Descripcion: '',
         Lugar: '',
@@ -343,7 +345,7 @@ export class EventRegisterComponent implements OnInit {
 
     //console.log(this.eventImgForm.value)
 
-    if (this.eventsForm.value.EventoAN !== '' && this.eventsForm.value.Reserva.Descripcion !== '' && this.eventsForm.value.Reserva.Lugar !== '' &&
+    if (this.eventsForm.value.Reserva.Descripcion !== '' && this.eventsForm.value.Reserva.Lugar !== '' &&
       this.eventsForm.value.Reserva.Fecha !== '' && this.eventsForm.value.Reserva.Duracion !== '' && this.eventsForm.value.Reserva.Personas !== '' &&
       this.eventImgForm.value.Img !== '') {
       const idRandomEvent = Math.random().toString(36).substring(2);
@@ -363,23 +365,45 @@ export class EventRegisterComponent implements OnInit {
           idUserReserv: this.uidAdmin,
         })
       })
-      // seteo de variables de images
-      this.eventsForm.value.Img = this.eventImgForm.value.Img
+      this.bookingService.getBookingRepeat(this.eventsForm.value.Reserva.Fecha, this.eventsForm.value.Reserva.Duracion, this.eventsForm.value.Reserva.Lugar).subscribe(resp => {
+        console.log('reserva', resp)
+        const br = resp;
 
-      // llamado al servicio de creacion de eventosde acuerdo a los datos del form
-      this.eventsService.createEventsServices(this.eventsForm.value).then(resp => {
+        if (br >= 1) {
+          this.repeatBooking = true
 
-        // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
-        this.bookingService.createBookingServices(this.eventsBookingForm.value)
+        } else {
 
-        // resetea el form y lo cierra
-        this.eventsForm.reset();
-        this.ngbModal.dismissAll();
+          this.repeatBooking = false;
+          // llamado al servicio de creacion de reservasde acuerdo a los datos del form
+        }
 
-      }).catch(err => {
-        // impirmir error si es que diera alguno
-        //console.log(err)
+        if (this.repeatBooking == true) {
+          console.log('repetida');
+        } else if (this.repeatBooking == false) {
+          console.log('no repetida')
+          // seteo de variables de images
+          this.eventsForm.value.Img = this.eventImgForm.value.Img
+
+          // llamado al servicio de creacion de eventosde acuerdo a los datos del form
+          this.eventsService.createEventsServices(this.eventsForm.value).then(resp => {
+
+            // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
+            this.bookingService.createBookingServices(this.eventsBookingForm.value)
+
+            // resetea el form y lo cierra
+            this.eventsForm.reset();
+            this.ngbModal.dismissAll();
+
+          }).catch(err => {
+            // impirmir error si es que diera alguno
+            //console.log(err)
+          })
+
+        }
+
       })
+
 
     } else {
       console.log('No se puede');
@@ -590,8 +614,8 @@ export class EventRegisterComponent implements OnInit {
     this.collection.data = this.collection.data.filter(currentFood => {
       if (currentFood.Nombre && searchTerm) {
         return (currentFood.Nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
-                || currentFood.Fecha.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
-                || currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+          || currentFood.Fecha.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+          || currentFood.Lugar.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
       }
     });
   }

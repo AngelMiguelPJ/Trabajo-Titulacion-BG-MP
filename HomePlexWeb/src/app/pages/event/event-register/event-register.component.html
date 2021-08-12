@@ -34,8 +34,8 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Estado</th>
-                    <th>Descripcion</th>
-                    <th>Duracion</th>
+                    <th>Descripción</th>
+                    <th>Duración</th>
                     <th>Fecha</th>
                     <th>Lugar</th>
                     <th>Personas</th>
@@ -127,7 +127,7 @@
                             <input type="text" formControlName="Nombre" class="form-control">
                         </div>
 
-                        <!--Form grup del estado del evento-->
+                        <!--Form grup del estado del evento
                         <div class="form-group">
                             <label>Evento Estado</label>
                             <select type="'text" formControlName="EventoAN" class="form-control"
@@ -135,13 +135,13 @@
                                 <option *ngFor="let status of statusEvent" [ngValue]="status">{{status}}</option>
                             </select>
                         </div>
-
+-->
                         <!--Form grup interno-->
                         <div formGroupName="Reserva">
 
                             <!--from grup duracion-->
                             <div class="form-group">
-                                <label>Duracion</label>
+                                <label>Duración</label>
                                 <select type="'text" formControlName="Duracion" class="form-control"
                                     placeholder="Elija una duracion">
                                     <option *ngFor="let duration of durationEvent" [ngValue]="duration">{{duration}}
@@ -151,7 +151,7 @@
 
                             <!--Form grup de descripcion-->
                             <div class="form-group">
-                                <label>Descripcion</label>
+                                <label>Descripción</label>
                                 <input type="text" formControlName="Descripcion" class="form-control">
                             </div>
 
@@ -181,6 +181,7 @@
                             </div>
 
                         </div>
+                        <div *ngIf="repeatBooking == true" style="text-align: center;"><p style="color: red; font-size: 16px; text-align: center;">Fecha, lugar y duracion ya reservados</p></div>
 
                         <!---->
 
@@ -265,9 +266,9 @@
 
                             <!--form de duracion-->
                             <div class="form-group">
-                                <label>Duracion</label>
+                                <label>Duración</label>
                                 <select type="'text" formControlName="Duracion" class="form-control"
-                                    placeholder="Elija una duracion">
+                                    placeholder="Elija una duracion" disabled>
                                     <option *ngFor="let duration of durationEvent" [ngValue]="duration">{{duration}}
                                     </option>
                                 </select>
@@ -275,7 +276,7 @@
 
                             <!--form de descripcion-->
                             <div class="form-group">
-                                <label>Descripcion</label>
+                                <label>Descripción</label>
                                 <input type="text" formControlName="Descripcion" class="form-control">
                             </div>
 
@@ -283,14 +284,14 @@
                             <div class="form-group">
                                 <label>Fecha</label>
                                 <input type="date" formControlName="Fecha" class="form-control"
-                                    (disabled)="!fechaActual" min="{{fechaActual|date:'yyyy-MM-dd'}}">
+                                    (disabled)="!fechaActual" min="{{fechaActual|date:'yyyy-MM-dd'}}" disabled>
                             </div>
 
                             <!--form de lugar-->
                             <div class="form-group">
                                 <label>Lugar</label>
                                 <select type="'text" formControlName="Lugar" class="form-control"
-                                    placeholder="Elija una duracion">
+                                    placeholder="Elija una duracion" disabled>
                                     <option *ngFor="let place of placeEvent" [ngValue]="place">{{place}}</option>
                                 </select>
                             </div>

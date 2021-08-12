@@ -34,7 +34,7 @@
                 <div class="col">
                     <div class="card" id="cards">
                         <div class="card-body">
-                            <h6 class="card-title">Correo electronico</h6>
+                            <h6 class="card-title">Correo electrónico</h6>
                             <hr class="separacion">
                             <p class="card-text"><small class="text-muted">{{emailUserInfor}}</small></p>
                         </div>
@@ -43,7 +43,7 @@
                 <div class="col">
                     <div class="card" id="cards">
                         <div class="card-body">
-                            <h6 class="card-title">Telefono</h6>
+                            <h6 class="card-title">Teléfono</h6>
                             <hr class="separacion">
                             <p class="card-text"><small class="text-muted">{{phoneUserInfor}}</small></p>
                         </div>
@@ -129,7 +129,7 @@
 
                         <!-- Campo Telefono-->
                         <div class="form-group">
-                            <label>Telefono</label>
+                            <label>Teléfono</label>
                             <input type="text" formControlName="Telefono" class="form-control" #Telefono>
                             <div *ngIf="usersFormEdit.get('Telefono').errors && usersFormEdit.get('Telefono').dirty">
                                 <p *ngIf="usersFormEdit.get('Telefono').hasError('required')" style="color: red;">Campo Obligatorio</p>

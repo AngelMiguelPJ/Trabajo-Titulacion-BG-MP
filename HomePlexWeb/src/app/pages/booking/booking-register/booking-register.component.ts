@@ -127,7 +127,7 @@ export class BookingRegisterComponent implements OnInit {
     // configuracion de la paginacion
     // configuracion de la paginacion
     this.config = {
-      itemsPerPage: 3,
+      itemsPerPage: 5,
       currentPage: 1,
       totalItems: this.collection.data.length
     };

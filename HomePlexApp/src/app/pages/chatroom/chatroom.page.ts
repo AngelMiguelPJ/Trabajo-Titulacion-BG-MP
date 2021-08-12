@@ -94,8 +94,10 @@ export class ChatroomPage implements OnInit {
 
   send(textMsg: any) {
 
+    console.log(textMsg);
 
-    // agregar mensajes por medio del servicio de firestore del usuario actual a otro
+    if (textMsg != '') {
+      // agregar mensajes por medio del servicio de firestore del usuario actual a otro
     this.angularFirestore.collection('chats').doc(this.uid).collection(this.ouid).add({
       time: Date.now(),
       fecha: new Date().toLocaleDateString(),
@@ -123,6 +125,8 @@ export class ChatroomPage implements OnInit {
       this.letras = '';
     });
     this.scrollToBottom();
+    }
+    
 
   }
 
@@ -132,6 +136,16 @@ export class ChatroomPage implements OnInit {
     this.ouid = sessionStorage.removeItem('uidContact');
     this.router.navigateByUrl('/chat');
 
+  }
+
+  validarTecla(e, textMsg: any){
+    //console.log(e);
+    //console.log(textMsg.length)
+    if (textMsg.length == 0) {
+      var key = e.keyCode ? e.keyCode : e.which;
+		if (key == 32) {return false;}
+    }
+    
   }
 
 }

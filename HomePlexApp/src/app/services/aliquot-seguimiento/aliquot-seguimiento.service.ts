@@ -38,4 +38,19 @@ export class AliquotSeguimientoService {
   deletePaymentTracking(idAliquot: any) {
     return this.angularFirestore.collection("paymentTracking").doc(idAliquot).delete();
   }
+  getAliquotOnlyThisPaymentTracking(idPaymentTracking){
+    
+      
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('aliquot', ref => ref.where('IdSeguimiento', '==', idPaymentTracking)).snapshotChanges().pipe(map(res=>{
+      //console.log(res)  
+      return res.map(a=>{
+        var data = a.payload.doc.id;
+        return data
+      })  
+    }))
+  };
+  updateAliquotServicesPayment(idPaymentTracking: any, aliquots: any) {
+    return this.angularFirestore.collection('aliquot').doc(idPaymentTracking).update(aliquots);
+  }
 }

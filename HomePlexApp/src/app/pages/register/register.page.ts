@@ -31,6 +31,7 @@ export class RegisterPage implements OnInit {
   usersFormEdit: FormGroup;
   usersFormCreate: FormGroup;
   userUid;
+  urlWhatsApp;
 
   constructor(private usersService: UsersService,
               public modalController: ModalController,
@@ -217,6 +218,15 @@ export class RegisterPage implements OnInit {
 
     const { role, data } = await loading.onDidDismiss();
     // console.log('Loading dismissed!');
+  }
+
+  async comunicar(datos){
+    //console.log(datos['Telefono']);
+    
+    this.urlWhatsApp = 'https://api.whatsapp.com/send?phone=593'+datos['Telefono']+'&text=Buenas,%20necesitar%C3%ADa%20de%20tu%20ayuda%20por%20favor.';
+
+    //console.log(this.urlWhatsApp);
+    window.open(this.urlWhatsApp, "_blank");
   }
 
 

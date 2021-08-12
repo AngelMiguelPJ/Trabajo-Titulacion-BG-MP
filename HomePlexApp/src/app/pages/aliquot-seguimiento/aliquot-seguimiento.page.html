@@ -1,5 +1,10 @@
 <ion-header translucent>
   <ion-toolbar>
+   <ion-buttons slot="start">
+      <ion-tab-button *ngIf="!searchBarOpen" (click)="searchBarOpen=true">
+        <ion-icon name="search"></ion-icon>
+      </ion-tab-button>
+    </ion-buttons>
     <ion-title>Seguimiento general <br> de alicuotas</ion-title>
     <ion-buttons slot="end" >
       <!--*ngIf="usersService.isAdmin"
@@ -12,6 +17,10 @@
 </ion-header>
 
 <ion-content fullscreen>
+  <ion-searchbar mode="ios" *ngIf="searchBarOpen == true" mode="ios" (ionInput)="filterList($event)" showCancelButton='true'
+  placeholder="Buscar por nombre, mes o año......" cancelButtonText="Cancelar"
+  (value)='searchValue=false'>
+</ion-searchbar>
   <ion-card class="action-card" style="margin: 5px 10px;" *ngFor="let item of collectionAliquotSeguimiento | paginate: config">
     <!-- Colorize Progressbar -->
     <ion-progress-bar color="primary" value="1"></ion-progress-bar>
@@ -28,7 +37,7 @@
           </b>
           </ion-card-subtitle>
         </ion-label>
-        <ion-icon class='Edit' slot="end" name="create" (click)="editAliquotSeguimientoModal(item)" *ngIf="usersService.isAccountant"></ion-icon>
+        <ion-icon class='Edit' slot="end" name="create" (click)="editAliquotSeguimientoModal(item)" *ngIf="usersService.isAccountant &&  item.Estado != 'Pagada'"></ion-icon>
       </ion-item>
     </ion-card-header>
     <ion-card-content style="padding: 0 10px;">

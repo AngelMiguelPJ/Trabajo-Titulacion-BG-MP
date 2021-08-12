@@ -7,6 +7,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 // importacion complementaria para mapeo de datos
 import { map } from 'rxjs/operators';
 
+
 // modelo para exportacion
 export interface UsersExport {
   id: string;
@@ -39,7 +40,8 @@ export class UsersService {
   // contructor para iniciar los servicios
   constructor(
     private angularFirestore: AngularFirestore,
-    private angularFireAuth: AngularFireAuth) { }
+    private angularFireAuth: AngularFireAuth)
+     { }
 
   // Metodo -funcion -servicio para obtener usuarios mediante el mapeo y asi usar variable por variable
   getUsersService() {
@@ -181,7 +183,21 @@ export class UsersService {
     }));
   }
 
+  getAllUsers(){
 
+    // userUid del usuario actual obtenido en el inicio de sesion
+    this.userUid = localStorage.getItem('userId');
+
+    return this.angularFirestore.collection('users').snapshotChanges().pipe(map(res => {
+      // console.log(res)
+
+      return res.map(a => {
+        const data = a.payload.doc.data();
+        return data;
+      });
+
+    }));
+  }
 
   getAllUsersWithoutThisUser(){
 
@@ -219,6 +235,10 @@ export class UsersService {
   updateToken(id: any, token: any) {
     return this.angularFirestore.collection('users').doc(id).update(token);
 
+  }
+
+  getTokens(){
+    
   }
 
   // Metodo -funcion -servicio de actualizacion de foto de perfil de un usuario por id y el campo a actualizar

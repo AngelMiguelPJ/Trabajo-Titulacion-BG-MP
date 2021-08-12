@@ -8,12 +8,15 @@ import { Capacitor } from '@capacitor/core';
 
 import { UsersService } from './services/users/users.service';
 
+import { FCM } from "@capacitor-community/fcm";
+
 import {
   Plugins,
   PushNotification,
   PushNotificationToken,
   PushNotificationActionPerformed
 } from '@capacitor/core';
+
 
 const isPushNotificationsAvailable = Capacitor.isPluginAvailable('PushNotifications');
 
@@ -31,13 +34,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     console.log("Inicio Aplicacion");
-    console.log();
+
     if (isPushNotificationsAvailable) {
       PushNotifications.register();
+      FCM.subscribeTo({topic: 'inicio'})
 
       PushNotifications.addListener('registration',
       (token: PushNotificationToken) => {
-        alert("Push registro exitoso, token: " + token.value);
+        //alert("Push registro exitoso, token: " + token.value);
         console.log("Push registro exitoso, token: " + token.value);
         this.guardarToken(token.value);
       }
@@ -72,6 +76,8 @@ export class AppComponent implements OnInit {
       );
 
 
+    } else{
+      console.log("No es movil");
     }
 
   }

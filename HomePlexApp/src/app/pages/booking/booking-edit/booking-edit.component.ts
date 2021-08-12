@@ -65,8 +65,9 @@ export class BookingEditComponent implements OnInit {
 
     // seteo de la fecha actual
     this.fechaActual = Date.now();
-    // console.log(this.navParams.data)
+  console.log(this.navParams.data)
     this.bookingBookingDataCreate = this.navParams.data;
+    console.log(this.bookingBookingDataCreate.Reserva.Lugar)
     // iniciar formulario para la subida de imagenes
   }
 

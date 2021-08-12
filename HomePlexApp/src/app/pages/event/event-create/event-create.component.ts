@@ -64,7 +64,7 @@ export class EventCreateComponent implements OnInit {
 
   usersList = [];
   nameUser;
-  
+  repeatBooking;
 
 
   constructor(private navParams: NavParams,
@@ -77,6 +77,7 @@ export class EventCreateComponent implements OnInit {
               private bookingService: BookingService, ) { }
 
   ngOnInit() {
+    this.repeatBooking = false;
     var fecha = Date.now();
     //console.log(fecha)
     var diaDespues = 1 * 24 * 60 * 60 * 1000;
@@ -160,18 +161,41 @@ export class EventCreateComponent implements OnInit {
       && this.eventsFormCreate.value.Reserva.Duracion != '' && this.eventsFormCreate.value.Reserva.Descripcion != ''
       && this.eventsFormCreate.value.Reserva.Fecha != '' && this.eventsFormCreate.value.Reserva.Lugar != ''
       && this.eventsFormCreate.value.Reserva.Personas != '' && this.eventsFormCreate.value.Img != '') {
-        this.eventsService.createEventsServices(this.eventsFormCreate.value).then(resp => {
+        this.bookingService.getBookingRepeat(this.eventsFormCreate.value.Reserva.Fecha, this.eventsFormCreate.value.Reserva.Duracion, this.eventsFormCreate.value.Reserva.Lugar).subscribe(resp => {
+          console.log(resp)
+          const abcd = resp;
+  
+          if (abcd >= 1) {
+            this.repeatBooking = true
+  
+          } else {
+  
+            this.repeatBooking = false;
+            // llamado al servicio de creacion de reservasde acuerdo a los datos del form
+          }
+  
+          if (this.repeatBooking == true) {
+            console.log('repetida');
+            this.presentToastRepeat()
+          } else if (this.repeatBooking == false) {
+            // llaamado al servicio de creacion  de reservas
+            this.eventsService.createEventsServices(this.eventsFormCreate.value).then(resp => {
 
-            // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
-            this.bookingService.createBookingServices(this.eventsBookingFormCreate.value).then(() => {
-              this.modalController.dismiss({
-                dismissed: true
+              // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
+              this.bookingService.createBookingServices(this.eventsBookingFormCreate.value).then(() => {
+                this.modalController.dismiss({
+                  dismissed: true
+                });
               });
+            }).catch(err => {
+              // impirmir error si es que diera alguno
+              console.log(err);
             });
-          }).catch(err => {
-            // impirmir error si es que diera alguno
-            console.log(err);
-          });
+          }
+  
+  
+        })
+        
     } else {
       this.presentToast();
     }
@@ -225,6 +249,16 @@ export class EventCreateComponent implements OnInit {
       });
     });
 
+  }
+
+  async presentToastRepeat() {
+    const toast = await this.toastController.create({
+      message: ' <b style="text-align:center">Fecha, hora y lugar ya reservados</b>',
+      duration: 1000,
+      color: 'primary',
+
+    });
+    toast.present();
   }
 
   

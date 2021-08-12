@@ -54,14 +54,16 @@ export class BookingCreateComponent implements OnInit {
 
   usersList = [];
   nameUser;
+  repeatBooking;
   constructor(private bookingService: BookingService,
-              public formBuilder: FormBuilder,
-              public usersService: UsersService,
-              public modalController: ModalController,
-              public toastController: ToastController) { }
+    public formBuilder: FormBuilder,
+    public usersService: UsersService,
+    public modalController: ModalController,
+    public toastController: ToastController) { }
 
 
   ngOnInit() {
+    this.repeatBooking = false;
     this.usersService.getOnlyThisUser().subscribe(res => {
       // console.log(res)
       this.usersList = res;
@@ -78,7 +80,7 @@ export class BookingCreateComponent implements OnInit {
     //console.log(diaDespues);
     this.fechaActual = fecha + diaDespues;
     this.uidAdmin = localStorage.getItem('userId');
-        // iniciar formulario para la creacion de reservas
+    // iniciar formulario para la creacion de reservas
     this.bookingFormCreate = this.formBuilder.group({
       BookingAN: 'En espera',
       Reserva: this.formBuilder.group({
@@ -123,28 +125,55 @@ export class BookingCreateComponent implements OnInit {
 
 
   createBooking() {
+
+
+
+
     this.uidAdmin = localStorage.getItem('userId');
     const idBookingRandom = Math.random().toString(36).substring(2);
     this.bookingFormCreate.value.idBookingBooking = idBookingRandom;
     this.bookingFormCreate.value.UserInfo.userNameReserv = this.nameUser;
     this.bookingFormCreate.value.UserInfo.idUserReserv = this.uidAdmin;
     this.bookingFormCreate.value.Reserva.Fecha = this.bookingFormCreate.value.Reserva.Fecha.split('T')[0];
-    if ( this.bookingFormCreate.value.Reserva.Duracion != ''
+    if (this.bookingFormCreate.value.Reserva.Duracion != ''
       && this.bookingFormCreate.value.Reserva.Descripcion != ''
       && this.bookingFormCreate.value.Reserva.Fecha != ''
       && this.bookingFormCreate.value.Reserva.Lugar != ''
       && this.bookingFormCreate.value.Reserva.Personas != '') {
-      console.log(this.bookingFormCreate.value);
 
-      // llaamado al servicio de creacion  de reservas
-      this.bookingService.createBookingServices(this.bookingFormCreate.value).then(() => {
-        this.modalController.dismiss({
-          dismissed: true
-        });
-      }).catch(error => {
-        console.log(this.bookingFormCreate);
-        console.error(error);
-      });
+
+      console.log(this.bookingFormCreate.value);
+      this.bookingService.getBookingRepeat(this.bookingFormCreate.value.Reserva.Fecha, this.bookingFormCreate.value.Reserva.Duracion, this.bookingFormCreate.value.Reserva.Lugar).subscribe(resp => {
+        console.log(resp)
+        const abcd = resp;
+
+        if (abcd >= 1) {
+          this.repeatBooking = true
+
+        } else {
+
+          this.repeatBooking = false;
+          // llamado al servicio de creacion de reservasde acuerdo a los datos del form
+        }
+
+        if (this.repeatBooking == true) {
+          console.log('repetida');
+          this.presentToastRepeat()
+        } else if (this.repeatBooking == false) {
+          // llaamado al servicio de creacion  de reservas
+          this.bookingService.createBookingServices(this.bookingFormCreate.value).then(() => {
+            this.modalController.dismiss({
+              dismissed: true
+            });
+          }).catch(error => {
+            console.log(this.bookingFormCreate);
+            console.error(error);
+          });
+        }
+
+
+      })
+
 
     } else {
       console.log('no recibe nada');
@@ -162,6 +191,16 @@ export class BookingCreateComponent implements OnInit {
   async presentToast() {
     const toast = await this.toastController.create({
       message: ' <b style="text-align:center">Debe llenar todos los datos</b>',
+      duration: 1000,
+      color: 'primary',
+
+    });
+    toast.present();
+  }
+
+  async presentToastRepeat() {
+    const toast = await this.toastController.create({
+      message: ' <b style="text-align:center">Fecha, hora y lugar ya reservados</b>',
       duration: 1000,
       color: 'primary',
 

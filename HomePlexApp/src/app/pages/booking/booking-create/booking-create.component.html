@@ -7,8 +7,7 @@
     <ion-item class="items" lines="none">
       <ion-icon name="trail-sign" slot="start"></ion-icon>
       <ion-select mode="ios" placeholder="Lugar" [(ngModel)]="bookingFormCreate.value.Reserva.Lugar" required>
-        <ion-select-option *ngFor="let place of placeBooking" >{{place}}
-        </ion-select-option>
+        <ion-select-option *ngFor="let place of placeBooking">{{place}}</ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -36,8 +35,7 @@
         <ion-item class="items" lines="none">
       <ion-icon name="people" slot="start"></ion-icon>
       <ion-select mode="ios" placeholder="Personas" [(ngModel)]="bookingFormCreate.value.Reserva.Personas" required>
-        <ion-select-option *ngFor="let people of peopleBooking" >
-          {{people}}</ion-select-option>
+        <ion-select-option *ngFor="let people of peopleBooking">{{people}}</ion-select-option>
       </ion-select>
     </ion-item>
     <!-- Round -->

@@ -46,5 +46,24 @@ export class BookingService {
   deleteBookingServices(idBooking: any) {
     return this.angularFirestore.collection('booking').doc(idBooking).delete();
   }
+
+  getBookingRepeat(fecha: string,duracion: string, lugar: string) {
+
+    console.log(fecha);
+    console.log(duracion);
+    console.log(lugar)
+
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('booking').snapshotChanges().pipe(map(res => {
+      let notMyArticles = res.filter( (article) => 
+        article.payload.doc.data()['Reserva'].Fecha == fecha && article.payload.doc.data()['Reserva'].Duracion == duracion && article.payload.doc.data()['Reserva'].Lugar == lugar 
+      
+      
+    )
+    return notMyArticles.length
+      
+      
+    }))
+  }
 }
 

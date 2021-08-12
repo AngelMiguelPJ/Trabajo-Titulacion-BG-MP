@@ -80,7 +80,7 @@ export class EventPage implements OnInit {
           Descripcion: e.payload.doc.data().Reserva.Descripcion,
           Personas: e.payload.doc.data().Reserva.Personas,
           Img: e.payload.doc.data().Img,
-          UidEventBooking: e.payload.doc.data().idEventBooking,
+          UidEventBooking: e.payload.doc.data().idBookingBooking,
           uidEvent: e.payload.doc.id
         };
       });
@@ -108,7 +108,7 @@ export class EventPage implements OnInit {
           Descripcion: e.payload.doc.data().Reserva.Descripcion,
           Personas: e.payload.doc.data().Reserva.Personas,
           Img: e.payload.doc.data().Img,
-          UidEventBooking: e.payload.doc.data().idEventBooking,
+          UidEventBooking: e.payload.doc.data().idBookingBooking,
           uidEvent: e.payload.doc.id
         };
       });
@@ -129,7 +129,7 @@ export class EventPage implements OnInit {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          UidEventBooking: e.payload.doc.data().idEventBooking
+          UidEventBooking: e.payload.doc.data().idBookingBooking
         };
       });
 
@@ -144,7 +144,7 @@ export class EventPage implements OnInit {
 
     // inicializacion de formulario para la edicion de un evento
     this.eventsFormEdit = this.formBuilder.group({
-      idEventBooking: '',
+      idBookingBooking: '',
       Img: '',
       Nombre: ['', Validators.required],
       EventoAN: ['', Validators.required],
@@ -257,7 +257,7 @@ export class EventPage implements OnInit {
       Img: item.Img,
       Nombre: item.Nombre,
       EventoAN: item.EventoAN,
-      idEventBooking: item.UidEventBooking,
+      idBookingBooking: item.UidEventBooking,
       Reserva: ({
         Descripcion: item.Descripcion,
         Duracion: item.Duracion,
@@ -286,7 +286,7 @@ export class EventPage implements OnInit {
             Img: res.data.Img,
             Nombre: res.data.Nombre,
             EventoAN: res.data.EventoAN,
-            idEventBooking: res.data.idEventBooking,
+            idBookingBooking: res.data.idBookingBooking,
             Reserva: ({
               Descripcion: res.data.Reserva.Descripcion,
               Duracion: res.data.Reserva.Duracion,
@@ -319,7 +319,7 @@ export class EventPage implements OnInit {
             const b = res.UidEventBooking;
             // console.log("a: ", a, "b", b)
             // condicion para actualizar reserva segun el evento
-            if (this.eventsFormEdit.value.idEventBooking == b) {
+            if (this.eventsFormEdit.value.idBookingBooking == b) {
               // console.log(b)
               // console.log(a)
               this.bookingService.updateBookingServices(a, this.eventsBookingFormEdit.value);

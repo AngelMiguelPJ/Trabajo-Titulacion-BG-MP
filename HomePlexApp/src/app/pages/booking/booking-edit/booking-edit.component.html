@@ -16,7 +16,7 @@
   <ion-icon name="time" slot="start"></ion-icon>
 
   <ion-select mode="ios" placeholder="Duracion" [(ngModel)]="bookingBookingDataCreate.Reserva.Duracion" required>
-    <ion-select-option *ngFor="let duration of durationBooking">{{duration}}</ion-select-option>
+    <ion-select-option *ngFor="let duration of durationBooking" disabled>{{duration}}</ion-select-option>
   </ion-select>
 </ion-item>
 
@@ -28,22 +28,20 @@
 <ion-item class="items" lines="none">
   <ion-icon name="calendar" slot="start"></ion-icon>
   <ion-datetime cancelText="Cancelar" doneText="Guardar" mode="ios" min="{{fechaActual|date:'yyyy-MM-dd'}}"
-    placeholder="fecha" [(ngModel)]="bookingBookingDataCreate.Reserva.Fecha"></ion-datetime>
+    placeholder="fecha" [(ngModel)]="bookingBookingDataCreate.Reserva.Fecha" disabled></ion-datetime>
 </ion-item>
 
 <ion-item class="items" lines="none">
   <ion-icon name="trail-sign" slot="start"></ion-icon>
   <ion-select mode="ios" placeholder="Lugar" [(ngModel)]="bookingBookingDataCreate.Reserva.Lugar" required>
-    <ion-select-option *ngFor="let place of placeBooking" >{{place}}
-    </ion-select-option>
+    <ion-select-option *ngFor="let place of placeBooking" disabled>{{place}}</ion-select-option>
   </ion-select>
 </ion-item>
 
 <ion-item class="items" lines="none">
   <ion-icon name="people" slot="start"></ion-icon>
   <ion-select mode="ios" placeholder="Personas" [(ngModel)]="bookingBookingDataCreate.Reserva.Personas" required>
-    <ion-select-option *ngFor="let people of peopleBooking" >
-      {{people}}</ion-select-option>
+    <ion-select-option *ngFor="let people of peopleBooking">{{people}}</ion-select-option>
   </ion-select>
 </ion-item>
 

@@ -121,7 +121,7 @@ this.usersService.getAllUsers().subscribe(res => {
   this.usersList = res;
   res.map(resp => {
     this.tokens = resp['token'];
-    console.log("Tokens1 "+ this.tokens )
+    //console.log("Tokens1 "+ this.tokens )
   })
 })
 
@@ -134,26 +134,26 @@ this.usersService.getAllUsers().subscribe(res => {
         PushNotifications.addListener(
           'registration',
           (token: PushNotificationToken) => {
-            console.log(token.value);
-            alert('Push registration success, token: ' + token.value);
+            //console.log(token.value);
+            //alert('Push registration success, token: ' + token.value);
           },
         );
     
         PushNotifications.addListener('registrationError', (error: any) => {
-          alert('Error on registration: ' + JSON.stringify(error));
+          //alert('Error on registration: ' + JSON.stringify(error));
         });
     
         PushNotifications.addListener(
           'pushNotificationReceived',
           (notification: PushNotification) => {
-            alert('Push received: ' + JSON.stringify(notification));
+            //alert('Push received: ' + JSON.stringify(notification));
           },
         );
     
         PushNotifications.addListener(
           'pushNotificationActionPerformed',
           (notification: PushNotificationActionPerformed) => {
-            alert('Push action performed: ' + JSON.stringify(notification));
+            //alert('Push action performed: ' + JSON.stringify(notification));
           },
         );
         this.obtenerScheduleTrash();
@@ -186,7 +186,7 @@ this.usersService.getAllUsers().subscribe(res => {
       //console.log(resp)
       this.collectionTrashSchedule = resp;
       this.collectionTrasScheduleLenght = resp.length;
-      console.log(this.collectionTrasScheduleLenght)
+      //console.log(this.collectionTrasScheduleLenght)
     })
 
 

@@ -100,6 +100,7 @@ export class BookingRegisterComponent implements OnInit {
 
   usersList = [];
   nameUserInfor;
+  collectionReserva = [];
 
 
   constructor(
@@ -294,6 +295,30 @@ export class BookingRegisterComponent implements OnInit {
       }
     })
 
+    //cargando todos los eventos de firebase-firestore
+    this.bookingService.getBookingServices().subscribe(resp => {
+      //console.log('respuesta 1: ', resp)
+      // mapeo de los datos de los usuarios en el arreglo collection
+      this.collectionReserva = resp.map((e: any) => {
+        // console.log('respuesta 2: ', e)
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          id: e.payload.doc.id,
+          Fecha: e.payload.doc.data().Reserva.Fecha,
+          Duracion: e.payload.doc.data().Reserva.Duracion,
+          Lugar: e.payload.doc.data().Reserva.Lugar,
+          UidBookingBooking: e.payload.doc.data().idBookingBooking,
+        }
+      })
+      //console.log(this.collection.data)
+    }, error => {
+      // imprimir en caso de que de algun error
+      console.error(error);
+    }
+    );
+
 
   }
   // funcion - metodo para el cambio de pagina segun la pagina actual
@@ -320,39 +345,28 @@ export class BookingRegisterComponent implements OnInit {
         console.log(item.UidBookingBooking);
 
         this.cuenta = false;
+        
+        this.bookingService.deleteBookingServices(item.id).then(resp=>{
+          console.log(resp)
 
-        this.bookingService.deleteEvent(item.UidBookingBooking).subscribe(resp => {
-          const idbooking = resp.map((e: any) => {
-            // console.log('respuesta 2: ', e)
-            // return que devolvera los datos a collection
-            return {
-              // seteo de los principales datos que se obtendran de los usuarios
-              // y que se reflejaran para el administrador
-              id: e.payload.doc.id,
-              UidBookingBooking: e.payload.doc.data().idBookingBooking,
-              Img: e.payload.doc.data().Img
-            }
-          })
-
-
-
-          if (idbooking.length == 1) {
-            this.cuenta = true;
-            console.log(this.cuenta)
-            this.bookingService.deleteBookingServices(item.id);
-            this.eventsService.deleteEventsServices(idbooking[0]['id']);
-            this.storage.refFromURL(idbooking[0]['Img']).delete()
-          } else if (idbooking.length == 0) {
-            this.cuenta = false;
-            console.log(this.cuenta)
-            this.bookingService.deleteBookingServices(item.id);
-          }
-
+          this.bookingService.deleteEvent(item.UidBookingBooking).subscribe(resp => {
+            const idbooking = resp[0]
+              console.log(resp.length)
+              if (resp.length == 1) {
+                this.eventsService.deleteEventsServices(idbooking);
+                //this.storage.refFromURL(idbooking[0]['Img']).delete()
+              } else if (resp.length != 1) {
+    
+              }
+  
+          }).closed
+         
+        
         })
+       
 
         Swal.fire(
           'Reserva borrada!',
-          'success'
         )
       }
     })
@@ -371,72 +385,20 @@ export class BookingRegisterComponent implements OnInit {
     if (this.bookingsForm.value.Reserva.Descripcion != '' &&
       this.bookingsForm.value.Reserva.Lugar != '' && this.bookingsForm.value.Reserva.Fecha != '' &&
       this.bookingsForm.value.Reserva.Duracion != '' && this.bookingsForm.value.Reserva.Personas != '') {
-      // seteo de datos de reservas por medio de datos de reservas
-      const idRandomBooking = Math.random().toString(36).substring(2);
-      this.bookingsForm.value.idBookingBooking = idRandomBooking
-      this.bookingsForm.setValue({
-        idBookingBooking: this.bookingsForm.value.idBookingBooking,
-        BookingAN: this.bookingsForm.value.BookingAN,
-        Reserva: ({
-          Descripcion: this.bookingsForm.value.Reserva.Descripcion,
-          Lugar: this.bookingsForm.value.Reserva.Lugar,
-          Fecha: this.bookingsForm.value.Reserva.Fecha,
-          Duracion: this.bookingsForm.value.Reserva.Duracion,
-          Personas: this.bookingsForm.value.Reserva.Personas
-        }),
-        UserInfo: ({
-          userNameReserv: this.nameUserInfor,
-          idUserReserv: this.uidAdmin,
-        })
-      })
+      
+        const refereArray = this.collectionReserva.filter(x=> x.Fecha == this.bookingsForm.value.Reserva.Fecha && x.Duracion == this.bookingsForm.value.Reserva.Duracion && x.Lugar ==this.bookingsForm.value.Reserva.Lugar );
+        console.log(refereArray)
 
-      this.bookingService.createBookingServices(this.bookingsForm.value).then(resp => {
-        this.repeatBooking = false;
-        // resetea el form y lo cierra
-        this.bookingsForm.reset();
-        this.ngbModal.dismissAll();
+        if (refereArray.length == 1) {
+          console.log('Ya existe')
 
-      }).catch(err => {
-        // impirmir error si es que diera alguno
-        console.log(err)
-      })
-      //console.log('as')
-      /* this.bookingService.getBookingRepeat(this.bookingsForm.value.Reserva.Fecha, this.bookingsForm.value.Reserva.Duracion, this.bookingsForm.value.Reserva.Lugar).subscribe(resp => {
-        console.log(resp)
-
-
-        const abcd = resp;
-        
-        if (abcd >=1 ) {
-          this.repeatBooking = true
-          
-        } else {
-          
-          this.repeatBooking =false;
-          // llamado al servicio de creacion de reservasde acuerdo a los datos del form
+          this.bookingsForm.reset();
+          this.ngbModal.dismissAll();
+          Swal.fire('Ya existe la reserva')
+        }else if (refereArray.length == 0) {
+          console.log('No existe')
+          this.guardar();
         }
-
-        if (this.repeatBooking == true) {
-          console.log('repetida');
-        }else if (this.repeatBooking == false) {
-          console.log('no repetida')
-          this.repeatBooking =false;
-          this.bookingService.createBookingServices(this.bookingsForm.value).then(resp => {
-            this.repeatBooking =false;
-            // resetea el form y lo cierra
-            this.bookingsForm.reset();
-            this.ngbModal.dismissAll();
-
-          }).catch(err => {
-            // impirmir error si es que diera alguno
-            console.log(err)
-          })
-        }
-
-      }) */
-
-
-
 
     } else {
       Swal.fire({
@@ -449,6 +411,31 @@ export class BookingRegisterComponent implements OnInit {
     }
 
 
+  }
+
+  guardar(){
+    // seteo de datos de reservas por medio de datos de reservas
+    const idRandomBooking = Math.random().toString(36).substring(2);
+    this.bookingsForm.value.idBookingBooking = idRandomBooking
+    this.bookingsForm.setValue({
+      idBookingBooking: this.bookingsForm.value.idBookingBooking,
+      BookingAN: this.bookingsForm.value.BookingAN,
+      Reserva: ({
+        Descripcion: this.bookingsForm.value.Reserva.Descripcion,
+        Lugar: this.bookingsForm.value.Reserva.Lugar,
+        Fecha: this.bookingsForm.value.Reserva.Fecha,
+        Duracion: this.bookingsForm.value.Reserva.Duracion,
+        Personas: this.bookingsForm.value.Reserva.Personas
+      }),
+      UserInfo: ({
+        userNameReserv: this.nameUserInfor,
+        idUserReserv: this.uidAdmin,
+      })
+    })
+
+    this.bookingService.createBookingServices(this.bookingsForm.value);
+    this.bookingsForm.reset();
+    this.ngbModal.dismissAll();
   }
 
   // Abri form para editar un reserva

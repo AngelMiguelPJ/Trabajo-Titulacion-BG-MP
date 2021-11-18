@@ -50,8 +50,8 @@ export class EventsService {
     }))
   }
 
-  eventoRepetido(duracion: any, fecha:any, lugar:any){
-    return this.angularFirestore.collection('booking', ref => ref.where('Reserva.duracion', '==', duracion).where('Reserva.fecha','==',fecha).where('Reserva.lugar','==',lugar)).snapshotChanges();
+  eventoRepetido(fecha:any){
+    return this.angularFirestore.collection('booking', ref => ref.where('Reserva.fecha','==',fecha)).snapshotChanges();
   }
 
   deletebooking(idbookingdelete: any) {

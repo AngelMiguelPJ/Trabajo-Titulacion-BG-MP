@@ -302,7 +302,10 @@ export class EventRegisterComponent implements OnInit {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          idBookingBooking: e.payload.doc.data().idBookingBooking,
+          Fecha: e.payload.doc.data().Reserva.Fecha,
+          Duracion: e.payload.doc.data().Reserva.Duracion,
+          Lugar: e.payload.doc.data().Reserva.Lugar,
+          UidBookingBooking: e.payload.doc.data().idBookingBooking,
         }
       })
       //console.log(this.collection.data)
@@ -354,15 +357,24 @@ export class EventRegisterComponent implements OnInit {
         console.log(item)
         console.log(item.uidEvent);
         console.log(item.UidEventBooking);
-        this.eventsService.deletebooking(item.UidEventBooking).subscribe(resp => {
-          const idbooking = resp[0]
-          this.bookingService.deleteBookingServices(idbooking);
-        })
-        this.eventsService.deleteEventsServices(item.uidEvent);
         this.storage.refFromURL(item.Img).delete()
+        this.eventsService.deleteEventsServices(item.uidEvent).then(resp=>{
+          console.log(resp)
+          this.eventsService.deletebooking(item.UidEventBooking).subscribe(resp => {
+            const idbooking = resp[0]
+            console.log(resp)
+            if (resp.length == 1) {
+              this.bookingService.deleteBookingServices(idbooking);
+            } else if (resp.length != 1) {
+  
+            }
+  
+          }).closed
+        })
+        
+
         Swal.fire(
           'Evento borrado!',
-          'success'
         )
       }
     })
@@ -381,21 +393,21 @@ export class EventRegisterComponent implements OnInit {
     if (this.eventsForm.value.Reserva.Descripcion !== '' && this.eventsForm.value.Reserva.Lugar !== '' &&
       this.eventsForm.value.Reserva.Fecha !== '' && this.eventsForm.value.Reserva.Duracion !== '' && this.eventsForm.value.Reserva.Personas !== '' &&
       this.eventImgForm.value.Img !== '') {
-      
-        this.eventsService.eventoRepetido(this.eventsForm.value.Reserva.Duracion,this.eventsForm.value.Reserva.Fecha,this.eventsForm.value.Reserva.Lugar).subscribe(resp =>{
-          const idbooking = resp.map((e: any) => {
-            // console.log('respuesta 2: ', e)
-            // return que devolvera los datos a collection
-            return {
-              // seteo de los principales datos que se obtendran de los usuarios
-              // y que se reflejaran para el administrador
-              id: e.payload.doc.id,
-              UidBookingBooking: e.payload.doc.data().idBookingBooking,
-            }
-          })
 
-          console.log(idbooking);
-        })
+        const refereArray = this.collectionReserva.filter(x=> x.Fecha == this.eventsForm.value.Reserva.Fecha && x.Duracion == this.eventsForm.value.Reserva.Duracion && x.Lugar ==this.eventsForm.value.Reserva.Lugar );
+        console.log(refereArray)
+        if (refereArray.length == 1) {
+          console.log('Ya existe')
+
+          this.eventsForm.reset();
+          this.ngbModal.dismissAll();
+          Swal.fire('Ya existe el evento')
+        }else if (refereArray.length == 0) {
+          console.log('No existe')
+          this.guardar();
+        }
+            
+          
 
 
     } else {
@@ -409,6 +421,35 @@ export class EventRegisterComponent implements OnInit {
       });
     }
     // seteo de datos de reservas por medio de datos de eventos
+
+  }
+
+  guardar() {
+    const idRandomEvent = Math.random().toString(36).substring(2);
+    this.eventsForm.value.idBookingBooking = idRandomEvent;
+    this.eventsForm.value.Img = this.eventImgForm.value.Img;
+    this.eventsBookingForm.setValue({
+      idBookingBooking: this.eventsForm.value.idBookingBooking,
+      BookingAN: this.eventsForm.value.EventoAN,
+      Reserva: ({
+        Descripcion: this.eventsForm.value.Reserva.Descripcion,
+        Lugar: this.eventsForm.value.Reserva.Lugar,
+        Fecha: this.eventsForm.value.Reserva.Fecha,
+        Duracion: this.eventsForm.value.Reserva.Duracion,
+        Personas: this.eventsForm.value.Reserva.Personas
+      }),
+      UserInfo: ({
+        userNameReserv: this.nameUserInfor,
+        idUserReserv: this.uidAdmin,
+      })
+    })
+    console.log('guardar')
+    this.bookingService.createBookingServices(this.eventsBookingForm.value);
+    this.eventsService.createEventsServices(this.eventsForm.value);
+    this.eventsForm.reset();
+    this.ngbModal.dismissAll();
+    
+            
 
   }
 

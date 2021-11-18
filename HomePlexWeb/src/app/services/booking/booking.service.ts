@@ -53,6 +53,12 @@ export class BookingService {
   deleteEvent(idbookingdelete: any) {
 
     //userUid del usuario actual obtenido en el inicio de sesion
-    return this.angularFirestore.collection('events', ref => ref.where('idBookingBooking', '==', idbookingdelete)).snapshotChanges()
+    return this.angularFirestore.collection('events', ref => ref.where('idBookingBooking', '==', idbookingdelete).limit(1)).snapshotChanges().pipe(map(res => {
+      //console.log(res)  
+      return res.map(a => {
+        const data = a.payload.doc.id
+        return data
+      })
+    }))
   }
 }

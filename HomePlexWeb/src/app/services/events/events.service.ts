@@ -37,9 +37,6 @@ export class EventsService {
   }
 
   getEventRepeat(fecha: any,duracion: any, lugar: any) {
-
-    
-
     //userUid del usuario actual obtenido en el inicio de sesion
     return this.angularFirestore.collection('booking').snapshotChanges().pipe(map(res => {
       //console.log(res)
@@ -50,6 +47,22 @@ export class EventsService {
       )
       return notMyArticles.length
       
+    }))
+  }
+
+  eventoRepetido(duracion: any, fecha:any, lugar:any){
+    return this.angularFirestore.collection('booking', ref => ref.where('Reserva.duracion', '==', duracion).where('Reserva.fecha','==',fecha).where('Reserva.lugar','==',lugar)).snapshotChanges();
+  }
+
+  deletebooking(idbookingdelete: any) {
+
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('booking', ref => ref.where('idBookingBooking', '==', idbookingdelete).limit(1)).snapshotChanges().pipe(map(res => {
+      //console.log(res)  
+      return res.map(a => {
+        const data = a.payload.doc.id
+        return data
+      })
     }))
   }
 

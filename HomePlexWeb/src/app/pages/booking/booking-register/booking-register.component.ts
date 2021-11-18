@@ -81,6 +81,7 @@ export class BookingRegisterComponent implements OnInit {
 
   // variable para paginacion
   config: any;
+  cuenta: boolean;
 
   // arreglo de collecion de reservas
   collection = { count: 0, data: [] };
@@ -111,6 +112,8 @@ export class BookingRegisterComponent implements OnInit {
     public userService: UsersService) { }
 
   ngOnInit(): void {
+
+    this.cuenta = false;
     this.repeatBooking = false;
     // seteo de la fecha actual
     // seteo de la fecha actual
@@ -302,24 +305,60 @@ export class BookingRegisterComponent implements OnInit {
   // funcion - metodo para borrar cualquier reserva
   deleteBooking(item: any) {
 
-    // llamado al servicio de eliminacion de reservas 
-    console.log('reserva:');
-    console.log(item.id);
-    console.log(item.UidBookingBooking);
+    Swal.fire({
+      title: 'Esta seguro que desea borrar la reserva?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // llamado al servicio de eliminacion de reservas 
+        console.log('Borrar reserva:');
+        console.log(item.id);
+        console.log(item.UidBookingBooking);
 
-    for (let index = 0; index < this.eventosLength; index++) {
-      if (this.collectionEvents.data[index]['UidBookingBooking'] == item.UidBookingBooking) {
-        console.log('evento')
-        this.collectionEventsDelete = this.collectionEvents.data[index];
-        console.log(this.collectionEventsDelete.id)
-        console.log(this.collectionEventsDelete.UidBookingBooking)
+        this.cuenta = false;
 
-        this.eventsService.deleteEventsServices(this.collectionEventsDelete.id);
+        this.bookingService.deleteEvent(item.UidBookingBooking).subscribe(resp => {
+          const idbooking = resp.map((e: any) => {
+            // console.log('respuesta 2: ', e)
+            // return que devolvera los datos a collection
+            return {
+              // seteo de los principales datos que se obtendran de los usuarios
+              // y que se reflejaran para el administrador
+              id: e.payload.doc.id,
+              UidBookingBooking: e.payload.doc.data().idBookingBooking,
+              Img: e.payload.doc.data().Img
+            }
+          })
+
+
+
+          if (idbooking.length == 1) {
+            this.cuenta = true;
+            console.log(this.cuenta)
+            this.bookingService.deleteBookingServices(item.id);
+            this.eventsService.deleteEventsServices(idbooking[0]['id']);
+            this.storage.refFromURL(idbooking[0]['Img']).delete()
+          } else if (idbooking.length == 0) {
+            this.cuenta = false;
+            console.log(this.cuenta)
+            this.bookingService.deleteBookingServices(item.id);
+          }
+
+        })
+
+        Swal.fire(
+          'Reserva borrada!',
+          'success'
+        )
       }
+    })
 
 
-    }
-    this.bookingService.deleteBookingServices(item.id);
+
 
   }
 
@@ -328,7 +367,7 @@ export class BookingRegisterComponent implements OnInit {
 
   createBooking() {
     //console.log('as')
-    
+
     if (this.bookingsForm.value.Reserva.Descripcion != '' &&
       this.bookingsForm.value.Reserva.Lugar != '' && this.bookingsForm.value.Reserva.Fecha != '' &&
       this.bookingsForm.value.Reserva.Duracion != '' && this.bookingsForm.value.Reserva.Personas != '') {
@@ -350,8 +389,19 @@ export class BookingRegisterComponent implements OnInit {
           idUserReserv: this.uidAdmin,
         })
       })
+
+      this.bookingService.createBookingServices(this.bookingsForm.value).then(resp => {
+        this.repeatBooking = false;
+        // resetea el form y lo cierra
+        this.bookingsForm.reset();
+        this.ngbModal.dismissAll();
+
+      }).catch(err => {
+        // impirmir error si es que diera alguno
+        console.log(err)
+      })
       //console.log('as')
-      this.bookingService.getBookingRepeat(this.bookingsForm.value.Reserva.Fecha, this.bookingsForm.value.Reserva.Duracion, this.bookingsForm.value.Reserva.Lugar).subscribe(resp => {
+      /* this.bookingService.getBookingRepeat(this.bookingsForm.value.Reserva.Fecha, this.bookingsForm.value.Reserva.Duracion, this.bookingsForm.value.Reserva.Lugar).subscribe(resp => {
         console.log(resp)
 
 
@@ -383,9 +433,9 @@ export class BookingRegisterComponent implements OnInit {
           })
         }
 
-      })
+      }) */
 
-      
+
 
 
     } else {

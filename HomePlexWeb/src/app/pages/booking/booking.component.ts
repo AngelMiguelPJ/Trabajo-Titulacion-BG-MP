@@ -72,7 +72,6 @@ export class BookingComponent implements OnInit {
           // seteo de los principales datos que se obtendran de los usuarios
           // y que se reflejaran para el administrador
           id: e.payload.doc.id,
-          
           BookingAN: e.payload.doc.data().BookingAN,
           Fecha: e.payload.doc.data().Reserva.Fecha,
           Duracion: e.payload.doc.data().Reserva.Duracion,

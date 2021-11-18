@@ -56,13 +56,13 @@ const routes: Routes = [
   {
     path: 'eventos',
     component: EventComponent,
-    canActivate : [AuthGuard]
+    //canActivate : [AuthGuard]
   },
 
   {
     path: 'eventos/registrar',
     component: EventRegisterComponent,
-    canActivate : [AuthGuard,SecurityGuard]
+    //canActivate : [AuthGuard,SecurityGuard]
   },
 
   {
@@ -126,7 +126,7 @@ const routes: Routes = [
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
-    canActivate : [AuthGuard,SecurityGuard],
+    canActivate : [LogoutGuard],
   },
   
 ];

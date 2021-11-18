@@ -49,4 +49,10 @@ export class BookingService {
       
     }))
   }
+
+  deleteEvent(idbookingdelete: any) {
+
+    //userUid del usuario actual obtenido en el inicio de sesion
+    return this.angularFirestore.collection('events', ref => ref.where('idBookingBooking', '==', idbookingdelete)).snapshotChanges()
+  }
 }

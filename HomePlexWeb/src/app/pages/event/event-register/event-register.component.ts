@@ -89,6 +89,8 @@ export class EventRegisterComponent implements OnInit {
   collection = { count: 0, data: [] }
   collectionEventsBackUp = { count: 0, data: [] };
 
+  collectionReserva = [];
+
   // arreglo de colleccion de reservas
   collectionBooking = { count: 0, data: [] }
   collectionEventsBookingLength;
@@ -288,6 +290,28 @@ export class EventRegisterComponent implements OnInit {
     }
     );
 
+
+    //cargando todos los eventos de firebase-firestore
+    this.bookingService.getBookingServices().subscribe(resp => {
+      //console.log('respuesta 1: ', resp)
+      // mapeo de los datos de los usuarios en el arreglo collection
+      this.collectionReserva = resp.map((e: any) => {
+        // console.log('respuesta 2: ', e)
+        // return que devolvera los datos a collection
+        return {
+          // seteo de los principales datos que se obtendran de los usuarios
+          // y que se reflejaran para el administrador
+          id: e.payload.doc.id,
+          idBookingBooking: e.payload.doc.data().idBookingBooking,
+        }
+      })
+      //console.log(this.collection.data)
+    }, error => {
+      // imprimir en caso de que de algun error
+      console.error(error);
+    }
+    );
+
     // Llamado al servicio de usuarios para obtener datos de acuerdo al usuario actual
     this.usersService.getUsersService().subscribe(users => {
       // seteo de datos en un arreglo
@@ -317,26 +341,35 @@ export class EventRegisterComponent implements OnInit {
 
   // funcion - metodo para borrar cualquier evento
   deleteEvent(item: any) {
-    //console.log(item)
-    //console.log(item.uidEvent);
-    //console.log(item.UidEventBooking);
-    // llamado al servicio de eliminacion de eventos 
-    for (let index = 0; index < this.collectionEventsBookingLength; index++) {
-      if (this.collectionBooking.data[index]['UidEventBooking'] == item.UidEventBooking) {
-        //console.log('reserva')
-        this.collectionEventsBookingDelete = this.collectionBooking.data[index];
-        //console.log(this.collectionEventsBookingDelete.id)
-        //console.log(this.collectionEventsBookingDelete.UidEventBooking)
 
-        this.bookingService.deleteBookingServices(this.collectionEventsBookingDelete.id);
+    Swal.fire({
+      title: 'Esta seguro que desea borrar el evento?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(item)
+        console.log(item.uidEvent);
+        console.log(item.UidEventBooking);
+        this.eventsService.deletebooking(item.UidEventBooking).subscribe(resp => {
+          const idbooking = resp[0]
+          this.bookingService.deleteBookingServices(idbooking);
+        })
+        this.eventsService.deleteEventsServices(item.uidEvent);
+        this.storage.refFromURL(item.Img).delete()
+        Swal.fire(
+          'Evento borrado!',
+          'success'
+        )
       }
+    })
 
-    }
 
-    this.eventsService.deleteEventsServices(item.uidEvent);
 
-    // llamado al servicio de eliminacion de imagenes
-    this.storage.refFromURL(item.Img).delete()
+
 
   }
 
@@ -348,61 +381,21 @@ export class EventRegisterComponent implements OnInit {
     if (this.eventsForm.value.Reserva.Descripcion !== '' && this.eventsForm.value.Reserva.Lugar !== '' &&
       this.eventsForm.value.Reserva.Fecha !== '' && this.eventsForm.value.Reserva.Duracion !== '' && this.eventsForm.value.Reserva.Personas !== '' &&
       this.eventImgForm.value.Img !== '') {
-      const idRandomEvent = Math.random().toString(36).substring(2);
-      this.eventsForm.value.idBookingBooking = idRandomEvent
-      this.eventsBookingForm.setValue({
-        idBookingBooking: this.eventsForm.value.idBookingBooking,
-        BookingAN: this.eventsForm.value.EventoAN,
-        Reserva: ({
-          Descripcion: this.eventsForm.value.Reserva.Descripcion,
-          Lugar: this.eventsForm.value.Reserva.Lugar,
-          Fecha: this.eventsForm.value.Reserva.Fecha,
-          Duracion: this.eventsForm.value.Reserva.Duracion,
-          Personas: this.eventsForm.value.Reserva.Personas
-        }),
-        UserInfo: ({
-          userNameReserv: this.nameUserInfor,
-          idUserReserv: this.uidAdmin,
-        })
-      })
-      this.bookingService.getBookingRepeat(this.eventsForm.value.Reserva.Fecha, this.eventsForm.value.Reserva.Duracion, this.eventsForm.value.Reserva.Lugar).subscribe(resp => {
-        console.log('reserva', resp)
-        const br = resp;
-
-        if (br >= 1) {
-          this.repeatBooking = true
-
-        } else {
-
-          this.repeatBooking = false;
-          // llamado al servicio de creacion de reservasde acuerdo a los datos del form
-        }
-
-        if (this.repeatBooking == true) {
-          console.log('repetida');
-        } else if (this.repeatBooking == false) {
-          console.log('no repetida')
-          // seteo de variables de images
-          this.eventsForm.value.Img = this.eventImgForm.value.Img
-
-          // llamado al servicio de creacion de eventosde acuerdo a los datos del form
-          this.eventsService.createEventsServices(this.eventsForm.value).then(resp => {
-
-            // llamado al servicio de creacion de reservas de acuerdo a los datos del formde reservas igualando datos con el form de de eventos
-            this.bookingService.createBookingServices(this.eventsBookingForm.value)
-
-            // resetea el form y lo cierra
-            this.eventsForm.reset();
-            this.ngbModal.dismissAll();
-
-          }).catch(err => {
-            // impirmir error si es que diera alguno
-            //console.log(err)
+      
+        this.eventsService.eventoRepetido(this.eventsForm.value.Reserva.Duracion,this.eventsForm.value.Reserva.Fecha,this.eventsForm.value.Reserva.Lugar).subscribe(resp =>{
+          const idbooking = resp.map((e: any) => {
+            // console.log('respuesta 2: ', e)
+            // return que devolvera los datos a collection
+            return {
+              // seteo de los principales datos que se obtendran de los usuarios
+              // y que se reflejaran para el administrador
+              id: e.payload.doc.id,
+              UidBookingBooking: e.payload.doc.data().idBookingBooking,
+            }
           })
 
-        }
-
-      })
+          console.log(idbooking);
+        })
 
 
     } else {

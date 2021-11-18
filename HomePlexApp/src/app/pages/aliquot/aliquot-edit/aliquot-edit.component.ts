@@ -5,6 +5,7 @@ import { AliquotSeguimientoService } from 'src/app/services/aliquot-seguimiento/
 import { AliquotService } from 'src/app/services/aliquot/aliquot.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
+
 @Component({
   selector: 'app-aliquot-edit',
   templateUrl: './aliquot-edit.component.html',

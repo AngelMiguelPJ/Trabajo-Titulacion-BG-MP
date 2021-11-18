@@ -25,7 +25,10 @@
                     <input type="password" placeholder="Contraseña" #userPassword />
                 </div>
                 <div style="text-align: right;">
-                  <p (click)="resetPassword()"> Olvidaste tu contraseña?</p>
+                  <a (click)="resetPassword()"> Olvidaste tu contraseña?</a>
+                </div>
+                <div>
+                  <button class="btn solid" routerLink="/reset-password">Resetear</button>
                 </div>
 
                 <!-- Boton para iniciar sesion que recoge los valores del email y contraseña-->
